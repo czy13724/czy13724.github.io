@@ -1,6 +1,6 @@
 # change some name to match package.json
 #
-# Modified by tLLWtG
+# Modified by Levi
 
 require "rubygems"
 require 'rake'
@@ -42,7 +42,7 @@ task :post do
     post.puts "title: \"#{title.gsub(/-/,' ')}\""
     post.puts "subtitle: \"#{subtitle.gsub(/-/,' ')}\""
     post.puts "date: #{date}"
-    post.puts "author: \"tllwtg\""
+    post.puts "author: \"Levi\""
     post.puts "header-img: \"img/post-bg-2022.jpg\""
     post.puts "tags: []"
     post.puts "---"

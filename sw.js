@@ -10,7 +10,7 @@
  * add img/bg/* in PRECACHE_LIST
  * change some name to match package.json
  *
- * Modified by tLLWtG
+ * Modified by Levi
  */
 
 // CACHE_NAMESPACE
@@ -24,7 +24,7 @@ const PRECACHE_LIST = [
   "./offline.html",
   "./js/jquery.min.js",
   "./js/bootstrap.min.js",
-  "./js/tllwtg-blog.min.js",
+  "./js/Levi-blog.min.js",
   "./js/snackbar.js",
   "./img/icon_wechat.png",
   "./img/bg/image_0.jpg",
@@ -64,7 +64,7 @@ const PRECACHE_LIST = [
   "./img/bg/image_34.jpg",
   "./img/bg/image_35.jpg",
   "./img/404-bg.jpg",
-  "./css/tllwtg-blog.min.css",
+  "./css/Levi-blog.min.css",
   "./css/bootstrap.min.css",
   // "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css",
   // "//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/fonts/fontawesome-webfont.woff2?v=4.6.3",
@@ -72,7 +72,7 @@ const PRECACHE_LIST = [
 ];
 const HOSTNAME_WHITELIST = [
   self.location.hostname,
-  "tllwtg.github.io",
+  "czy13724.github.io",
   "yanshuo.io",
   "cdnjs.cloudflare.com",
 ];
