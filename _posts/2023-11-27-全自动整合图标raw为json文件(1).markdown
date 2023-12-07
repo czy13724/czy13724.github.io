@@ -147,7 +147,7 @@ jobs:
     
 ```
 最后两处由于格式限制，path和GITHUB_TOKEN的内容只显示了$，需要在$之后分别手动添加图示内容：
-![图示](https://raw.githubusercontent.com/czy13724/czy13724.github.io/Xxx/img/Pack_raw_to_jsonfile/Pack_raw_to_jsonfile(1).jpg)
+![图示]({{site.baseurl}}/img/Pack_raw_to_jsonfile/Pack_raw_to_jsonfile(1).jpg)
 
 3. 手动运行一次检查在日志Generate JSON这一栏里查看是否能历遍出所有的图标raw以及是否会出现其他错误。可以正常运行后请上传一个图片文件查看是否可以自动运行工作流。之后就可以只上传图片到levi下即可，工作流会自动运行并生成json文件，获取json的raw进行导入Quantumult X, Loon等软件订阅即可。
 
