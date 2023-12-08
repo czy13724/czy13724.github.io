@@ -26,7 +26,7 @@
 想联系我？建议使用电报联系我，如有商业合作提前备注添加好友。
 
 - GitHub:[Levi](https://github.com/czy13724)
-- Telegram:[LeC bot](https://t.me/@PMLevibot)
+- Telegram:[LeC bot](https://t.me/PMLevibot)
 - Email: [contact](contact@levifree.tech)
 - Telegram Channel:[免费宝库交流群](https://t.me/plbyjl)
 
