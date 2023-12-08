@@ -3,7 +3,7 @@
 
 Hi，there，I‘m Levi.
 
-I am an amateur gamer who loves to collect. I like to stay at home with nothing to do, spend my time leisurely or find interesting items to work on.
+I am an amateur who loves to collect. I like to stay at home with nothing to do, spend my time leisurely or find interesting items to work on.
 
 ##### Hobbies
 
@@ -25,7 +25,7 @@ The following digital devices I'm currently using：
 Want to contact me? It is recommended to use the telegram to contact me, if you have business cooperation in advance note add friends.
 
 - GitHub:[Levi](https://github.com/czy13724)
-- Telegram:[LeC](https://t.me/@PMLevibot)
+- Telegram:[Levi](https://t.me/PMLevibot)
 - Email: [contact](contact@levifree.tech)
 - Telegram Channel:[免费宝库交流群](https://t.me/plbyjl)
 
