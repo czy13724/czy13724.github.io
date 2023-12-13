@@ -1,0 +1,24 @@
+/**
+
+*/
+import React from 'react';
+interface ModalBuilderProps {
+    title: string;
+    message?: string;
+    error?: string;
+    actions: ButtonProps[];
+    close(): void;
+    children?: React.ReactNode;
+}
+export declare function ModalBuilder(modalProps: ModalBuilderProps): JSX.Element;
+export declare const ErrorLabel: ({ style, ...props }: {
+    [x: string]: any;
+    style?: {};
+}) => JSX.Element;
+interface ButtonProps {
+    name: string;
+    action(): Promise<void>;
+    primary: boolean;
+}
+export declare const AsyncButton: ({ name, primary, action }: ButtonProps) => JSX.Element;
+export {};
