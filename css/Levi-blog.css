@@ -1699,3 +1699,6 @@ img::-moz-selection {
 .no-scroll {
   overflow-y: hidden;
 }
+.custom-title-color h1 {
+    color: black;
+}
