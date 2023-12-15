@@ -12,7 +12,7 @@
       </a>
       <div class="button-group">
         <a
-          href="https://www.qikaile.tk/about"
+          href="https://levifree.tech/about/"
           class="header-link"
         >
           <span class="hint--bottom" aria-label="关于作者">
@@ -25,17 +25,17 @@
           </span>
         </router-link>
         <a
-          href="https://box.tjys.ml"
+          href="https://levifree.me"
           class="header-link"
           target="_blank"
           rel="noopener"
         >
-          <span class="hint--bottom" aria-label="更多推荐">
+          <span class="hint--bottom" aria-label="另一博客">
             <icon class="header-icon" name="recommend" />
           </span>
         </a>
         <a
-          href="https://github.com/Qikaile/markdown-online-editor"
+          href="https://github.com/czy13724/czy13724.github.io/tree/master/markdown-online-editor"
           class="header-link"
         >
           <span class="hint--bottom" aria-label="Github仓库">
