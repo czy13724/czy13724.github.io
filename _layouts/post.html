@@ -215,20 +215,3 @@ layout: default
 </style>
 {% endif %}
 
-{% if page.path contains '_posts' %}
-  <article class="article-bg">
-    <div class="container">
-      <div class="row">
-        <!-- Post Container -->
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-container">
-          {{ content }}
-          <!-- 添加其他文章相关的内容，如评论框等 -->
-        </div>
-      </div>
-    </div>
-  </article>
-{% else %}
-  <article>
-    <!-- 这里是文章内容 -->
-  </article>
-{% endif %}
