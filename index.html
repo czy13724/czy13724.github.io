@@ -3,96 +3,45 @@ layout: page
 description: "「这里是 Levi(@czy13724) 的个人博客，与你一起发现更大的世界 | 你若盛开，清风自来」"
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Levi Blog</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2/styles/monokai.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/highlight.js@10.7.2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.10/dist/clipboard.min.js"></script>
-</head>
-<body>
-
 {% for post in paginator.posts %}
-    <div class="post-preview">
-        <a href="{{ post.url | prepend: site.baseurl }}">
-            <h2 class="post-title">
-                {{ post.title }}
-            </h2>
-            {% if post.subtitle %}
-                <h3 class="post-subtitle">
-                    {{ post.subtitle }}
-                </h3>
+<div class="post-preview">
+    <a href="{{ post.url | prepend: site.baseurl }}">
+        <h2 class="post-title">
+            {{ post.title }}
+        </h2>
+        {% if post.subtitle %}
+        <h3 class="post-subtitle">
+            {{ post.subtitle }}
+        </h3>
+        {% endif %}
+        <div class="post-content-preview">
+            {% if post.lang == 'en' %}
+            {{ post.content | strip_html | truncate:300 }}
+            {% else %}
+            {{ post.content | strip_html | truncate:200 }}
             {% endif %}
-            <div class="post-content-preview">
-                {% if post.lang == 'en' %}
-                    {{ post.content | strip_html | truncate:300 }}
-                {% else %}
-                    {% if post.content contains '<code>' %}
-                        <div class="code-container">
-                            {% assign code_blocks = post.content | split:'<code>' %}
-                            {% for code_block in code_blocks %}
-                                {% if forloop.index == 1 %}
-                                    {{ code_block | strip_html | truncate:300 }}
-                                    <button class="copy-btn" data-clipboard-target="#code-{{ forloop.index }}">Copy</button>
-                                {% else %}
-                                    <code id="code-{{ forloop.index }}">
-                                        {{ code_block | split:'</code>' | first }}
-                                    </code>
-                                    <button class="copy-btn" data-clipboard-target="#code-{{ forloop.index }}">Copy</button>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                    {% else %}
-                        {{ post.content | strip_html | truncate:300 }}
-                    {% endif %}
-                {% endif %}
-            </div>
-        </a>
-        <p class="post-meta">
-            Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B %-d, %Y" }}
-        </p>
-    </div>
-    <hr>
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.title }}{% endif %} on {{ post.date | date: "%B
+        %-d, %Y" }}
+    </p>
+</div>
+<hr>
 {% endfor %}
 
 <!-- Pager -->
 {% if paginator.total_pages > 1 %}
-    <ul class="pager">
-        {% if paginator.previous_page %}
-            <li class="previous">
-                <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
-            </li>
-        {% endif %}
-        {% if paginator.next_page %}
-            <li class="next">
-                <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
-            </li>
-        {% endif %}
-    </ul>
+<ul class="pager">
+    {% if paginator.previous_page %}
+    <li class="previous">
+        <a href="{{ paginator.previous_page_path | prepend: site.baseurl | replace: '//', '/' }}">&larr; Newer Posts</a>
+    </li>
+    {% endif %}
+    {% if paginator.next_page %}
+    <li class="next">
+        <a href="{{ paginator.next_page_path | prepend: site.baseurl | replace: '//', '/' }}">Older Posts &rarr;</a>
+    </li>
+    {% endif %}
+</ul>
 {% endif %}
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // 初始化 Highlight.js
-        hljs.initHighlightingOnLoad();
-
-        // 初始化 Clipboard.js
-        var clipboard = new ClipboardJS('.copy-btn');
-
-        clipboard.on('success', function(e) {
-            e.trigger.textContent = 'Copied!';
-            setTimeout(function() {
-                e.trigger.textContent = 'Copy';
-            }, 2000);
-        });
-
-        clipboard.on('error', function(e) {
-            console.error('Copy failed', e);
-        });
-    });
-</script>
-
-</body>
-</html>
