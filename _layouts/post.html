@@ -6,7 +6,7 @@ layout: default
   add giscus
   rm Friends Blog, Featured Tags
 
-  Modified by tLLWtG
+  Modified by Levi
 -->
 
 <!-- Image to hack wechat -->
@@ -25,11 +25,11 @@ layout: default
         class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-container"
       >
         <!-- Multi-Lingual -->
-        {% if page.multilingual %} {% include multilingual-sel.html %} {% endif
-        %} {{ content }}
+        {% if page.multilingual %} {% include multilingual-sel.html %} {% endif %}
+        {{ content }}
 
-      <p>本文共 {{ content | number_of_words }} 字。</p>
-        
+        <p>本文共 {{ content | number_of_words }} 字。</p>
+
         <hr style="visibility: hidden" />
         <ul class="pager">
           {% if page.previous.url %}
@@ -125,8 +125,8 @@ layout: default
 </article>
 
 <!-- add support for mathjax by voleking-->
-{% if page.mathjax %} {% include mathjax_support.html %} {% endif %} {% if
-site.netease_comment %}
+{% if page.mathjax %} {% include mathjax_support.html %} {% endif %}
+{% if site.netease_comment %}
 <!-- 网易云跟帖JS代码 start -->
 <script src="https://img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"></script>
 <script>
@@ -217,11 +217,18 @@ site.netease_comment %}
 
 {% if page.path contains '_posts' %}
   <article class="article-bg">
-    <!-- 这里是文章内容 -->
+    <div class="container">
+      <div class="row">
+        <!-- Post Container -->
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 post-container">
+          {{ content }}
+          <!-- 添加其他文章相关的内容，如评论框等 -->
+        </div>
+      </div>
+    </div>
   </article>
 {% else %}
   <article>
     <!-- 这里是文章内容 -->
   </article>
 {% endif %}
-
