@@ -9,3 +9,6 @@ gem "webrick", "~> 1.7.0"
 gem "kramdown-parser-gfm"
 
 gem 'jekyll-sitemap'
+
+source 'https://rubygems.org'
+gem 'github-pages', group: :jekyll_plugins
