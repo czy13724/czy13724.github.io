@@ -1,0 +1,10 @@
+.article-bg {
+  background: url('/img/bg/{{ site.bg_images | sample }}') center center fixed;
+  background-size: cover;
+  position: relative;
+  z-index: 0;
+  padding: 20px; /* 调整内边距以适应您的设计 */
+  margin: -20px; /* 调整外边距以适应您的设计 */
+  border-radius: 10px; /* 可选：添加圆角效果 */
+  opacity: 0.9; /* 透明度为 90% */
+}
