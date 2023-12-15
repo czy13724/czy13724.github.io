@@ -28,7 +28,7 @@ layout: default
         {% if page.multilingual %} {% include multilingual-sel.html %} {% endif %}
         {{ content }}
 
-        <p>本文共 {{ content | number_of_words }} 字。</p>
+      <p>本文共 <em>{{ content | number_of_words }}</em> 字。</p>
 
         <hr style="visibility: hidden" />
         <ul class="pager">
