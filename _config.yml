@@ -112,6 +112,10 @@ plugins:
   - jekyll-sitemap
   - jekyll-paginate
 
+#启用远程主题
+plugins:
+  - jekyll-remote-theme
+
 # Prose 配置
 prose:
   rooturl: '/'
