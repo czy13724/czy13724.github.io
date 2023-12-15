@@ -16,7 +16,7 @@ The following digital devices I'm currently using：
 
 - iPad 2021
 - vivo iqoo7
-- Macbook pro2018(Dual system and have tried installing 'Black Apple'[Opencore] on a desktop computer)
+- Macbook pro2018(Dual system and have tried installing 'Hackintosh Apple'[Opencore] on a desktop computer)
 - vivo y71(Currently learning on my own to try to unlock BL and brush in modules and downgrade packs)
 - honor 9 lite(swiped into the native-like system, which is smoother to use than Emui)
 
@@ -26,7 +26,7 @@ Want to contact me? It is recommended to use the telegram to contact me, if you 
 
 - GitHub:[Levi](https://github.com/czy13724)
 - Telegram:[Levi](https://t.me/PMLevibot)
-- Email: [contact](contact@levifree.tech)
+- Email: [contact](mailto:contact@levifree.tech)
 - Telegram Channel:[免费宝库交流群](https://t.me/plbyjl)
 
 ##### Platforms

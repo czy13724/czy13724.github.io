@@ -27,7 +27,7 @@
 
 - GitHub:[Levi](https://github.com/czy13724)
 - Telegram:[Levi bot](https://t.me/PMLevibot)
-- Email: [contact](contact@levifree.tech)
+- Email: [contact](mailto:contact@levifree.tech)
 - Telegram Channel:[免费宝库交流群](https://t.me/plbyjl)
 
 ##### 平台
