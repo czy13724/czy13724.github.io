@@ -654,7 +654,7 @@ pre.highlight {
 /**
  * change name to match package.json
  *
- * Modified by Levi
+ * Modified by tLLWtG
  */
 body {
   /* Hux learn from
@@ -1699,7 +1699,3 @@ img::-moz-selection {
 .no-scroll {
   overflow-y: hidden;
 }
-.custom-title-color h1 {
-    color: black;
-}
-
