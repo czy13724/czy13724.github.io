@@ -2,12 +2,12 @@
 
 <template>
   <div>
-    <button @click="exportToGitHub">导出到GitHub</button>
+    <button @click="exportToGitHub">导出到 GitHub</button>
   </div>
 </template>
 
 <script>
-import exportToGitHub from '@/utils/exportToGitHub'; // 替换成实际的路径
+import exportToGitHub from '../utils/exportToGitHub'; // 替换成实际的相对路径
 
 export default {
   methods: {
