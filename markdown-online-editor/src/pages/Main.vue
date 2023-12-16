@@ -4,6 +4,7 @@
   <div class="index-page" v-loading="isLoading">
     <HeaderNav />
     <div id="vditor" class="vditor" />
+    <ExportGitHubBlog />
   </div>
 </template>
 
@@ -11,6 +12,7 @@
 import Vditor from 'vditor'
 import HeaderNav from './partials/HeaderNav'
 import defaultText from '@config/default'
+import ExportGitHubBlog from './pages/ExportGitHubBlog.vue'; // 替换成实际的相对路径  
 
 export default {
   name: 'index-page',
@@ -28,7 +30,8 @@ export default {
   },
 
   components: {
-    HeaderNav
+    HeaderNav,
+    ExportGitHubBlog
   },
 
   mounted() {
