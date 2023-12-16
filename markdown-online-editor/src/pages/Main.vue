@@ -4,7 +4,7 @@
   <div class="index-page" v-loading="isLoading">
     <HeaderNav />
     <div id="vditor" class="vditor" />
-    <ExportGitHubBlog />
+    <button @click="exportToGitHub">导出到 GitHub</button>
   </div>
 </template>
 
@@ -12,10 +12,10 @@
 import Vditor from 'vditor'
 import HeaderNav from './partials/HeaderNav'
 import defaultText from '@config/default'
-import ExportGitHubBlog from './pages/ExportGitHubBlog.vue'; // 替换成实际的相对路径  
+import exportToGitHub from '../utils/exportToGitHub';
 
 export default {
-  name: 'index-page',
+  name: 'Main',
 
   data() {
     return {
@@ -30,8 +30,7 @@ export default {
   },
 
   components: {
-    HeaderNav,
-    ExportGitHubBlog
+    HeaderNav
   },
 
   mounted() {
@@ -58,7 +57,6 @@ export default {
         outline: true,
         upload: {
           max: 5 * 1024 * 1024,
-          // linkToImgUrl: 'https://sm.ms/api/upload',
           handler(file) {
             let formData = new FormData()
             for (let i in file) {
@@ -74,6 +72,16 @@ export default {
       this.vditor = new Vditor('vditor', options)
       this.vditor.focus()
     },
+
+    async exportToGitHub() {
+      const markdownContent = this.vditor.getValue();
+      const accessToken = ''; // 使用 GitHub 默认的 Access Token
+      const username = 'czy13724';
+      const repoName = 'czy13724.github.io';
+
+      await exportToGitHub(markdownContent, accessToken, username, repoName);
+    },
+
     onloadCallback(oEvent) {
       const currentTarget = oEvent.currentTarget
       if (currentTarget.status !== 200) {
@@ -97,6 +105,7 @@ export default {
       }
       this.vditor.insertValue(imgMdStr)
     },
+
     setDefaultText() {
       const savedMdContent = localStorage.getItem('vditorvditor') || ''
       if (!savedMdContent.trim()) {
@@ -108,7 +117,6 @@ export default {
 </script>
 
 <style lang="less">
-@import './../assets/styles/style.less';
 .index-page {
   width: 100%;
   height: 100%;
@@ -142,3 +150,4 @@ export default {
   }
 }
 </style>
+
