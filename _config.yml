@@ -8,14 +8,14 @@ title: Levi Blog
 SEOTitle: Levi Blog
 # bg changed to random
 header-img: img/header_icons.jpg
-email: contact@levifree.tech
+email: mailto:contact@levifree.tech
 description: "这里是Levi(@czy13724)的个人博客，与你一起发现更大的世界 | 相遇即是缘分～"
 keyword: "Levi, Levi 的博客, Levi Blog, 博客, 个人网站, 互联网, Web, 教程"
 url: "https://levifree.tech" # your host, for absolute URL
 baseurl: "" # for example, '/blog' if your blog hosted on 'host/blog'
 
 # start-time (yyyy-mm-dd)
-start_time: "2023-05-17"
+start_time: "2023-05-01"
 
 # Publish posts or collection documents with a future date.
 future: true
@@ -112,9 +112,6 @@ plugins:
   - jekyll-sitemap
   - jekyll-paginate
 
-#启用远程主题
-plugins:
-  - jekyll-remote-theme
 
 #背景图片
 bg_images:
