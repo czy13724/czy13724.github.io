@@ -1,8 +1,20 @@
-// exportToGitHub.js
+// czy13724.github.io/markdown-online-editor/src/utils/exportToGitHub.js
 
 import axios from 'axios';
 
-async function exportToGitHub(markdownContent, accessToken, username, repoName, filePath) {
+function formatNumber(value) {
+  return String(value).padStart(2, '0');
+}
+
+async function exportToGitHub(markdownContent, accessToken, username, repoName, fileName) {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = formatNumber(today.getMonth() + 1);
+  const day = formatNumber(today.getDate());
+  
+  const formattedDate = `${year}-${month}-${day}`;
+  const filePath = `_posts/${formattedDate}-${fileName}.md`;  // 设置正确的文件路径
+
   try {
     // 使用 GitHub API 上传 Markdown 文件
     await axios.put(`https://api.github.com/repos/${username}/${repoName}/contents/${filePath}`, {
