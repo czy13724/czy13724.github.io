@@ -6,14 +6,22 @@ function formatNumber(value) {
   return String(value).padStart(2, '0');
 }
 
-async function exportToGitHub(markdownContent, accessToken, username, repoName, fileName) {
+async function extractTitle(markdownContent) {
+  const titleMatch = markdownContent.match(/^#\s+(.*)/); // 假设标题在 Markdown 内容中以 # 开头
+  return titleMatch ? titleMatch[1] : 'untitled'; // 如果没有找到标题，则使用 'untitled'
+}
+
+async function exportToGitHub(markdownContent, accessToken, username, repoName) {
+  const title = await extractTitle(markdownContent);
+
   const today = new Date();
   const year = today.getFullYear();
   const month = formatNumber(today.getMonth() + 1);
   const day = formatNumber(today.getDate());
   
   const formattedDate = `${year}-${month}-${day}`;
-  const filePath = `_posts/${formattedDate}-${fileName}.md`;  // 设置正确的文件路径
+  const fileName = `${formattedDate}-${title}.md`;
+  const filePath = `_posts/${fileName}`;
 
   try {
     // 使用 GitHub API 上传 Markdown 文件
