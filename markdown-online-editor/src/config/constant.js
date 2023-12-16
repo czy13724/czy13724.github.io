@@ -6,5 +6,6 @@ export const exportTextMap = {
   '/export/png': '导出 PNG',
   '/export/jpeg': '导出 JPEG',
   '/export/pdf': '导出 PDF',
-  '/export/ppt': 'PPT 预览'
+  '/export/ppt': 'PPT 预览',
+  '/export/ppt': '导出到GitHub并发表'
 }
