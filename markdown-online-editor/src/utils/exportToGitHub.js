@@ -1,41 +1,62 @@
-// czy13724.github.io/markdown-online-editor/src/utils/exportToGitHub.js
+// exportToGitHub.js
 
 import axios from 'axios';
 
-function formatNumber(value) {
-  return String(value).padStart(2, '0');
-}
-
-async function extractTitle(markdownContent) {
-  const titleMatch = markdownContent.match(/^#\s+(.*)/); // 假设标题在 Markdown 内容中以 # 开头
-  return titleMatch ? titleMatch[1] : 'untitled'; // 如果没有找到标题，则使用 'untitled'
-}
-
 async function exportToGitHub(markdownContent, accessToken, username, repoName) {
-  const title = await extractTitle(markdownContent);
+  // 获取当前时间
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = (now.getMonth() + 1).toString().padStart(2, '0');
+  const day = now.getDate().toString().padStart(2, '0');
 
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = formatNumber(today.getMonth() + 1);
-  const day = formatNumber(today.getDate());
-  
-  const formattedDate = `${year}-${month}-${day}`;
-  const fileName = `${formattedDate}-${title}.md`;
+  // 构造文件名
+  const title = markdownContent.match(/^# (.+)$/m); // 从标题行获取文章标题
+  const fileName = title ? `${year}-${month}-${day}-${title[1]}.md` : `${year}-${month}-${day}-untitled.md`;
+
+  // 构造文件路径
   const filePath = `_posts/${fileName}`;
 
+  // GitHub API 请求地址
+  const apiUrl = `https://api.github.com/repos/${username}/${repoName}/contents/${filePath}`;
+
   try {
-    // 使用 GitHub API 上传 Markdown 文件
-    await axios.put(`https://api.github.com/repos/${username}/${repoName}/contents/${filePath}`, {
+    // 获取当前文件的 SHA（用于更新文件）
+    const response = await axios.get(apiUrl);
+    const sha = response.data.sha;
+
+    // 构造请求头
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `token ${accessToken}`
+    };
+
+    // 构造请求体
+    const data = {
       message: '博文更新',
       content: Buffer.from(markdownContent).toString('base64'),
-      branch: 'master',
-      access_token: accessToken
-    });
+      sha: sha
+    };
 
-    console.log('Markdown file exported to GitHub successfully.');
+    // 发送 PUT 请求更新文件内容
+    await axios.put(apiUrl, data, { headers: headers });
+
+    console.log(`Successfully updated: ${filePath}`);
   } catch (error) {
-    console.error('Error exporting markdown file to GitHub:', error.response.data.message);
-    // 这里可以添加一些用户反馈，例如通知用户导出失败等
+    // 如果文件不存在，则创建新文件
+    if (error.response && error.response.status === 404) {
+      // 构造请求体
+      const data = {
+        message: '博文更新',
+        content: Buffer.from(markdownContent).toString('base64')
+      };
+
+      // 发送 PUT 请求创建新文件
+      await axios.put(apiUrl, data, { headers: headers });
+
+      console.log(`Successfully created: ${filePath}`);
+    } else {
+      console.error('Error updating or creating file:', error.message);
+    }
   }
 }
 
