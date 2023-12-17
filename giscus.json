@@ -1,0 +1,12 @@
+{
+    "origins": [
+        "https://levifree.tech",
+        "https://levifree.me",
+        "https://czy13724-github-io.vercel.app"
+    ],
+    "originsRegex": [
+        "http://localhost:[0-9]+",
+        "https://czy13724-github-([A-z0-9]|-)*czy13724\\.vercel\\.app"
+    ],
+    "defaultCommentOrder": "oldest"
+}
