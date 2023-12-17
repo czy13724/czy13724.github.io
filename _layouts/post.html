@@ -28,6 +28,12 @@ layout: default
         {% if page.multilingual %} {% include multilingual-sel.html %} {% endif
         %} {{ content }}
 
+	<!-- Display Word Count, Author, and Edit Date -->
+        <em>
+          <p>本文共 {{ content | number_of_words }} 字。</p>
+          <p>本篇内容由 Levi 主创，编辑于 {{ page.date | date: "%Y年%m月%d日" }}。转发请带来源。</p>
+        </em>
+
         <hr style="visibility: hidden" />
         <ul class="pager">
           {% if page.previous.url %}
