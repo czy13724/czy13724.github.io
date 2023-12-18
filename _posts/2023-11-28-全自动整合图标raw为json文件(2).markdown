@@ -24,10 +24,12 @@ Levi图标仓库地址：[levi.icons.json](https://raw.githubusercontent.com/czy
 #### 使用方法：
 1. 新建一个仓库(以下以TEST为例)作为图床，并新建一个文件夹(以下以test为例)用于存储图片，可随意命名（~~不建议使用中文~~）。   
 2. 点击`action`并创建一个工作流（workflow）,将下方代码放入并按照说明进行替换,并在`.github`该文件夹下创建`scripts`文件夹, 将generate_image_json.py放置到这里。
-#### 详细教学
+#### 详细教学：
 下面是一个从0-1创建仓库、设置 GitHub Actions 工作流、并上传图片生成 JSON 的详细教程。
 注意⚠️：下方所有的TEST和test需要全部替换，以下不再作出说明。TEST为仓库名称，test为该TEST仓库下放置图标的文件夹名称。
+
 请按照以下步骤进行操作：
+
 1.创建仓库
 
 首先，登录 GitHub 并点击右上角的 "+" 按钮，选择 "New repository"或"Create Repository"，输入仓库名称为 TEST，添加一个简短的描述，并选择 "Public"（公共仓库）或 "Private"（私有仓库），然后点击 "Create repository"。
@@ -152,7 +154,7 @@ git push origin main
 现在，你可以在 GitHub 仓库的页面上的 "Actions" 标签下看到工作流程的运行情况。你也可以手动触发工作流程，看看是否正常运行。可以正常运行后请上传一个图片文件查看是否可以自动运行工作流。之后就可以只上传图片到test下即可，工作流会自动运行并生成json文件，获取json的raw进行导入Quantumult X, Loon等软件订阅即可。
 
 #### 注意事项
-1. 已知错误有：Upload Artifact这里报错可以通过修改路径或在仓库下新建一个package.json文件解决。
+已知错误有：Upload Artifact这里报错可以通过修改路径或在仓库下新建一个package.json文件解决。
 
 #### 免责声明
 * 项目内所涉及脚本、LOGO 仅为资源共享、学习参考之目的，不保证其合法性、正当性、准确性；切勿使用项目做任何商业用途或牟利；

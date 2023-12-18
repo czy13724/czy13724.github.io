@@ -29,7 +29,7 @@ tags:
 
 打开<span style="color:yellow;">桌面上方</span>的<span style="color:purple;">设置</span>找到<span style="color:purple;">日期与时间</span>将<span style="color:purple;">自动确定时区</span>关闭，并选择时区为美国。这里随便选择一个即可，然后打开<span style="color:purple;">自动确定时区</span>。返回桌面打开<span style="color:purple;">谷歌商店（Google Play）</span>下载<span style="color:brown;">fake GPS</span>。这个软件是一个黄色的图标，不是那个蓝色的。
 
-![fake gps图示](https://play-lh.googleusercontent.com/0IAs5zhKgOxvlAZlzOlZN2i9gv887ppbQhaFcvqF1ygmjxDdKnNZH8aFvT7U0XV5EA=w200-h200))
+![fake gps图示](https://play-lh.googleusercontent.com/0IAs5zhKgOxvlAZlzOlZN2i9gv887ppbQhaFcvqF1ygmjxDdKnNZH8aFvT7U0XV5EA=w200-h200)
 
 你申请哪个学院就去谷歌地图上搜索学院的大概位置，之后在 fake GPS 进行搜索模拟定位。我会给你提供我提交的学院大概位置，你可以在 fake GPS 左上角点击<span style="color:purple;">三条杠</span>，然后点击<span style="color:purple;"> go to </span>。将数值输入进去即可。最后点击<span style="color:purple;">右下角的绿色播放键</span>。它会返回到桌面，并且通知栏会有一个模拟定位的通知。你还需要将收到的PDF录取通知书或者相关的其他往来邮件进行截图并通过桌面下方的<span style="color:purple;">导入</span>，导入到虚拟机里。到此你的准备工作结束。
 
