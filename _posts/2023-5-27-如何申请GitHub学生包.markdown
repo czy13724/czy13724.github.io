@@ -10,7 +10,7 @@ tags:
     - 教程
 ---
 
-> “If you care about me at all, please don't say anything to anyone. ”
+> “Success is the sum of small efforts, repeated day in and day out. ”
 
 
 # 如何申请 GitHub Student Developer Pack？（EDU邮箱通用教程）
@@ -21,16 +21,19 @@ tags:
 
 首先，我建议你使用安卓手机。如果你的手机已经 root 的情况下，你可以在谷歌商店直接下载 fake GPS 进行虚拟定位而无需使用虚拟机。如果你的手机没有 root 那么请你去应用商店里下载 Vmos Pro，或者直接去搜索引擎里搜索该软件的破解版本。本篇文章建议使用破解版本。
 
-1. 打开 Vmos Pro 破解版然后点击上方的‘+’。选择<span style="color:purple;">安卓7.1精简版64位</span>的安装即可。安装完成之后，我们打开虚拟机。
-2. 打开虚拟机之后，点击左下角的<span style="color:purple;">设置</span>，将<span style="color:purple;">谷歌服务</span>和<span style="color:purple;">超级用户</span>权限打开，如果你使用的是破解版，那么这两项就可以打开，如果你使用的是正常版，那么你可能需要开通会员才可以使用。然后继续在该<span style="color:purple;">设置</span>下边找到<span style="color:purple;">虚拟机信息</span>，再找到<span style="color:purple;">手机与网络信息</span>，将<span style="color:purple;">国家</span>修改为<span style="color:red;">美国</span>并打开<span style="color:purple;">SIM模式</span>。返回到桌面。
-3. <span style="color:red;">手机开启全局代理并使用美国节点。（Clash、Matsuri、NekoBox、Surfboard 等代理工具＋机场美国节点。或使用加速器开美国全局代理，加速器一般为智能模式，请改为全局代理）</span>
-4. 打开<span style="color:yellow;">桌面上方</span>的<span style="color:purple;">设置</span>找到<span style="color:purple;">日期与时间</span>将<span style="color:purple;">自动确定时区</span>关闭，并选择时区为美国。这里随便选择一个即可，然后打开<span style="color:purple;">自动确定时区</span>。返回桌面打开<span style="color:purple;">谷歌商店（Google Play）</span>下载<span style="color:brown;">fake GPS</span>。这个软件是一个黄色的图标，不是那个蓝色的。
+打开 Vmos Pro 破解版然后点击上方的‘+’。选择<span style="color:purple;">安卓7.1精简版64位</span>的安装即可。安装完成之后，我们打开虚拟机。
+
+打开虚拟机之后，点击左下角的<span style="color:purple;">设置</span>，将<span style="color:purple;">谷歌服务</span>和<span style="color:purple;">超级用户</span>权限打开，如果你使用的是破解版，那么这两项就可以打开，如果你使用的是正常版，那么你可能需要开通会员才可以使用。然后继续在该<span style="color:purple;">设置</span>下边找到<span style="color:purple;">虚拟机信息</span>，再找到<span style="color:purple;">手机与网络信息</span>，将<span style="color:purple;">国家</span>修改为<span style="color:red;">美国</span>并打开<span style="color:purple;">SIM模式</span>。返回到桌面。
+
+<span style="color:red;">手机开启全局代理并使用美国节点。（Clash、Matsuri、NekoBox、Surfboard 等代理工具＋机场美国节点。或使用加速器开美国全局代理，加速器一般为智能模式，请改为全局代理）</span>。
+
+打开<span style="color:yellow;">桌面上方</span>的<span style="color:purple;">设置</span>找到<span style="color:purple;">日期与时间</span>将<span style="color:purple;">自动确定时区</span>关闭，并选择时区为美国。这里随便选择一个即可，然后打开<span style="color:purple;">自动确定时区</span>。返回桌面打开<span style="color:purple;">谷歌商店（Google Play）</span>下载<span style="color:brown;">fake GPS</span>。这个软件是一个黄色的图标，不是那个蓝色的。
 
 ![fake gps图示](https://play-lh.googleusercontent.com/0IAs5zhKgOxvlAZlzOlZN2i9gv887ppbQhaFcvqF1ygmjxDdKnNZH8aFvT7U0XV5EA=w200-h200))
 
-5. 你申请哪个学院就去谷歌地图上搜索学院的大概位置，之后在 fake GPS 进行搜索模拟定位。我会给你提供我提交的学院大概位置，你可以在 fake GPS 左上角点击<span style="color:purple;">三条杠</span>，然后点击<span style="color:purple;"> go to </span>。将数值输入进去即可。最后点击<span style="color:purple;">右下角的绿色播放键</span>。它会返回到桌面，并且通知栏会有一个模拟定位的通知。你还需要将收到的PDF录取通知书或者相关的其他往来邮件进行截图并通过桌面下方的<span style="color:purple;">导入</span>，导入到虚拟机里。到此你的准备工作结束。
+你申请哪个学院就去谷歌地图上搜索学院的大概位置，之后在 fake GPS 进行搜索模拟定位。我会给你提供我提交的学院大概位置，你可以在 fake GPS 左上角点击<span style="color:purple;">三条杠</span>，然后点击<span style="color:purple;"> go to </span>。将数值输入进去即可。最后点击<span style="color:purple;">右下角的绿色播放键</span>。它会返回到桌面，并且通知栏会有一个模拟定位的通知。你还需要将收到的PDF录取通知书或者相关的其他往来邮件进行截图并通过桌面下方的<span style="color:purple;">导入</span>，导入到虚拟机里。到此你的准备工作结束。
 
-6. 打开虚拟机下方自带浏览器。默认为 bing。使用必应或者谷歌引擎搜索<span style="color:red;"> github student developer pack</span>。不出意外的情况下，第一个或者第二个就是它的官方链接。如果需要验证你的位置，你需要将定位权限打开。这里只展示直接用教育邮箱注册，如果你已经有自已的GitHub账号，可以在<span style="color:red;">setting</span>里添加教育邮箱进行验证再进行后续操作。
+打开虚拟机下方自带浏览器。默认为 bing。使用必应或者谷歌引擎搜索<span style="color:red;"> github student developer pack</span>。不出意外的情况下，第一个或者第二个就是它的官方链接。如果需要验证你的位置，你需要将定位权限打开。这里只展示直接用教育邮箱注册，如果你已经有自已的GitHub账号，可以在<span style="color:red;">setting</span>里添加教育邮箱进行验证再进行后续操作。
 
 你需要注册一个账号，选择<span style="color:purple;">create an account</span>。即可然后输入你的 <span style="color:purple;">username、email</span>（这里使用你的教育邮箱）、<span style="color:purple;">password</span>进行注册。注册成功之后<span style="color:purple;">点击你的头像</span>，然后点击<span style="color:purple;">profile</span>将自己虚拟信息的姓名填写到 github 账户下的姓名，然后返回到学生包注册界面。回答 how do you use github 问题之后会让你上传文件或者拍照上传。你将导入的录取通知书图片上传然后点击<span style="color:purple;">Process your application</span>即可。
 
@@ -38,9 +41,9 @@ tags:
 
 <span style="color:red;">开启全局代理并使用美国节点。（可使用 Shadowrocket、Quantumult X、Surge、Loon 等代理工具＋机场美国节点，shadowrocket 需要将代理模式由配置改为代理。或使用加速器开美国全局代理，加速器一般为智能模式，请改为全局代理）</span>数据线连接电脑，打开<span style="color:brown;">爱思助手</span>或其他可修改的软件进行模拟学院定位。打开 Safari 浏览器或 Chrome 浏览器或其他浏览器。
 
-1.使用必应或者谷歌引擎搜索<span style="color:red;"> github student developer pack</span>。不出意外的情况下，第一个或者第二个就是它的官方链接。如果需要验证你的位置，你需要将定位权限打开。这里只展示直接用教育邮箱注册，如果你已经有自已的GitHub账号，可以在<span style="color:red;">setting</span>里添加教育邮箱进行验证再进行后续操作。
+使用必应或者谷歌引擎搜索<span style="color:red;"> github student developer pack</span>。不出意外的情况下，第一个或者第二个就是它的官方链接。如果需要验证你的位置，你需要将定位权限打开。这里只展示直接用教育邮箱注册，如果你已经有自已的GitHub账号，可以在<span style="color:red;">setting</span>里添加教育邮箱进行验证再进行后续操作。
 
-2.你需要注册一个账号，选择<span style="color:purple;">create an account</span>。即可然后输入你的 <span style="color:purple;">username、email</span>（这里使用你的教育邮箱）、<span style="color:purple;">password</span>进行注册。注册成功之后<span style="color:purple;">点击你的头像</span>，然后点击<span style="color:purple;">profile</span>将自己虚拟信息的姓名填写到 github 账户下的姓名，然后返回到学生包注册界面。回答 how do you use github 问题之后会让你上传文件或者拍照上传。你将导入的录取通知书图片上传然后点击<span style="color:purple;">Process your application</span>即可。
+你需要注册一个账号，选择<span style="color:purple;">create an account</span>。即可然后输入你的 <span style="color:purple;">username、email</span>（这里使用你的教育邮箱）、<span style="color:purple;">password</span>进行注册。注册成功之后<span style="color:purple;">点击你的头像</span>，然后点击<span style="color:purple;">profile</span>将自己虚拟信息的姓名填写到 github 账户下的姓名，然后返回到学生包注册界面。回答 how do you use github 问题之后会让你上传文件或者拍照上传。你将导入的录取通知书图片上传然后点击<span style="color:purple;">Process your application</span>即可。
 
 ## 以电脑为例：
 
@@ -49,4 +52,7 @@ tags:
 注意：电脑上的模拟器可能不需要下载模拟定位软件，可能自带模拟定位功能。
 
 ## 以下为Android的视频教学：
-![]({{site.baseurl}}/img/get_github_student/get_github_student.mp4)
+<video width="640" height="360" controls>
+  <source src="https://github.com/czy13724/czy13724.github.io/raw/master/img/get_github_student/get_github_student.mp4" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
