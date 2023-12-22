@@ -16,7 +16,7 @@ tags:
 
 ## 前言
 
-如果你拥有Quantumult X(以下用qx代替)并且想学习如何写一个js脚本，你大可以看一下下方的教程。如果你拥有Surge，Stash，Loon，Shadowrocket等也可以适用，用ScriptHub转换即可。本篇不讲述加密和解密类型脚本。以下内容由本人理解编写，如有问题，请指正。
+如果你拥有Quantumult X(以下用qx代替)并且想学习如何写一个js脚本，你大可以看一下下方的教程。如果你拥有Surge，Stash，Loon，Shadowrocket等也可以适用，用ScriptHub转换即可。本篇不讲述加密和解密类型脚本。以下内容由本人理解编写，如有该专业的原则问题，请批评指正。
 
 ## 前提（开始之前）
 
@@ -25,7 +25,10 @@ tags:
 > 你是否会使用抓包？
 
 如果你不会，那么先学习怎么抓包，我会以抓取某节点的视频代替，你要做的就是将软件替换为你要抓包的软件或小程序。如果到这里听不懂看不懂那么不必继续往下看了。
-#### 以下是一个抓取VPN的抓包视频教学，其他软件类似：
+
+开源免费抓包软件ProxyPin: [点击直达](https://github.com/wanghongenpin/network_proxy_flutter)
+
+#### 以下是一个使用qx抓取VPN的抓包视频教学(前30s为抓包教程)，其他软件也类似：
 
 <video width="640" height="360" controls>
   <source src="https://github.com/czy13724/czy13724.github.io/raw/master/img/How_to_cteate_qx_JavaScript/zhuabaojiaoxue.mp4" type="video/mp4">
@@ -36,28 +39,32 @@ tags:
 
 > 你是否认识代码中常见的英文单词？
 
-如果你认识并且会抓包但是不会写脚本可以继续看；如果你不认识但是会使用词典查询并且会抓包但是不会写脚本也可以继续看。
+如果你认识并且会抓包但是不会写脚本可以继续看；如果你不认识但会使用词典查询且会抓包只是不会写脚本也可以继续看。
 
-值得注意的是：在代码中很多英文单词使用了简写，比如obj=object(对象)、var=variable(变量)等。
+<span style="color:brown;">值得注意的是：在代码中很多英文单词使用了简写，比如obj=object(对象)、var=variable(变量)等</span>。
 
 ## 操作流程：
 
-其实你在用别人写的脚本时会发现有多种写法，比如有用const的，有用var的，还有用let的。这些都不要紧，基本都有模版。还有就是脚本里一般分为三部分：[rewrite_local]、[Mitm]、修改的内容。下面我给你说一下口诀就是：遇0改1，遇false改true，一抓二找三改四套。抓就是抓包内容；找就是在抓到的内容里找到要改的信息；改就是关键信息进行0改1，false改true；套就是套语法模版。接下来我会给你举出例子，希望你能快速理解。
+其实你在用别人写的脚本时会发现有多种写法，比如有用`const`的，有用`var`的，还有用`let`的。这些都不要紧，基本都有模版。还有就是脚本里一般分为三部分：<span style="color:red;">[rewrite_local]、[Mitm]、修改的内容</span>。
+
+下面我给你说一下口诀：<span style="color:purple;">遇0改1，遇false改true，一抓二找三改四套</span>。抓就是抓包内容；找就是在抓到的内容里找到要改的信息；改就是关键信息进行0改1，false改true；套就是套语法模版。
+
+接下来我会给你举出例子，希望你能快速理解。
 
 ### [rewrite_local]
 
 先说说这一部分，其实这一部分在抓包的内容里，对应的是获取会员的一个请求链接，一般会用正则匹配使用。如果你不会正则表达式，网络上有很多一键生成正则表达式的工具。
 
-我们一般修改的内容是响应体，因此我们填写的类型为`url script-response-body`。而最后的链接是你存储这个脚本的位置路径。
+我们一般修改的内容是`响应体`，因此我们填写的类型为`url script-response-body`。而最后的链接是你存储这个脚本的位置`路径`。
 
-比如你使用qx并且开启了iCloud，那么将你写好的js脚本放入iCloud的Quantumult X文件夹下的Scripts文件夹里，这样你的链接就可以只填写你的`脚本文件名.js`，例如：test.js。
+比如你使用qx并且开启了iCloud，那么将你写好的js脚本放入iCloud的`Quantumult X文件夹`下的`Scripts文件夹`里，这样你的链接就可以只填写你的`脚本文件名.js`，例如：`test.js`。
 
-如果你要将脚本存放到GitHub仓库，在你的仓库里找到脚本的raw链接填写在`url script-response-body`后即可。
+如果你要将脚本存放到GitHub仓库，在你的仓库里找到脚本并获取脚本raw链接填写在`url script-response-body`后即可。
 
 ### [Mitm]
 
 下面再来说说这一部分，这一部分简单。
-一般就是在[rewrite_local]里的`url script-response-body`之前的内容。注意：这里使用的只有主域名。
+一般就是在`[rewrite_local]`里的`url script-response-body`之前的内容。<span style="color:red;">注意：这里使用的只有主域名</span>。
 例如：
 
 ```
@@ -76,7 +83,9 @@ hostname = api.akiinas.com
 hostname = buy.itunes.apple.com
 ```
 
-说白了，一般就是将[rewrite_local]里url script-response-body之前的内容去掉正则只保留到`.com`。
+观察上方两个例子`url script-response-body`之前的内容,你发现了什么？
+
+说白了，一般就是将`[rewrite_local]`里`url script-response-body`之前的内容去掉正则只保留到`.com`。
 
 ### var
 
@@ -91,9 +100,9 @@ body = JSON.stringify(obj); // 重新打包回json字符串
 $done(body); // 结束修改
 ```
 
-你观察这个模版`第一行var 后面的body`与`第二行最后的body`以及`最后两行的body`是不是一个东西。如果你觉得是，那么我将body替换为A或者Q或者其他的值可不可以？答案是可以。
+你观察这个模版`第二行var后面的body(等号之前的body)`与`第三行最后的body`以及`最后两行的body`是不是一个东西。如果你觉得是，那么我将body替换为A或者Q或者其他的值可不可以？答案是可以。
 
-再次观察你有没有发现第二行var后用的是obj，倒第二行最后的括号里也是obj，你觉得这两个obj是否也可以替换？答案依旧是可以。
+再次观察你有没有发现`第二行var后(等号之前)`用的是`obj`，`第五行最后的括号里`也是`obj`，你觉得这两个`obj`是否也可以替换？答案依旧是可以。
 
 你会发现既然这两处可以随便更改，只要修改时保持一致就可以，你有没有觉得这个就是一个你个性化的值，或者说这个变量的名称可以个性化。
 
@@ -252,6 +261,7 @@ $done({body : JSON.stringify(Q)});
 ### let
 
 下面我们再来说说let这种类型的。
+
 先贴出一个模版：
 
 ```
