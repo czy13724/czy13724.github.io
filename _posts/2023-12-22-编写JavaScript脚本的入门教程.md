@@ -140,10 +140,19 @@ $done({body : JSON.stringify(chxm1023)});
 它和第一个模版有什么不同？显而易见，你会发现只是将`obj`换为了`chxm1023`
 
 ```
+var body = $response.body;
 var obj = JSON.parse(body);
+
 
 var chxm1023 = JSON.parse($response.body);
 ```
+其实第一个可以写成：
+```
+var obj = JSON.parse($response.body);
+```
+
+这样只需要一行代码即可。
+
 
 再看结尾部分：
 
