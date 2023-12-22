@@ -11,7 +11,8 @@ tags:
     - JavaScript
 ---
 
-> Life consists not in holding good cards but in playing those you hold well.
+> Act enthusiastic and you will be enthusiastic.
+> 带着激情做事，你就会有激情。
 
 ## 前言
 
@@ -22,6 +23,7 @@ tags:
 *我先问你两个问题：*
 
 > 你是否会使用抓包？
+
 如果你不会，那么先学习怎么抓包，我会以抓取某节点的视频代替，你要做的就是将软件替换为你要抓包的软件或小程序。如果到这里听不懂看不懂那么不必继续往下看了。
 #### 以下是一个抓取VPN的抓包视频教学，其他软件类似：
 
@@ -33,6 +35,7 @@ tags:
 ---
 
 > 你是否认识代码中常见的英文单词？
+
 如果你认识并且会抓包但是不会写脚本可以继续看；如果你不认识但是会使用词典查询并且会抓包但是不会写脚本也可以继续看。
 
 值得注意的是：在代码中很多英文单词使用了简写，比如obj=object(对象)、var=variable(变量)等。
