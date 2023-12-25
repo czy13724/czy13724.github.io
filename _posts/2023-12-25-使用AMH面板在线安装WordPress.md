@@ -2,23 +2,24 @@
 author: Levi
 catalog: "true"
 date: "2023-12-25 13:45:09"
-header-img: img/bg/image_24.jpg
+header-img: img/bg/image_25.jpg
 layout: post
-subtitle: " \"How To Install WordPress With AMH\""
-tags: |
-  教程  
-  ---  
-    
-  \> A man is not old until his regrets take place of his dreams.  
-  \> 只有当遗憾取代了梦想，人才算老。
 title: 如何使用AMH面板在线安装 WordPress
----
+subtitle: " \"How To Install WordPress With AMH\""
+tags: 
+    - 教程 
+---  
+    
+> “A man is not old until his regrets take place of his dreams.”  
+> “只有当遗憾取代了梦想，人才算老。”
+
+
 
 # 如何使用AMH面板在线安装 WordPress
 
 在安装WordPress之前，在AMH面板中，将软件商店中的软件按需安装，PHP扩展安装需要先将软件商店中的php扩展安装完毕后，才可以在网站中操作安装，否则安装会失败。配置好缓存应用。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/1.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/1.png "fig:")
 
 ## 配置网站相关内容
 
@@ -26,7 +27,7 @@ title: 如何使用AMH面板在线安装 WordPress
 
 2.  ### 在AMH主机面板中点击**网站**菜单，在**虚拟主机**菜单下面新增虚拟主机。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/2.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/2.png "fig:")
 
 新增虚拟主机时：
 
@@ -65,19 +66,19 @@ add_header Cache-Control max-age=36000;
 
 下面开始配置nginx规则。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/3.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/3.png "fig:")
 
 规则新增完毕后，关闭窗口。在之前的窗口中，点击刷新列表，然后选择wordpress2.conf保存后，虚拟主机创建成功。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/4.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/4.png "fig:")
 
-### 安装一些常用的PHP扩展。
+3.  ### 安装一些常用的PHP扩展。
 
 在网站菜单下，点击扩展安装，勾选下面的PHP扩展后点击提交，安装扩展(fileinfo,intl,gettext,bcmath,opcache,pecl_imagick,exif,zbarcode)。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/5.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/5.png "fig:")
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/6.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/6.png "fig:")
 
 耐心等待代码全部跑完，PHP扩展全部安装完毕后，才可以进行下一步操作。
 
@@ -95,23 +96,23 @@ add_header Cache-Control max-age=36000;
 
 - 点击创建
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/7.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/7.png "fig:")
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/8.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/8.png "fig:")
 
 SSL证书已经创建成功了，点击证书管理下面的**应用**，将证书启用。
 
 证书启用成功后，还需要进行简单的配置，开启强制https，优化加强提速，证书自动续期。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/9.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/9.png "fig:")
 
 SSL证书已经申请成功了。有效期三个月，三个月自动续期。无需手工操作。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/10.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/10.png "fig:")
 
 最后在环境变量中再做一些设置，这些设置因人而已，没有硬性要求如何修改。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/11.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/11.png "fig:")
 
 接下来需要安装WordPress程序。
 
@@ -120,7 +121,7 @@ SSL证书已经申请成功了。有效期三个月，三个月自动续期。�
 点击**文件**菜单，在文件管理中可以看到，`/home/wwwroot/lnmp01/domain/freeccb/web/`
 是当前存放的web文件的路径，将WordPress程序下载到web文件夹内。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/12.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/12.png "fig:")
 
 在web文件夹下，点击下面的远程上传按钮，将WordPress程序的下载地址粘贴进去。点击确认，开始下载WordPress程序。
 
@@ -129,34 +130,34 @@ SSL证书已经申请成功了。有效期三个月，三个月自动续期。�
 https://cn.wordpress.org/latest-zh_CN.tar.gz
 ```
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/13.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/13.png "fig:")
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/14.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/14.png "fig:")
 
 WordPress程序下载完毕后，解压缩。
 
 **勾选**
 latest-zh_CN.tar.gz文件，然后在下面的**压缩类型**中选择tar.gz，这个压缩类型要跟解压缩文件的扩展名一致。之后点击**智能解压**。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/15.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/15.png "fig:")
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/16.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/16.png "fig:")
 
 解压缩后，需要将wordpress文件内的文件移动到web文件夹内，同时删除掉web文件夹里的index.html文件。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/17.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/17.png "fig:")
 
 web文件夹内选择文件没然后点击**删除**，就可以删除掉文件，可视化删除，非常简单。
 
 全选wordoress文件夹内的所有文件，然后点击**移动**
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/18.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/18.png "fig:")
 
 点击移动，将文件移动到上级目录web中，点击上级，自动切换到web目录，之后点击确认，进行移动。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/19.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/19.png "fig:")
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/20.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/20.png "fig:")
 
 文件已经移动成功了，接下来将wp-config-sample.php**改名**为wp-config.php，点击wp-config-sample.php文件后面的**重命名**进行修改。
 
@@ -177,27 +178,27 @@ define('WP_MEMORY_LIMIT', '128M');
 define('FS_METHOD','direct');
 ```
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/21.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/21.png "fig:")
 
 当前的mysql密码还是默认的密码，这里需要修改一下mysql的密码，点击数据库，在数据库菜单下的用户管理中，选择修改密码，输入你设置的mysql密码，用户是默认的root，密码输入完毕后，点击提交即可。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/22.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/22.png "fig:")
 
 修改完毕后，保存文件，之后在**数据库**菜单中的**快速建库**中，点击数据库后，输入数据库名称：**WordPress**，创建一个空库就可以了。
 
 注意：这个数据库名称与上面wp-config.php中配置的要一样。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/23.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/23.png "fig:")
 
 最后在数据库的**参数配置**中，将是否开启监听端口远程访问，选择**开启**，默认是关闭的，这里不开启的话，程序无法连接数据库。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/24.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/24.png "fig:")
 
 设置web目录权限，wordpress解压缩后，文件的用户和用户组需要修改为www
 
 勾选web目录，进行权限设置，否则在wordpress中无法安装插件和主题。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/25.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/25.png "fig:")
 
 到这里WordPress的服务器端配置已经全部完成。
 
@@ -211,15 +212,15 @@ define('FS_METHOD','direct');
 
 你需要建立一个**子域主机**：
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/26.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/26.png "fig:")
 
 URL重写规则中，点击管理规则，新建一个www.conf的规则，用来跳转。新建一个域名跳转，类型选择301，匹配域名选择指定域名，输入你的www域名，下面跳转到不带www的主域名。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/27.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/27.png "fig:")
 
 规则创建后，在子域主机中建立子域名主机。建立完毕后，还需要在**SSL证书**中，申请www域名的证书。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/28.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/28.png "fig:")
 
 子域名WWW的SSL证书创建完毕后，点击**应用**，开启强制https和优化访问，开启自动续期后，就成功了。
 
@@ -229,9 +230,9 @@ URL重写规则中，点击管理规则，新建一个www.conf的规则，用来
 
 接下来在浏览器中访问网站域名，在web端配置WordPress网站，按照步骤一步一步进行安装就可以了。建议使用谷歌浏览器进行访问。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/29.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/29.png "fig:")
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/30.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/30.png "fig:")
 
 ------------------------------------------------------------------------
 
@@ -338,7 +339,7 @@ systemctl disable firewalld
 
 点击定制安装，选择需要安装的版本，这里选择web服务器软件使用nginx1.20，数据库软件使用musql5.6，php选择php8.0版本。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/31.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/31.png "fig:")
 
 使用 root 账号登录 Linux 服务器，执行以下命令安装AMH：
 
@@ -367,37 +368,37 @@ echo -e "options timeout:1 attempts:1 rotate\nnameserver 8.8.8.8\nnameserver 114
 
 安装amh成功后无法访问面板情况，请您检查主机商是否有安全组/防火墙相关限制，请开放端口，如开放面板8888，9999端口。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/32.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/32.png "fig:")
 
 中文安装界面，输入Y，然后回车进行AMH安装。
 
 编译安装速度有些慢，耐心等待一会。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/33.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/33.png "fig:")
 
 耗时37分钟LNMP环境的AMH面板安装成功。
 
 输入访问地址登录主机面板：https://你的IP:9999，使用生成的账号密码验证码进行登录：
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/34.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/34.png "fig:")
 
 主面板上有五项内容，服务器CPU信息、服务器磁盘信息、服务器网卡流量图表、服务器内存信息、服务器系统信息。在服务器系统信息中先同步服务器的系统时间。
 
 接下来你可以在AMH面板上管理服务器上的网站和数据库，不需要使用SSH连接服务器了，在主机面板上可以操控服务器上的一切设置。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/35.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/35.png "fig:")
 
 点击右上角的设置，在设置中可以修改访问端口，以及注册授权账户，现在AMH的授权账户是免费申请的，只需要在官网注册即可。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/36.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/36.png "fig:")
 
 授权账户的注册也很简单，输入账号密码后，验证手机就可以了！之后你就可以在软件商店中安装服务器应用软件，一些需要购买授权的软件都是些专业级别的软件，新手用户基本上用不上，需要的时候再充值购买。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/37.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/37.png "fig:")
 
 在软件商店中，有些可以安装的软件，按需安装即可。
 
-![](/Users/levi/Documents/typora/%7B%7Bsite.baseurl%7D%7D/img/AMH_Install_WordPress/38.png "fig:")
+![]({{site.baseurl}}/img/AMH_Install_WordPress/38.png "fig:")
 
 如果想成功搭建一个博客站点，你需要在软件商店中安装如下软件。
 
@@ -453,3 +454,17 @@ C语言编写、支持网络、可基于内存亦可持久化的日志型、Key-
 升级至pecl_redis-5.3版本，兼容支持最新的php8.0，可选择安装pecl_redis2.2、4.3或5.3版本。pecl_redis是AMH面板Redis软件的php环境扩展模块。Redis是一个高性能开源的key-value数据库，pecl_redis为Redis的PHP环境接口扩展模块，PHP环境使用Redis需要安装此扩展。
 
 **如需邮件服务，还需安装dovecot+postfix+amsmtp搭建SMTP邮局。**
+
+## 免责声明
+
+* 项目内所涉及脚本、LOGO 仅为资源共享、学习参考之目的，不保证其合法性、正当性、准确性；切勿使用项目做任何商业用途或牟利；
+* 遵循避风港原则，若有图片和内容侵权，请在 Issues 告知，核实后删除，其版权均归原作者及其网站所有；
+* 本人不对任何内容承担任何责任，包括但不限于任何内容错误导致的任何损失、损害;
+* 其它人通过任何方式登陆本网站或直接、间接使用项目相关资源，均应仔细阅读本声明，一旦使用、转载项目任何相关教程或资源，即被视为您已接受此免责声明。
+* 本项目内所有资源文件，禁止任何公众号、自媒体进行任何形式的转载、发布。
+* 本项目涉及的数据由使用的个人或组织自行填写，本项目不对数据内容负责，包括但不限于数据的真实性、准确性、合法性。使用本项目所造成的一切后果，与本项目的所有贡献者无关，由使用的个人或组织完全承担。
+* 本项目中涉及的第三方硬件、软件等，与本项目没有任何直接或间接的关系。本项目仅对部署和使用过程进行客观描述，不代表支持使用任何第三方硬件、软件。使用任何第三方硬件、软件，所造成的一切后果由使用的个人或组织承担，与本项目无关。
+* 本项目中所有内容只供学习和研究使用，不得将本项目中任何内容用于违反国家/地区/组织等的法律法规或相关规定的其他用途。
+* 所有基于本项目源代码，进行的任何修改，为其他个人或组织的自发行为，与本项目没有任何直接或间接的关系，所造成的一切后果亦与本项目无关。
+* 所有直接或间接使用本项目的个人和组织，应24小时内完成学习和研究，并及时删除本项目中的所有内容。如对本项目的功能有需求，应自行开发相关功能。
+* 本项目保留随时对免责声明进行补充或更改的权利，直接或间接使用本项目内容的个人或组织，视为接受本项目的特别声明。
