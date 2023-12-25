@@ -23,9 +23,9 @@ tags:
 
 ## 配置网站相关内容
 
-1.  ### 将域名解析到服务器所在IP地址。
+  ### 将域名解析到服务器所在IP地址。
 
-2.  ### 在AMH主机面板中点击**网站**菜单，在**虚拟主机**菜单下面新增虚拟主机。
+  ### 在AMH主机面板中点击**网站**菜单，在**虚拟主机**菜单下面新增虚拟主机。
 
 ![]({{site.baseurl}}/img/AMH_Install_WordPress/2.png "fig:")
 
@@ -72,7 +72,7 @@ add_header Cache-Control max-age=36000;
 
 ![]({{site.baseurl}}/img/AMH_Install_WordPress/4.png "fig:")
 
-3.  ### 安装一些常用的PHP扩展。
+  ### 安装一些常用的PHP扩展。
 
 在网站菜单下，点击扩展安装，勾选下面的PHP扩展后点击提交，安装扩展(fileinfo,intl,gettext,bcmath,opcache,pecl_imagick,exif,zbarcode)。
 
