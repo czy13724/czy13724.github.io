@@ -57,6 +57,16 @@ tags:
   Your browser does not support the video tag.
 </video>
 
+## 持续更新
+### 2023.12.27
+现学生包采用的证明文件改为登录学校学生后台截图，如果没有上传按钮或不能拖入文件上传则采用拍照方式。（所拍图片必须携带学校校徽，学生姓名或学号之类的信息，且github账户要设置姓名和学生姓名一致，否则不予通过。）
+以下是某学校学生账号后台截图,其他学校也类似。
+![](({{site.baseurl}}/img/get_github_student/proof.png)
+### 2023.12.31
+提示如下图所示情况，需要将申请教育邮箱的信息填入GitHub的支付信息中。点击图示蓝色字体即可进入填写界面。
+![](({{site.baseurl}}/img/get_github_student/billing_blank.jpg)
+
+
 ## 免责声明
 
 * 项目内所涉及脚本、LOGO 仅为资源共享、学习参考之目的，不保证其合法性、正当性、准确性；切勿使用项目做任何商业用途或牟利；
