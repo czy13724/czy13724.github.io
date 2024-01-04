@@ -92,7 +92,7 @@ hostname = buy.itunes.apple.com
 
 ### var
 
-下面是一个var的模版：
+下面是一个var的`样本模版`：
 
 ```
 // 双斜杠后的内容在js里是属于注释内容不会生效
@@ -111,7 +111,7 @@ $done(body); // 结束修改
 
 ---
 
-那么我再给你一个var模版：
+那么我再给你一个var模版，记作`chxm1023模版`：
 
 ```
 var chxm1023 = JSON.parse($response.body);
@@ -141,26 +141,27 @@ chxm1023 = {
 $done({body : JSON.stringify(chxm1023)});
 ```
 
-你观察这个模版，和刚才的第一个模版做一下对比，你有没有发现这个模版里对原来的代码进行了部分修改，我们尝试提取这个脚本主干：
+你观察这个模版，和刚才的`样本模版`做一下对比，你有没有发现这个`chxm1023模版`里对`样本模版(前两行)`原来的代码进行了部分修改，我们尝试提取这个脚本主干：
 
 ```
 var chxm1023 = JSON.parse($response.body);
-chxm1023 = 修改好的响应体内容
+chxm1023 = 修改后的响应体内容
 $done({body : JSON.stringify(chxm1023)});
 ```
 
 它和第一个模版有什么不同？显而易见，你会发现只是将`obj`换为了`chxm1023`。这说明上面的结论是正确的。
 
-那么我们继续观察：
+那么我们继续观察这两个模版的开头：
 
 ```
+//样本模版开头
 var body = $response.body;
 var obj = JSON.parse(body);
 
-
+//chxm1023模版开头
 var chxm1023 = JSON.parse($response.body);
 ```
-其实第一个可以写成：
+其实样本模板开头可以写成：
 ```
 var obj = JSON.parse($response.body);
 ```
@@ -171,15 +172,18 @@ var obj = JSON.parse($response.body);
 再看结尾部分：
 
 ```
+//样本模版结尾
 body = JSON.stringify(obj); 
 $done(body); 
 
+//chxm1023模版结尾
 $done({body : JSON.stringify(chxm1023)});
 ```
 
-你有没有发现这就是一个变体，那么你想想能不能还原为上方模版那种？
+你有没有发现这就是进行了一个变体，那么你想想能不能还原为上方模版那种？
 
 ```
+//还原后的结果如下所示
 body = JSON.stringify(chxm1023);
 $done(body);
 ```
@@ -187,11 +191,12 @@ $done(body);
 反过来上方的模版能不能换成下方模版这种呢？
 
 ```
+//还原后的结果如下所示
 $done({body : JSON.stringify(obj)});
 ```
 
 现在开始理解这个模版了吗？
-我们继续拆开来说，以上方chxm1023的代码为例：我们单独看`修改好的响应体`：
+我们继续拆开来说，以上方`chxm1023模版`的代码为例：我们单独看`修改后的响应体`：
 
 ```
 {
@@ -218,30 +223,37 @@ $done({body : JSON.stringify(obj)});
 };
 ```
 
-你发现`"expire_time" : "2099-09-09T09:09:09+0000",`和`"pro" : true`的内容呗改为了这样，一个修改了`时间为2099`（还有一种是用的一串数字作为时间的，专业术语叫做时间戳，这里不做解释），另一个就是将`pro后的false改为了true`。以此完成了响应体的修改。
+你会发现`"expire_time" : "2099-09-09T09:09:09+0000",`和`"pro" : true`的内容被改成了这样，一个修改了`时间为2099`（还有一种是用的一串数字作为时间的，专业术语叫做时间戳，这里不做解释），另一个就是将`pro后的false改为了true`。以此完成了响应体的修改。
 
 你又有疑问了：我在抓包时有很多链接，我怎么知道这个数据在哪个里面，因此可以使用搜索工具检索软件会员会使用什么作为数据内容，比如这个模版用的`pro`，再比如用的`vip`，`svip`，`plus`，`subscription`等等可以表示开了会员的单词。
 
-但是上面这种模版你会发现很复杂很详细，不够简洁并且有时候会泄露一些个人信息，那么还有几种方式，下面继续以`chxm1023模版的内容`做对比：
+（这里值得注意的是：这是搜索的是要对会员数据的修改，而有些软件是需要`xx币`的，那么你可能需要搜索的内容也会不同。）
+
+但是上面这种模版你会发现很复杂很详细，不够简洁并且有时候会泄露一些个人信息，那么还有几种方式，下面提供一个新的模版（记作`Q模版`）。
 
 ```
 var Q = JSON.parse($response.body);
-Q.data.user.lifetime_subscription = true;
-Q.data.user.store_subscription = true;
-Q.data.user.subscription = true;
+Q.data.user.lifetime_subscription = true;  //响应体内容
+Q.data.user.store_subscription = true;   //响应体内容
+Q.data.user.subscription = true;   //响应体内容
 $done({body : JSON.stringify(Q)});
 ```
 
-你发现了吗？`Q`应该可以随意替换，而修改好的响应体内容很简练。而如果你使用chxm1023那个模版，写出来的大致是这样的：
+你发现了吗？`Q`应该可以随意替换，而修改好的响应体内容很简练。像这种模板就是把Q放在开始，后面写响应体树，最后输出。
 
+响应体树就是主分支-各分支内容。
+
+拿`chxm1023模版`为例：
+我们只修改了两个值的内容，因此我们提取树内容：data-pro和data-expire_time。写的时候再前面加上`Q`即可。
+即左边是`Q.data.pro`和`Q.data.expire-time`右边是修改的内容。
+
+原响应体内容提出来如下：
 ```
-data.user.lifetime_subscription = true;
-其他未做修改的响应体内容
-data.user.store_subscription = true;
-data.user.subscription = true;
+data.expire-time = 2099-09-09T09:09:09+0000；
+data.pro = true；
 ```
 
-对比下来发现，最后这种就是将修改的内容单独拿出来了，并且在它们的内容前面加上了一个`Q.`内容，这种就比较简练好看，而且可以减少代码内容在一定程度上避免信息泄露。
+对比`原chxm1023模版的响应体`发现，最后这种就是将修改的内容单独拿出来了，并且在它们的内容前面加上了一个`Q.`内容，这种就比较简练好看，而且可以减少代码内容在一定程度上避免信息泄露。
 
 到现在你是否能够看懂部分代码？这里有一个很长的模版，你看看你能不能看懂？能不能尝试还原它？
 
@@ -290,7 +302,7 @@ Q.data.pro = true;
 $done({body : JSON.stringify(Q)});
 ```
 
-或者类似下方这种模版：
+或者类似下方这种详细的模版：
 
 ```
 var Q = JSON.parse($response.body);
@@ -320,10 +332,14 @@ Q = {
 $done({body : JSON.stringify(Q)});
 ```
 
+这三种写法最终得到的效果是一样的。
+
+
 ## 注意与更新
 
 * 主流大厂的软件会禁止MITM，就算不禁止被发现后也可能面临巨额罚款。
 * 本篇内容旨在让小白理解一些内容，促进交流学习。
+* 由于JavaScript的语法和书写方式多样，我们选择自己顺手的语法即可。
 * 之后会在本文基础上增加`if` `for` 类型稍复杂一点的内容。
 
 ## 免责声明

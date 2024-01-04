@@ -27,7 +27,7 @@ tags:
 
 <span style="color:red;">手机开启全局代理并使用美国节点。（Clash、Matsuri、NekoBox、Surfboard 等代理工具＋机场美国节点。或使用加速器开美国全局代理，加速器一般为智能模式，请改为全局代理）</span>。
 
-打开<span style="color:yellow;">桌面上方</span>的<span style="color:purple;">设置</span>找到<span style="color:purple;">日期与时间</span>将<span style="color:purple;">自动确定时区</span>关闭，并选择时区为美国。这里随便选择一个即可，然后打开<span style="color:purple;">自动确定时区</span>。返回桌面打开<span style="color:purple;">谷歌商店（Google Play）</span>下载<span style="color:brown;">fake GPS</span>。这个软件是一个黄色的图标，不是那个蓝色的。
+打开<span style="color:blue;">桌面上方</span>的<span style="color:purple;">设置</span>找到<span style="color:purple;">日期与时间</span>将<span style="color:purple;">自动确定时区</span>关闭，并选择时区为美国。这里随便选择一个即可，然后打开<span style="color:purple;">自动确定时区</span>。返回桌面打开<span style="color:purple;">谷歌商店（Google Play）</span>下载<span style="color:brown;">fake GPS</span>。这个软件是一个黄色的图标，不是那个蓝色的。
 
 ![fake gps图示](https://play-lh.googleusercontent.com/0IAs5zhKgOxvlAZlzOlZN2i9gv887ppbQhaFcvqF1ygmjxDdKnNZH8aFvT7U0XV5EA=w200-h200)
 
