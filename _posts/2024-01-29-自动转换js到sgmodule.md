@@ -52,7 +52,7 @@ tags:
 
 或复制该文本内容：
 
-```linux
+```python
 # author:Levi
 # 搭配convert js to sgmodule.py使用。可将qx的js文件转换为sgmodule文件。
 
@@ -109,6 +109,8 @@ jobs:
 ```
 
 注意：上述工作流中，你需要将第9行的*scripts*替换为你想要存放js的文件夹名称（以下以qx为例），第12行的*Surge*替换为你想要存放sgmodule的文件夹名称（以下以surge为例）。第50行的*Add converted sgmodule file*可改可不改。
+如果你直接复制的上述工作流，需要将第36行、第53行内容补全，
+![04]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/04.png)
 
 #### 添加py脚本
 
