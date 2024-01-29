@@ -2,7 +2,7 @@
 layout: post
 title: 自动将qx专用js文件转换为sgmodule文件
 subtitle: " \"Automate convert ex's js to sgmodule\""
-date: 2023-12-24 21:45:06
+date: 2024-01-29 12:45:06
 author: "Levi"
 header-img: img/bg/image_28.jpg
 catalog: true
