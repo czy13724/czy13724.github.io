@@ -50,7 +50,7 @@ tags:
 
 填入文件名称：*convert_js_to_sgmodule.yml*。将[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/workflows/convert_js_to_sgmodule.yml)的内容进行复制粘贴进来保存。
 
-或复制该文本内容：
+或复制该文本内容（建议通过链接复制）：
 
 ```python
 # author:Levi
@@ -236,3 +236,8 @@ if __name__ == "__main__":
 第24行的project_desc双引号内容可以修改。（可选）
 
 第102行的*Adding a dummy change to trigger git commit*可以修改，但注意保留双引号内其他内容。（可选）
+
+
+添加完成之后你的分支如下图所示：
+![05]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/05.png)
+手动运行检查是否有问题。
