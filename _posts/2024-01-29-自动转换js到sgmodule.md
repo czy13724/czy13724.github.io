@@ -94,7 +94,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: sgmodule-artifacts
-          path: ${{ github.workspace }}/surge
+          path: ${{ github.workspace }}/Surge
         
       - name: Push to Quantumult-X Repository
         run: |
@@ -108,7 +108,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-注意：上述工作流中，你需要将第9行的*scripts*替换为你想要存放js的文件夹名称（以下以qx为例），第12行的*Surge*替换为你想要存放sgmodule的文件夹名称（以下以surge为例）。第50行的*Add converted sgmodule file*可改可不改。
+注意：上述工作流中，你需要将第9行的*scripts*替换为你想要存放js的文件夹名称（以下以qx为例），第12行和第42行的*Surge*替换为你想要存放sgmodule的文件夹名称（以下以surge为例）。第50行的*Add converted sgmodule file*可改可不改。
 如果你直接复制的上述工作流，需要将第36行、第53行内容补全，
 ![04]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/04.png)
 
