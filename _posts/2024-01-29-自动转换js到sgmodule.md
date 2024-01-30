@@ -219,11 +219,11 @@ scripts，将其修改为工作流改动的文件夹名称（以qx为例）；
 
 Surge也要修改为工作流改动的文件夹名称（以surge为例）。
 
-project_desc双引号内容可以修改。（可选）
+第27行：project_desc双引号内容可以修改。（可选）
 
 *Adding a dummy change to trigger git commit*可以修改，但注意保留双引号内其他内容。（可选）
 
 
 添加完成之后你的分支如下图所示：
 ![05]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/05.png)
-手动运行一次检查是否运行成功，如运行失败则点开失败日志查看详情，如遇到js format提示说明有某脚本出现问题，请自行移除即可。
+手动运行一次检查是否运行成功，如运行失败则点开失败日志查看详情，如遇到invalid js format提示说明有某脚本出现问题，请自行移除即可。
