@@ -118,6 +118,9 @@ jobs:
 在仓库添加完工作流后，仓库根目录会多出一个.github的文件夹，在该文件夹下创建一个新的文件夹名为scripts（注意此处的名称和工作流内的不是一个文件夹，请不要更改该文件夹名称），在.github/scripts下新建一个名为*convert_js_to_sgmodule.py*的文件，并复制粘贴[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/scripts/convert_js_to_sgmodule.py)的内容保存。
 
 ```python
+# author:Levi
+# 搭配convert js to sgmodule.yml使用。可将qx的js文件转换为sgmodule文件。
+
 import os
 import re
 
@@ -205,7 +208,8 @@ def main():
                 os.system('git commit -m "Trigger update"')
 
 if __name__ == "__main__":
-    main()```
+    main()
+```
 
 上述内容需要修改的内容如图所示：
 ![06]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/06.png)
