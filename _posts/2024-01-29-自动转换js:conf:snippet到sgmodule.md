@@ -30,12 +30,12 @@ tags:
 ### 脚本问题
 
 - 目前脚本已支持转换重写规则为多条规则的脚本。如有问题请等待完善修复。
-- <span style="color:red;">由于测试阶段，js、conf、snippet文件内容必须含有**[rewrite_local]**和**[mitm]**/**[MITM]**；如为[Mitm]或其他格式会导致无法匹配。</span>
+- <span style="color:red;">由于测试阶段，js、conf、snippet文件内容必须含有**[rewrite_local]**和**[mitm]**/**[MITM]**；如为[Mitm]或其他格式会导致无法匹配。如文件中没有**[rewrite_local]**和**[mitm]**/**[MITM]**该参数则会跳过转换该文件，请在工作流日志中查看转换详情。</span>
 - 脚本内如存在***项目名称***和***使用说明***，则会自动匹配；如没有该内容则会提取raw链接的文件名作为sgmodule的文件名及其描述。
-- 偶现上传一个脚本所有脚本更新情况（因为防止脚本不更新情况出现，如不需要则移除py脚本中# Add a dummy change and commit部分内容）。
+- 偶现上传一个脚本所有脚本更新情况（为了防止脚本不更新情况出现而设定，如不需要则移除py脚本中# Add a dummy change and commit部分内容）。
 - 使用者如有某部分匹配为空的情况，请应检查完善sgmodule丢失内容。
-- 使用者在使用脚本时需注意尽量不要在**[rewrite_local]**和**[mitm]**/**[MITM]**内容里带有注释，如有注释可能有偶现匹配失败的情况。
-- 本脚本已增加识别是否存在[task_local]，支持转换。
+- 开发者在使用脚本时需注意尽量不要在**[rewrite_local]**和**[mitm]**/**[MITM]**内容里带有注释，如有注释可能有偶现匹配丢失规则的情况。
+- 本脚本已增加识别是否存在[task_local]并转换。
 
 ## 简明教程
 
@@ -111,13 +111,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-注意：上述工作流中，你需要将第9行的*scripts*替换为你想要存放js的文件夹名称（以下以qx为例），第12行和第42行的*Surge*替换为你想要存放sgmodule的文件夹名称（以下以surge为例）。第50行的*Add converted sgmodule file*可改可不改。
-如果你直接复制的上述工作流，需要将第36行、第53行内容补全，
+注意在上述工作流中，你需要将
+第9行的*scripts*替换为你想要存放js的文件夹名称（以下以qx为例），
+第12行和第42行的*Surge*替换为你想要存放sgmodule的文件夹名称（以下以surge为例）。
+第50行的*Add converted sgmodule file*可改可不改。
+
+⚠️如果你选择直接复制本文中上述工作流，需要按照图示内容补全，
 ![04]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/04.png)
 
 #### 添加py脚本
 
-在仓库添加完工作流后，仓库根目录会多出一个.github的文件夹，在该文件夹下创建一个新的文件夹名为scripts（注意此处的名称和工作流内的不是一个文件夹，请不要更改该文件夹名称），在.github/scripts下新建一个名为*convert_js_to_sgmodule.py*的文件，并复制粘贴[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/scripts/convert_js_to_sgmodule.py)的内容保存。
+在仓库添加完工作流后，仓库根目录会多出一个.github的文件夹，在该文件夹下创建一个新的文件夹名为scripts<span style="color:red;">（注意此处的名称和工作流内的不是一个文件夹，请不要更改该文件夹名称）</span>，在.github/scripts下新建一个名为*convert_js_to_sgmodule.py*的文件，并复制粘贴[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/scripts/convert_js_to_sgmodule.py)的内容保存。
 
 ```python
 # author:Levi
@@ -230,7 +234,7 @@ def main():
                 
                 if sgmodule_content is None:
                     # Skip files without the required sections
-                    print(f"跳过 {file_name} 由于文件缺失匹配内容，请仔细检查.")
+                    print(f"跳过 {file_name} ，由于文件缺失匹配内容，请仔细检查.")
                     continue
 
                 # Write sgmodule content to 'Surge' folder
@@ -256,9 +260,9 @@ if __name__ == "__main__":
 上述内容需要修改的内容如图所示（脚本已更新，但图示没有更换，找到对应位置修改即可）：
 ![06]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/06.png)
 
-scripts，将其修改为工作流改动的文件夹名称（以qx为例）；
+scripts，将其修改为工作流改动的文件夹名称（以qx为例，即scripts->qx）；
 
-Surge也要修改为工作流改动的文件夹名称（以surge为例）。
+Surge也要修改为工作流改动的文件夹名称（以surge为例，即Surge->surge）。
 
 第52行：project_desc双引号内容可以修改。（可选）
 
