@@ -1,10 +1,10 @@
 ---
 layout: post
-title: 自动将qx专用js/conf/snippet文件转换为sgmodule文件
-subtitle: " \"Automate convert qx's js/conf/snippet to sgmodule\""
-date: 2024-01-29 12:45:06
+title: 自动将qx专用js/conf/snippet文件转换为plugin文件
+subtitle: " \"Automate convert qx's js/conf/snippet to plugin\""
+date: 2024-01-31 17:15:06
 author: "Levi"
-header-img: img/bg/image_28.jpg
+header-img: img/bg/image_29.jpg
 catalog: true
 tags:
     - 教程
@@ -12,8 +12,8 @@ tags:
     - workflow
 ---
 
-> “Figure out what you like. Try to become the best in the world of it. ”
-> “找到你喜欢做的事，并努力成为这个领域里的顶尖人物。”
+> “If you can do what you do best and be happy, you're further along in life than most people. ”
+> “只要能把自己的事做好，并让自己快乐，你就领先于大多数人了。”
 
 
 <span style="color:blue;">本文只针对习惯写qx脚本的作者。如你不是写qx脚本的作者请忽略本文。如转换有问题，请单独使用script-hub进行转换。</span>
@@ -24,16 +24,16 @@ tags:
 
 ### 脚本用途
 
-- 脚本是将qx的js、conf、snippet格式的脚本自动转换为sgmodule的文件。
-- 脚本自动监测存放js、conf、snippet文件夹下的改动自动运行。只需要存放js、conf、snippet的文件夹，如监测不到存放sgmodule的文件夹会自动创建surge文件夹。
+- 脚本是将qx的js、conf、snippet格式的脚本自动转换为plugin的文件。
+- 脚本自动监测存放js、conf、snippet文件夹下的改动自动运行。只需要存放js、conf、snippet的文件夹，如监测不到存放plugin的文件夹会自动创建Loon文件夹。
 
 ### 脚本问题
 
 - 目前脚本已支持转换重写规则为多条规则的脚本。如有问题请等待完善修复。
 - <span style="color:red;">由于测试阶段，js、conf、snippet文件内容必须含有**[rewrite_local]**和**[mitm]**/**[MITM]**；如为[Mitm]或其他格式会导致无法匹配。如文件中没有**[rewrite_local]**和**[mitm]**/**[MITM]**该参数则会跳过转换该文件，请在工作流日志中查看转换详情。</span>
-- 脚本内如存在***项目名称***和***使用说明***，则会自动匹配；如没有该内容则会提取raw链接的文件名作为sgmodule的文件名及其描述。
+- 脚本内如存在***项目名称***和***使用说明***，则会自动匹配；如没有该内容则会提取raw链接的文件名作为plugin的文件名及其描述。
 - 偶现上传一个脚本所有脚本更新情况（为了防止脚本不更新情况出现而设定，如不需要则移除py脚本中# Add a dummy change and commit部分内容）。
-- 使用者如有某部分匹配为空的情况，请应检查完善sgmodule丢失内容。
+- 使用者如有某部分匹配为空的情况，请应检查完善plugin丢失内容。
 - 开发者在使用脚本时需注意尽量不要在**[rewrite_local]**和**[mitm]**/**[MITM]**内容里带有注释，如有注释可能有偶现匹配丢失规则的情况。
 - 本脚本已增加识别是否存在[task_local]并转换。
 
@@ -45,21 +45,21 @@ tags:
 
 #### 添加工作流
 
-首先来到自己即将存放js文件的仓库下，点击settings，点击actions，滑到底部的Workflow permissions这里，勾选read and write permission，给予工作流写入权限。![01]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/01.png)
+首先来到自己即将存放js文件的仓库下，点击settings，点击actions，滑到底部的Workflow permissions这里，勾选read and write permission，给予工作流写入权限。![01]({{site.baseurl}}/img/workflow_convert_js_to_plugin/01.png)
 
-![02]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/02.png)
+![02]({{site.baseurl}}/img/workflow_convert_js_to_plugin/02.png)
 
-点击下图中所示的*actions*。点击*new workflow*。![03]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/03.png)
+点击下图中所示的*actions*。点击*new workflow*。![03]({{site.baseurl}}/img/workflow_convert_js_to_plugin/03.png)
 
-填入文件名称：*convert_js_to_sgmodule.yml*。将[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/workflows/convert_js_to_sgmodule.yml)的内容进行复制粘贴进来保存。
+填入文件名称：*convert_js_to_plugin.yml*。将[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/workflows/convert_js_to_plugin.yml)的内容进行复制粘贴进来保存。
 
 或复制该文本内容（建议通过链接复制）：
 
 ```python
 # author:Levi
-# 搭配convert js to sgmodule.py使用。可将qx的js/conf/snippet文件转换为sgmodule文件。
+# 搭配convert js to plugin.py使用。可将qx的js/conf/snippet文件转换为plugin文件。
 
-name: convert js to sgmodule
+name: convert_js_to_plugin
 
 on:
   push:
@@ -67,11 +67,11 @@ on:
       - 'scripts/**' # Trigger on changes in scripts folder
   pull_request:
     paths:
-      - 'Surge/**' # Trigger on changes in Surge folder
+      - 'Loon/**' # Trigger on changes in surge folder
   workflow_dispatch:
 
 jobs:
-  generate_sgmodule:
+  generate_plugin:
     runs-on: ubuntu-latest
 
     steps:
@@ -89,52 +89,50 @@ jobs:
           pip install PyGithub
 
       - name: Run script
-        run: python .github/scripts/convert_js_to_sgmodule.py
+        run: python .github/scripts/convert_js_to_plugin.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: sgmodule-artifacts
-          path: ${{ github.workspace }}/Surge
+          name: plugin-artifacts
+          path: ${{ github.workspace }}/Loon
         
-      - name: Push to Quantumult-X Repository
+      - name: Push to TEST Repository
         run: |
           set -x
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git add .
-          git commit -m "Add converted sgmodule file"
+          git commit -m "Add generated plugin file"
           git push origin HEAD:main --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
 注意在上述工作流中，你需要将
-第9行的*scripts*替换为你想要存放js的文件夹名称（以下以qx为例），
-第12行和第42行的*Surge*替换为你想要存放sgmodule的文件夹名称（以下以surge为例）。
-第50行的*Add converted sgmodule file*可改可不改。
+第9行的*scripts*替换为你想要存放js/conf/snippet的文件夹名称（以下以qx为例），
+第12行和第42行的*Loon*替换为你想要存放plugin的文件夹名称（以下以loon为例）。
+第50行的*Add converted plugin file*可改可不改。
 
 ⚠️如果你选择直接复制本文中上述工作流，需要按照图示内容补全，
-![04]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/04.png)
+![04]({{site.baseurl}}/img/workflow_convert_js_to_plugin/04.png)
 
 #### 添加py脚本
 
-在仓库添加完工作流后，仓库根目录会多出一个.github的文件夹，在该文件夹下创建一个新的文件夹名为scripts<span style="color:red;">（注意此处的名称和工作流内的不是一个文件夹，请不要更改该文件夹名称）</span>，在.github/scripts下新建一个名为*convert_js_to_sgmodule.py*的文件，并复制粘贴[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/scripts/convert_js_to_sgmodule.py)的内容保存。
+在仓库添加完工作流后，仓库根目录会多出一个.github的文件夹，在该文件夹下创建一个新的文件夹名为scripts<span style="color:red;">（注意此处的名称和工作流内的不是一个文件夹，请不要更改该文件夹名称）</span>，在.github/scripts下新建一个名为*convert_js_to_plugin.py*的文件，并复制粘贴[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/scripts/convert_js_to_plugin.py)的内容保存。
 
 ```python
 # author:Levi
-# 搭配convert js to sgmodule.yml使用。可将qx的js文件转换为sgmodule文件。
+# 搭配convert_js_to_plugin.yml使用。可将qx的js/conf/snippet文件转换为plugin文件。
 
 import os
 import re
 
-def insert_append(content):
-    # Insert %APPEND% after the first '=' sign
-    return re.sub(r'=', '= %APPEND%', content, count=1)
+def task_local_to_plugin(js_content):
+    from typing import Optional  # Import the Optional type
 
-def task_local_to_sgmodule(js_content):
     task_local_content = ''
     # Check if [task_local] section exists
     task_local_block_match = re.search(r'\[task_local\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
@@ -148,12 +146,12 @@ def task_local_to_sgmodule(js_content):
             script_url = script_url.split(',')[0]
             # Extract the file name from the link to use as the tag
             tag = os.path.splitext(os.path.basename(script_url))[0]
-            # Construct the SGModule cron task section
-            task_local_content = f"{tag} = type=cron, cronexp=\"{cronexp}\", script-path={script_url}\n"
+            # Construct the plugin cron task section
+            task_local_content = f"cron \"{cronexp}\" script-path={script_url}, tag={tag}\n"
     # Return the task_local section content, if any
     return task_local_content
 
-def js_to_sgmodule(js_content):
+def js_to_plugin(js_content):
     # Check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
     if not (re.search(r'\[rewrite_local\]', js_content, re.IGNORECASE) or
             re.search(r'\[mitm\]', js_content, re.IGNORECASE) or
@@ -166,6 +164,9 @@ def js_to_sgmodule(js_content):
     mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
     hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
 
+    img_url_match = re.search(r'img-url\s*=\s*(https?://[^\s]+)', js_content)
+    img_url = img_url_match.group(1) if img_url_match else ""
+    
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
         url_pattern = r'url\s+script-(?:response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+.*?)$'
@@ -184,20 +185,22 @@ def js_to_sgmodule(js_content):
     mitm_content = mitm_match.group(1).strip() if mitm_match else ''
     hostname_content = hostname_match.group(1).strip() if hostname_match else ''
 
-    # Insert %APPEND% into mitm and hostname content
-    mitm_content_with_append = insert_append(mitm_content)
+    mitm_content_with_append = (mitm_content)
 
-    # Generate sgmodule content
-    sgmodule_content = f"""#!name={project_name}
+    # Generate plugin content
+    plugin_content = f"""#!name={project_name}
 #!desc={project_desc}
-[MITM]
-{mitm_content_with_append}
-[Script]
 """
+# Add the icon url to the plugin content if it exists
+    if img_url:
+        plugin_content += f"#!icon={img_url}\n"
+
+    
+    plugin_content += f"[MITM]\n{mitm_content_with_append}\n[Script]\n"
 
     # convert and add [task_local] section
-    task_local_sgmodule_content = task_local_to_sgmodule(js_content)
-    sgmodule_content += task_local_sgmodule_content
+    task_local_plugin_content = task_local_to_plugin(js_content)
+    plugin_content += task_local_plugin_content
     
     # Regex pattern to find rewrite_local
     rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
@@ -208,10 +211,10 @@ def js_to_sgmodule(js_content):
         script_type = match.group(2).replace('-body', '').replace('-header', '').strip()
         script_path = match.group(3).strip()
 
-        # Append the rewrite rule to the SGModule content
-        sgmodule_content += f"{project_name} = type=http-{script_type},pattern={pattern},script-path={script_path}\n"
+        # Append the rewrite rule to the plugin content
+        plugin_content += f"http-{script_type} {pattern},script-path={script_path}, tag={project_name}\n"
 
-    return sgmodule_content
+    return plugin_content
 
 
 def main():
@@ -229,27 +232,25 @@ def main():
             # File extension check for .js, .conf, or .snippet
             file_path = os.path.join(qx_folder_path, file_name)
             with open(file_path, 'r', encoding='utf-8') as file:
-                content = file.read()
-                sgmodule_content = js_to_sgmodule(content)
+                js_content = file.read()
+                plugin_content = js_to_plugin(js_content)
                 
-                if sgmodule_content is None:
+                if plugin_content is not None:
+                    # Write plugin content to 'Loon' folder if plugin_content is not None
+                    loon_folder_path = 'Loon'
+                    os.makedirs(loon_folder_path, exist_ok=True)
+                    plugin_file_path = os.path.join(loon_folder_path, f"{os.path.splitext(file_name)[0]}.plugin")
+                    
+                    with open(plugin_file_path, "w", encoding="utf-8") as plugin_file:
+                        plugin_file.write(plugin_content)
+                    print(f"Generated {plugin_file_path}")
+                else:
                     # Skip files without the required sections
-                    print(f"跳过 {file_name} ，由于文件缺失匹配内容，请仔细检查.")
-                    continue
-
-                # Write sgmodule content to 'Surge' folder
-                surge_folder_path = 'Surge'
-                os.makedirs(surge_folder_path, exist_ok=True)
-                sgmodule_file_path = os.path.join(surge_folder_path, f"{os.path.splitext(file_name)[0]}.sgmodule")
-                with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
-                    sgmodule_file.write(sgmodule_content)
-
-                print(f"Generated {sgmodule_file_path}")
+                    print(f"跳过 {file_name} 由于文件缺失匹配内容，请仔细检查.")
 
                 # Since we're simulating a git operation, we'll do this for all file types
                 with open(file_path, 'a', encoding='utf-8') as file:
-                    file.write("\n// Adding a dummy change to trigger git commit\n")
-
+                    file.write("\n// Adding a dummy plugin change to trigger git commit\n")
                 os.system(f'git add {file_path}')
                 os.system('git commit -m "Trigger update"')
 
@@ -257,20 +258,20 @@ if __name__ == "__main__":
     main()
 ```
 
-上述内容需要修改的内容如图所示（脚本已更新，但图示没有更换，找到对应位置修改即可）：
-![06]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/06.png)
+上述内容需要修改的内容如图所示：
+![05]({{site.baseurl}}/img/workflow_convert_js_to_plugin/05.png)
 
 scripts，将其修改为工作流改动的文件夹名称（以qx为例，即scripts->qx）；
 
-Surge也要修改为工作流改动的文件夹名称（以surge为例，即Surge->surge）。
+Loon也要修改为工作流改动的文件夹名称（以loon为例，即Loon->loon）。
 
-第52行：project_desc双引号内容可以修改。（可选）
+第53行：project_desc双引号内容可以修改。（可选）
 
-*Adding a dummy change to trigger git commit*可以修改，但注意保留双引号内其他内容。（可选）
+*Adding a dummy plugin change to trigger git commit*可以修改，但注意保留双引号内其他内容。（可选）
 
 
 添加完成之后你的分支如下图所示：
-![05]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/05.png)
+![06]({{site.baseurl}}/img/workflow_convert_js_to_plugin/06.png)
 手动运行一次检查是否运行成功，如运行失败则点开失败日志查看详情，如遇到*文件内容匹配错误*说明有某脚本出现问题，请自行移除即可。
 
 ## 免责声明
