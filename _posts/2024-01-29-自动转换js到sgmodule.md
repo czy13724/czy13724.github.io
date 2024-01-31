@@ -1,7 +1,7 @@
 ---
 layout: post
-title: 自动将qx专用js文件转换为sgmodule文件
-subtitle: " \"Automate convert qx's js to sgmodule\""
+title: 自动将qx专用js/conf/snippet文件转换为sgmodule文件
+subtitle: " \"Automate convert qx's js/conf/snippet to sgmodule\""
 date: 2024-01-29 12:45:06
 author: "Levi"
 header-img: img/bg/image_28.jpg
@@ -15,7 +15,7 @@ tags:
 > “找到你喜欢做的事，并努力成为这个领域里的顶尖人物。”
 
 
-<span style="color:red;">本文只针对习惯写qx脚本的作者。如你不是写qx脚本的作者请忽略本文。如转换有问题，请单独使用script-hub进行转换。</span>
+<span style="color:blue;">本文只针对习惯写qx脚本的作者。如你不是写qx脚本的作者请忽略本文。如转换有问题，请单独使用script-hub进行转换。</span>
 
 
 
@@ -23,21 +23,22 @@ tags:
 
 ### 脚本用途
 
-- 脚本是将qx的js格式的脚本自动转换为sgmodule的文件。
-- 脚本自动监测存放js文件夹下的改动自动运行。只需要存放js的文件夹，如监测不到存放sgmodule的文件夹会自动创建surge文件夹。
+- 脚本是将qx的js、conf、snippet格式的脚本自动转换为sgmodule的文件。
+- 脚本自动监测存放js、conf、snippet文件夹下的改动自动运行。只需要存放js、conf、snippet的文件夹，如监测不到存放sgmodule的文件夹会自动创建surge文件夹。
 
 ### 脚本问题
 
-- 目前脚本支持转换重写规则为多条规则的脚本。如有问题请等待完善修复。
-- 由于测试阶段，js文件内容必须含有**[rewrite_local]**和**[mitm]**/**[MITM]**；如为[Mitm]或其他格式会导致无法匹配。
+- 目前脚本已支持转换重写规则为多条规则的脚本。如有问题请等待完善修复。
+- <span style="color:red;">由于测试阶段，js、conf、snippet文件内容必须含有**[rewrite_local]**和**[mitm]**/**[MITM]**；如为[Mitm]或其他格式会导致无法匹配。</span>
 - 脚本内如存在***项目名称***和***使用说明***，则会自动匹配；如没有该内容则会提取raw链接的文件名作为sgmodule的文件名及其描述。
 - 偶现上传一个脚本所有脚本更新情况（因为防止脚本不更新情况出现，如不需要则移除py脚本中# Add a dummy change and commit部分内容）。
 - 使用者如有某部分匹配为空的情况，请应检查完善sgmodule丢失内容。
-- 使用者在使用脚本时需注意不要在**[rewrite_local]**和**[mitm]**/**[MITM]**内容里带有注释，否则会匹配失败。
+- 使用者在使用脚本时需注意尽量不要在**[rewrite_local]**和**[mitm]**/**[MITM]**内容里带有注释，如有注释可能有偶现匹配失败的情况。
+- 本脚本已增加识别是否存在[task_local]，支持转换。
 
 ## 简明教程
 
-如不需要个性化文件夹名称，只需要将工作流及其脚本放置在对应的仓库下并给予工作流写入权限即可。然后将你的js文件放置在名为*scripts*的文件夹内即可。
+如不需要个性化文件夹名称，只需要将工作流及其脚本放置在对应的仓库下并给予工作流写入权限即可。然后将你的js、conf、snippet文件放置在名为*scripts*的文件夹内即可。
 
 ## 详细教程
 
@@ -128,7 +129,32 @@ def insert_append(content):
     # Insert %APPEND% after the first '=' sign
     return re.sub(r'=', '= %APPEND%', content, count=1)
 
+def task_local_to_sgmodule(js_content):
+    task_local_content = ''
+    # Check if [task_local] section exists
+    task_local_block_match = re.search(r'\[task_local\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
+    if task_local_block_match:
+        task_local_block = task_local_block_match.group(1)
+        # Match the first link in the [task_local] section and its preceding cron expression
+        task_local_match = re.search(r'((?:0\s+\d{1,2},\d{1,2},\d{1,2}\s+.*?)+)\s+(https?://\S+)', task_local_block)
+        if task_local_match:
+            cronexp, script_url = task_local_match.groups()
+            # Ensure script-path does not include anything after a comma in the URL
+            script_url = script_url.split(',')[0]
+            # Extract the file name from the link to use as the tag
+            tag = os.path.splitext(os.path.basename(script_url))[0]
+            # Construct the SGModule cron task section
+            task_local_content = f"{tag} = type=cron, cronexp=\"{cronexp}\", script-path={script_url}\n"
+    # Return the task_local section content, if any
+    return task_local_content
+
 def js_to_sgmodule(js_content):
+    # Check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
+    if not (re.search(r'\[rewrite_local\]', js_content, re.IGNORECASE) or
+            re.search(r'\[mitm\]', js_content, re.IGNORECASE) or
+            re.search(r'\[MITM\]', js_content, re.IGNORECASE)):
+        return None
+    
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
@@ -142,7 +168,7 @@ def js_to_sgmodule(js_content):
         if last_part_match:
             project_name = os.path.splitext(os.path.basename(last_part_match.group(1).strip()))[0]
         else:
-            raise ValueError("Invalid JS file format")
+            raise ValueError("文件内容匹配错误，请按照要求修改，详情请按照levifree.tech文章内容修改")
 
         project_desc = f"{project_name} is automatically converted by LEVI SCRIPT; if not available plz use Script-Hub."
 
@@ -164,6 +190,10 @@ def js_to_sgmodule(js_content):
 [Script]
 """
 
+    # convert and add [task_local] section
+    task_local_sgmodule_content = task_local_to_sgmodule(js_content)
+    sgmodule_content += task_local_sgmodule_content
+    
     # Regex pattern to find rewrite_local
     rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
     rewrite_local_matches = re.finditer(rewrite_local_pattern, js_content, re.MULTILINE)
@@ -178,19 +208,29 @@ def js_to_sgmodule(js_content):
 
     return sgmodule_content
 
+
 def main():
-    # Process each file in the 'scripts' folder
+    # Process files in the 'scripts' folder
     qx_folder_path = 'scripts'
     if not os.path.exists(qx_folder_path):
         print(f"Error: {qx_folder_path} does not exist.")
         return
 
+    # Define the supported file extensions
+    supported_extensions = ('.js', '.conf', '.snippet')
+
     for file_name in os.listdir(qx_folder_path):
-        if file_name.endswith(".js"):
+        if file_name.endswith(supported_extensions):
+            # File extension check for .js, .conf, or .snippet
             file_path = os.path.join(qx_folder_path, file_name)
-            with open(file_path, 'r', encoding='utf-8') as js_file:
-                js_content = js_file.read()
-                sgmodule_content = js_to_sgmodule(js_content)
+            with open(file_path, 'r', encoding='utf-8') as file:
+                content = file.read()
+                sgmodule_content = js_to_sgmodule(content)
+                
+                if sgmodule_content is None:
+                    # Skip files without the required sections
+                    print(f"跳过 {file_name} 由于文件缺失匹配内容，请仔细检查.")
+                    continue
 
                 # Write sgmodule content to 'Surge' folder
                 surge_folder_path = 'Surge'
@@ -201,9 +241,9 @@ def main():
 
                 print(f"Generated {sgmodule_file_path}")
 
-                # Add a dummy change and commit
-                with open(file_path, 'a', encoding='utf-8') as js_file:
-                    js_file.write("\n// Adding a dummy change to trigger git commit\n")
+                # Since we're simulating a git operation, we'll do this for all file types
+                with open(file_path, 'a', encoding='utf-8') as file:
+                    file.write("\n// Adding a dummy change to trigger git commit\n")
 
                 os.system(f'git add {file_path}')
                 os.system('git commit -m "Trigger update"')
@@ -212,18 +252,32 @@ if __name__ == "__main__":
     main()
 ```
 
-上述内容需要修改的内容如图所示：
+上述内容需要修改的内容如图所示（脚本已更新，但图示没有更换，找到对应位置修改即可）：
 ![06]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/06.png)
 
 scripts，将其修改为工作流改动的文件夹名称（以qx为例）；
 
 Surge也要修改为工作流改动的文件夹名称（以surge为例）。
 
-第27行：project_desc双引号内容可以修改。（可选）
+第49行：project_desc双引号内容可以修改。（可选）
 
 *Adding a dummy change to trigger git commit*可以修改，但注意保留双引号内其他内容。（可选）
 
 
 添加完成之后你的分支如下图所示：
 ![05]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/05.png)
-手动运行一次检查是否运行成功，如运行失败则点开失败日志查看详情，如遇到invalid js format提示说明有某脚本出现问题，请自行移除即可。
+手动运行一次检查是否运行成功，如运行失败则点开失败日志查看详情，如遇到*文件内容匹配错误*说明有某脚本出现问题，请自行移除即可。
+
+## 免责声明
+
+* 项目内所涉及脚本、LOGO 仅为资源共享、学习参考之目的，不保证其合法性、正当性、准确性；切勿使用项目做任何商业用途或牟利；
+* 遵循避风港原则，若有图片和内容侵权，请在 Issues 告知，核实后删除，其版权均归原作者及其网站所有；
+* 本人不对任何内容承担任何责任，包括但不限于任何内容错误导致的任何损失、损害;
+* 其它人通过任何方式登陆本网站或直接、间接使用项目相关资源，均应仔细阅读本声明，一旦使用、转载项目任何相关教程或资源，即被视为您已接受此免责声明。
+* 本项目内所有资源文件，禁止任何公众号、自媒体进行任何形式的转载、发布。
+* 本项目涉及的数据由使用的个人或组织自行填写，本项目不对数据内容负责，包括但不限于数据的真实性、准确性、合法性。使用本项目所造成的一切后果，与本项目的所有贡献者无关，由使用的个人或组织完全承担。
+* 本项目中涉及的第三方硬件、软件等，与本项目没有任何直接或间接的关系。本项目仅对部署和使用过程进行客观描述，不代表支持使用任何第三方硬件、软件。使用任何第三方硬件、软件，所造成的一切后果由使用的个人或组织承担，与本项目无关。
+* 本项目中所有内容只供学习和研究使用，不得将本项目中任何内容用于违反国家/地区/组织等的法律法规或相关规定的其他用途。
+* 所有基于本项目源代码，进行的任何修改，为其他个人或组织的自发行为，与本项目没有任何直接或间接的关系，所造成的一切后果亦与本项目无关。
+* 所有直接或间接使用本项目的个人和组织，应24小时内完成学习和研究，并及时删除本项目中的所有内容。如对本项目的功能有需求，应自行开发相关功能。
+* 本项目保留随时对免责声明进行补充或更改的权利，直接或间接使用本项目内容的个人或组织，视为接受本项目的特别声明。
