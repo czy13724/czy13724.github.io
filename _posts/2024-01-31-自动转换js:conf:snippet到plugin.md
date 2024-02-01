@@ -274,6 +274,32 @@ Loon也要修改为工作流改动的文件夹名称（以loon为例，即Loon->
 ![06]({{site.baseurl}}/img/workflow_convert_js_to_plugin/06.png)
 手动运行一次检查是否运行成功，如运行失败则点开失败日志查看详情，如遇到*文件内容匹配错误*说明有某脚本出现问题，请自行移除即可。
 
+## 模版
+
+可以参考以下模版进行撰写文件。
+⚠️<span style="color:red;">撰写脚本时必须含有**[rewrite_local]**、**[mitm]**/**[MITM]**、**hostname**字符。[task_local]为可选项。</span>
+```python
+/*
+项目名称：demo1
+使用说明：demo1。
+...
+*/
+
+[rewrite_local]
+# 第一条重写规则（尽量不要写该注释）
+^https:\/\/api.example.com\/v1\/user\/profile url script-response-body https://raw.githubusercontent.com/user/repo/main/scripts/demo1.js
+# 第二条重写规则（尽量不要写该注释）
+^https:\/\/shop.example.com\/api\/list url script-request-header https://raw.githubusercontent.com/user/repo/main/scripts/demo2.js
+
+[mitm]
+hostname = api.example1.com, shop.example2.com
+
+[task_local]
+1 */6 * * * https://raw.githubusercontent.com/user/repo/main/scripts/demo.js, tag=demo, img-url=https://example.com/icon.png, enabled=true
+```
+
+
+
 ## 免责声明
 
 * 项目内所涉及脚本、LOGO 仅为资源共享、学习参考之目的，不保证其合法性、正当性、准确性；切勿使用项目做任何商业用途或牟利；
