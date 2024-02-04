@@ -277,7 +277,7 @@ if __name__ == "__main__":
 上述内容需要修改的内容如图所示：
 ![06]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/06.png)
 
-scripts，将其修改为工作流改动的文件夹名称（以qx为例，即scripts->qx）；
+scripts将其修改为工作流改动的文件夹名称（以qx为例，即scripts->qx）；
 
 Surge也要修改为工作流改动的文件夹名称（以surge为例，即Surge->surge）。
 

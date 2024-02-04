@@ -322,7 +322,7 @@ if __name__ == "__main__":
 上述内容需要修改的内容如图所示：
 ![05]({{site.baseurl}}/img/workflow_convert_js_to_stoverride/05.png)
 
-scripts，将其修改为工作流改动的文件夹名称（以qx为例，即scripts->qx）；
+scripts将其修改为工作流改动的文件夹名称（以qx为例，即scripts->qx）；
 
 Stash也要修改为工作流改动的文件夹名称（以stash为例，即Stash->stash）。
 
