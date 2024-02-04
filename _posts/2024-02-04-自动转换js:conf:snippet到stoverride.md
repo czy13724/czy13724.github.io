@@ -1,10 +1,10 @@
 ---
 layout: post
-title: 自动将qx专用js/conf/snippet文件转换为sgmodule文件
-subtitle: " \"Automate convert qx's js/conf/snippet to sgmodule\""
-date: 2024-01-29 12:45:06
+title: 自动将qx专用js/conf/snippet文件转换为stoverride文件
+subtitle: " \"Automate convert qx's js/conf/snippet to stoverride\""
+date: 2024-02-04 22:15:06
 author: "Levi"
-header-img: img/bg/image_28.jpg
+header-img: img/bg/image_30.jpg
 catalog: true
 tags:
     - 教程
@@ -12,8 +12,8 @@ tags:
     - workflow
 ---
 
-> “Figure out what you like. Try to become the best in the world of it. ”
-> “找到你喜欢做的事，并努力成为这个领域里的顶尖人物。”
+> “Pains make you stronger, tears make you braver, and heartbreaks make you wiser. So thank the past for a better future. ”
+> “伤痛让你更坚强，眼泪让你更勇敢，心碎让你更明智，所以，感谢过去，给我们带来更好的未来。”
 
 
 <span style="color:blue;">本文只针对习惯写qx脚本的作者。如你不是写qx脚本的作者请忽略本文。如转换有问题，请单独使用script-hub进行转换。</span>
@@ -24,16 +24,16 @@ tags:
 
 ### 脚本用途
 
-- 脚本是将qx的js、conf、snippet格式的脚本自动转换为sgmodule的文件。
-- 脚本自动监测存放js、conf、snippet文件夹下的改动自动运行。只需要存放js、conf、snippet的文件夹，如监测不到存放sgmodule的文件夹会自动创建Surge文件夹。
+- 脚本是将qx的js、conf、snippet格式的脚本自动转换为stoverride的文件。
+- 脚本自动监测存放js、conf、snippet文件夹下的改动自动运行。只需要存放js、conf、snippet的文件夹，如监测不到存放stoverride的文件夹会自动创建Stash文件夹。
 
 ### 脚本问题
 
 - 目前脚本已支持转换重写规则为多条规则的脚本。如有问题请等待完善修复。
 - <span style="color:red;">由于测试阶段，js、conf、snippet文件内容必须含有**[rewrite_local]**和**[mitm]**/**[MITM]**；如为[Mitm]或其他格式会导致无法匹配。如文件中没有**[rewrite_local]**和**[mitm]**/**[MITM]**该参数则会跳过转换该文件，请在工作流日志中查看转换详情。</span>
-- 脚本内如存在***项目名称***和***使用说明***，则会自动匹配；如没有该内容则会提取raw链接的文件名作为sgmodule的文件名及其描述。
-- 偶现上传一个脚本所有脚本更新情况（为了防止脚本不更新情况出现而设定，如不需要则移除py脚本中# Add a dummy sgmodule change and commit部分内容）。
-- 使用者如有某部分匹配为空的情况，请应检查完善sgmodule丢失内容。
+- 脚本内如存在***项目名称***和***使用说明***，则会自动匹配；如没有该内容则会提取raw链接的文件名作为stoverride的文件名及其描述。
+- 偶现上传一个脚本所有脚本更新情况（为了防止脚本不更新情况出现而设定，如不需要则移除py脚本中# Add a dummy stoverride change and commit部分内容）。
+- 使用者如有某部分匹配为空的情况，请应检查完善stoverride丢失内容。
 - 开发者在使用脚本时需注意尽量不要在**[rewrite_local]**和**[mitm]**/**[MITM]**内容里带有注释，如有注释可能有偶现匹配丢失规则的情况。
 - 本脚本已增加识别是否存在[task_local]并转换。
 - 本脚本转换后的文件中均含有*免责声明*，如您不喜欢该声明可以进行删除或修改。
@@ -46,33 +46,33 @@ tags:
 
 #### 添加工作流
 
-首先来到自己即将存放js/conf/snippet文件的仓库下，点击settings，点击actions，滑到底部的Workflow permissions这里，勾选read and write permission，给予工作流写入权限。![01]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/01.png)
+首先来到自己即将存放js/conf/snippet文件的仓库下，点击settings，点击actions，滑到底部的Workflow permissions这里，勾选read and write permission，给予工作流写入权限。![01]({{site.baseurl}}/img/workflow_convert_js_to_stoverride/01.png)
 
-![02]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/02.png)
+![02]({{site.baseurl}}/img/workflow_convert_js_to_stoverride/02.png)
 
-点击下图中所示的*actions*。点击*new workflow*。![03]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/03.png)
+点击下图中所示的*actions*。点击*new workflow*。![03]({{site.baseurl}}/img/workflow_convert_js_to_stoverride/03.png)
 
-填入文件名称：*convert_js_to_sgmodule.yml*。将[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/workflows/convert_js_to_sgmodule.yml)的内容进行复制粘贴进来保存。
+填入文件名称：*convert_js_to_stoverride.yml*。将[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/workflows/convert_js_to_stoverride.yml)的内容进行复制粘贴进来保存。
 
 或复制该文本内容（建议通过链接复制）：
 
 ```python
-# author:Levi
-# 搭配convert js to sgmodule.py使用。可将qx的js/conf/snippet文件转换为sgmodule文件。使用方法见博客。
+# author: Levi
+# 搭配convert_js&conf&snippet_stoverride.py使用。可将qx的js/conf/snippet文件转换为stoverride文件。
 
-name: convert js to sgmodule
+name: convert_js_to_stoverride
 
 on:
   push:
     paths:
-      - 'scripts/**' # Trigger on changes in scripts folder
+      - 'scripts/**' # Trigger on changes in 'scripts' folder
   pull_request:
     paths:
-      - 'Surge/**' # Trigger on changes in surge folder
+      - 'Stash/**' # Trigger on changes in 'Stash' folder
   workflow_dispatch:
 
 jobs:
-  generate_sgmodule:
+  generate_stoverride:
     runs-on: ubuntu-latest
 
     steps:
@@ -90,15 +90,15 @@ jobs:
           pip install PyGithub
 
       - name: Run script
-        run: python .github/scripts/convert_js_to_sgmodule.py
+        run: python .github/scripts/convert_js_to_stoverride.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: sgmodule-artifacts
-          path: ${{ github.workspace }}/Surge
+          name: stoverride-artifacts
+          path: ${{ github.workspace }}/Stash
         
       - name: Check for changes
         id: check_changes
@@ -111,7 +111,7 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git add .
-          git commit -m "已转换为sgmodule文件"
+          git commit -m "已转换为stoverride文件"
           git push origin HEAD:main --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -119,28 +119,29 @@ jobs:
 
 注意在上述工作流中，你需要将
 第9行的*scripts*替换为你想要存放js/conf/snippet的文件夹名称（以下以qx为例），
-第12行和第42行的*Surge*替换为你想要存放sgmodule的文件夹名称（以下以surge为例）。
-第55行的*已转换为sgmodule文件*可改可不改。
+第12行和第42行的*Stash*替换为你想要存放stoverride的文件夹名称（以下以stash为例）。
+第55行的*已转换为stoverride文件*可改可不改。
 
 ⚠️如果你选择直接复制本文中上述工作流，需要按照图示内容补全，
-![04]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/04.png)
+![04]({{site.baseurl}}/img/workflow_convert_js_to_stoverride/04.png)
 
 #### 添加py脚本
 
-在仓库添加完工作流后，仓库根目录会多出一个.github的文件夹，在该文件夹下创建一个新的文件夹名为scripts<span style="color:red;">（注意此处的名称和工作流内的不是一个文件夹，请不要更改该文件夹名称）</span>，在.github/scripts下新建一个名为*convert_js_to_sgmodule.py*的文件，并复制粘贴[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/scripts/convert_js_to_sgmodule.py)的内容保存。
+在仓库添加完工作流后，仓库根目录会多出一个.github的文件夹，在该文件夹下创建一个新的文件夹名为scripts<span style="color:red;">（注意此处的名称和工作流内的不是一个文件夹，请不要更改该文件夹名称）</span>，在.github/scripts下新建一个名为*convert_js_to_stoverride.py*的文件，并复制粘贴[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/scripts/convert_js_to_stoverride.py)的内容保存。
 
 ```python
-# author:Levi
-# 搭配convert js to sgmodule.yml使用。可将qx的js/conf/snippet文件转换为sgmodule文件。
+# author: Levi
+# 搭配convert_js&conf&snippet_stoverride.yml使用。可将qx的js/conf/snippet文件转换为Stash可用的stoverride文件。
 
 import os
 import re
+import random
 
-def insert_append(content):
-    # Insert %APPEND% after the first '=' sign
-    return re.sub(r'=', '= %APPEND%', content, count=1)
+# Generate a random number at the beginning to maintain consistency in usage
+random_number = random.randint(0, 99)
 
-def task_local_to_sgmodule(js_content):
+
+def task_local_to_stoverride(js_content, project_name, random_number):
     task_local_content = ''
     # Check if [task_local] section exists
     task_local_block_match = re.search(r'\[task_local\](.*?)\n\[', js_content, re.DOTALL | re.IGNORECASE)
@@ -154,12 +155,65 @@ def task_local_to_sgmodule(js_content):
             script_url = script_url.split(',')[0]
             # Extract the file name from the link to use as the tag
             tag = os.path.splitext(os.path.basename(script_url))[0]
-            # Construct the SGModule cron task section
-            task_local_content = f"{tag} = type=cron, cronexp=\"{cronexp}\", script-path={script_url}, timeout=60, wake-system=1\n"
+            # Construct the stoverride cron task section
+            task_local_content = f'cron: \n  script: \n      - name: "{project_name}_{random_number}"\n      cron: "{cronexp}"\n      timeout: 60\n'
     # Return the task_local section content, if any
     return task_local_content
 
-def js_to_sgmodule(js_content):
+
+def mitm_to_stoverride(js_content):
+    mitm_content = ''
+    # search [MITM]/[mitm] section
+    mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
+    # if found
+    if mitm_match:
+        mitm_block = mitm_match.group(1)
+        # remove "hostname ="
+        mitm_block = re.sub(r'hostname\s*=\s*', '', mitm_block)
+        # Split hostname
+        mitm_hosts = mitm_block.strip().split(',')
+        # Add "-" prefix to each hostname so that it conforms to stoverride format
+        mitm_content = '\n'.join([f'    - "{host.strip()}"' for host in mitm_hosts if host.strip()])
+    # Returns the processed MITM string
+    return mitm_content
+
+def script_to_stoverride(js_content, project_name, random_number):
+    script_content = ''
+    # match rewrite_local part
+    rewrite_matches = re.finditer(
+        r'^(.*?)(?:\s*url\s+script-(response|request)-(body|header)\s+(.*))$', 
+        js_content, 
+        re.MULTILINE
+    )
+    for match in rewrite_matches:
+        pattern, method, kind, path = match.groups()
+        stoverride_method = 'request' if method == 'request' else 'response'
+      # kind is not used for the time being, the actual process may need to change the script path according to 'body' and 'header'.
+        script_content += f'  \n  - match: {pattern.strip()}\n'
+        script_content += f'    name: {project_name}_{random_number}\n'
+        script_content += f'    type: {stoverride_method}\n'
+        script_content += f'    require-body: true\n'
+        script_content += f'    max-size: -1\n'
+        script_content += f'    timeout: 60\n'  
+    
+    return script_content
+
+def script_providers_to_stoverride(project_name, script_path):
+    # Use the same random_number for consistency
+    name = f"{project_name}_{random_number}"
+    # Use the correct script_path as url
+    url = script_path.strip()
+    interval = 86400  
+    script_providers_content = (
+        f'script-providers:\n'
+        f'  "{project_name}_{random_number}":\n'
+        f'    url: {url}\n'
+        f'    interval: {interval}\n'
+    )
+    return script_providers_content
+
+
+def js_to_stoverride(js_content):
     # Check for the presence of the [rewrite_local] and [mitm]/[MITM] sections
     if not (re.search(r'\[rewrite_local\]', js_content, re.IGNORECASE) or
             re.search(r'\[mitm\]', js_content, re.IGNORECASE) or
@@ -169,8 +223,6 @@ def js_to_sgmodule(js_content):
     # Extract information from the JS content
     name_match = re.search(r'项目名称：(.*?)\n', js_content)
     desc_match = re.search(r'使用说明：(.*?)\n', js_content)
-    mitm_match = re.search(r'\[mitm\]\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
-    hostname_match = re.search(r'hostname\s*=\s*([^=\n]+=[^\n]+)\s*', js_content, re.DOTALL | re.IGNORECASE)
 
     # If there is no project name and description, use the last part of the matched URL as the project name
     if not (name_match and desc_match):
@@ -187,48 +239,43 @@ def js_to_sgmodule(js_content):
         project_name = name_match.group(1).strip()
         project_desc = desc_match.group(1).strip()
 
-    mitm_content = mitm_match.group(1).strip() if mitm_match else ''
-    hostname_content = hostname_match.group(1).strip() if hostname_match else ''
+    # Create the final stoverride content string
+    stoverride_content = (
+        f"name: |-\n  {project_name}\ndesc: |-\n  {project_desc}\n\n"
+        "http:\n\n"
+    )
 
-    # Insert %APPEND% into mitm and hostname content
-    mitm_content_with_append = insert_append(mitm_content)
+    # Process mitm content
+    mitm_section = mitm_to_stoverride(js_content)
+    if mitm_section:
+        stoverride_content += f"  mitm:\n{mitm_section}\n"
 
-    # Generate sgmodule content
-    sgmodule_content = f"""#!name={project_name}
-#!desc={project_desc}
-#!====================================
-#!⚠️【免责声明】
-#!------------------------------------------
-#!1、此脚本仅用于学习研究，不保证其合法性、准确性、有效性，请根据情况自行判断，本人对此不承担任何保证责任。
-#!2、由于此脚本仅用于学习研究，您必须在下载后 24 小时内将所有内容从您的计算机或手机或任何存储设备中完全删除，若违反规定引起任何事件本人对此均不负责。
-#!3、请勿将此脚本用于任何商业或非法目的，若违反规定请自行对此负责。
-#!4、此脚本涉及应用与本人无关，本人对因此引起的任何隐私泄漏或其他后果不承担任何责任。
-#!5、本人对任何脚本引发的问题概不负责，包括但不限于由脚本错误引起的任何损失和损害。
-#!6、如果任何单位或个人认为此脚本可能涉嫌侵犯其权利，应及时通知并提供身份证明，所有权证明，我们将在收到认证文件确认后删除此脚本。
-#!7、所有直接或间接使用、查看此脚本的人均应该仔细阅读此声明。本人保留随时更改或补充此声明的权利。一旦您使用或复制了此脚本，即视为您已接受此免责声明。
+    # Extract the script section
+    script_section = script_to_stoverride(js_content, project_name, random_number)
+    if script_section:
+        stoverride_content += f"\n  script:{script_section}\n"
 
-[MITM]
-{mitm_content_with_append}
-[Script]
-"""
-
-    # convert and add [task_local] section
-    task_local_sgmodule_content = task_local_to_sgmodule(js_content)
-    sgmodule_content += task_local_sgmodule_content
+    # Search for the URL pattern in the rewrite_local section and retrieve the first match
+    url_pattern = r'url\s+script-(?:response-body|request-body|response-header|request-header|echo-response|analyze-echo-response)\s+(\S+)'
+    url_match = re.search(url_pattern, js_content, re.IGNORECASE)
     
-    # Regex pattern to find rewrite_local
-    rewrite_local_pattern = r'^(.*?)\s*url\s+script-(response-body|request-body|echo-response|request-header|response-header|analyze-echo-response)\s+(\S+)'
-    rewrite_local_matches = re.finditer(rewrite_local_pattern, js_content, re.MULTILINE)
+    # If a URL match is not found, throw an error
+    if not url_match:
+        raise ValueError("未找到脚本路径。请确保在 js/conf/snippet 文件中包含了至少一个有效的链接.")
 
-    for match in rewrite_local_matches:
-        pattern = match.group(1).strip()
-        script_type = match.group(2).replace('-body', '').replace('-header', '').strip()
-        script_path = match.group(3).strip()
+    script_path = url_match.group(1).strip()
 
-        # Append the rewrite rule to the SGModule content
-        sgmodule_content += f"{project_name} = type=http-{script_type}, pattern={pattern}, script-path={script_path}, requires-body=true, max-size=-1, timeout=60\n"
+    # Add the script-providers section with the project name and the extracted script path
+    script_providers_section = script_providers_to_stoverride(project_name, script_path)
+    stoverride_content += f"\n{script_providers_section}\n"
 
-    return sgmodule_content
+    # Process task_local section
+    task_local_section = task_local_to_stoverride(js_content, project_name, random_number)
+    if task_local_section:
+        stoverride_content += f"\n{task_local_section}\n"
+
+    # Return the final stoverride content
+    return stoverride_content
 
 
 def main():
@@ -246,27 +293,25 @@ def main():
             # File extension check for .js, .conf, or .snippet
             file_path = os.path.join(qx_folder_path, file_name)
             with open(file_path, 'r', encoding='utf-8') as file:
-                content = file.read()
-                sgmodule_content = js_to_sgmodule(content)
+                js_content = file.read()
+                stoverride_content = js_to_stoverride(js_content)
                 
-                if sgmodule_content is None:
+                if stoverride_content is not None:
+                    # Write stoverride content to 'stash' folder if stoverride_content is not None
+                    stash_folder_path = 'Stash'
+                    os.makedirs(stash_folder_path, exist_ok=True)
+                    stoverride_file_path = os.path.join(stash_folder_path, f"{os.path.splitext(file_name)[0]}.stoverride")
+                    
+                    with open(stoverride_file_path, "w", encoding="utf-8") as stoverride_file:
+                        stoverride_file.write(stoverride_content)
+                    print(f"Generated {stoverride_file_path}")
+                else:
                     # Skip files without the required sections
                     print(f"跳过 {file_name} 由于文件缺失匹配内容，请仔细检查.")
-                    continue
-
-                # Write sgmodule content to 'Surge' folder
-                surge_folder_path = 'Surge'
-                os.makedirs(surge_folder_path, exist_ok=True)
-                sgmodule_file_path = os.path.join(surge_folder_path, f"{os.path.splitext(file_name)[0]}.sgmodule")
-                with open(sgmodule_file_path, "w", encoding="utf-8") as sgmodule_file:
-                    sgmodule_file.write(sgmodule_content)
-
-                print(f"Generated {sgmodule_file_path}")
 
                 # Since we're simulating a git operation, we'll do this for all file types
                 with open(file_path, 'a', encoding='utf-8') as file:
-                    file.write("\n// Adding a dummy sgmodule change to trigger git commit\n")
-
+                    file.write("\n// Adding a dummy stoverride change to trigger git commit\n")
                 os.system(f'git add {file_path}')
                 os.system('git commit -m "Trigger update"')
 
@@ -275,19 +320,19 @@ if __name__ == "__main__":
 ```
 
 上述内容需要修改的内容如图所示：
-![06]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/06.png)
+![05]({{site.baseurl}}/img/workflow_convert_js_to_stoverride/05.png)
 
 scripts，将其修改为工作流改动的文件夹名称（以qx为例，即scripts->qx）；
 
-Surge也要修改为工作流改动的文件夹名称（以surge为例，即Surge->surge）。
+Stash也要修改为工作流改动的文件夹名称（以stash为例，即Stash->stash）。
 
-第52行：project_desc双引号内容可以修改。（可选）
+第104行：project_desc双引号内容可以修改。（可选）
 
-*Adding a dummy sgmodule change to trigger git commit*可以修改，但注意保留双引号内其他内容。（可选）
+*Adding a dummy stoverride change to trigger git commit*可以修改，但注意保留双引号内其他内容。（可选）
 
 
 添加完成之后你的分支如下图所示：
-![05]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/05.png)
+![06]({{site.baseurl}}/img/workflow_convert_js_to_stoverride/06.png)
 手动运行一次检查是否运行成功，如运行失败则点开失败日志查看详情，如遇到*文件内容匹配错误*说明有某脚本出现问题，请自行移除即可。
 
 ## 模版
@@ -313,6 +358,8 @@ hostname = api.example1.com, shop.example2.com
 [task_local]
 1 */6 * * * https://raw.githubusercontent.com/user/repo/main/scripts/demo.js, tag=demo, img-url=https://example.com/icon.png, enabled=true
 ```
+
+
 
 ## 免责声明
 

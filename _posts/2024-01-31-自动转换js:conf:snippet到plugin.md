@@ -32,7 +32,7 @@ tags:
 - 目前脚本已支持转换重写规则为多条规则的脚本。如有问题请等待完善修复。
 - <span style="color:red;">由于测试阶段，js、conf、snippet文件内容必须含有**[rewrite_local]**和**[mitm]**/**[MITM]**；如为[Mitm]或其他格式会导致无法匹配。如文件中没有**[rewrite_local]**和**[mitm]**/**[MITM]**该参数则会跳过转换该文件，请在工作流日志中查看转换详情。</span>
 - 脚本内如存在***项目名称***和***使用说明***，则会自动匹配；如没有该内容则会提取raw链接的文件名作为plugin的文件名及其描述。
-- 偶现上传一个脚本所有脚本更新情况（为了防止脚本不更新情况出现而设定，如不需要则移除py脚本中# Add a dummy change and commit部分内容）。
+- 偶现上传一个脚本所有脚本更新情况（为了防止脚本不更新情况出现而设定，如不需要则移除py脚本中# Add a dummy plugin change and commit部分内容）。
 - 使用者如有某部分匹配为空的情况，请应检查完善plugin丢失内容。
 - 开发者在使用脚本时需注意尽量不要在**[rewrite_local]**和**[mitm]**/**[MITM]**内容里带有注释，如有注释可能有偶现匹配丢失规则的情况。
 - 本脚本已增加识别是否存在[task_local]并转换。
@@ -46,7 +46,7 @@ tags:
 
 #### 添加工作流
 
-首先来到自己即将存放js文件的仓库下，点击settings，点击actions，滑到底部的Workflow permissions这里，勾选read and write permission，给予工作流写入权限。![01]({{site.baseurl}}/img/workflow_convert_js_to_plugin/01.png)
+首先来到自己即将存放js/conf/snippet文件的仓库下，点击settings，点击actions，滑到底部的Workflow permissions这里，勾选read and write permission，给予工作流写入权限。![01]({{site.baseurl}}/img/workflow_convert_js_to_plugin/01.png)
 
 ![02]({{site.baseurl}}/img/workflow_convert_js_to_plugin/02.png)
 
@@ -58,7 +58,7 @@ tags:
 
 ```python
 # author:Levi
-# 搭配convert js to plugin.py使用。可将qx的js/conf/snippet文件转换为plugin文件。
+# 搭配convert_js_to_plugin.py使用。可将qx的js/conf/snippet文件转换为plugin文件。使用方法见博客。
 
 name: convert_js_to_plugin
 
@@ -100,13 +100,19 @@ jobs:
           name: plugin-artifacts
           path: ${{ github.workspace }}/Loon
         
-      - name: Push to TEST Repository
+      - name: Check for changes
+        id: check_changes
         run: |
-          set -x
+          git status
+          git diff-index --quiet HEAD || echo "::set-output name=changes_exist::true"
+    
+      - name: Commit and push if changes exist
+        if: steps.check_changes.outputs.changes_exist == 'true'
+        run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
           git add .
-          git commit -m "Add generated plugin file"
+          git commit -m "已转换为plugin文件"
           git push origin HEAD:main --force
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -115,7 +121,7 @@ jobs:
 注意在上述工作流中，你需要将
 第9行的*scripts*替换为你想要存放js/conf/snippet的文件夹名称（以下以qx为例），
 第12行和第42行的*Loon*替换为你想要存放plugin的文件夹名称（以下以loon为例）。
-第50行的*Add converted plugin file*可改可不改。
+第56行的*已转换为plugin文件*可改可不改。
 
 ⚠️如果你选择直接复制本文中上述工作流，需要按照图示内容补全，
 ![04]({{site.baseurl}}/img/workflow_convert_js_to_plugin/04.png)
@@ -298,9 +304,9 @@ Loon也要修改为工作流改动的文件夹名称（以loon为例，即Loon->
 
 [rewrite_local]
 # 第一条重写规则（尽量不要写该注释）
-^https:\/\/api.example.com\/v1\/user\/profile url script-response-body https://raw.githubusercontent.com/user/repo/main/scripts/demo1.js
+^https:\/\/api.example1.com\/v1\/user\/profile url script-response-body https://raw.githubusercontent.com/user/repo/main/scripts/demo1.js
 # 第二条重写规则（尽量不要写该注释）
-^https:\/\/shop.example.com\/api\/list url script-request-header https://raw.githubusercontent.com/user/repo/main/scripts/demo2.js
+^https:\/\/shop.example2.com\/api\/list url script-request-header https://raw.githubusercontent.com/user/repo/main/scripts/demo2.js
 
 [mitm]
 hostname = api.example1.com, shop.example2.com
