@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 自动将qx专用js/conf/snippet文件添加sgmodule/plugin/stoverride仓库链接
+title: 自动为qx专用js/conf/snippet文件添加sgmodule/plugin/stoverride仓库链接
 subtitle: " \"Automate add raw-url of qx's js/conf/snippet\""
 date: 2024-02-06 14:15:06
 author: "Levi"
