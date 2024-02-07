@@ -28,7 +28,7 @@ tags:
 - 脚本会将qx的js、conf、snippet格式的脚本自动转换为sgmodule，plugin，stoverride的文件并在原js、conf、snippet中添加链接注释。
 - 脚本自动监测存放js、conf、snippet文件夹下的改动自动运行。只需要存放js、conf、snippet的文件夹，如监测不到存放的文件夹会自动创建文件夹。
 
-将[链接1](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/workflows/)和将[链接2](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/scripts/)的内容进行下载编辑(共8个文件；推荐使用电脑编辑)。
+将[链接1](https://github.com/czy13724/Quantumult-X/tree/main/.github/workflows/)和将[链接2](https://github.com/czy13724/Quantumult-X/tree/main/.github/scripts/)的内容进行下载编辑(共8个文件；推荐使用电脑编辑)。
 
 ## 配置脚本
 
