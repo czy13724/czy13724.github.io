@@ -54,7 +54,7 @@ tags:
 
 填入文件名称：*convert_js_to_sgmodule.yml*。将[该链接](https://raw.githubusercontent.com/czy13724/Quantumult-X/main/.github/workflows/convert_js_to_sgmodule.yml)的内容进行复制粘贴进来保存。
 
-或复制该文本内容（建议通过链接复制）：
+或复制该文本内容（若单独使用建议通过复制下方内容）：
 
 ```python
 # author:Levi
@@ -124,6 +124,10 @@ jobs:
 
 ⚠️如果你选择直接复制本文中上述工作流，需要按照图示内容补全，
 ![04]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/04.png)
+完成后如下图所示：
+![07]({{site.baseurl}}/img/workflow_convert_js_to_sgmodule/07.png)
+如果你从链接中复制得到的内容，你需要设置其他三个工作流。（此为第一个工作流）
+
 
 #### 添加py脚本
 
