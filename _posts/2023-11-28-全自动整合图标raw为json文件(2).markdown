@@ -22,6 +22,10 @@ Levi图标仓库地址：[levi.icons.json](https://raw.githubusercontent.com/czy
 如果你觉得好用的话，不妨点个✨star，支持一下作者～
 #### 功能
 基于github action自动生成Quantmult X图标订阅。用于将对应仓库所有的图标raw整合为一个json文件，以便Quantumult X，Surge，Loon等软件的图标订阅导入。
+
+#### 使用限制
+* 仅支持png格式文件，如需其他格式请了解代码修改py脚本第13行内容。
+* 默认为main分支，如是其他分支，请自行修改工作流与py脚本。
 #### 使用方法：
 1. 新建一个仓库(以下以TEST为例)作为图床，并新建一个文件夹(以下以test为例)用于存储图片，可随意命名（~~不建议使用中文~~）。   
 2. 点击`action`并创建一个工作流（workflow）,将下方代码放入并按照说明进行替换,并在`.github`该文件夹下创建`scripts`文件夹, 将generate_image_json.py放置到这里。
@@ -49,17 +53,17 @@ cd TEST
 
 4.创建工作流配置文件
 
-在仓库根目录下创建一个名为 .github/workflows/image_workflow.yml 的文件，将以下内容粘贴进去：
+在仓库根目录下创建一个名为 .github/workflows/image_workflow.yml 的文件，推荐复制[该网址内容](https://raw.githubusercontent.com/czy13724/TEST/Levi/.github/workflows/image_workflow.yml)或将以下内容粘贴进去，如选择复制下列内容请将第38行和第48行补全：
 ```shell
 name: Image Workflow
 
 on:
   push:
     paths:
-      - 'test/**' 
+      - 'test/**' # 图标存放位置，自动监测更新
   pull_request:
     paths:
-      - 'test/**' 
+      - 'test/**' # 图标存放位置，自动监测更新
   workflow_dispatch:
 
 jobs:
@@ -90,7 +94,7 @@ jobs:
         name: json-artifact
         path: ${{ github.workspace }}/test.icons.json
 
-    - name: Push to QuantumultX Repository
+    - name: Push to TEST Repository
       run: |
         git config user.name "${{ github.actor }}"
         git config user.email "${{ github.actor }}@users.noreply.github.com"
@@ -102,7 +106,7 @@ jobs:
 ```
 5.创建脚本文件
 
-在 .github/scripts 目录下创建一个名为 generate_image_json.py 的 Python 脚本，并将以下内容粘贴进去：
+在 .github/scripts 目录下创建一个名为 generate_image_json.py 的 Python 脚本，推荐复制[该网址内容](https://raw.githubusercontent.com/czy13724/TEST/Levi/.github/scripts/generate_image_json.py)或将以下内容粘贴进去（默认main分支，如选择其他分支则修改下方raw_url的main即可）：
 ```shell
 import os
 import json
