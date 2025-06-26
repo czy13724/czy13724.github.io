@@ -1,8 +1,8 @@
 # Vditor markdown 在线编辑器
 
-此为[`markdown 在线编辑器`](https://www.levifreedexiaowu.me)，方便不会markdown语法的小白来使用撰写文章。
+此为[`markdown 在线编辑器`](https://vditor.levifree.dpdns.org)，方便不会markdown语法的小白来使用撰写文章。
 
-[`点击直达`](https://www.levifreedexiaowu.me)
+[`点击直达`](https://vditor.levifree.dpdns.org)
 
 
 不能设置字体颜色功能以及不能自动推送到GitHub
