@@ -12,7 +12,7 @@
       </a>
       <div class="button-group">
         <a
-          href="https://levifree.tech/about/"
+          href="https://levifree.qzz.io/about/"
           class="header-link"
         >
           <span class="hint--bottom" aria-label="关于作者">

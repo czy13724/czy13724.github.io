@@ -1,7 +1,7 @@
 {
   "name": "markdown-online-editor",
   "version": "2.0.0",
-  "author": "Levi <mailto:contact@levifree.tech>",
+  "author": "Levi <mailto:contact@levifree.qzz.io>",
   "private": true,
   "description": "📝基于 Vue、Vditor，所构建的在线 Markdown 编辑器，支持流程图、甘特图、时序图、任务列表、HTML 自动转换为 Markdow等功能。",
   "scripts": {
