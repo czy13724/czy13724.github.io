@@ -24,12 +24,7 @@ header-mask: 0.3
 
       <ul>
         {% for friend in site.friends %}
-        <a
-          class="friend_tag"
-          target="_blank"
-          href="{{friend.href}}"
-          title="{{friend.title}}"
-          style="
+        <a class="friend_tag" target="_blank" href="{{friend.href}}" title="{{friend.title}}" style="
             text-align: center;
             box-sizing: border-box;
             background-color: transparent;
@@ -46,9 +41,7 @@ header-mask: 0.3
             margin-top: 30px;
             cursor: pointer;
             margin-right: 5px;
-          "
-          >{{friend.title}}</a
-        >
+          ">{{friend.title}}</a>
         {% endfor %}
       </ul>
       <hr />
@@ -58,33 +51,19 @@ header-mask: 0.3
           <p><strong>博客名</strong>: Levi Blog</p>
         </li>
         <li>
-          <p><strong>链接</strong>: <a href="https://alist.levifree.me">Leviの私人盘</a></p>
+          <p><strong>链接</strong>: <a href="https://levifree.qzz.io">Leviの导航站</a></p>
         </li>
         <li>
-          <p><strong>邮箱</strong>: <a href="mailto:contact@levifree.tech">Contact me</a></p>
+          <p><strong>邮箱</strong>: <a href="mailto:contact@levifree.qzz.io">Contact me</a></p>
         </li>
       </ul>
       <!---->
 
       {% if site.giscus %}
-      <script
-        src="https://giscus.app/client.js"
-        data-repo="czy13724/czy13724.github.io"
-        data-repo-id="R_kgDOKxJqhA"
-        data-category="Announcements"
-        data-category-id="DIC_kwDOKxJqhM4CbjyF"
-        data-mapping="title"
-        data-strict="0"
-        data-reactions-enabled="1"
-        data-emit-metadata="0"
-        data-input-position="top"
-        data-theme="light"
-        data-lang="zh-CN"
-        data-loading="lazy"
-        data-strict="1"
-        crossorigin="anonymous"
-        async
-      ></script>
+      <script src="https://giscus.app/client.js" data-repo="czy13724/czy13724.github.io" data-repo-id="R_kgDOKxJqhA"
+        data-category="Announcements" data-category-id="DIC_kwDOKxJqhM4CbjyF" data-mapping="title" data-strict="0"
+        data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="light" data-lang="zh-CN"
+        data-loading="lazy" data-strict="1" crossorigin="anonymous" async></script>
       {% endif %}
       <!---->
     </div>
