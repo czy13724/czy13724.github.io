@@ -1,6 +1,7 @@
 {
     "origins": [
         "https://levifree.qzz.io",
+        "https://levifree.dpdns.org",
         "https://czy13724-github-io.vercel.app"
     ],
     "originsRegex": [
