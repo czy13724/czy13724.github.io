@@ -26,7 +26,7 @@ Want to contact me? It is recommended to use the telegram to contact me, if you 
 
 - GitHub:[Levi](https://github.com/czy13724)
 - Telegram:[Levi](https://t.me/PMLevibot)
-- Email: [contact](mailto:contact@levifree.tech)
+- Email: [contact](mailto:contact@levifree.dpdns.org)
 - Telegram Channel:[免费宝库交流群](https://t.me/plbyjl)
 
 ##### Platforms
