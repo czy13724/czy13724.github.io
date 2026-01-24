@@ -25,9 +25,9 @@ The following digital devices I'm currently using：
 Want to contact me? It is recommended to use the telegram to contact me, if you have business cooperation in advance note add friends.
 
 - GitHub:[Levi](https://github.com/czy13724)
-- Telegram:[Levi](https://t.me/PMLevibot)
-- Email: [contact](mailto:contact@levifree.dpdns.org)
-- Telegram Channel:[免费宝库交流群](https://t.me/plbyjl)
+- Telegram:[Levi](https://t.me/i_Levibot)
+- Email: [contact](mailto:contact@levifree.qzz.io)
+- Telegram Channel:[交流群](https://t.me/plbyjl)
 
 ##### Platforms
 
