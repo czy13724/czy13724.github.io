@@ -14,11 +14,16 @@ I am an amateur who loves to collect. I like to stay at home with nothing to do,
 ##### Devices info
 The following digital devices I'm currently using：
 
-- iPad 2021
-- vivo iqoo7
-- Macbook pro2018(Dual system and have tried installing 'Hackintosh Apple'[Opencore] on a desktop computer)
-- vivo y71(Currently learning on my own to try to unlock BL and brush in modules and downgrade packs)
-- honor 9 lite(swiped into the native-like system, which is smoother to use than Emui)
+- iPad 2021 16.6.1
+- iPhone XS Max 16.6.1
+- iPhone 11 16.5
+- iPhone 14 Pro Max 18.7.3
+- iPhone 17 Pro Max 26.2
+- VIVO IQOO7 Android 15
+- Macbook Pro 2018(Dual system and have tried installing 'Hackintosh Apple'[Opencore] on a desktop computer)
+- Macbook Air M4 2025
+- VIVO Y71(Currently learning on my own to try to unlock BL and brush in modules and downgrade packs)
+- Honor 9 lite(Successfully installed a native-like system, which is smoother to use than EMUI)
 
 ##### Find me
 
@@ -27,7 +32,7 @@ Want to contact me? It is recommended to use the telegram to contact me, if you 
 - GitHub:[Levi](https://github.com/czy13724)
 - Telegram:[Levi](https://t.me/i_Levibot)
 - Email: [contact](mailto:contact@levifree.qzz.io)
-- Telegram Channel:[交流群](https://t.me/plbyjl)
+- Telegram Channel:[L Community](https://t.me/LCommunityP)
 
 ##### Platforms
 

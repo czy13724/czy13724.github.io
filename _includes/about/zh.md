@@ -16,10 +16,15 @@
 这是我目前在用的数码设备
 
 - iPad 2021
-- vivo iqoo7
-- Macbook pro2018（双系统，并在台式电脑上尝试过安装黑苹果）
+- iPhone XS Max 16.6.1
+- iPhone 11 16.5
+- iPhone 14 Pro Max 18.7.3
+- iPhone 17 Pro Max 26.2
+- vivo iqoo7 Android 15
+- Macbook Pro 2018（双系统，并在台式电脑上成功安装过黑苹果）
+- Macbook Air M4 2025
 - vivo y71（目前自主学习尝试解锁BL并刷入模块和降级包）
-- honor 9 lite（已刷入类原生系统，用起来比Emui较流畅）
+- honor 9 lite（已刷入类原生系统，用起来比EMUI流畅多了）
 
 ##### 寻找我
 
@@ -28,7 +33,7 @@
 - GitHub:[Levi](https://github.com/czy13724)
 - Telegram:[Levi bot](https://t.me/i_Levibot)
 - Email: [contact](mailto:contact@levifree.qzz.io)
-- Telegram Channel:[免费宝库交流群](https://t.me/plbyjl)
+- Telegram Channel:[L Community](https://t.me/LCommunityP)
 
 ##### 平台
 放弃社交，目前只在Telegram、GitHub、WhatsApp等地游荡。
