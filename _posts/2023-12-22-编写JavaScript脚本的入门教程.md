@@ -1,186 +1,143 @@
 ---
 layout: post
-title: "JavaScript 网络流量分析与调试入门：从抓包到脚本编写"
-subtitle: "掌握 Quantumult X / Surge 脚本编写，实现 API 数据 Mock 与调试"
+title: "移动端开发调试指南：使用 JavaScript 脚本在本地 Mock API 数据"
+subtitle: "不依赖后端，前端开发者如何利用脚本自行构造测试数据"
 date: 2023-12-22 15:45:09
 author: "Levi"
 header-img: "img/bg/image_23.jpg"
 catalog: true
 tags:
     - JavaScript
-    - 网络调试
-    - 教程
-    - 抓包
+    - 前端开发
+    - API调试
+    - Mock
 ---
 
-> "Act enthusiastic and you will be enthusiastic."
-> "带着激情做事，你就会有激情。"
+> "Quality is not an act, it is a habit."  
+> "质量不是一种行为，而是一种习惯。"
 
 <div class="alert alert-info" role="alert">
-  <strong>学习目标：</strong> 本教程将带你理解移动端网络调试工具（如 Quantumult X, Surge, Loon）的脚本工作原理。你将学会如何通过 JavaScript 拦截并修改 HTTP 响应（Response），用于前端开发调试、数据 Mock 或 UI 优化。
+  <strong>面向人群：</strong> 本文主要面向移动端前端开发者 (iOS/Android/React Native) 和测试工程师。你将学习如何通过本地代理工具运行 JavaScript 脚本，在不修改后端代码的情况下，模拟各种 API 响应场景。
 </div>
 
-## 前言：为什么要编写脚本？
+## 前言：前端开发的痛点
 
-在移动端开发或测试过程中，我们经常需要模拟各种 API 响应场景（例如：测试服务器返回 500 错误时 APP 的表现，或测试特定数据字段为空时的 UI 布局）。传统的做法是让后端配合修改数据，而通过**中间人攻击 (MITM)** 技术配合 **JavaScript 脚本**，我们可以在本地直接修改服务器返回的数据，极大提高调试效率。
+在 App 开发过程中，通过 API 获取数据是核心环节。但我们经常遭遇以下尴尬：
+1.  **接口并未这就绪**：后端还在开发中，前端 UI 却急需数据来布局。
+2.  **异常场景难复现**：想测试“服务器 500 错误”或“超长文本截断”，但后端很难配合你临时改数据。
+3.  **数据固化**：测试环境的数据一成不变，覆盖不了所有边缘情况。
 
-本文以 Quantumult X 为例，但所讲的 JavaScript 逻辑通用，同样适用于 Surge, Loon, Stash 等工具。
-
----
-
-## 第一阶段：核心概念与准备
-
-在开始写代码前，你需要理解三个关键概念：
-
-### 1. 抓包 (Packet Capture)
-要想修改数据，首先得能看到数据。你需要开启抓包工具的 **MITM (Man-in-the-Middle)** 功能，并安装信任 CA 证书。这允许工具解密 HTTPS 流量，查看 Request（请求）和 Response（响应）的明文内容。
-
-### 2. 重写 (Rewrite)
-这是“拦截”的规则。我们需要告诉工具：“当遇到 URL 包含 `api.example.com/user` 的请求时，不要直接把服务器的数据给 APP，先交给我的脚本处理一下。”
-
-在 Quantumult X 中，这在 `[rewrite_local]` 模块配置：
-```conf
-# 匹配规则 匹配类型 脚本路径
-^https:\/\/api\.example\.com\/user\/info url script-response-body local_script.js
-```
-
-### 3. MITM 主机名
-为了让工具知道解密哪些域名的流量，必须在 `[mitm]` 模块声明域名：
-```conf
-[mitm]
-hostname = api.example.com
-```
+这时，**本地 Mock** 技术就派上用场了。通过在网络层拦截请求，我们可以运行一段简单的 JavaScript 代码来实时修改 Response（响应体），让 App 以为服务器返回了我们指定的数据。
 
 ---
 
-## 第二阶段：JavaScript 脚本编写指南
+## 核心原理：中间人 (MITM) 脚本
 
-脚本的核心逻辑非常简单：**获取数据 -> 修改数据 -> 返回数据**。
+大多数现代网络调试工具（如 Charles, Proxyman, 以及移动端的 Surge, Quantumult X 等）都支持 **Scripting (脚本)** 功能。
 
-### 1. 获取响应体 ($response.body)
-脚本执行时，环境会提供一个 `$response` 对象，其中 `$response.body` 就是服务器返回的原始数据（通常是 JSON 字符串）。
-
-### 2. 解析 JSON (JSON.parse)
-字符串无法直接修改字段，我们需要把它转换成 JavaScript 对象。
-
-```javascript
-// 声明 obj 变量，解析服务器返回的 JSON 字符串
-let obj = JSON.parse($response.body);
-```
-
-### 3. 修改数据 (Object Manipulation)
-现在 `obj` 是一个标准的 JS 对象，你可以像操作普通变量一样修改它。
-
-```javascript
-// 假设原数据是 { "username": "User1", "level": 1 }
-// 我们想在本地把它改成 Level 99 来测试 UI 显示
-obj.level = 99;
-obj.username = "Debug Mode";
-```
-
-### 4. 重新打包 (JSON.stringify)
-修改完成后，需要将对象转回字符串，并发送给 APP。
-
-```javascript
-// 将对象转回 JSON 字符串
-let body = JSON.stringify(obj);
-
-// 结束脚本，返回修改后的数据
-$done({ body });
-```
+流程如下：
+1.  **拦截 (Intercept)**：工具捕获特定的 URL 请求（例如 `api.myapp.com/user`）。
+2.  **执行 (Execute)**：工具运行你编写的 `.js` 脚本。
+3.  **篡改 (Modify)**：脚本读取原始 Response，修改 JSON 对象，再序列化回字符串。
+4.  **返回 (Return)**：App 接收到修改后的数据。
 
 ---
 
-## 第三阶段：实战演练
+## JavaScript 脚本编写实战
 
-### 案例一：Mock 天气数据（修改简单的 JSON）
+脚本的核心逻辑通常分为三步：`Parse` (解析) -> `Modify` (修改) -> `Stringify` (重组)。
 
-假设某天气 APP 的 API 返回如下数据：
+### 场景一：Mock 用户数据 (测试 UI 布局)
+
+假设后端返回的标准用户信息如下：
 ```json
 {
-  "city": "Beijing",
-  "temp": 15,
-  "weather": "Sunny"
+  "id": 101,
+  "nickname": "Levi",
+  "is_vip": false
 }
 ```
-我们想测试当温度显示为 -100 度时，UI 是否会崩坏。
 
-**脚本编写 (`mock_weather.js`)**：
+我们需要测试当用户昵称特别长时，UI 是否会换行或溢出。
+
+**脚本代码 (`mock_user.js`)**：
 
 ```javascript
-// 1. 解析数据
+// 1. 获取原始响应体
+// $response.body 是调试工具提供的内置变量
 let obj = JSON.parse($response.body);
 
-// 2. 修改数据
-obj.temp = -100;
-obj.weather = "极寒风暴 (Debug)";
+// 2. 修改数据：注入超长文本
+obj.nickname = "这是一个名字特别特别长长长长长长长长长长长长长长长长的测试用户";
 
-// 3. 输出日志 (方便在工具日志中调试)
-console.log("已修改天气数据: " + obj.temp);
+// 3. (可选) 修改 VIP 状态，测试 VIP 图标显示
+obj.is_vip = true;
 
-// 4. 返回数据
-$done({body: JSON.stringify(obj)});
+// 4. 重组并返回
+// $done() 是通过回调函数结束脚本执行
+$done({ body: JSON.stringify(obj) });
 ```
 
-### 案例二：精简冗余信息（数组过滤器）
+### 场景二：模拟服务器错误 (测试健壮性)
 
-很多 APP 的启动页接口会返回一个包含广告的数组。我们可以通过脚本将这些无效数据过滤掉，净化网络环境。
+App 需要能够优雅地处理服务器报错。我们可以编写脚本，强制把正常的成功响应改为错误信息。
 
-假设 API 返回：
-```json
-{
-  "items": [
-    { "type": "content", "title": "正常新闻" },
-    { "type": "ad", "title": "这是一个广告" },
-    { "type": "content", "title": "正常新闻2" }
-  ]
-}
-```
-
-**脚本编写 (`filter_ads.js`)**：
+**脚本代码 (`mock_error.js`)**：
 
 ```javascript
-let obj = JSON.parse($response.body);
+// 注意：这次我们不解析原数据，直接覆盖
 
-// 使用 array.filter 方法，只保留 type 不等于 'ad' 的项目
-if (obj.items && obj.items.length > 0) {
-    obj.items = obj.items.filter(item => item.type !== 'ad');
-}
+let errorResponse = {
+    "code": 500,
+    "status": "error",
+    "message": "Internal Server Error: 数据库连接超时 (Mock测试)"
+};
 
-$done({body: JSON.stringify(obj)});
+$done({ 
+    status: 500, // 修改 HTTP 状态码
+    body: JSON.stringify(errorResponse) 
+});
 ```
 
 ---
 
-## 第四阶段：常见问题与技巧
+## 进阶技巧：条件断点与随机化
 
-### 1. `var`, `let`, `const` 怎么选？
-*   **const**: 如果这个变量定义后不需要再修改（比如 `path`），优先用 const。
-*   **let**: 如果变量需要重新赋值（比如 `body`），用 let。
-*   **var**: 老旧语法，虽然通用但存在作用域问题，现代 JavaScript 开发**不推荐**使用。
+为了测试更真实的场景，我们可以引入随机逻辑。
 
-### 2. 为什么脚本不生效？
-*   **MITM 未开启**: 检查证书是否信任。
-*   **Hostname 未添加**: 检查 `[mitm]` 列表是否包含目标域名。
-*   **正则错误**: 检查 `[rewrite_local]` 的正则是否能匹配到 URL。
-*   **缓存问题**: 很多 APP 有本地缓存，尝试卸载重装或清除缓存。
-
-### 3. 如何调试？
-使用 `console.log()` 是最有效的方法。
 ```javascript
-console.log("原始数据: " + $response.body);
+let obj = JSON.parse($response.body);
+
+// 随机生成 50% 的概率让列表为空，测试“空状态”页面
+if (Math.random() > 0.5) {
+    obj.data_list = []; 
+}
+
+console.log("当前 Mock 状态: " + (obj.data_list.length === 0 ? "空列表" : "有数据"));
+
+$done({ body: JSON.stringify(obj) });
 ```
-在 Quantumult X 或 Surge 的脚本日志管理器中查看输出，确认脚本是否被执行以及数据结构是否符合预期。
 
 ---
 
-## 免责声明
+## 最佳实践与注意事项
 
-<div class="well">
-    <p>本项目提供的教程仅用于 Web 开发调试、数据 Mock 测试及技术学习交流。</p>
-    <ul>
-        <li>请勿利用脚本技术进行非法抓取、破解软件会员或绕过身份验证。</li>
-        <li>修改特定 APP 的数据流可能违反其服务条款，风险由用户自行承担。</li>
-        <li>文中涉及的代码逻辑均为通用 JavaScript 语法，不针对任何特定软件。</li>
-    </ul>
-</div>
+1.  **使用 `let` 和 `const`**：避免使用老旧的 `var`，保持代码整洁。
+2.  **异常捕获**：在解析 JSON 时最好包裹在 `try-catch` 块中，防止原始数据不是 JSON 导致脚本报错。
+    ```javascript
+    try {
+        let obj = JSON.parse($response.body);
+        // ... modifications
+        $done({ body: JSON.stringify(obj) });
+    } catch (e) {
+        console.log("JSON Parse Error: " + e);
+        $done({}); // 保持原状
+    }
+    ```
+3.  **性能考量**：脚本运行在主线程，尽量避免复杂的循环计算，以免增加网络延迟。
+
+## 总结
+
+掌握基于 JavaScript 的网络层 Mock 技术，能极大减少前端开发对他人的依赖。你不再需要等待后端部署，也不需要求人改数据，几行代码就能构建出你想要的任何测试场景。
+
+Happy Coding!
