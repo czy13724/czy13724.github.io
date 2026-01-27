@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "2026年，为什么你应该拥有一个 GitHub Pages 个人博客？"
+title: "为什么你应该拥有一个 GitHub Pages 个人博客？"
 subtitle: "在算法推荐的时代，留一片属于自己的数字花园"
 date: 2025-09-30 11:30:00
 author: "Levi"

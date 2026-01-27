@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "VS Code + GitHub Copilot: 2026年开发者的效率核武器"
+title: "VS Code + GitHub Copilot: AI 时代开发者的效率核武器"
 subtitle: "AI 结对编程时代，如何利用 Copilot 节省 50% 的编码时间"
 date: 2024-05-15 09:00:00
 author: "Levi"
