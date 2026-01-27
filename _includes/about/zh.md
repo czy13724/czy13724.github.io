@@ -21,9 +21,9 @@
 - iPhone 14 Pro Max 18.7.3
 - iPhone 17 Pro Max 26.2
 - vivo iqoo7 Android 15
-- Macbook Pro 2018（双系统，并在台式电脑上成功安装过黑苹果）
+- Macbook Pro 2018（双系统）
 - Macbook Air M4 2025
-- vivo y71（目前自主学习尝试解锁BL并刷入模块和降级包）
+- vivo y71
 - honor 9 lite（已刷入类原生系统，用起来比EMUI流畅多了）
 
 ##### 寻找我
