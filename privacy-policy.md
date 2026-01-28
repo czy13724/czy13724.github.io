@@ -2,6 +2,7 @@
 layout: page
 title: "Privacy Policy"
 description: "Privacy Policy for Levi Blog"
+hide-in-nav: true
 ---
 
 # Privacy Policy
@@ -49,6 +50,12 @@ We may also collect information that Your browser sends whenever You visit our S
 #### Tracking Technologies and Cookies
 
 We use Cookies and similar tracking technologies to track the activity on Our Service and store certain information. Tracking technologies used are beacons, tags, and scripts to collect and track information and to improve and analyze Our Service.
+
+    #### Google AdSense & DoubleClick Cookie
+
+    Google, as a third-party vendor, uses cookies to serve ads on our Service.
+    * Google's use of the DoubleClick cookie enables it and its partners to serve ads to our users based on their visit to our Service or other websites on the Internet.
+    * You may opt out of the use of the DoubleClick Cookie for interest-based advertising by visiting the [Google Ads Settings](http://www.google.com/ads/preferences/) web page.
 
 You can instruct Your browser to refuse all Cookies or to indicate when a Cookie is being sent. However, if You do not accept Cookies, You may not be able to use some parts of our Service.
 
