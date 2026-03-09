@@ -36,42 +36,6 @@ https://github.com/kitian616/jekyll-TeXt-theme
 				{{ tags | split:'__SEPERATOR__' | sort }}
 			</div>
 
-			<div class="post-preview">
-				<h2 class="post-title">专题归档入口（自动）</h2>
-				<h3 class="post-subtitle">自动基于最近文章标签生成，你后续无需手动改 HTML</h3>
-				<div class="post-content-preview">
-					{% assign recent_posts = site.posts | slice: 0, 30 %}
-					{% assign tags_buffer = "" %}
-					{% for p in recent_posts %}
-						{% for t in p.tags %}
-							{% assign tags_buffer = tags_buffer | append: t | append: "|" %}
-						{% endfor %}
-					{% endfor %}
-					{% assign auto_tags = tags_buffer | split: "|" | uniq %}
-
-					{% assign topic_shown = 0 %}
-					{% for tag in auto_tags %}
-						{% if tag != "" and topic_shown < 6 %}
-						<p><strong>{{ tag }} 专题：</strong>
-							{% assign shown_count = 0 %}
-							{% for p in site.tags[tag] %}
-								{% if shown_count < 3 %}
-									{% if shown_count > 0 %} / {% endif %}
-									<a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a>
-									{% assign shown_count = shown_count | plus: 1 %}
-								{% endif %}
-							{% endfor %}
-							{% if shown_count == 0 %}
-								<span>暂无相关文章</span>
-							{% endif %}
-						</p>
-						{% assign topic_shown = topic_shown | plus: 1 %}
-						{% endif %}
-					{% endfor %}
-				</div>
-			</div>
-			<hr>
-
 			<!-- Article List -->
 			<div class="mini-post-list js-result d-none">
 				{%- assign _sorted_list = site.posts -%}
