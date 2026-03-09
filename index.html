@@ -3,6 +3,42 @@ layout: page
 description: "「这里是 Levi 的个人博客，希望能给你一些帮助 | 你若盛开，清风自来」"
 ---
 
+<div class="post-preview">
+    <h2 class="post-title">专题入口（自动）</h2>
+    <h3 class="post-subtitle">自动基于最近文章的标签生成专题，你后续发文无需改模板</h3>
+    <div class="post-content-preview">
+        {% assign recent_posts = site.posts | slice: 0, 30 %}
+        {% assign tags_buffer = "" %}
+        {% for p in recent_posts %}
+            {% for t in p.tags %}
+                {% assign tags_buffer = tags_buffer | append: t | append: "|" %}
+            {% endfor %}
+        {% endfor %}
+        {% assign auto_tags = tags_buffer | split: "|" | uniq %}
+
+        {% assign topic_shown = 0 %}
+        {% for tag in auto_tags %}
+            {% if tag != "" and topic_shown < 6 %}
+            <p><strong>{{ tag }} 专题</strong><br>
+                {% assign shown_count = 0 %}
+                {% for p in site.tags[tag] %}
+                    {% if shown_count < 3 %}
+                        {% if shown_count > 0 %} / {% endif %}
+                        <a href="{{ p.url | prepend: site.baseurl }}">{{ p.title }}</a>
+                        {% assign shown_count = shown_count | plus: 1 %}
+                    {% endif %}
+                {% endfor %}
+                {% if shown_count == 0 %}
+                    <span>暂无相关文章</span>
+                {% endif %}
+            </p>
+            {% assign topic_shown = topic_shown | plus: 1 %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+<hr>
+
 {% for post in paginator.posts %}
 <div class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">

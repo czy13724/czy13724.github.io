@@ -34,6 +34,31 @@ layout: default
           <p>本篇内容由 Levi 主创，编辑于 {{ page.date | date: "%Y年%m月%d日" }}。转发请带来源。</p>
         </em>
 
+        <hr />
+        <h4>相关文章</h4>
+        <ul>
+          {% assign related_count = 0 %}
+          {% for related_post in site.posts %}
+            {% if related_post.url != page.url and related_count < 4 %}
+              {% assign matched = false %}
+              {% for t in page.tags %}
+                {% if related_post.tags contains t %}
+                  {% assign matched = true %}
+                {% endif %}
+              {% endfor %}
+              {% if matched %}
+                <li>
+                  <a href="{{ related_post.url | prepend: site.baseurl }}">{{ related_post.title }}</a>
+                </li>
+                {% assign related_count = related_count | plus: 1 %}
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+          {% if related_count == 0 %}
+            <li>暂无自动匹配的相关文章。</li>
+          {% endif %}
+        </ul>
+
         <hr style="visibility: hidden" />
         <ul class="pager">
           {% if page.previous.url %}
