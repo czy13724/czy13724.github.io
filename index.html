@@ -3,6 +3,22 @@ layout: page
 description: "「这里是 Levi 的个人博客，希望能给你一些帮助 | 你若盛开，清风自来」"
 ---
 
+<section class="site-intro">
+    <h2>欢迎来到 Levi Blog</h2>
+    <p>
+        这里是 Levi 维护的个人技术博客，主要记录 Web 开发、开源工具、个人效率、服务器运维和日常折腾过程中的真实经验。
+        我会尽量把每一次配置、排错和实践过程整理成可复现的文章，帮助同样喜欢探索互联网和数字工具的读者少走弯路。
+    </p>
+    <p>
+        本站内容以原创经验、实操教程和个人思考为主。文章中涉及的命令、配置和工具会结合实际使用场景说明，并在必要时补充风险提示、适用范围和参考资料。
+    </p>
+    <p>
+        你可以从下面的文章列表开始阅读，也可以访问 <a href="{{ site.baseurl }}/archive/">Archive</a> 查看所有内容，或通过 <a href="{{ site.baseurl }}/contact/">Contact</a> 与我联系。
+    </p>
+</section>
+
+<hr>
+
 {% for post in paginator.posts %}
 <div class="post-preview">
     <a href="{{ post.url | prepend: site.baseurl }}">

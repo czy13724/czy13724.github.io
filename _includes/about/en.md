@@ -1,43 +1,27 @@
-> About my private info～
+> This page introduces Levi and explains what this blog is about.
 
+Hi, I am Levi, a technology enthusiast interested in web development, open-source tools, automation, personal productivity, and practical problem solving. I use this blog to document what I learn, build, test, and troubleshoot.
 
-Hi，there，I‘m Levi.
+##### Topics
 
-I am an amateur who loves to collect. I like to stay at home with nothing to do, spend my time leisurely or find interesting items to work on.
+- Web development, Jekyll, GitHub Pages, frontend tooling, and personal website building.
+- Git, VS Code, terminal workflows, scripts, and developer productivity.
+- Servers, reverse proxies, SSL certificates, domains, and basic operations notes.
+- Digital tools, writing workflows, knowledge management, and personal reflections.
 
-##### Hobbies
+##### Content Principles
 
-- Surf the web, like to randomly scrape technical articles based on keywords and toss things I don't understand. Occasionally write some small scripts for my own use.
-- Currently studying writing and js reverse programming on my own.
-- Like to teach some knowledge to somebody.
+Most articles on this site are written from my own learning and hands-on experience. I try to describe the background, steps, configuration, common errors, and final solution clearly enough for readers to reproduce or evaluate the process.
 
-##### Devices info
-The following digital devices I'm currently using：
+The goal of this blog is not to cover every topic completely, but to keep useful, honest, and traceable notes about real technical experiments. If you find outdated or incorrect information, feel free to contact me.
 
-- iPad 2021 16.6.1
-- iPhone XS Max 16.6.1
-- iPhone 11 16.5
-- iPhone 14 Pro Max 18.7.3
-- iPhone 17 Pro Max 26.2
-- VIVO IQOO7 Android 15
-- Macbook Pro 2018(Dual system and have tried installing 'Hackintosh Apple'[Opencore] on a desktop computer)
-- Macbook Air M4 2025
-- VIVO Y71(Currently learning on my own to try to unlock BL and brush in modules and downgrade packs)
-- Honor 9 lite(Successfully installed a native-like system, which is smoother to use than EMUI)
+##### Contact
 
-##### Find me
-
-Want to contact me? It is recommended to use the telegram to contact me, if you have business cooperation in advance note add friends.
-
-- GitHub:[Levi](https://github.com/czy13724)
-- Telegram:[Levi](https://t.me/i_Levibot)
-- Email: [contact](mailto:contact@levifree.qzz.io)
-- Telegram Channel:[L Community](https://t.me/LCommunityP)
-
-##### Platforms
-
-I am currently active only on Telegram, GitHub, WhatsApp, and more.
+- GitHub: [Levi](https://github.com/czy13724)
+- Telegram: [Levi bot](https://t.me/i_Levibot)
+- Email: [contact@levifree.qzz.io](mailto:contact@levifree.qzz.io)
+- Telegram Channel: [L Community](https://t.me/LCommunityP)
 
 ##### Acknowledgments
 
-This blog was built primarily from [tllwtg](https://github.com/tLLWtG) of the [project ](https://github.com/tLLWtG/tllwtg.github.io).
+This site is based on an open-source blog theme and has been customized for my own writing and publishing workflow. Thanks to the open-source community for the tools, documentation, and inspiration.

@@ -1,43 +1,27 @@
+> 这里是 Levi 的个人介绍，也是这个博客的内容说明。
 
-> 一些关于我的private info～
+你好，我是 Levi，一名喜欢研究互联网工具、开源项目和个人效率工作流的技术爱好者。这个博客用于长期记录我的学习、实践和排错过程，希望把零散经验整理成更容易阅读、复现和参考的文章。
 
+##### 博客内容方向
 
-诸位，安好～
+- Web 开发、Jekyll、GitHub Pages、前端工具链等建站与开发经验。
+- Git、VS Code、终端、自动化脚本等日常开发工具的使用记录。
+- 服务器、反向代理、证书、域名和基础运维相关的实践笔记。
+- 数字工具、写作软件、生产力方法和个人知识管理方面的体验。
 
-我是Levi，一名爱好收集的业余玩家。喜欢呆在家里无所事事，悠闲自在的消磨时光或者找到有趣的项目操作一番。
+##### 内容原则
 
-##### 爱好
+本站内容以原创记录为主。我会尽量写清楚问题背景、操作步骤、关键配置、遇到的错误和最终解决方案。对于引用的资料、第三方项目或外部图片，会在文章中保留来源或说明用途。
 
-- 上网冲浪，喜欢根据关键词随机刮削技术性文章，折腾不懂的东西。偶尔写一些自己用的小脚本。
-- 目前正在自主学习写作与js逆向编程。
-- 喜欢喂饭。
+博客文章并不追求覆盖所有知识点，更侧重于“我实际做过什么、踩过什么坑、最后如何解决”。如果你发现文章中有过时或错误的信息，欢迎通过联系方式提醒我。
 
-##### 设备
-这是我目前在用的数码设备
+##### 联系方式
 
-- iPad 2021
-- iPhone XS Max 16.6.1
-- iPhone 11 16.5
-- iPhone 14 Pro Max 18.7.3
-- iPhone 17 Pro Max 26.2
-- vivo iqoo7 Android 15
-- Macbook Pro 2018（双系统）
-- Macbook Air M4 2025
-- vivo y71
-- honor 9 lite（已刷入类原生系统，用起来比EMUI流畅多了）
-
-##### 寻找我
-
-想联系我？建议使用电报联系我，如有商业合作提前备注添加好友。
-
-- GitHub:[Levi](https://github.com/czy13724)
-- Telegram:[Levi bot](https://t.me/i_Levibot)
-- Email: [contact](mailto:contact@levifree.qzz.io)
-- Telegram Channel:[L Community](https://t.me/LCommunityP)
-
-##### 平台
-放弃社交，目前只在Telegram、GitHub、WhatsApp等地游荡。
+- GitHub: [Levi](https://github.com/czy13724)
+- Telegram: [Levi bot](https://t.me/i_Levibot)
+- Email: [contact@levifree.qzz.io](mailto:contact@levifree.qzz.io)
+- Telegram Channel: [L Community](https://t.me/LCommunityP)
 
 ##### 致谢
 
-本博客的搭建主要来源于[tllwtg](https://github.com/tLLWtG)的[项目](https://github.com/tLLWtG/tllwtg.github.io)。
+本站基于开源博客主题搭建，并根据个人使用需求持续调整。感谢开源社区提供的工具、文档和灵感。

@@ -2,12 +2,18 @@
 layout: page
 title: "Privacy Policy"
 description: "Privacy Policy for Levi Blog"
-hide-in-nav: true
+header-img: "img/about.jpg"
 ---
 
 # Privacy Policy
 
-**Last updated:** January 24, 2026
+**Last updated:** April 27, 2026
+
+Levi Blog is a personal technology blog available at [https://levifree.dpdns.org](https://levifree.dpdns.org). Most content can be read without creating an account or submitting personal information.
+
+This website may use cookies, analytics tools, comment systems, and advertising services to maintain the website, understand traffic, improve content, prevent abuse, and display advertisements after approval. Third-party services used on this website may include Google Analytics, Google AdSense, Giscus, Baidu Tongji, and Busuanzi.
+
+I do not sell your personal information. If you contact me by email, GitHub, Telegram, or comments, the information you choose to provide will only be used to reply to your message, handle feedback, or improve related content.
 
 This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.
 
