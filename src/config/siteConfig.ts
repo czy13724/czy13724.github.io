@@ -6,7 +6,7 @@ const SITE_LANG = "zh_CN"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
 export const siteConfig: SiteConfig = {
 	title: "Levi Blog",
 	subtitle: "你若盛开，清风自来",
-	siteURL: "https://levifree.dpdns.org/", // 请替换为你的站点URL，以斜杠结尾
+	siteURL: "https://czy13724.github.io/", // GitHub Pages 站点地址，以斜杠结尾
 	siteStartDate: "2023-05-01", // 站点开始运行日期，用于站点统计组件计算运行天数
 
 	lang: SITE_LANG,
