@@ -6,6 +6,8 @@ GitHub 仓库的 **Settings → Pages** 必须选择 `gh-pages` 分支的 `/ (ro
 
 当前站点使用 `https://czy13724.github.io/`。自定义域名 `levifree.dpdns.org` 的 Cloudflare/DNS 配置尚未指向 GitHub Pages，因此不在构建产物中保留 `CNAME`，避免访问 GitHub Pages 时被重定向到验证页。
 
+发布工作流会额外删除 `gh-pages` 分支中被部署工具保护的旧 `CNAME` 文件。GitHub Pages 后台的“Custom domain”字段不由仓库文件控制；若仍填写 `levifree.dpdns.org`，需在 Settings → Pages 中手动清空后保存。
+
 项目使用 Astro 7，部署工作流必须使用 Node.js LTS（且不低于 22.12）。发布前可运行：
 
 ```bash

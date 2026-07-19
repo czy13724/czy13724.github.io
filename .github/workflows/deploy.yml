@@ -44,3 +44,17 @@ jobs:
           branch: gh-pages # 部署到 gh-pages 分支
           folder: dist # Astro默认构建输出目录
           clean: true # 清理目标分支中的旧文件
+
+      # 部署 action 会保护目标分支中的 CNAME；明确删除已废弃的自定义域名文件。
+      - name: Remove obsolete custom domain file
+        run: |
+          git fetch origin gh-pages
+          git checkout -B gh-pages origin/gh-pages
+          git rm -f CNAME || true
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore: remove obsolete pages CNAME"
+          git push origin HEAD:gh-pages
