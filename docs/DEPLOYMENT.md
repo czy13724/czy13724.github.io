@@ -8,6 +8,8 @@ GitHub 仓库的 **Settings → Pages** 必须选择 `gh-pages` 分支的 `/ (ro
 
 发布工作流会额外删除 `gh-pages` 分支中被部署工具保护的旧 `CNAME` 文件。GitHub Pages 后台的“Custom domain”字段不由仓库文件控制；若仍填写 `levifree.dpdns.org`，需在 Settings → Pages 中手动清空后保存。
 
+`public/.nojekyll` 必须保留。Astro 将样式、脚本和优化图片输出到 `_astro/`；没有该文件时，GitHub Pages 会按 Jekyll 规则忽略该目录，线上页面会出现 CSS 404 和布局错乱。
+
 项目使用 Astro 7，部署工作流必须使用 Node.js LTS（且不低于 22.12）。发布前可运行：
 
 ```bash
