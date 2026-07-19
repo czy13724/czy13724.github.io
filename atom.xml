@@ -2,15 +2,15 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Levi Blog</title>
   <subtitle>你若盛开，清风自来</subtitle>
-  <link href="https://czy13724.github.io/" rel="alternate" type="text/html"/>
-  <link href="https://czy13724.github.io/atom.xml" rel="self" type="application/atom+xml"/>
-  <id>https://czy13724.github.io/</id>
-  <updated>2026-07-19T13:36:31.249Z</updated>
+  <link href="https://levifree.dpdns.org/" rel="alternate" type="text/html"/>
+  <link href="https://levifree.dpdns.org/atom.xml" rel="self" type="application/atom+xml"/>
+  <id>https://levifree.dpdns.org/</id>
+  <updated>2026-07-19T13:47:55.999Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>技术博客如何维护旧文章：用版本、验证日期和失效处理保住内容可信度</title>
-    <link href="https://czy13724.github.io/posts/technical-blog-update-policy/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/technical-blog-update-policy/</id>
+    <link href="https://levifree.dpdns.org/posts/technical-blog-update-policy/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/technical-blog-update-policy/</id>
     <published>2026-07-07T00:00:00.000Z</published>
     <updated>2026-07-07T00:00:00.000Z</updated>
     <summary>旧教程不会自动过期，但会自动失去可信度；这套维护流程帮助你优先更新真正影响读者的页面</summary>
@@ -31,8 +31,8 @@
   </entry>
   <entry>
     <title>Astro 本地预览验收清单：发布前用 15 分钟发现导航、资源与交互问题</title>
-    <link href="https://czy13724.github.io/posts/astro-local-preview-regression-checklist/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/astro-local-preview-regression-checklist/</id>
+    <link href="https://levifree.dpdns.org/posts/astro-local-preview-regression-checklist/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/astro-local-preview-regression-checklist/</id>
     <published>2026-05-28T00:00:00.000Z</published>
     <updated>2026-05-28T00:00:00.000Z</updated>
     <summary>一份适用于静态博客的小型回归流程，覆盖构建诊断、关键入口、动态筛选和资源加载</summary>
@@ -57,8 +57,8 @@
   </entry>
   <entry>
     <title>Astro 静态站图片 404 排查：从引用路径到浏览器回归的完整流程</title>
-    <link href="https://czy13724.github.io/posts/astro-static-assets-404-debugging/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/astro-static-assets-404-debugging/</id>
+    <link href="https://levifree.dpdns.org/posts/astro-static-assets-404-debugging/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/astro-static-assets-404-debugging/</id>
     <published>2026-04-18T00:00:00.000Z</published>
     <updated>2026-04-18T00:00:00.000Z</updated>
     <summary>用页面实际请求而不是目录猜测定位图片缺失；覆盖 public 路径、筛选后渲染与上线前检查</summary>
@@ -88,8 +88,8 @@ image: "/public/images/device/phone.webp" // 会请求错误地址
   </entry>
   <entry>
     <title>OpenClaw 入门与安全实战：为什么它火，以及个人用户该怎么用</title>
-    <link href="https://czy13724.github.io/posts/openclaw-practical-guide/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/openclaw-practical-guide/</id>
+    <link href="https://levifree.dpdns.org/posts/openclaw-practical-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/openclaw-practical-guide/</id>
     <published>2026-03-08T00:00:00.000Z</published>
     <updated>2026-03-08T00:00:00.000Z</updated>
     <summary>从 0 到 1 跑通 OpenClaw，并用最小风险方式接入真实消息渠道</summary>
@@ -201,8 +201,8 @@ openclaw onboard --install-daemon
   </entry>
   <entry>
     <title>OpenClaw 部署平台选择指南：Railway / Render / Fly.io / VPS 怎么选</title>
-    <link href="https://czy13724.github.io/posts/openclaw-deploy-platforms-comparison/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/openclaw-deploy-platforms-comparison/</id>
+    <link href="https://levifree.dpdns.org/posts/openclaw-deploy-platforms-comparison/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/openclaw-deploy-platforms-comparison/</id>
     <published>2026-02-28T00:00:00.000Z</published>
     <updated>2026-02-28T00:00:00.000Z</updated>
     <summary>结合官方部署文档给出场景化建议：快速上线、长期稳定、私有化安全各怎么配</summary>
@@ -301,14 +301,14 @@ openclaw onboard --install-daemon
   </entry>
   <entry>
     <title>OpenClaw 对接飞书机器人：配置与上线注意事项（含插件模式说明）</title>
-    <link href="https://czy13724.github.io/posts/openclaw-feishu-bot-integration/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/openclaw-feishu-bot-integration/</id>
+    <link href="https://levifree.dpdns.org/posts/openclaw-feishu-bot-integration/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/openclaw-feishu-bot-integration/</id>
     <published>2026-02-27T00:00:00.000Z</published>
     <updated>2026-02-27T00:00:00.000Z</updated>
     <summary>新版通常可直接接入；若你的环境是旧版本或精简构建，再按插件模式安装</summary>
     <content type="html"><![CDATA[<p>飞书在 OpenClaw 的文档里经历过“插件模式”到“内置可用”的演进。
 所以你需要先判断当前版本形态，再决定是否安装插件。</p>
-<p><img src="https://czy13724.github.io/img/openclaw/openclaw-feishu-og.png" alt="OpenClaw Feishu Channel Doc" />
+<p><img src="https://levifree.dpdns.org/img/openclaw/openclaw-feishu-og.png" alt="OpenClaw Feishu Channel Doc" />
 <em>图：OpenClaw 官方 Feishu 渠道文档页面头图。</em></p>
 <h2>1. 先判断你的环境是否需要插件</h2>
 <p>按官方渠道页，若出现 <code>plugin not available</code> 提示，再进入插件安装路径。
@@ -316,11 +316,11 @@ openclaw onboard --install-daemon
 <pre><code>openclaw channels status --probe
 </code></pre>
 <p>如果飞书可用，可直接走 onboarding；如果不可用，再执行插件安装。</p>
-<p><img src="https://czy13724.github.io/img/openclaw/feishu-step2-create-app.png" alt="Create Feishu App" />
+<p><img src="https://levifree.dpdns.org/img/openclaw/feishu-step2-create-app.png" alt="Create Feishu App" />
 <em>图：飞书应用创建页面（官方文档截图）。</em></p>
-<p><img src="https://czy13724.github.io/img/openclaw/feishu-step3-credentials.png" alt="Get Feishu Credentials" />
+<p><img src="https://levifree.dpdns.org/img/openclaw/feishu-step3-credentials.png" alt="Get Feishu Credentials" />
 <em>图：飞书应用凭据获取位置（官方文档截图）。</em></p>
-<p><img src="https://czy13724.github.io/img/openclaw/feishu-step4-permissions.png" alt="Configure Feishu Permissions" />
+<p><img src="https://levifree.dpdns.org/img/openclaw/feishu-step4-permissions.png" alt="Configure Feishu Permissions" />
 <em>图：飞书权限配置页面（官方文档截图）。</em></p>
 <h2>2. 旧版本/精简构建的插件安装路径</h2>
 <p>官方插件命令：</p>
@@ -387,14 +387,14 @@ openclaw logs --follow
   </entry>
   <entry>
     <title>OpenClaw 对接 Discord 机器人：Developer Portal 配置全流程</title>
-    <link href="https://czy13724.github.io/posts/openclaw-discord-bot-integration/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/openclaw-discord-bot-integration/</id>
+    <link href="https://levifree.dpdns.org/posts/openclaw-discord-bot-integration/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/openclaw-discord-bot-integration/</id>
     <published>2026-02-26T00:00:00.000Z</published>
     <updated>2026-02-26T00:00:00.000Z</updated>
     <summary>从应用创建、权限和 intents 到 OpenClaw 接入与排错</summary>
     <content type="html"><![CDATA[<p>Discord 接入步骤比 Telegram 多一些，关键在 Developer Portal 权限配置。
 这篇文章按官方文档把“最容易漏掉的点”写全。</p>
-<p><img src="https://czy13724.github.io/img/openclaw/openclaw-discord-og.png" alt="OpenClaw Discord Channel Doc" />
+<p><img src="https://levifree.dpdns.org/img/openclaw/openclaw-discord-og.png" alt="OpenClaw Discord Channel Doc" />
 <em>图：OpenClaw 官方 Discord 渠道文档页面头图。</em></p>
 <h2>1. 在 Discord Developer Portal 创建应用</h2>
 <ol>
@@ -478,14 +478,14 @@ openclaw logs --follow
   </entry>
   <entry>
     <title>OpenClaw 对接 Telegram 机器人：从 BotFather 到可用会话</title>
-    <link href="https://czy13724.github.io/posts/openclaw-telegram-bot-integration/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/openclaw-telegram-bot-integration/</id>
+    <link href="https://levifree.dpdns.org/posts/openclaw-telegram-bot-integration/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/openclaw-telegram-bot-integration/</id>
     <published>2026-02-25T00:00:00.000Z</published>
     <updated>2026-02-25T00:00:00.000Z</updated>
     <summary>基于官方 Telegram 渠道文档，完成配置、连通性验证与常见故障排查</summary>
     <content type="html"><![CDATA[<p>Telegram 通常是 OpenClaw 最容易跑通的渠道之一。
 这篇文章专注于“可用链路”，从 token 到会话验证一步一步来。</p>
-<p><img src="https://czy13724.github.io/img/openclaw/openclaw-telegram-og.png" alt="OpenClaw Telegram Channel Doc" />
+<p><img src="https://levifree.dpdns.org/img/openclaw/openclaw-telegram-og.png" alt="OpenClaw Telegram Channel Doc" />
 <em>图：OpenClaw 官方 Telegram 渠道文档页面头图。</em></p>
 <h2>1. 先准备 Telegram Bot</h2>
 <ol>
@@ -558,14 +558,14 @@ openclaw pairings approve &lt;pairing-id&gt;
   </entry>
   <entry>
     <title>OpenClaw 跨平台安装实战：Windows / Linux / macOS 一次讲清</title>
-    <link href="https://czy13724.github.io/posts/openclaw-install-windows-linux-macos/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/openclaw-install-windows-linux-macos/</id>
+    <link href="https://levifree.dpdns.org/posts/openclaw-install-windows-linux-macos/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/openclaw-install-windows-linux-macos/</id>
     <published>2026-02-24T00:00:00.000Z</published>
     <updated>2026-02-24T00:00:00.000Z</updated>
     <summary>按官方推荐路径完成安装、网关启动与基础健康检查，避免第一步就卡住</summary>
     <content type="html"><![CDATA[<p>如果你想长期用 OpenClaw，第一步不是“先接一堆渠道”，而是把网关基础跑稳。
 本文按官方文档给出跨平台安装路径，并覆盖 Windows、Linux、macOS 的差异点。</p>
-<p><img src="https://czy13724.github.io/img/openclaw/openclaw-install-og.png" alt="OpenClaw Install Overview" />
+<p><img src="https://levifree.dpdns.org/img/openclaw/openclaw-install-og.png" alt="OpenClaw Install Overview" />
 <em>图：OpenClaw 官方安装文档页面头图（Install overview）。</em></p>
 <h2>1. 安装前准备</h2>
 <p>根据官方安装页，基础要求是：</p>
@@ -686,8 +686,8 @@ npm prefix -g
   </entry>
   <entry>
     <title>Docker Compose 网络与 DNS 故障排查：容器互通失败怎么查</title>
-    <link href="https://czy13724.github.io/posts/docker-compose-network-dns-troubleshooting/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/docker-compose-network-dns-troubleshooting/</id>
+    <link href="https://levifree.dpdns.org/posts/docker-compose-network-dns-troubleshooting/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/docker-compose-network-dns-troubleshooting/</id>
     <published>2025-12-08T00:00:00.000Z</published>
     <updated>2025-12-08T00:00:00.000Z</updated>
     <summary>从服务名解析、端口映射到网络隔离，系统定位 `connection refused` 与 `name not resolved`</summary>
@@ -768,8 +768,8 @@ curl -I http://api:8080
   </entry>
   <entry>
     <title>SSH 密钥安全指南：五步防止服务器被黑</title>
-    <link href="https://czy13724.github.io/posts/ssh-key-security/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/ssh-key-security/</id>
+    <link href="https://levifree.dpdns.org/posts/ssh-key-security/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/ssh-key-security/</id>
     <published>2025-11-05T00:00:00.000Z</published>
     <updated>2025-11-05T00:00:00.000Z</updated>
     <summary>扔掉密码登录！打造银行级的 Linux 登录防线</summary>
@@ -840,13 +840,13 @@ PubkeyAuthentication yes
   </entry>
   <entry>
     <title>技术博客内容集群怎么做：用现有文章建立读者能走通的阅读路径</title>
-    <link href="https://czy13724.github.io/posts/static-blog-content-cluster-strategy/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/static-blog-content-cluster-strategy/</id>
+    <link href="https://levifree.dpdns.org/posts/static-blog-content-cluster-strategy/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/static-blog-content-cluster-strategy/</id>
     <published>2025-10-14T00:00:00.000Z</published>
     <updated>2025-10-14T00:00:00.000Z</updated>
     <summary>以主题地图、操作文与排错文建立内链；用可观察指标判断内容集群是否真的帮助读者</summary>
     <content type="html"><![CDATA[<p>内容集群不是为了把标签堆得更漂亮，而是让读者从一个具体问题出发，能继续找到下一步需要的内容。对技术博客而言，最实用的结构通常是“总览—操作—排错”三层。</p>
-<p><img src="https://czy13724.github.io/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
+<p><img src="https://levifree.dpdns.org/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
 <h2>先从已有主题盘点</h2>
 <p>先把已有文章按读者任务而不是技术名词归类。例如 Git 主题可包含协作规范、同步上游、冲突处理与 rebase/merge 选择；站点维护可包含部署、性能、监控和故障排查。每个主题只保留一个明确入口，避免多篇文章争抢同一个“总览”角色。</p>
 <h2>三层内容各自解决什么</h2>
@@ -865,13 +865,13 @@ PubkeyAuthentication yes
   </entry>
   <entry>
     <title>个人博客到底值不值得建：从写第一篇文章到稳定发布的实际判断</title>
-    <link href="https://czy13724.github.io/posts/github-pages-personal-blog-guide/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/github-pages-personal-blog-guide/</id>
+    <link href="https://levifree.dpdns.org/posts/github-pages-personal-blog-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/github-pages-personal-blog-guide/</id>
     <published>2025-09-30T00:00:00.000Z</published>
     <updated>2025-09-30T00:00:00.000Z</updated>
     <summary>不把独立博客神化：用内容所有权、维护成本、发布流程与读者价值判断是否适合开始</summary>
     <content type="html"><![CDATA[<p>独立博客不是“注册一个域名就拥有内容”。它更像一套你要维护的发布系统：内容在自己的仓库里、页面可以迁移、发布过程能回溯，但选题、维护和修订也都由自己负责。</p>
-<p><img src="https://czy13724.github.io/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
+<p><img src="https://levifree.dpdns.org/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
 <h2>先判断是否适合自己</h2>
 <p>适合建博客的信号很简单：你经常遇到可复现的问题，愿意记录决策过程，也愿意在半年后回来修正过时内容。若只是想立刻获得流量，博客通常不是最快路径；它的价值在于积累可以被搜索、链接和再次验证的内容。</p>
 <h2>从一篇文章开始的最小流程</h2>
@@ -893,8 +893,8 @@ PubkeyAuthentication yes
   </entry>
   <entry>
     <title>Tailwind CSS 为什么这么火？从原子化 CSS 看前端趋势</title>
-    <link href="https://czy13724.github.io/posts/why-tailwind-css/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/why-tailwind-css/</id>
+    <link href="https://levifree.dpdns.org/posts/why-tailwind-css/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/why-tailwind-css/</id>
     <published>2025-08-05T00:00:00.000Z</published>
     <updated>2025-08-05T00:00:00.000Z</updated>
     <summary>爱的人爱死，恨的人恨死：深入解析 Utility-First CSS 的设计哲学</summary>
@@ -937,13 +937,13 @@ PubkeyAuthentication yes
   </entry>
   <entry>
     <title>技术文档写作实战：把一次排错变成别人能复现的解决方案</title>
-    <link href="https://czy13724.github.io/posts/developer-documentation-writing-guide/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/developer-documentation-writing-guide/</id>
+    <link href="https://levifree.dpdns.org/posts/developer-documentation-writing-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/developer-documentation-writing-guide/</id>
     <published>2025-07-22T00:00:00.000Z</published>
     <updated>2025-07-22T00:00:00.000Z</updated>
     <summary>用问题边界、最小步骤、验证证据与失败分支，写出真正能帮助读者的技术文章</summary>
     <content type="html"><![CDATA[<p>一篇技术文章是否有价值，不取决于术语有多少，而取决于陌生读者能否在自己的环境中完成目标。下面这套方法适合把一次部署、排错或配置过程整理成可长期维护的文章。</p>
-<p><img src="https://czy13724.github.io/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
+<p><img src="https://levifree.dpdns.org/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
 <h2>先把问题说清楚</h2>
 <p>开头用四句话交代：谁遇到了什么问题、成功后是什么状态、文章不覆盖什么、测试环境是什么。例如“本文处理 Astro 静态站新增页面后导航不显示；验证标准是首页出现入口且链接可打开；不讨论主题视觉重构；示例基于 Node 与 pnpm 环境”。</p>
 <p>这一步能避免读者把不同框架、不同部署平台的问题套进同一份命令里，也让搜索进入页面的人快速判断是否值得继续阅读。</p>
@@ -968,8 +968,8 @@ PubkeyAuthentication yes
   </entry>
   <entry>
     <title>Nginx 502/504 排错指南：反向代理常见故障的定位与修复</title>
-    <link href="https://czy13724.github.io/posts/nginx-502-504-troubleshooting/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/nginx-502-504-troubleshooting/</id>
+    <link href="https://levifree.dpdns.org/posts/nginx-502-504-troubleshooting/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/nginx-502-504-troubleshooting/</id>
     <published>2025-06-28T00:00:00.000Z</published>
     <updated>2025-06-28T00:00:00.000Z</updated>
     <summary>从上游服务、超时配置到网络连通性，一步步排查 Bad Gateway 和 Gateway Timeout</summary>
@@ -1055,8 +1055,8 @@ df -h
   </entry>
   <entry>
     <title>WebP vs AVIF 实战指南：如何在真实项目里做图片格式选型</title>
-    <link href="https://czy13724.github.io/posts/webp-vs-avif/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/webp-vs-avif/</id>
+    <link href="https://levifree.dpdns.org/posts/webp-vs-avif/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/webp-vs-avif/</id>
     <published>2025-06-16T00:00:00.000Z</published>
     <updated>2025-06-16T00:00:00.000Z</updated>
     <summary>不只看压缩率：结合编码耗时、兼容性、CDN 成本和 Core Web Vitals 的完整决策方法</summary>
@@ -1245,13 +1245,13 @@ console.log('image build done');
   </entry>
   <entry>
     <title>个人站监控实战：用 Uptime Kuma 建立可行动的故障告警</title>
-    <link href="https://czy13724.github.io/posts/self-hosted-monitoring-uptime-kuma-guide/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/self-hosted-monitoring-uptime-kuma-guide/</id>
+    <link href="https://levifree.dpdns.org/posts/self-hosted-monitoring-uptime-kuma-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/self-hosted-monitoring-uptime-kuma-guide/</id>
     <published>2025-05-21T00:00:00.000Z</published>
     <updated>2025-05-21T00:00:00.000Z</updated>
     <summary>从监控项、阈值、告警分级到故障演练，避免“有告警但不知道下一步做什么”</summary>
     <content type="html"><![CDATA[<p>监控的目标不是收集更多红绿图标，而是在站点真正不可用时让你知道：哪里坏了、影响多大、先做什么。个人站从少量关键检查开始，通常比把每一个资源都加进监控更可靠。</p>
-<p><img src="https://czy13724.github.io/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
+<p><img src="https://levifree.dpdns.org/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
 <h2>1. 先定义最小监控集</h2>
 <p>建议从四项开始：首页 HTTP、一个关键文章页、域名 TLS 证书、DNS 解析。首页失败代表读者入口受影响；关键文章页能发现路由或内容构建问题；证书和 DNS 则覆盖“服务器正常但域名不可用”的情况。</p>
 <pre><code>docker run -d --restart=always -p 3001:3001 \
@@ -1274,8 +1274,8 @@ console.log('image build done');
   </entry>
   <entry>
     <title>提升 macOS 效率的 5 个终端 (Terminal) 技巧</title>
-    <link href="https://czy13724.github.io/posts/macos-terminal-tips/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/macos-terminal-tips/</id>
+    <link href="https://levifree.dpdns.org/posts/macos-terminal-tips/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/macos-terminal-tips/</id>
     <published>2025-04-12T00:00:00.000Z</published>
     <updated>2025-04-12T00:00:00.000Z</updated>
     <summary>摆脱鼠标依赖，让你的命令行操作行云流水</summary>
@@ -1336,8 +1336,8 @@ alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
   </entry>
   <entry>
     <title>Cloudflare Pages 性能与安全配置：先验证默认行为，再做最小改动</title>
-    <link href="https://czy13724.github.io/posts/cloudflare-pages-performance-security/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/cloudflare-pages-performance-security/</id>
+    <link href="https://levifree.dpdns.org/posts/cloudflare-pages-performance-security/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/cloudflare-pages-performance-security/</id>
     <published>2025-03-18T00:00:00.000Z</published>
     <updated>2025-03-18T00:00:00.000Z</updated>
     <summary>从 Pages 默认缓存、静态响应头到上线后的验证，避免为了优化而制造陈旧内容或安全回归</summary>
@@ -1379,8 +1379,8 @@ curl -I https://example.com/assets/app.abc123.css
   </entry>
   <entry>
     <title>AdSense 低价值内容恢复实战：个人技术博客 30 天优化清单</title>
-    <link href="https://czy13724.github.io/posts/adsense-low-value-content-recovery/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/adsense-low-value-content-recovery/</id>
+    <link href="https://levifree.dpdns.org/posts/adsense-low-value-content-recovery/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/adsense-low-value-content-recovery/</id>
     <published>2025-03-09T00:00:00.000Z</published>
     <updated>2025-03-09T00:00:00.000Z</updated>
     <summary>从内容结构、站点信号到复审节奏，给出可执行的整改路径</summary>
@@ -1504,8 +1504,8 @@ curl -I https://example.com/assets/app.abc123.css
   </entry>
   <entry>
     <title>Jekyll 博客内容质量清单：发布前 15 分钟自检模板</title>
-    <link href="https://czy13724.github.io/posts/jekyll-content-quality-checklist/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/jekyll-content-quality-checklist/</id>
+    <link href="https://levifree.dpdns.org/posts/jekyll-content-quality-checklist/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/jekyll-content-quality-checklist/</id>
     <published>2025-03-09T00:00:00.000Z</published>
     <updated>2025-03-09T00:00:00.000Z</updated>
     <summary>把“写完就发”升级为“可复用资产”：覆盖可读性、SEO、可信度和合规</summary>
@@ -1613,8 +1613,8 @@ curl -I https://example.com/assets/app.abc123.css
   </entry>
   <entry>
     <title>Docker 部署 Nginx Proxy Manager: 小白也能搞定反向代理</title>
-    <link href="https://czy13724.github.io/posts/nginx-proxy-manager/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/nginx-proxy-manager/</id>
+    <link href="https://levifree.dpdns.org/posts/nginx-proxy-manager/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/nginx-proxy-manager/</id>
     <published>2025-02-20T00:00:00.000Z</published>
     <updated>2025-02-20T00:00:00.000Z</updated>
     <summary>告别繁琐的 Nginx 配置文件，用可视化面板轻松管理 SSL 证书与域名转发</summary>
@@ -1722,8 +1722,8 @@ services:
   </entry>
   <entry>
     <title>重构的艺术：如何写出同事不骂街的 TypeScript 代码</title>
-    <link href="https://czy13724.github.io/posts/typescript-refactoring/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/typescript-refactoring/</id>
+    <link href="https://levifree.dpdns.org/posts/typescript-refactoring/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/typescript-refactoring/</id>
     <published>2025-01-10T00:00:00.000Z</published>
     <updated>2025-01-10T00:00:00.000Z</updated>
     <summary>代码是写给人看的，顺便给机器运行。5 个实用的重构小技巧</summary>
@@ -1797,8 +1797,8 @@ if (order.status === OrderStatus.Completed) { ... }
   </entry>
   <entry>
     <title>Python 自动化办公：5分钟写一个批量重命名脚本</title>
-    <link href="https://czy13724.github.io/posts/python-rename-script/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/python-rename-script/</id>
+    <link href="https://levifree.dpdns.org/posts/python-rename-script/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/python-rename-script/</id>
     <published>2024-12-12T00:00:00.000Z</published>
     <updated>2024-12-12T00:00:00.000Z</updated>
     <summary>告别枯燥的手工劳动，用几十行代码拯救你的下班时间</summary>
@@ -1876,8 +1876,8 @@ if __name__ == "__main__":
   </entry>
   <entry>
     <title>Git 冲突处理实战手册：从定位到收敛的一套标准流程</title>
-    <link href="https://czy13724.github.io/posts/git-conflict-resolution-playbook/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/git-conflict-resolution-playbook/</id>
+    <link href="https://levifree.dpdns.org/posts/git-conflict-resolution-playbook/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/git-conflict-resolution-playbook/</id>
     <published>2024-12-03T00:00:00.000Z</published>
     <updated>2024-12-03T00:00:00.000Z</updated>
     <summary>告别手忙脚乱：处理 merge/rebase 冲突时的步骤、命令与风险控制</summary>
@@ -1959,8 +1959,8 @@ git rebase --continue
   </entry>
   <entry>
     <title>GitHub Actions 实战：为 Jekyll 博客搭建自动化质量检查流水线</title>
-    <link href="https://czy13724.github.io/posts/github-actions-blog-ci-cd/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/github-actions-blog-ci-cd/</id>
+    <link href="https://levifree.dpdns.org/posts/github-actions-blog-ci-cd/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/github-actions-blog-ci-cd/</id>
     <published>2024-11-18T00:00:00.000Z</published>
     <updated>2024-11-18T00:00:00.000Z</updated>
     <summary>每次提交自动检查 Markdown、死链与构建状态，减少线上翻车</summary>
@@ -2047,8 +2047,8 @@ jobs:
   </entry>
   <entry>
     <title>Obsidian vs Notion 深度对比：2026 年如何搭建真正可持续的第二大脑</title>
-    <link href="https://czy13724.github.io/posts/obsidian-vs-notion/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/obsidian-vs-notion/</id>
+    <link href="https://levifree.dpdns.org/posts/obsidian-vs-notion/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/obsidian-vs-notion/</id>
     <published>2024-10-10T00:00:00.000Z</published>
     <updated>2024-10-10T00:00:00.000Z</updated>
     <summary>不只聊功能清单：从数据所有权、协作成本到长期维护，给出可执行选型框架</summary>
@@ -2230,8 +2230,8 @@ jobs:
   </entry>
   <entry>
     <title>Git Rebase vs Merge：团队 PR 工作流如何选才不翻车</title>
-    <link href="https://czy13724.github.io/posts/git-rebase-vs-merge-pr-workflow/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/git-rebase-vs-merge-pr-workflow/</id>
+    <link href="https://levifree.dpdns.org/posts/git-rebase-vs-merge-pr-workflow/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/git-rebase-vs-merge-pr-workflow/</id>
     <published>2024-09-12T00:00:00.000Z</published>
     <updated>2024-09-12T00:00:00.000Z</updated>
     <summary>从提交历史可读性、冲突处理到回滚策略，给出可落地的协作规范</summary>
@@ -2308,8 +2308,8 @@ git push origin main
   </entry>
   <entry>
     <title>告别 git push -f：团队协作中的 Git Commit 规范指南</title>
-    <link href="https://czy13724.github.io/posts/git-commit-convention/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/git-commit-convention/</id>
+    <link href="https://levifree.dpdns.org/posts/git-commit-convention/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/git-commit-convention/</id>
     <published>2024-08-20T00:00:00.000Z</published>
     <updated>2024-08-20T00:00:00.000Z</updated>
     <summary>如何写出优雅的 Commit Message？Conventional Commits 最佳实践</summary>
@@ -2417,8 +2417,8 @@ git push origin main
   </entry>
   <entry>
     <title>Jekyll SEO 技术优化清单：从可抓取到可排名的实战配置</title>
-    <link href="https://czy13724.github.io/posts/jekyll-seo-technical-optimization/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/jekyll-seo-technical-optimization/</id>
+    <link href="https://levifree.dpdns.org/posts/jekyll-seo-technical-optimization/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/jekyll-seo-technical-optimization/</id>
     <published>2024-07-16T00:00:00.000Z</published>
     <updated>2024-07-16T00:00:00.000Z</updated>
     <summary>Sitemap、结构化数据、Canonical 与内容聚合页，给个人博客一套可执行的 SEO 基线</summary>
@@ -2508,8 +2508,8 @@ curl -I https://your-domain.com/sitemap.xml
   </entry>
   <entry>
     <title>Linux 服务器安全基线实战：新机上线前必须完成的 12 项加固</title>
-    <link href="https://czy13724.github.io/posts/linux-server-security-baseline/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/linux-server-security-baseline/</id>
+    <link href="https://levifree.dpdns.org/posts/linux-server-security-baseline/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/linux-server-security-baseline/</id>
     <published>2024-06-18T00:00:00.000Z</published>
     <updated>2024-06-18T00:00:00.000Z</updated>
     <summary>从账户、SSH、防火墙到日志审计，给个人站长一份可直接执行的上线清单</summary>
@@ -2602,8 +2602,8 @@ sudo systemctl list-unit-files --type=service
   </entry>
   <entry>
     <title>VS Code + GitHub Copilot: AI 时代开发者的效率核武器</title>
-    <link href="https://czy13724.github.io/posts/vscode-copilot-ai-coding-guide/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/vscode-copilot-ai-coding-guide/</id>
+    <link href="https://levifree.dpdns.org/posts/vscode-copilot-ai-coding-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/vscode-copilot-ai-coding-guide/</id>
     <published>2024-05-15T00:00:00.000Z</published>
     <updated>2024-05-15T00:00:00.000Z</updated>
     <summary>AI 结对编程时代，如何利用 Copilot 节省 50% 的编码时间</summary>
@@ -2653,8 +2653,8 @@ sudo systemctl list-unit-files --type=service
   </entry>
   <entry>
     <title>Jekyll 构建报错排查手册：10 个最常见错误与修复步骤</title>
-    <link href="https://czy13724.github.io/posts/jekyll-build-errors-troubleshooting/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/jekyll-build-errors-troubleshooting/</id>
+    <link href="https://levifree.dpdns.org/posts/jekyll-build-errors-troubleshooting/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/jekyll-build-errors-troubleshooting/</id>
     <published>2024-04-22T00:00:00.000Z</published>
     <updated>2024-04-22T00:00:00.000Z</updated>
     <summary>从 Front Matter、依赖冲突到端口占用，给博客维护者一份可复制的故障处理流程</summary>
@@ -2768,8 +2768,8 @@ bundle exec jekyll serve
   </entry>
   <entry>
     <title>Next.js App Router 上手指南：从路由到服务端渲染</title>
-    <link href="https://czy13724.github.io/posts/nextjs-app-router/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/nextjs-app-router/</id>
+    <link href="https://levifree.dpdns.org/posts/nextjs-app-router/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/nextjs-app-router/</id>
     <published>2024-03-25T00:00:00.000Z</published>
     <updated>2024-03-25T00:00:00.000Z</updated>
     <summary>忘掉 getStaticProps？Next.js 14+ 核心概念极简解析</summary>
@@ -2849,8 +2849,8 @@ fetch('https://...', { next: { revalidate: 10 } });
   </entry>
   <entry>
     <title>iPad 生产力指南：掌握这 5 个多任务处理技巧 (iPadOS 17+)</title>
-    <link href="https://czy13724.github.io/posts/ipad-productivity-tips/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/ipad-productivity-tips/</id>
+    <link href="https://levifree.dpdns.org/posts/ipad-productivity-tips/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/ipad-productivity-tips/</id>
     <published>2024-01-02T00:00:00.000Z</published>
     <updated>2024-01-02T00:00:00.000Z</updated>
     <summary>从分屏浏览到台前调度，彻底释放 iPad 的办公潜能</summary>
@@ -2901,8 +2901,8 @@ fetch('https://...', { next: { revalidate: 10 } });
   </entry>
   <entry>
     <title>AMH 面板建站实战：从零部署高性能 WordPress 博客</title>
-    <link href="https://czy13724.github.io/posts/amh-wordpress-installation-guide/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/amh-wordpress-installation-guide/</id>
+    <link href="https://levifree.dpdns.org/posts/amh-wordpress-installation-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/amh-wordpress-installation-guide/</id>
     <published>2023-12-25T00:00:00.000Z</published>
     <updated>2023-12-25T00:00:00.000Z</updated>
     <summary>基于 Azure B1s / VPS 的 Linux 环境配置与 AMH 面板使用全指南</summary>
@@ -2961,7 +2961,7 @@ systemctl disable firewalld
 </blockquote>
 <h3>2. 登录面板</h3>
 <p>安装完成后，通过浏览器访问 <code>http://你的IP:8888</code> 或 <code>https://你的IP:9999</code>。使用终端输出的默认账号密码登录。</p>
-<p><img src="https://czy13724.github.io/img/AMH_Install_WordPress/34.png" alt="AMH登录界面" /></p>
+<p><img src="https://levifree.dpdns.org/img/AMH_Install_WordPress/34.png" alt="AMH登录界面" /></p>
 <h3>3. 安装必要软件扩展</h3>
 <p>登录面板后，进入 <strong>软件商店</strong>，建议安装以下扩展以支持 WordPress 运行：</p>
 <ul>
@@ -2988,7 +2988,7 @@ systemctl disable firewalld
 rewrite /wp-admin$ $scheme://$host$uri/ permanent;
 </code></pre>
 </blockquote>
-<p><img src="https://czy13724.github.io/img/AMH_Install_WordPress/2.png" alt="新增虚拟主机" /></p>
+<p><img src="https://levifree.dpdns.org/img/AMH_Install_WordPress/2.png" alt="新增虚拟主机" /></p>
 <h3>2. 申请 SSL 证书</h3>
 <p>进入 <strong>网站</strong> -&gt; <strong>SSL证书</strong> -&gt; <strong>AMSSL</strong>：</p>
 <ul>
@@ -2996,7 +2996,7 @@ rewrite /wp-admin$ $scheme://$host$uri/ permanent;
 <li>勾选 <strong>一键自动配置</strong> (推荐 Let's Encrypt)。</li>
 <li>点击创建，等待证书签发并自动部署。</li>
 </ul>
-<p><img src="https://czy13724.github.io/img/AMH_Install_WordPress/9.png" alt="SSL配置" /></p>
+<p><img src="https://levifree.dpdns.org/img/AMH_Install_WordPress/9.png" alt="SSL配置" /></p>
 <h3>3. 安装 PHP 扩展</h3>
 <p>WordPress 及其插件通常需要以下 PHP 扩展支持。进入 <strong>网站</strong> -&gt; <strong>PHP扩展</strong>，为 <code>lnmp01</code> 环境安装：</p>
 <ul>
@@ -3034,7 +3034,7 @@ define( 'FS_METHOD', 'direct' );
 </ol>
 <h3>3. 权限修正</h3>
 <p>这一步至关重要：在 <strong>文件</strong> 管理中，勾选 <code>web</code> 目录，点击 <strong>权限</strong>，将所有者改为 <code>www</code>，用户组改为 <code>www</code>，并勾选 <strong>递归处理</strong>。</p>
-<p><img src="https://czy13724.github.io/img/AMH_Install_WordPress/25.png" alt="权限设置" /></p>
+<p><img src="https://levifree.dpdns.org/img/AMH_Install_WordPress/25.png" alt="权限设置" /></p>
 <hr />
 <h2>第五阶段：完成安装</h2>
 <p>打开浏览器访问你的域名，你应该能看到 WordPress 的安装欢迎界面。设置好站点标题、管理员账号密码，点击安装即可！</p>
@@ -3063,8 +3063,8 @@ define( 'FS_METHOD', 'direct' );
   </entry>
   <entry>
     <title>acme.sh 证书申请指南：免费、自动续期的泛域名 SSL/TLS 证书</title>
-    <link href="https://czy13724.github.io/posts/acme-sh-free-ssl-certificate-guide/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/acme-sh-free-ssl-certificate-guide/</id>
+    <link href="https://levifree.dpdns.org/posts/acme-sh-free-ssl-certificate-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/acme-sh-free-ssl-certificate-guide/</id>
     <published>2023-12-24T00:00:00.000Z</published>
     <updated>2023-12-24T00:00:00.000Z</updated>
     <summary>从零开始：通过 Cloudflare API 实现全自动化 HTTPS 配置</summary>
@@ -3215,8 +3215,8 @@ acme.sh --install-cert -d example.com --ecc \
   </entry>
   <entry>
     <title>前端开发实战：如何使用 Charles 脚本进行 API 数据 Mock</title>
-    <link href="https://czy13724.github.io/posts/javascript-mock-api-tutorial/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/javascript-mock-api-tutorial/</id>
+    <link href="https://levifree.dpdns.org/posts/javascript-mock-api-tutorial/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/javascript-mock-api-tutorial/</id>
     <published>2023-12-22T00:00:00.000Z</published>
     <updated>2023-12-22T00:00:00.000Z</updated>
     <summary>告别后端依赖，利用本地代理工具自行构造测试场景</summary>
@@ -3327,8 +3327,8 @@ $done({ body: JSON.stringify(obj) });
   </entry>
   <entry>
     <title>Git 实战：三种方法让你的 Fork 仓库与上游保持同步</title>
-    <link href="https://czy13724.github.io/posts/git-sync-fork-upstream-guide/" rel="alternate" type="text/html"/>
-    <id>https://czy13724.github.io/posts/git-sync-fork-upstream-guide/</id>
+    <link href="https://levifree.dpdns.org/posts/git-sync-fork-upstream-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.dpdns.org/posts/git-sync-fork-upstream-guide/</id>
     <published>2023-12-06T00:00:00.000Z</published>
     <updated>2023-12-06T00:00:00.000Z</updated>
     <summary>从点击按钮到自动化脚本：全方位掌握 Git Upstream 同步技巧</summary>
@@ -3384,7 +3384,7 @@ git push origin main
 <h3>1. 创建工作流文件</h3>
 <p>在你的仓库中，点击 <strong>Actions</strong> -&gt; <strong>New workflow</strong>，创建一个名为 <code>.github/workflows/sync.yml</code> 的文件。</p>
 <p>如果你 Fork 的仓库里已存在其他工作流，点击 <code>Actions</code> 后可能需要先点击 <code>New workflow</code>，如下图所示：
-<img src="https://czy13724.github.io/img/syncworkflow/createworkflow.png" alt="新建工作流" /></p>
+<img src="https://levifree.dpdns.org/img/syncworkflow/createworkflow.png" alt="新建工作流" /></p>
 <h3>2. 填入配置代码</h3>
 <p>复制以下 YAML 内容，并<strong>务必修改第四步中的上游仓库地址</strong>。</p>
 <pre><code>name: Upstream Sync
@@ -3431,9 +3431,9 @@ jobs:
           exit 1
 </code></pre>
 <p>请参考下图说明进行修改：
-<img src="https://czy13724.github.io/img/syncworkflow/modification.png" alt="修改说明" /></p>
+<img src="https://levifree.dpdns.org/img/syncworkflow/modification.png" alt="修改说明" /></p>
 <p>以下是配置完成后的完整代码示例图（注意：部分密钥无需手动填写）：
-<img src="https://czy13724.github.io/img/syncworkflow/sync.jpg" alt="全部代码" /></p>
+<img src="https://levifree.dpdns.org/img/syncworkflow/sync.jpg" alt="全部代码" /></p>
 <h3>3. 注意事项</h3>
 <ul>
 <li><strong>首次运行</strong>：创建完文件后，建议切到 Actions 页面手动触发一次（Run workflow）以验证配置是否正确。</li>
