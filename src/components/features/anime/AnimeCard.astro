@@ -1,13 +1,13 @@
 ---
-import Image from "@components/atoms/Image/Image.astro";
-
 interface Props {
 	anime: {
+		sourceId?: string;
 		title: string;
 		cover: string;
 		link: string;
 		status: string;
 		rating: number;
+		episodes: string;
 		progress: number;
 		totalEpisodes: number;
 		description: string;
@@ -26,6 +26,9 @@ interface Props {
 
 const { anime, statusInfo, yearLabel, studioLabel } = Astro.props;
 
+const defaultCover = "/images/anime/default-cover.svg";
+const coverSrc = anime.cover || defaultCover;
+
 const progressPercent =
 	anime.totalEpisodes > 0 ? (anime.progress / anime.totalEpisodes) * 100 : 0;
 ---
@@ -33,6 +36,7 @@ const progressPercent =
 <div
 	class="group relative bg-(--card-bg) border border-(--line-divider) rounded-(--radius-large) overflow-hidden hover:shadow-lg"
 	data-anime-status={anime.status}
+	data-anime-source={anime.sourceId}
 >
 	<div class="relative anime-cover-container aspect-2/3 overflow-hidden">
 		<a
@@ -41,13 +45,15 @@ const progressPercent =
 			rel="noopener noreferrer"
 			class="block w-full h-full"
 		>
-			<Image
-				src={anime.cover}
+			<img
+				src={coverSrc}
 				alt={anime.title}
 				class="w-full h-full object-cover transition-transform duration-200 group-hover:scale-110"
-				widths={[200, 400, 600]}
-				sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
+				loading="lazy"
+				referrerpolicy="no-referrer"
+				onerror={`this.onerror=null;this.src='${defaultCover}';this.alt='暂无封面';this.nextElementSibling?.classList.remove('hidden');`}
 			/>
+			<span class="hidden absolute inset-0 flex items-end justify-center bg-black/45 pb-4 text-sm font-medium text-white">暂无封面</span>
 			<div
 				class="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
 			>
@@ -71,7 +77,7 @@ const progressPercent =
 			class={`absolute top-2 left-2 px-2 py-1 rounded-md text-xs font-medium ${statusInfo.class}`}
 		>
 			<span class="mr-1">{statusInfo.icon}</span>
-			<span>{statusInfo.text}</span>
+			<span data-anime-status-text>{statusInfo.text}</span>
 		</div>
 
 		<div
@@ -86,12 +92,14 @@ const progressPercent =
 					d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
 				></path>
 			</svg>
-			<span>{anime.rating}</span>
+			<span data-anime-rating>{anime.rating}</span>
 		</div>
 
-		{
-			anime.status === "watching" && (
-				<div class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 to-transparent p-2">
+		<div
+			class="absolute bottom-0 left-0 right-0 bg-linear-to-t from-black/80 to-transparent p-2"
+			data-anime-progress-section
+			hidden={anime.status !== "watching"}
+		>
 					<div class="w-full bg-white/20 rounded-full h-1.5 mb-1">
 						<div
 							class="bg-linear-to-r from-emerald-400 to-teal-400 h-1.5 rounded-full transition-all duration-300"
@@ -99,12 +107,10 @@ const progressPercent =
 						/>
 					</div>
 					<div class="text-white text-xs font-medium">
-						{anime.progress}/{anime.totalEpisodes} (
-						{Math.round(progressPercent)}%)
+						<span data-anime-progress>{anime.progress}/{anime.totalEpisodes} (
+						{Math.round(progressPercent)}%)</span>
 					</div>
-				</div>
-			)
-		}
+		</div>
 	</div>
 
 	<div class="p-3">
@@ -116,11 +122,16 @@ const progressPercent =
 		<p
 			class="text-black/60 dark:text-white/60 text-xs mb-2 line-clamp-2"
 			title={anime.description}
+			data-anime-description
 		>
 			{anime.description}
 		</p>
 
 		<div class="space-y-1 text-xs">
+			<div class="flex justify-between items-center">
+				<span class="text-black/50 dark:text-white/50 shrink-0">进度</span>
+				<span class="text-black/70 dark:text-white/70 truncate ml-2 text-right" data-anime-episodes>{anime.episodes}</span>
+			</div>
 			<div class="flex justify-between items-center">
 				<span class="text-black/50 dark:text-white/50 shrink-0">
 					{yearLabel}

@@ -65,6 +65,7 @@ const visibleAnimeList = animeList.slice(0, INITIAL_DISPLAY_COUNT);
 const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 const showExtendedFilters = ANIME_MODE === "bangumi";
 const emptyMessage = i18n(I18nKey.animeEmpty);
+const animeMetadataApiPath = import.meta.env.DEV ? "/api/tencent-anime/" : "/api/tencent-anime";
 ---
 
 <MainGridLayout
@@ -319,6 +320,31 @@ const emptyMessage = i18n(I18nKey.animeEmpty);
 				updateAnimeListLayout(event.detail.layout);
 			});
 		})();
+	</script>
+	<script is:inline define:vars={{ animeMetadataApiPath }}>
+		document.querySelectorAll("[data-anime-source]").forEach(async (card) => {
+			const id = card.getAttribute("data-anime-source");
+			try {
+				const response = await fetch(`${animeMetadataApiPath}?id=${encodeURIComponent(id || "")}`);
+				if (!response.ok) return;
+				const data = await response.json();
+				const rating = card.querySelector("[data-anime-rating]");
+				const description = card.querySelector("[data-anime-description]");
+				const episodes = card.querySelector("[data-anime-episodes]");
+				const progress = card.querySelector("[data-anime-progress]");
+				const progressSection = card.querySelector("[data-anime-progress-section]");
+				const status = card.querySelector("[data-anime-status-text]");
+				if (rating && typeof data.rating === "number") rating.textContent = data.rating.toFixed(1);
+				if (description && data.description) { description.textContent = data.description; description.setAttribute("title", data.description); }
+				if (episodes && data.episodes) episodes.textContent = data.episodes;
+				if (progress && typeof data.progress === "number" && typeof data.totalEpisodes === "number") progress.textContent = `${data.progress}/${data.totalEpisodes} (${Math.round(data.progress / data.totalEpisodes * 100)}%)`;
+				if (data.status) {
+					card.setAttribute("data-anime-status", data.status);
+					if (progressSection) progressSection.hidden = data.status !== "watching";
+					if (status) status.textContent = data.status === "completed" ? "看过" : "在看";
+				}
+			} catch { /* Keep the local fallback values. */ }
+		});
 	</script>
 
 	<script is:inline>

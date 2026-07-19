@@ -34,6 +34,17 @@ import { parseDirectiveNode } from "./src/plugins/remark-directive-rehype.js";
 import { remarkEscapeNumericColons } from "./src/plugins/remark-escape-numeric-colons.mjs";
 import { remarkFixGithubAdmonitions } from "./src/plugins/remark-fix-github-admonitions.js";
 import { remarkMermaid } from "./src/plugins/remark-mermaid.js";
+import tencentAnime from "./api/tencent-anime.js";
+
+const localTencentAnimeApi = {
+	name: "local-tencent-anime-api",
+	enforce: "pre",
+	configureServer(server) {
+		server.middlewares.use("/api/tencent-anime", (request, response) =>
+			tencentAnime(request, response),
+		);
+	},
+};
 
 // https://astro.build/config
 export default defineConfig({
@@ -245,7 +256,7 @@ export default defineConfig({
 		}),
 	},
 	vite: {
-		plugins: [tailwindcss()],
+		plugins: [tailwindcss(), localTencentAnimeApi],
 		// 开发环境预打包优化：将常用依赖提前编译，避免首次页面加载时 on-demand 编译导致 8s+ 的等待
 		optimizeDeps: {
 			include: [

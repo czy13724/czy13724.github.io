@@ -1,5 +1,6 @@
 import type { NavBarConfig } from "../types/config";
 import { LinkPreset } from "../types/config";
+import { siteConfig } from "./siteConfig";
 
 /**
  * 导航栏菜单配置
@@ -131,9 +132,22 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Home,
 		LinkPreset.Archive,
 		LinkPreset.Friends,
+		{
+			name: "Others",
+			url: "#",
+			icon: "material-symbols:more-horiz",
+			children: [
+				{
+					name: "Devices",
+					url: "/devices/",
+					icon: "material-symbols:devices",
+				},
+				LinkPreset.Anime,
+			],
+		},
 		LinkPreset.About,
 		{
-			name: "Privacy Policy",
+			name: siteConfig.lang === "zh_CN" || siteConfig.lang === "zh_TW" ? "隐私政策" : "Privacy Policy",
 			url: "/privacy/",
 			icon: "material-symbols:privacy-tip",
 		},

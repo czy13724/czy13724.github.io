@@ -18,14 +18,14 @@ export const siteConfig: SiteConfig = {
 
 	// 特色页面开关配置（关闭未使用的页面有助于提升 SEO，关闭后请记得在 navbarConfig 中移除对应链接）
 	featurePages: {
-		anime: false, // 番剧页面开关
+		anime: true, // 番剧页面开关
 		diary: false, // 日记页面开关
 		friends: true, // 友链页面开关
 		projects: false, // 项目页面开关
 		skills: false, // 技能页面开关
 		timeline: false, // 时间线页面开关
 		albums: false, // 相册页面开关
-		devices: false, // 设备页面开关
+		devices: true, // 设备页面开关
 		aiTools: false, // AI 工具页面开关
 	},
 
@@ -36,9 +36,9 @@ export const siteConfig: SiteConfig = {
 		// 顶栏标题文本
 		text: "Levi Blog",
 		// 顶栏标题图标路径，默认使用 public/assets/home/home.webp
-		icon: "assets/home/home.webp",
+		icon: "/img/header_ic.jpg",
 		// 网站Logo图片路径
-		logo: "assets/home/default-logo.webp",
+		logo: "/img/header_ic.jpg",
 	},
 
 	// 页面自动缩放配置
@@ -109,16 +109,16 @@ export const siteConfig: SiteConfig = {
 		// 支持单张图片或图片数组，当数组长度 > 1 时自动启用轮播
 		src: {
 			desktop: [
-				"/assets/desktop-banner/1.webp",
-				"/assets/desktop-banner/2.webp",
-				"/assets/desktop-banner/3.webp",
-				"/assets/desktop-banner/4.webp",
+				"/img/bg/image_1.jpg",
+				"/img/bg/image_2.jpg",
+				"/img/bg/image_3.jpg",
+				"/img/bg/image_4.jpg",
 			], // 桌面横幅图片
 			mobile: [
-				"/assets/mobile-banner/1.webp",
-				"/assets/mobile-banner/2.webp",
-				"/assets/mobile-banner/3.webp",
-				"/assets/mobile-banner/4.webp",
+				"/img/bg/image_1.jpg",
+				"/img/bg/image_2.jpg",
+				"/img/bg/image_3.jpg",
+				"/img/bg/image_4.jpg",
 			], // 移动横幅图片
 		}, // 使用本地横幅图片
 
@@ -148,15 +148,14 @@ export const siteConfig: SiteConfig = {
 
 		homeText: {
 			enable: true,
-			title: "わたしの部屋",
+			title: "Levi Blog",
 			switchable: true,
 
 			subtitle: [
-				"特別なことはないけど、君がいると十分です",
-				"今でもあなたは私の光",
-				"君ってさ、知らないうちに私の毎日になってたよ",
-				"君と話すと、なんか毎日がちょっと楽しくなるんだ",
-				"今日はなんでもない日。でも、ちょっとだけいい日",
+				"你若盛开，清风自来",
+				"Life is simple, me too ❤",
+				"保持热爱，奔赴山海",
+				"不忘初心，方得始终",
 			],
 			typewriter: {
 				enable: true, // 启用副标题打字机效果
@@ -190,11 +189,9 @@ export const siteConfig: SiteConfig = {
 	generateOgImages: false, // 启用生成OpenGraph图片功能,注意开启后要渲染很长时间，不建议本地调试的时候开启
 	favicon: [
 		// 留空以使用默认 favicon
-		// {
-		//   src: '/favicon/icon.png',    // 图标文件路径
-		//   theme: 'light',              // 可选，指定主题 'light' | 'dark'
-		//   sizes: '32x32',              // 可选，图标大小
-		// }
+		{
+		  src: '/img/header_ic.jpg',    // 图标文件路径
+		}
 	],
 
 	// 字体现在通过 astro.config.mjs 的 fonts 选项配置（Astro Font API）

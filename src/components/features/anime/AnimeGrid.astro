@@ -8,11 +8,13 @@ interface StatusInfo {
 }
 
 interface AnimeItem {
+	sourceId?: string;
 	title: string;
 	cover: string;
 	link: string;
 	status: string;
 	rating: number;
+	episodes: string;
 	progress: number;
 	totalEpisodes: number;
 	description: string;

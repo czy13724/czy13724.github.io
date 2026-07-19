@@ -15,10 +15,42 @@ export const friendsData: FriendItem[] = [
 	{
 		id: 1,
 		title: "Leviの导航站",
-		imgurl: "/img/header_ic.jpg", // 暂时使用头像作为默认图标
+		imgurl: "/img/header_ic.jpg",
 		desc: "Levi's Navigation",
 		siteurl: "https://levifree.qzz.io",
 		tags: ["Nav"],
+	},
+	{
+		id: 2,
+		title: "Leviの图标库",
+		imgurl: "/img/header_ic.jpg",
+		desc: "支持索引的常用脚本logo库",
+		siteurl: "https://icons.levifree.qzz.io",
+		tags: ["Levi"],
+	},
+	{
+		id: 3,
+		title: "Leviの脚本库",
+		imgurl: "/img/header_ic.jpg",
+		desc: "查找和使用Levi制作且可用的脚本、模块或插件等链接。",
+		siteurl: "https://script.levifree.qzz.io",
+		tags: ["Levi"],
+	},
+	{
+		id: 4,
+		title: "Surge 模块生成器",
+		imgurl: "/img/header_ic.jpg",
+		desc: "快速生成单一的 Surge 模块配置文件",
+		siteurl: "https://surge-argu.levifree.qzz.io",
+		tags: ["Levi"],
+	},
+	{
+		id: 5,
+		title: "Loon 插件扩展生成器",
+		imgurl: "/img/header_ic.jpg",
+		desc: "快速生成单一的 Loon 插件扩展(.lpx)配置文件",
+		siteurl: "https://loon-argu.levifree.qzz.io",
+		tags: ["Levi"],
 	},
 ];
 
