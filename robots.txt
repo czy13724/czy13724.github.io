@@ -3,4 +3,4 @@ Disallow: /
 Allow: /$
 Allow: /posts/
 
-Sitemap: https://levifree.dpdns.org/sitemap-index.xml
+Sitemap: https://czy13724.github.io/sitemap-index.xml
