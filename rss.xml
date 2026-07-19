@@ -1,0 +1,2934 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>Levi Blog</title><description>你若盛开，清风自来</description><link>https://levifree.dpdns.org/</link><language>zh_CN</language><item><title>技术博客如何维护旧文章：用版本、验证日期和失效处理保住内容可信度</title><link>https://levifree.dpdns.org/posts/technical-blog-update-policy/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/technical-blog-update-policy/</guid><description>旧教程不会自动过期，但会自动失去可信度；这套维护流程帮助你优先更新真正影响读者的页面</description><pubDate>Tue, 07 Jul 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;技术文章最危险的状态不是“旧”，而是读者不知道它是否还能用。依赖、界面和服务策略都会变化；如果文章仍给出确定语气的旧命令，读者可能把时间花在已经失效的路径上。&lt;/p&gt;
+&lt;h2&gt;建立三类更新信号&lt;/h2&gt;
+&lt;p&gt;第一类是版本变化：框架大版本、命令行参数或平台控制台改版。第二类是链接变化：文档、下载地址和图片资源出现 404。第三类是读者路径变化：搜索词或站内问题反复指向文章没有覆盖的步骤。&lt;/p&gt;
+&lt;h2&gt;每次更新只处理一个可验证问题&lt;/h2&gt;
+&lt;p&gt;不要为了“显得新”大段改写。先说明本次修复了什么，例如“更新了 Pages 响应头的适用范围”；再在本地执行相关命令、打开受影响页面，并在文中写明验证日期和环境。这样读者能区分稳定知识与随版本变化的细节。&lt;/p&gt;
+&lt;h2&gt;面对无法确认的信息&lt;/h2&gt;
+&lt;p&gt;无法亲自验证的命令不要写成保证成功的结论。可以给出官方文档链接、适用前提和需要读者确认的变量；对已经失效的流程，优先添加醒目的说明或下线文章，而不是让它继续获得搜索流量。&lt;/p&gt;
+&lt;h2&gt;一个可执行的月度节奏&lt;/h2&gt;
+&lt;p&gt;每月选 3 篇访问量高或依赖变化快的文章：检查外链与图片，验证核心步骤，补一条失败处理，再更新发布日期或修订说明。持续的小更新比一次性堆积新文章，更能让整个站点形成可靠的长期信号。&lt;/p&gt;
+</content:encoded></item><item><title>Astro 本地预览验收清单：发布前用 15 分钟发现导航、资源与交互问题</title><link>https://levifree.dpdns.org/posts/astro-local-preview-regression-checklist/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/astro-local-preview-regression-checklist/</guid><description>一份适用于静态博客的小型回归流程，覆盖构建诊断、关键入口、动态筛选和资源加载</description><pubDate>Thu, 28 May 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;静态站点的错误通常很安静：构建可能成功，但导航项被配置过滤、某个分类在点击后才出现 404、移动菜单没有同步更新。发布前做一次短而固定的回归，比上线后靠读者反馈更可靠。&lt;/p&gt;
+&lt;h2&gt;1. 先做静态诊断&lt;/h2&gt;
+&lt;p&gt;先运行项目提供的类型检查。它适合发现 Astro 模板、数据结构和导入错误，但不能证明浏览器中的菜单、外部图片或点击事件都正常。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;./node_modules/.bin/astro check
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;将“0 errors”当作进入浏览器测试的门槛，而不是发布结论。&lt;/p&gt;
+&lt;h2&gt;2. 选择关键路径而非随机浏览&lt;/h2&gt;
+&lt;p&gt;至少覆盖：首页导航、一个文章页、一个有筛选或下拉菜单的页面、404 页。导航改动要点击到目标 URL；卡片筛选要切换到所有类别；文章页要检查正文图片和站内链接。&lt;/p&gt;
+&lt;h2&gt;3. 把失败记录成可复测条件&lt;/h2&gt;
+&lt;p&gt;例如“设备页 Apple 分类正常，但 OPPO 分类图片 404”比“设备页有问题”更有价值。记录 URL、触发操作、预期结果和实际结果，修复后用同样的路径复测。这样问题不会在下一次重构时以不同形式回来。&lt;/p&gt;
+&lt;h2&gt;4. 再做生产构建&lt;/h2&gt;
+&lt;p&gt;本地开发服务器会实时编译，和生产构建并不完全相同。浏览器回归通过后再运行生产构建；如果环境限制阻断构建，要明确记录阻断原因，不能把未完成的构建说成已验证。&lt;/p&gt;
+&lt;p&gt;这套流程不需要复杂测试框架，但能覆盖个人博客最常见的发布事故。&lt;/p&gt;
+</content:encoded></item><item><title>Astro 静态站图片 404 排查：从引用路径到浏览器回归的完整流程</title><link>https://levifree.dpdns.org/posts/astro-static-assets-404-debugging/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/astro-static-assets-404-debugging/</guid><description>用页面实际请求而不是目录猜测定位图片缺失；覆盖 public 路径、筛选后渲染与上线前检查</description><pubDate>Sat, 18 Apr 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;静态站图片 404 的难点，往往不在图片本身，而在“代码写的路径”和“浏览器最终请求的路径”不是同一个概念。尤其是筛选卡片、懒加载列表和动态数据，首页看起来正常并不代表其他分类没有缺图。&lt;/p&gt;
+&lt;h2&gt;1. 先确认资源应该放在哪里&lt;/h2&gt;
+&lt;p&gt;需要用固定 URL 访问的文件放在 &lt;code&gt;public/&lt;/code&gt; 下。例如 &lt;code&gt;public/images/device/phone.webp&lt;/code&gt; 会以 &lt;code&gt;/images/device/phone.webp&lt;/code&gt; 提供。不要在数据文件中写入本机绝对路径，也不要把 &lt;code&gt;public&lt;/code&gt; 重复写进 URL。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;image: &quot;/images/device/phone.webp&quot; // 正确
+image: &quot;/public/images/device/phone.webp&quot; // 会请求错误地址
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;2. 按用户真实操作验证&lt;/h2&gt;
+&lt;p&gt;不要只检查默认分类。打开本地页面后，依次点击每个筛选项，并在网络面板检查图片是否返回 200。对动态卡片，最好同时检查 &lt;code&gt;img.complete&lt;/code&gt; 和 &lt;code&gt;img.naturalWidth&lt;/code&gt;；前者为真但宽度为 0，通常仍表示图片加载失败。&lt;/p&gt;
+&lt;h2&gt;3. 用可维护的兜底收口&lt;/h2&gt;
+&lt;p&gt;外部图片可能失效或拒绝跨站引用。卡片组件应提供本地默认图，并在图片加载失败时替换它，同时显示“暂无封面”。这不会掩盖资源问题，但能避免读者看到破损图标，并为后续补图保留稳定的界面。&lt;/p&gt;
+&lt;h2&gt;4. 发布前清单&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;执行类型检查，确保数据字段未写错。&lt;/li&gt;
+&lt;li&gt;本地打开每个会切换内容的分类。&lt;/li&gt;
+&lt;li&gt;检查浏览器控制台与网络面板中的图片请求。&lt;/li&gt;
+&lt;li&gt;用无痕窗口复测，避免缓存掩盖缺图。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;把“每个分类都测过”写进发布记录，能让下一次增加设备或封面时有明确的回归标准。&lt;/p&gt;
+</content:encoded></item><item><title>OpenClaw 入门与安全实战：为什么它火，以及个人用户该怎么用</title><link>https://levifree.dpdns.org/posts/openclaw-practical-guide/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/openclaw-practical-guide/</guid><description>从 0 到 1 跑通 OpenClaw，并用最小风险方式接入真实消息渠道</description><pubDate>Sun, 08 Mar 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;最近 OpenClaw 的讨论度很高，不少开发者把它当成“能真正执行动作”的个人 AI 助手来用，而不只是聊天机器人。
+这篇文章会讲三件事：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;OpenClaw 到底是什么&lt;/li&gt;
+&lt;li&gt;怎么用一套最短路径跑起来&lt;/li&gt;
+&lt;li&gt;在真实环境中如何控制风险&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;1. OpenClaw 是什么&lt;/h2&gt;
+&lt;p&gt;按官方仓库和文档定义，OpenClaw 是一个可自托管的个人 AI Assistant Gateway：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;你可以在自己的设备或服务器上运行它&lt;/li&gt;
+&lt;li&gt;它能连接多个消息渠道（如 Telegram、Discord、Slack、iMessage 等）&lt;/li&gt;
+&lt;li&gt;它不只“回复文本”，还可以调用工具执行任务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;和传统聊天产品最大的区别是：
+&lt;strong&gt;它更像一个“可执行工作流的代理层”&lt;/strong&gt;，而不仅是一个问答框。&lt;/p&gt;
+&lt;h2&gt;2. 为什么它会突然火起来&lt;/h2&gt;
+&lt;p&gt;截止 &lt;strong&gt;2026-03-09&lt;/strong&gt; 我查到的 GitHub 公开数据（&lt;code&gt;openclaw/openclaw&lt;/code&gt;）显示：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Stars: 287k+&lt;/li&gt;
+&lt;li&gt;Forks: 54k+&lt;/li&gt;
+&lt;li&gt;Contributors: 1100+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这种增长速度本身就会形成网络效应：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;教程和二次开发快速增多&lt;/li&gt;
+&lt;li&gt;插件/技能生态开始成型&lt;/li&gt;
+&lt;li&gt;同时也带来供应链和安全风险&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. 先跑通：最短安装路径&lt;/h2&gt;
+&lt;p&gt;根据官方 README，目前推荐路径是 CLI onboarding。&lt;/p&gt;
+&lt;p&gt;前置：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Node.js &amp;gt;= 22&lt;/li&gt;
+&lt;li&gt;你选择的模型供应商凭据&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;安装与初始化：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm install -g openclaw@latest
+openclaw onboard --install-daemon
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;启动网关（示例）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw gateway --port 18789 --verbose
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;验证：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;打开本地控制台：&lt;code&gt;http://127.0.0.1:18789&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;执行一次最小消息/代理命令，确认链路通&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;4. 第一次上手最容易踩的坑&lt;/h2&gt;
+&lt;h2&gt;4.1 把它当“纯聊天工具”&lt;/h2&gt;
+&lt;p&gt;OpenClaw 的价值在工具调用和自动化，不在闲聊。
+建议第一批任务用结构化、可验证的目标，例如：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每日生成工作清单&lt;/li&gt;
+&lt;li&gt;收集某类通知并分类&lt;/li&gt;
+&lt;li&gt;把重复操作自动化为固定流程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;4.2 一上来就接全部渠道&lt;/h2&gt;
+&lt;p&gt;先接一个渠道跑通，再扩展。
+多渠道并行会显著增加排错复杂度。&lt;/p&gt;
+&lt;h2&gt;4.3 忽略权限边界&lt;/h2&gt;
+&lt;p&gt;这是最常见风险源。
+如果你给了过宽工具权限，任何错误指令或提示词注入都可能放大影响。&lt;/p&gt;
+&lt;h2&gt;5. 安全基线：个人用户至少做到这 8 条&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;只从官方仓库/文档路径安装，不用搜索引擎里不明 installer。&lt;/li&gt;
+&lt;li&gt;初期只开最小必要工具，禁用不需要的执行能力。&lt;/li&gt;
+&lt;li&gt;对外部 DM 一律视为不可信输入。&lt;/li&gt;
+&lt;li&gt;保留默认配对/白名单机制，不要一开始就全开放。&lt;/li&gt;
+&lt;li&gt;网关优先监听 loopback，不直接暴露公网端口。&lt;/li&gt;
+&lt;li&gt;如需远程访问，优先 SSH 隧道或 Tailscale。&lt;/li&gt;
+&lt;li&gt;把 OpenClaw 运行在独立环境（独立机器/独立用户/独立容器）。&lt;/li&gt;
+&lt;li&gt;定期更新并运行诊断命令，持续修补配置风险。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;6. 一个更稳的上线节奏&lt;/h2&gt;
+&lt;p&gt;建议分三阶段：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;本地单机验证（只接 1 个渠道）&lt;/li&gt;
+&lt;li&gt;小范围真实数据灰度（只允许白名单）&lt;/li&gt;
+&lt;li&gt;再考虑多渠道和更复杂自动化&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;不要反过来做。先扩权限再补安全，通常会出事。&lt;/p&gt;
+&lt;h2&gt;7. 写给准备深度使用的人&lt;/h2&gt;
+&lt;p&gt;如果你准备把 OpenClaw 真正用进日常工作流，建议优先沉淀这三类文档：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;任务模板库（哪些任务交给它最稳定）&lt;/li&gt;
+&lt;li&gt;风险清单（哪些工具默认禁用）&lt;/li&gt;
+&lt;li&gt;故障应急手册（出现误执行时如何止损）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这会决定你是“玩一下”，还是“长期可用”。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;OpenClaw 的热度不是偶然，它代表了一类更接近“可执行代理”的产品形态。
+但越强的执行能力，越依赖你在权限、安全和流程上的工程化约束。&lt;/p&gt;
+&lt;p&gt;先把边界划清，再追求自动化规模，才是长期正确的用法。&lt;/p&gt;
+&lt;h2&gt;参考链接&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;官方仓库：&lt;code&gt;https://github.com/openclaw/openclaw&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;官方文档：&lt;code&gt;https://docs.openclaw.ai&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;安全文档：&lt;code&gt;https://github.com/openclaw/openclaw/blob/main/SECURITY.md&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>OpenClaw 部署平台选择指南：Railway / Render / Fly.io / VPS 怎么选</title><link>https://levifree.dpdns.org/posts/openclaw-deploy-platforms-comparison/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/openclaw-deploy-platforms-comparison/</guid><description>结合官方部署文档给出场景化建议：快速上线、长期稳定、私有化安全各怎么配</description><pubDate>Sat, 28 Feb 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;你在网上能看到很多 OpenClaw 部署教程，但不同平台的目标完全不同。
+有人要“今天就上线”，有人要“可长期稳定”，有人要“私网安全优先”。&lt;/p&gt;
+&lt;p&gt;这篇文章只做一件事：按官方部署文档把平台差异讲清楚，帮你少走弯路。&lt;/p&gt;
+&lt;h2&gt;1. 先明确你的目标&lt;/h2&gt;
+&lt;p&gt;先回答这三个问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;你是临时体验还是长期运行？&lt;/li&gt;
+&lt;li&gt;你能不能接受平台休眠？&lt;/li&gt;
+&lt;li&gt;你是否需要内网/私有网络访问？&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;不同答案会直接决定平台选择。&lt;/p&gt;
+&lt;h2&gt;2. Railway：最快跑通&lt;/h2&gt;
+&lt;p&gt;适合：先验证功能、快速演示。&lt;/p&gt;
+&lt;p&gt;优点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;官方模板路径，部署速度快&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;/setup&lt;/code&gt; 向导对新手友好&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;必须挂持久卷到 &lt;code&gt;/data&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;不做持久化就会出现重部署丢状态&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. Render：配置化管理更清晰&lt;/h2&gt;
+&lt;p&gt;适合：希望用 Blueprint 维护部署配置。&lt;/p&gt;
+&lt;p&gt;优点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;官方有 &lt;code&gt;render.yaml&lt;/code&gt; 示例&lt;/li&gt;
+&lt;li&gt;环境变量与磁盘挂载逻辑清楚&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;免费层会休眠&lt;/li&gt;
+&lt;li&gt;免费层无持久盘，不适合长期生产&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;4. Fly.io：私网/安全策略更灵活&lt;/h2&gt;
+&lt;p&gt;适合：对网络边界和安全有更高要求。&lt;/p&gt;
+&lt;p&gt;优点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;官方支持 private 部署模式&lt;/li&gt;
+&lt;li&gt;可以减少公网暴露面&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;网络与部署参数更多&lt;/li&gt;
+&lt;li&gt;运维复杂度高于 Railway/Render&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;5. VPS：自由度最高&lt;/h2&gt;
+&lt;p&gt;适合：需要完全可控、长期运行的个人或小团队。&lt;/p&gt;
+&lt;p&gt;优点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;平台限制最少&lt;/li&gt;
+&lt;li&gt;可结合你已有监控、备份、审计体系&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;注意点：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;你要自己维护系统安全、更新、告警&lt;/li&gt;
+&lt;li&gt;初始配置和日常运维成本更高&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;6. 一个实用决策矩阵&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;7 天内快速验证：Railway&lt;/li&gt;
+&lt;li&gt;想要配置文件化并可迁移：Render&lt;/li&gt;
+&lt;li&gt;内网优先/安全优先：Fly.io private&lt;/li&gt;
+&lt;li&gt;长期稳定且可深度控制：VPS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;7. 上线前检查清单&lt;/h2&gt;
+&lt;p&gt;无论你选哪个平台，至少做这 6 项：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;持久化目录是否生效（&lt;code&gt;/data&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SETUP_PASSWORD&lt;/code&gt; 是否设置&lt;/li&gt;
+&lt;li&gt;网关是否只暴露必要端口&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;openclaw channels status --probe&lt;/code&gt; 是否通过&lt;/li&gt;
+&lt;li&gt;日志是否可追踪（至少 7 天）&lt;/li&gt;
+&lt;li&gt;备份与恢复是否演练过一次&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;OpenClaw 的平台选择没有“唯一正确答案”，只有“是否匹配你的运维能力和风险偏好”。
+先按目标选平台，再做最小可用部署，最后逐步增强安全和稳定性，才是正确节奏。&lt;/p&gt;
+&lt;h2&gt;参考链接&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Railway：https://docs.openclaw.ai/install/railway&lt;/li&gt;
+&lt;li&gt;Render：https://docs.openclaw.ai/install/render&lt;/li&gt;
+&lt;li&gt;Fly.io：https://docs.openclaw.ai/install/fly&lt;/li&gt;
+&lt;li&gt;VPS 总览：https://docs.openclaw.ai/vps&lt;/li&gt;
+&lt;li&gt;安装总览：https://docs.openclaw.ai/install/index&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>OpenClaw 对接飞书机器人：配置与上线注意事项（含插件模式说明）</title><link>https://levifree.dpdns.org/posts/openclaw-feishu-bot-integration/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/openclaw-feishu-bot-integration/</guid><description>新版通常可直接接入；若你的环境是旧版本或精简构建，再按插件模式安装</description><pubDate>Fri, 27 Feb 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;飞书在 OpenClaw 的文档里经历过“插件模式”到“内置可用”的演进。
+所以你需要先判断当前版本形态，再决定是否安装插件。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/img/openclaw/openclaw-feishu-og.png&quot; alt=&quot;OpenClaw Feishu Channel Doc&quot; /&gt;
+&lt;em&gt;图：OpenClaw 官方 Feishu 渠道文档页面头图。&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;1. 先判断你的环境是否需要插件&lt;/h2&gt;
+&lt;p&gt;按官方渠道页，若出现 &lt;code&gt;plugin not available&lt;/code&gt; 提示，再进入插件安装路径。
+先执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw channels status --probe
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果飞书可用，可直接走 onboarding；如果不可用，再执行插件安装。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/img/openclaw/feishu-step2-create-app.png&quot; alt=&quot;Create Feishu App&quot; /&gt;
+&lt;em&gt;图：飞书应用创建页面（官方文档截图）。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/img/openclaw/feishu-step3-credentials.png&quot; alt=&quot;Get Feishu Credentials&quot; /&gt;
+&lt;em&gt;图：飞书应用凭据获取位置（官方文档截图）。&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/img/openclaw/feishu-step4-permissions.png&quot; alt=&quot;Configure Feishu Permissions&quot; /&gt;
+&lt;em&gt;图：飞书权限配置页面（官方文档截图）。&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;2. 旧版本/精简构建的插件安装路径&lt;/h2&gt;
+&lt;p&gt;官方插件命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw plugins install @openclaw/feishu
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果你是本地源码环境，也可以安装本地扩展目录。&lt;/p&gt;
+&lt;p&gt;安装后建议重启网关，确保插件加载完成。&lt;/p&gt;
+&lt;h2&gt;3. 通过向导接入飞书&lt;/h2&gt;
+&lt;p&gt;官方推荐路径是 onboarding：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw onboard
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;向导会引导你：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;创建飞书应用并准备凭据&lt;/li&gt;
+&lt;li&gt;在 OpenClaw 中写入飞书配置&lt;/li&gt;
+&lt;li&gt;启动并验证网关&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;4. 验证渠道状态&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;openclaw gateway status
+openclaw channels status --probe
+openclaw logs --follow
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;优先看日志里是否有飞书事件订阅与消息处理记录。&lt;/p&gt;
+&lt;h2&gt;5. 插件/渠道的额外风险点&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;插件版本和核心版本不匹配&lt;/li&gt;
+&lt;li&gt;网关重启后插件未加载（常见于部署脚本遗漏）&lt;/li&gt;
+&lt;li&gt;直接在生产环境试错，导致消息回路异常&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;6. 安全建议&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;只安装可信插件来源。&lt;/li&gt;
+&lt;li&gt;插件安装后做最小权限配置，不要默认全开动作能力。&lt;/li&gt;
+&lt;li&gt;渠道先走白名单/配对策略，再扩大范围。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;OpenClaw 插件安装在安全上也有官方说明（例如依赖安装策略），建议上线前阅读。&lt;/p&gt;
+&lt;h2&gt;7. 一个更稳的发布流程&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;本地验证插件安装&lt;/li&gt;
+&lt;li&gt;测试租户联调消息收发&lt;/li&gt;
+&lt;li&gt;观察 24 小时日志&lt;/li&gt;
+&lt;li&gt;再上线正式租户&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;飞书接入不是难在步骤，而是难在“插件生命周期管理”。
+只要你把安装、版本、重启、日志验证这四步做扎实，后续会很稳。&lt;/p&gt;
+&lt;h2&gt;参考链接&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;飞书渠道文档：https://docs.openclaw.ai/channels/feishu&lt;/li&gt;
+&lt;li&gt;插件文档：https://docs.openclaw.ai/tools/plugin&lt;/li&gt;
+&lt;li&gt;Channels 总览：https://docs.openclaw.ai/channels/index&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/24/openclaw-install-windows-linux-macos/&quot;&gt;OpenClaw 跨平台安装实战&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/25/openclaw-telegram-bot-integration/&quot;&gt;OpenClaw 对接 Telegram 机器人&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/26/openclaw-discord-bot-integration/&quot;&gt;OpenClaw 对接 Discord 机器人&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>OpenClaw 对接 Discord 机器人：Developer Portal 配置全流程</title><link>https://levifree.dpdns.org/posts/openclaw-discord-bot-integration/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/openclaw-discord-bot-integration/</guid><description>从应用创建、权限和 intents 到 OpenClaw 接入与排错</description><pubDate>Thu, 26 Feb 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Discord 接入步骤比 Telegram 多一些，关键在 Developer Portal 权限配置。
+这篇文章按官方文档把“最容易漏掉的点”写全。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/img/openclaw/openclaw-discord-og.png&quot; alt=&quot;OpenClaw Discord Channel Doc&quot; /&gt;
+&lt;em&gt;图：OpenClaw 官方 Discord 渠道文档页面头图。&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;1. 在 Discord Developer Portal 创建应用&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;New Application&lt;/li&gt;
+&lt;li&gt;添加 Bot&lt;/li&gt;
+&lt;li&gt;复制 Bot Token（妥善保管）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;2. 开启必要 Intents&lt;/h2&gt;
+&lt;p&gt;在 Bot 设置页开启：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Message Content Intent（必需）&lt;/li&gt;
+&lt;li&gt;Server Members Intent（推荐）&lt;/li&gt;
+&lt;li&gt;Presence Intent（可选）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. 生成邀请链接并拉入服务器&lt;/h2&gt;
+&lt;p&gt;OAuth2 URL Generator 至少勾选：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;bot&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;applications.commands&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;常用基础权限：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;View Channels&lt;/li&gt;
+&lt;li&gt;Send Messages&lt;/li&gt;
+&lt;li&gt;Read Message History&lt;/li&gt;
+&lt;li&gt;Embed Links&lt;/li&gt;
+&lt;li&gt;Attach Files&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;不要直接给 &lt;code&gt;Administrator&lt;/code&gt;，除非你非常确定风险。&lt;/p&gt;
+&lt;h2&gt;4. 拿到 IDs（用于配置与审计）&lt;/h2&gt;
+&lt;p&gt;在 Discord 客户端开启 Developer Mode 后复制：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;server ID&lt;/li&gt;
+&lt;li&gt;channel ID（可选）&lt;/li&gt;
+&lt;li&gt;user ID&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;官方建议在 OpenClaw 配置中优先使用数字 ID，审计更稳定。&lt;/p&gt;
+&lt;h2&gt;5. OpenClaw 侧接入&lt;/h2&gt;
+&lt;p&gt;建议用 onboarding/configure 完成 token + 路由配置：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw onboard
+# 或
+openclaw configure
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;接入后检查：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw channels status --probe
+openclaw logs --follow
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;6. 常见故障&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;bot 在线但不回复：多半是 intents 或权限缺失。&lt;/li&gt;
+&lt;li&gt;命令可见但执行失败：常见是 OpenClaw 侧授权/allowlist 拒绝。&lt;/li&gt;
+&lt;li&gt;群里可用私信不可用：检查“允许来自服务器成员私信”及策略配置。&lt;/li&gt;
+&lt;li&gt;提示插件不可用：按官方渠道页提示，执行 &lt;code&gt;openclaw channels status --probe&lt;/code&gt; 看具体缺失项。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;7. 安全与运行建议&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;把 token 放在受控配置中，不入库。&lt;/li&gt;
+&lt;li&gt;默认保持命令鉴权打开。&lt;/li&gt;
+&lt;li&gt;先在单个测试频道灰度，再扩到全服务器。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;Discord 接入的核心不是“步骤多”，而是“权限要对齐”。
+把 intents、scope、bot 权限和 OpenClaw 授权策略对齐后，运行会非常稳定。&lt;/p&gt;
+&lt;h2&gt;参考链接&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Discord 渠道文档：https://docs.openclaw.ai/channels/discord&lt;/li&gt;
+&lt;li&gt;Slash Commands：https://docs.openclaw.ai/slash-commands&lt;/li&gt;
+&lt;li&gt;Channels 总览：https://docs.openclaw.ai/channels/index&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/24/openclaw-install-windows-linux-macos/&quot;&gt;OpenClaw 跨平台安装实战&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/25/openclaw-telegram-bot-integration/&quot;&gt;OpenClaw 对接 Telegram 机器人&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/27/openclaw-feishu-bot-integration/&quot;&gt;OpenClaw 对接飞书机器人&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>OpenClaw 对接 Telegram 机器人：从 BotFather 到可用会话</title><link>https://levifree.dpdns.org/posts/openclaw-telegram-bot-integration/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/openclaw-telegram-bot-integration/</guid><description>基于官方 Telegram 渠道文档，完成配置、连通性验证与常见故障排查</description><pubDate>Wed, 25 Feb 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Telegram 通常是 OpenClaw 最容易跑通的渠道之一。
+这篇文章专注于“可用链路”，从 token 到会话验证一步一步来。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/img/openclaw/openclaw-telegram-og.png&quot; alt=&quot;OpenClaw Telegram Channel Doc&quot; /&gt;
+&lt;em&gt;图：OpenClaw 官方 Telegram 渠道文档页面头图。&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;1. 先准备 Telegram Bot&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;在 Telegram 中找到 &lt;code&gt;@BotFather&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;创建 bot 并拿到 Bot Token&lt;/li&gt;
+&lt;li&gt;把 bot 拉进目标群（如果你要测试群消息）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;2. 在 OpenClaw 中完成配置&lt;/h2&gt;
+&lt;p&gt;最省心的方式是走官方 onboarding：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw onboard
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;在向导里选择 Telegram，并填入 token/渠道配置。&lt;/p&gt;
+&lt;p&gt;如果你已经有现成环境，也可以通过 &lt;code&gt;openclaw configure&lt;/code&gt; 调整渠道配置后重启网关。&lt;/p&gt;
+&lt;h2&gt;3. 验证是否接入成功&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;openclaw channels status --probe
+openclaw logs --follow
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;再用 CLI 发一条测试消息（官方示例）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw message send --channel telegram --target 123456789 --message &quot;hi&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;也支持用户名目标：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw message send --channel telegram --target @name --message &quot;hi&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;4. 群消息不触发的典型原因&lt;/h2&gt;
+&lt;p&gt;官方文档给出的高频问题是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;配置期望 bot 读取非 @mention 群消息&lt;/li&gt;
+&lt;li&gt;但 BotFather 隐私模式未关闭&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;处理方法：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在 BotFather 执行 &lt;code&gt;/setprivacy&lt;/code&gt;，关闭隐私&lt;/li&gt;
+&lt;li&gt;把 bot 移出群再重新拉入&lt;/li&gt;
+&lt;li&gt;再跑一次 &lt;code&gt;openclaw channels status --probe&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;5. 安全建议&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;token 不要写进公开仓库。&lt;/li&gt;
+&lt;li&gt;默认启用配对/白名单策略，避免陌生人直接驱动你的助手。&lt;/li&gt;
+&lt;li&gt;先在私聊跑通，再扩到群。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;6. 配对与审批（强烈建议开启）&lt;/h2&gt;
+&lt;p&gt;如果你开启了配对（pairing），新用户首次发起会话需要审批。
+常用命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw pairings list --status pending
+openclaw pairings approve &amp;lt;pairing-id&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这样可以显著降低陌生人触发高权限动作的风险。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;Telegram 渠道的核心是：
+配置正确 + 群权限正确 + 状态探测通过。&lt;/p&gt;
+&lt;p&gt;只要这三步到位，后续做命令、投票、自动化动作会顺很多。&lt;/p&gt;
+&lt;h2&gt;参考链接&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Telegram 渠道文档：https://docs.openclaw.ai/channels/telegram&lt;/li&gt;
+&lt;li&gt;Channels 总览：https://docs.openclaw.ai/channels/index&lt;/li&gt;
+&lt;li&gt;Pairing 机制：https://docs.openclaw.ai/channels/pairing&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/24/openclaw-install-windows-linux-macos/&quot;&gt;OpenClaw 跨平台安装实战&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/26/openclaw-discord-bot-integration/&quot;&gt;OpenClaw 对接 Discord 机器人&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/27/openclaw-feishu-bot-integration/&quot;&gt;OpenClaw 对接飞书机器人&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>OpenClaw 跨平台安装实战：Windows / Linux / macOS 一次讲清</title><link>https://levifree.dpdns.org/posts/openclaw-install-windows-linux-macos/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/openclaw-install-windows-linux-macos/</guid><description>按官方推荐路径完成安装、网关启动与基础健康检查，避免第一步就卡住</description><pubDate>Tue, 24 Feb 2026 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;如果你想长期用 OpenClaw，第一步不是“先接一堆渠道”，而是把网关基础跑稳。
+本文按官方文档给出跨平台安装路径，并覆盖 Windows、Linux、macOS 的差异点。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/img/openclaw/openclaw-install-og.png&quot; alt=&quot;OpenClaw Install Overview&quot; /&gt;
+&lt;em&gt;图：OpenClaw 官方安装文档页面头图（Install overview）。&lt;/em&gt;&lt;/p&gt;
+&lt;h2&gt;1. 安装前准备&lt;/h2&gt;
+&lt;p&gt;根据官方安装页，基础要求是：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Node.js 22+&lt;/li&gt;
+&lt;li&gt;macOS / Linux / Windows（Windows 推荐 WSL2）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;官方推荐安装器会自动处理 Node 检测、CLI 安装和 onboarding。&lt;/p&gt;
+&lt;h2&gt;2. macOS / Linux / WSL2 安装&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;curl -fsSL https://openclaw.ai/install.sh | bash
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果你跳过了 onboarding，可手动执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw onboard --install-daemon
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;3. Windows 安装（PowerShell）&lt;/h2&gt;
+&lt;p&gt;官方中文文档给出的 PowerShell 安装方式：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;iwr -useb https://openclaw.ai/install.ps1 | iex
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;注意：官方也建议在 Windows 上优先使用 WSL2 运行 Gateway，稳定性通常更好。&lt;/p&gt;
+&lt;h2&gt;4. 安装后第一轮校验&lt;/h2&gt;
+&lt;p&gt;建议依次检查：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;openclaw gateway status
+openclaw channels status --probe
+openclaw logs --follow
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果你只想先验证基础链路，可先不接任何外部渠道，只看网关状态和日志是否正常。&lt;/p&gt;
+&lt;h2&gt;5. 常见问题与修复&lt;/h2&gt;
+&lt;h2&gt;5.1 &lt;code&gt;openclaw: command not found&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;多见于 PATH 没包含 npm 全局安装路径。&lt;/p&gt;
+&lt;p&gt;快速诊断：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;node -v
+npm -v
+npm prefix -g
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;macOS/Linux 常见修复：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export PATH=&quot;$(npm prefix -g)/bin:$PATH&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;5.2 Linux 网关“退出后就停了”&lt;/h2&gt;
+&lt;p&gt;Linux/WSL2 常见是 systemd user service 在登出后停止。&lt;/p&gt;
+&lt;p&gt;可按官方建议启用 lingering：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo loginctl enable-linger $USER
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;5.3 一上来就公网暴露端口&lt;/h2&gt;
+&lt;p&gt;默认网关是本地回环地址，保持这个默认更安全。
+如果要远程访问，建议优先用 SSH 隧道或内网组网工具，而不是直接裸露公网端口。&lt;/p&gt;
+&lt;h2&gt;6. 下一步建议&lt;/h2&gt;
+&lt;p&gt;安装完成后，不要同时接多个渠道。
+推荐顺序：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先接 Telegram（通常最容易）&lt;/li&gt;
+&lt;li&gt;再接 Discord&lt;/li&gt;
+&lt;li&gt;最后再接插件渠道（如飞书）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这样排错成本最低。&lt;/p&gt;
+&lt;h2&gt;7. 云平台部署怎么选（官方文档汇总）&lt;/h2&gt;
+&lt;p&gt;如果你不想本机常驻，也可以直接上云。按官方文档，常见路线：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Railway（最快上手）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;一键模板 + 浏览器 &lt;code&gt;/setup&lt;/code&gt; 向导&lt;/li&gt;
+&lt;li&gt;关键点：挂载 &lt;code&gt;/data&lt;/code&gt; 持久卷，否则重部署会丢状态&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;Render（更偏 IaC）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;官方提供 &lt;code&gt;render.yaml&lt;/code&gt; Blueprint&lt;/li&gt;
+&lt;li&gt;关键变量：&lt;code&gt;SETUP_PASSWORD&lt;/code&gt;、&lt;code&gt;OPENCLAW_STATE_DIR&lt;/code&gt;、&lt;code&gt;OPENCLAW_WORKSPACE_DIR&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;免费层会休眠且无持久盘，适合演示不适合长期生产&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;Fly.io（可做私有化硬化）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;适合需要更细粒度网络控制的人&lt;/li&gt;
+&lt;li&gt;官方有 private 模式（无公网 IP），安全性更高&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;VPS（通用）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;官方 VPS hub 汇总了 Hetzner/GCP/Oracle/Fly/Railway 等路线&lt;/li&gt;
+&lt;li&gt;自由度最高，但需要你自己管监控、更新和备份&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;选择建议：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;想最快体验：Railway&lt;/li&gt;
+&lt;li&gt;想声明式管理：Render&lt;/li&gt;
+&lt;li&gt;想做网络硬化：Fly.io private&lt;/li&gt;
+&lt;li&gt;想完全可控：VPS&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;OpenClaw 的安装不复杂，难点在于“系统差异 + 运行方式 + 安全边界”。
+把网关和日志先跑稳，再做渠道接入，你后面的效率会高很多。&lt;/p&gt;
+&lt;h2&gt;参考链接&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;安装（中文）：https://docs.openclaw.ai/zh-CN/install/index&lt;/li&gt;
+&lt;li&gt;安装（英文）：https://docs.openclaw.ai/install/index&lt;/li&gt;
+&lt;li&gt;平台说明（中文）：https://docs.openclaw.ai/zh-CN/platforms&lt;/li&gt;
+&lt;li&gt;Railway 部署：https://docs.openclaw.ai/install/railway&lt;/li&gt;
+&lt;li&gt;Render 部署：https://docs.openclaw.ai/install/render&lt;/li&gt;
+&lt;li&gt;Fly.io 部署：https://docs.openclaw.ai/install/fly&lt;/li&gt;
+&lt;li&gt;VPS 总览：https://docs.openclaw.ai/vps&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/28/openclaw-deploy-platforms-comparison/&quot;&gt;OpenClaw 部署平台选择指南&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/25/openclaw-telegram-bot-integration/&quot;&gt;OpenClaw 对接 Telegram 机器人&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/26/openclaw-discord-bot-integration/&quot;&gt;OpenClaw 对接 Discord 机器人&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2026/02/27/openclaw-feishu-bot-integration/&quot;&gt;OpenClaw 对接飞书机器人&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>Docker Compose 网络与 DNS 故障排查：容器互通失败怎么查</title><link>https://levifree.dpdns.org/posts/docker-compose-network-dns-troubleshooting/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/docker-compose-network-dns-troubleshooting/</guid><description>从服务名解析、端口映射到网络隔离，系统定位 `connection refused` 与 `name not resolved`</description><pubDate>Mon, 08 Dec 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Compose 项目最常见故障之一是“容器都启动了，但服务互相访问不到”。
+这类问题通常集中在网络、DNS 和启动顺序。&lt;/p&gt;
+&lt;h2&gt;1. 三个高频报错&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;connection refused&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;temporary failure in name resolution&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;no route to host&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这些报错看起来类似，但根因完全不同。&lt;/p&gt;
+&lt;h2&gt;2. 先看网络拓扑&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;docker compose ps
+docker network ls
+docker network inspect &amp;lt;network_name&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;目标：确认服务是否在同一个 compose network。&lt;/p&gt;
+&lt;h2&gt;3. 服务名解析规则&lt;/h2&gt;
+&lt;p&gt;在 Compose 网络内，服务间应通过 &lt;code&gt;service name:port&lt;/code&gt; 互访。&lt;/p&gt;
+&lt;p&gt;错误示例：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在容器 A 里访问 &lt;code&gt;localhost:5432&lt;/code&gt; 连接数据库 B&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;正确示例：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;使用 &lt;code&gt;db:5432&lt;/code&gt;（&lt;code&gt;db&lt;/code&gt; 为服务名）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;4. &lt;code&gt;depends_on&lt;/code&gt; 不是“服务就绪”&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;depends_on&lt;/code&gt; 只保证启动顺序，不保证数据库已经可连接。&lt;/p&gt;
+&lt;p&gt;建议加健康检查和重试逻辑：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;services:
+  app:
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    healthcheck:
+      test: [&quot;CMD&quot;, &quot;pg_isready&quot;, &quot;-U&quot;, &quot;postgres&quot;]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;5. 端口映射与容器内访问的区别&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;ports&lt;/code&gt; 用于“宿主机 &amp;lt;-&amp;gt; 容器”&lt;/li&gt;
+&lt;li&gt;容器之间互访不依赖 &lt;code&gt;ports&lt;/code&gt;，依赖内部网络&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;很多人误以为不映射端口就不能互访，这是典型误区。&lt;/p&gt;
+&lt;h2&gt;6. 快速诊断命令&lt;/h2&gt;
+&lt;p&gt;在容器内执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;getent hosts db
+nc -vz db 5432
+curl -I http://api:8080
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这三步能快速判断是 DNS、端口还是服务本身问题。&lt;/p&gt;
+&lt;h2&gt;7. 常见修复动作&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;统一服务到同一个 user-defined network&lt;/li&gt;
+&lt;li&gt;把跨容器访问地址改为服务名&lt;/li&gt;
+&lt;li&gt;为依赖服务加 healthcheck&lt;/li&gt;
+&lt;li&gt;应用端加启动重试机制&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;Compose 网络故障的本质是“认知模型错误”。
+只要你把“容器内 localhost 只指向自己”这件事吃透，80% 的互访问题都能一次定位。&lt;/p&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/06/28/nginx-502-504-troubleshooting/&quot;&gt;Nginx 502/504 排错指南&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/03/18/cloudflare-pages-performance-security/&quot;&gt;Cloudflare Pages 性能与安全优化&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/06/18/linux-server-security-baseline/&quot;&gt;Linux 服务器安全基线实战&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>SSH 密钥安全指南：五步防止服务器被黑</title><link>https://levifree.dpdns.org/posts/ssh-key-security/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/ssh-key-security/</guid><description>扔掉密码登录！打造银行级的 Linux 登录防线</description><pubDate>Wed, 05 Nov 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;任何一台暴露在公网的 Linux 服务器，每天都会遭受成千上万次的暴力破解攻击。如果你还在使用 &lt;code&gt;root&lt;/code&gt; 密码登录，那你就像是把家门钥匙放在了门口地垫下。&lt;/p&gt;
+&lt;p&gt;本文将教你通过配置 SSH 密钥对，彻底关闭密码登录入口，让黑客无门可入。&lt;/p&gt;
+&lt;h2&gt;1. 原理：为什么密钥比密码安全？&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;密码&lt;/strong&gt;：也就是 &quot;Something you know&quot;。可能被猜解、被字典甚至被中间人拦截。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;私钥&lt;/strong&gt;：也就是 &quot;Something you have&quot;。使用非对称加密算法（如 Ed25519 或 RSA）。只有拥有私钥文件的人才能解开服务器发来的挑战码。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;2. 生成高强度密钥对 (Ed25519)&lt;/h2&gt;
+&lt;p&gt;虽然 RSA 是老牌标准，但在 2026 年，推荐使用更短、更快且更安全的 &lt;strong&gt;Ed25519&lt;/strong&gt; 算法。&lt;/p&gt;
+&lt;p&gt;在你的本机（Mac/Windows）终端运行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ssh-keygen -t ed25519 -C &quot;your_email@example.com&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;这会生成 &lt;code&gt;id_ed25519&lt;/code&gt; (私钥，严禁泄露) 和 &lt;code&gt;id_ed25519.pub&lt;/code&gt; (公钥)。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;强烈建议&lt;/strong&gt; 设置 passphrase（密钥密码），这样即使私钥文件被偷，没有密码也无法使用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. 将公钥部署到服务器&lt;/h2&gt;
+&lt;p&gt;使用 &lt;code&gt;ssh-copy-id&lt;/code&gt; 命令是最简单的方法：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ssh-copy-id -i ~/.ssh/id_ed25519.pub user@server_ip
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果手动配置，就是将公钥内容追加到服务器的 &lt;code&gt;~/.ssh/authorized_keys&lt;/code&gt; 文件中。&lt;/p&gt;
+&lt;h2&gt;4. 关键：禁用密码登录&lt;/h2&gt;
+&lt;p&gt;上传完公钥并确认能成功登录后，必须&lt;strong&gt;禁止密码登录&lt;/strong&gt;，否则以上工作白做。&lt;/p&gt;
+&lt;p&gt;编辑服务器的 &lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 禁用 root 用户登录 (可选，建议)
+PermitRootLogin no
+
+# 禁用密码认证 (必须)
+PasswordAuthentication no
+
+# 禁用空密码
+PermitEmptyPasswords no
+
+# 启用公钥认证
+PubkeyAuthentication yes
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;重启 SSH 服务：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo service ssh restart
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;sudo service ssh restart&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
+### ⚠️ 关键安全警告 (保命技巧)
+
+在执行 `restart` 重启 SSH 服务之前，**千万不要关闭当前的终端窗口！**
+请新开一个终端窗口尝试连接服务器。
+*   **如果成功**：恭喜，配置完成。
+*   **如果失败**：你还有救！在原来的窗口中把 `sshd_config` 改回去并再次重启服务。
+
+如果全关了且连不上，你只能去云服务商的网页控制台（VNC/Console）救急了。
+
+## 5. 进阶防护
+
+为了固若金汤，你还可以：
+1.  **修改默认端口**：将 SSH 端口从 22 改为不常用的（如 22222），能过滤掉 99% 的脚本扫描。
+2.  **Fail2Ban**：安装 Fail2Ban 软件，当检测到有人连续 N 次尝试登录失败时，自动在防火墙层面拉黑其 IP。
+
+## 总结
+
+安全没有绝对，只有成本。通过配置 SSH 密钥+禁用密码，我们将攻击者的破解成本从“跑字典”提升到了“攻破加密算法”的天文数字级别。这是每个服务器管理员的基本素养。&lt;/code&gt;&lt;/pre&gt;
+</content:encoded></item><item><title>技术博客内容集群怎么做：用现有文章建立读者能走通的阅读路径</title><link>https://levifree.dpdns.org/posts/static-blog-content-cluster-strategy/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/static-blog-content-cluster-strategy/</guid><description>以主题地图、操作文与排错文建立内链；用可观察指标判断内容集群是否真的帮助读者</description><pubDate>Tue, 14 Oct 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;内容集群不是为了把标签堆得更漂亮，而是让读者从一个具体问题出发，能继续找到下一步需要的内容。对技术博客而言，最实用的结构通常是“总览—操作—排错”三层。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/images/content/article-quality-loop.svg&quot; alt=&quot;技术文章质量闭环&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;先从已有主题盘点&lt;/h2&gt;
+&lt;p&gt;先把已有文章按读者任务而不是技术名词归类。例如 Git 主题可包含协作规范、同步上游、冲突处理与 rebase/merge 选择；站点维护可包含部署、性能、监控和故障排查。每个主题只保留一个明确入口，避免多篇文章争抢同一个“总览”角色。&lt;/p&gt;
+&lt;h2&gt;三层内容各自解决什么&lt;/h2&gt;
+&lt;p&gt;地图文回答“我从哪里开始”；操作文回答“如何完成一件事”；排错文回答“失败后怎么收敛”。新文章发布前先检查这三层是否已有空缺：如果只有操作文，优先补常见失败；如果文章已经很多但没有入口，优先补地图和语义明确的内链。&lt;/p&gt;
+&lt;h2&gt;让内链带着目的&lt;/h2&gt;
+&lt;p&gt;不要在结尾机械罗列链接。操作文完成部署后，应链接到监控与回滚；排错文修复构建后，应链接到发布前检查。锚文本直接描述目标，例如“检查 Pages 缓存是否造成旧资源”，让读者知道点开后会得到什么。&lt;/p&gt;
+&lt;h2&gt;用小指标复核，而非追逐文章数量&lt;/h2&gt;
+&lt;p&gt;每四周看一次：主题入口是否有访问、读者是否继续打开同主题文章、站内搜索是否仍在寻找未覆盖的问题。指标没有变化时，先检查入口是否明确、标题是否匹配问题，再决定是否新增内容。不要为了数量把同一份通用建议改写成多篇近似文章。&lt;/p&gt;
+&lt;h2&gt;结语&lt;/h2&gt;
+&lt;p&gt;好集群的结果是读者少走一步，不是站内页面更多。每次新增或修订文章，都应让已有内容更容易被找到、更容易被验证。&lt;/p&gt;
+</content:encoded></item><item><title>个人博客到底值不值得建：从写第一篇文章到稳定发布的实际判断</title><link>https://levifree.dpdns.org/posts/github-pages-personal-blog-guide/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/github-pages-personal-blog-guide/</guid><description>不把独立博客神化：用内容所有权、维护成本、发布流程与读者价值判断是否适合开始</description><pubDate>Tue, 30 Sep 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;独立博客不是“注册一个域名就拥有内容”。它更像一套你要维护的发布系统：内容在自己的仓库里、页面可以迁移、发布过程能回溯，但选题、维护和修订也都由自己负责。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/images/content/article-quality-loop.svg&quot; alt=&quot;技术文章质量闭环&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;先判断是否适合自己&lt;/h2&gt;
+&lt;p&gt;适合建博客的信号很简单：你经常遇到可复现的问题，愿意记录决策过程，也愿意在半年后回来修正过时内容。若只是想立刻获得流量，博客通常不是最快路径；它的价值在于积累可以被搜索、链接和再次验证的内容。&lt;/p&gt;
+&lt;h2&gt;从一篇文章开始的最小流程&lt;/h2&gt;
+&lt;p&gt;不要先追求复杂主题。一个可维护的起点只需要四件事：代码仓库、静态站点构建命令、可公开访问的部署地址，以及一篇能解决具体问题的文章。发布前执行构建，发布后用无痕窗口打开文章页，确认图片、链接和移动端导航都正常。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;写作 → 本地预览 → 类型/构建检查 → 部署 → 无痕复测 → 记录待更新项
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这比“先把主题调到完美”更重要。主题可以迭代，失效链接和无法复现的内容会直接损害读者信任。&lt;/p&gt;
+&lt;h2&gt;内容所有权不等于没有成本&lt;/h2&gt;
+&lt;p&gt;把文章放进 Git 仓库的好处是版本可追溯、可迁移和可备份；代价是你要处理依赖升级、构建失败、图片授权与死链。建议把文章中的关键命令、版本和外部链接定期复查，不要让旧教程继续给出已失效的操作。&lt;/p&gt;
+&lt;h2&gt;把读者问题放在平台之前&lt;/h2&gt;
+&lt;p&gt;一篇值得发布的文章至少要回答：读者为什么会来到这里、他完成什么操作后算成功、失败时先查哪里。只有转载、名言或宽泛感想的页面，很难提供长期搜索价值。与其一次写十篇短文，不如把一个真实问题写成有边界、有步骤、有验证的完整解答。&lt;/p&gt;
+&lt;h2&gt;结语&lt;/h2&gt;
+&lt;p&gt;博客的核心不是“拥有一个网站”，而是形成一套对读者负责的记录习惯。先发布一篇能被未来的自己复用的文章，再决定是否持续扩展它。&lt;/p&gt;
+</content:encoded></item><item><title>Tailwind CSS 为什么这么火？从原子化 CSS 看前端趋势</title><link>https://levifree.dpdns.org/posts/why-tailwind-css/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/why-tailwind-css/</guid><description>爱的人爱死，恨的人恨死：深入解析 Utility-First CSS 的设计哲学</description><pubDate>Tue, 05 Aug 2025 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&quot;Best practices are actually just common practices.&quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;如果你是在 2026 年做前端开发，很难避开 Tailwind CSS。从 Next.js 到 GitHub 官网，越来越多的顶级项目开始全面拥抱它。&lt;/p&gt;
+&lt;p&gt;但争议依然存在：“这不就是把行内样式 (Inline Styles) 写在 class 里吗？”
+今天我们就来聊聊 Tailwind 到底解决了什么问题，以及为什么它值得你学习。&lt;/p&gt;
+&lt;h2&gt;1. 传统 CSS 的困境&lt;/h2&gt;
+&lt;p&gt;在写 BEM (Block Element Modifier) 或者 Bootstrap 时，我们要么受限于框架预设的组件（改起来很痛苦），要么就要绞尽脑汁给每一个 &lt;code&gt;div&lt;/code&gt; 起名字：&lt;code&gt;user-profile-wrapper-inner-container&lt;/code&gt;... 听着就累。&lt;/p&gt;
+&lt;p&gt;而且，随着项目变大，CSS 只增不减。因为你不敢随便删除一个 CSS 类，怕影响到不知名角落的某个按钮。&lt;/p&gt;
+&lt;h2&gt;2. Utility-First (原子化) 的优势&lt;/h2&gt;
+&lt;p&gt;Tailwind 提倡直接在 HTML 中使用预定义的工具类，如 &lt;code&gt;flex&lt;/code&gt;, &lt;code&gt;pt-4&lt;/code&gt;, &lt;code&gt;text-center&lt;/code&gt;, &lt;code&gt;rotate-90&lt;/code&gt;。&lt;/p&gt;
+&lt;h3&gt;2.1 减少上下文切换&lt;/h3&gt;
+&lt;p&gt;你不需要在 HTML 和 CSS 文件之间来回切换。想加个 padding？直接写 &lt;code&gt;p-4&lt;/code&gt;，思路不打断，开发效率极高。&lt;/p&gt;
+&lt;h3&gt;2.2 此时此地 (Locality of Behavior)&lt;/h3&gt;
+&lt;p&gt;所有的样式都以此处为准。改了这里的 class，只会影响这个元素，绝对不会有“牵一发而动全身”的副作用。这让维护遗留代码变得异常轻松。&lt;/p&gt;
+&lt;h3&gt;2.3 极小的打包体积&lt;/h3&gt;
+&lt;p&gt;Tailwind 会在构建时自动扫描你的代码，只打包你用到的 class。一个庞大的项目，最终的 CSS 文件可能只有 10KB。&lt;/p&gt;
+&lt;h2&gt;3. 常见误解：HTML 会变得很丑？&lt;/h2&gt;
+&lt;p&gt;是的，你的 HTML 可能会看起来像这样：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;button class=&quot;bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded&quot;&amp;gt;
+  Button
+&amp;lt;/button&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;确实很长。但现在的组件化开发（React/Vue）完美解决了这个问题。你只需要把这一长串 class 写在一个 &lt;code&gt;&amp;lt;Button&amp;gt;&lt;/code&gt; 组件里，然后在其他地方引用组件即可：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;Button&amp;gt;Click me&amp;lt;/Button&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;原本的缺点，在组件化时代反而成了优点：样式与结构的高度内聚。&lt;/p&gt;
+&lt;h2&gt;4. 2026 年的新趋势&lt;/h2&gt;
+&lt;p&gt;随着 Tailwind v4 引擎的发布（假设），编译速度更是提升了 10 倍。配合 AI 辅助编程，你只需要告诉 Copilot &quot;创建一个带阴影的卡片&quot;，它会直接吐出完美的 Tailwind 代码。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;Tailwind CSS 可能不是银弹，但它是目前构建现代、响应式 Web 界面最高效的工具。一旦你习惯了这种“所想即所得”的开发流，就很难再回得去了。&lt;/p&gt;
+</content:encoded></item><item><title>技术文档写作实战：把一次排错变成别人能复现的解决方案</title><link>https://levifree.dpdns.org/posts/developer-documentation-writing-guide/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/developer-documentation-writing-guide/</guid><description>用问题边界、最小步骤、验证证据与失败分支，写出真正能帮助读者的技术文章</description><pubDate>Tue, 22 Jul 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;一篇技术文章是否有价值，不取决于术语有多少，而取决于陌生读者能否在自己的环境中完成目标。下面这套方法适合把一次部署、排错或配置过程整理成可长期维护的文章。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/images/content/article-quality-loop.svg&quot; alt=&quot;技术文章质量闭环&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;先把问题说清楚&lt;/h2&gt;
+&lt;p&gt;开头用四句话交代：谁遇到了什么问题、成功后是什么状态、文章不覆盖什么、测试环境是什么。例如“本文处理 Astro 静态站新增页面后导航不显示；验证标准是首页出现入口且链接可打开；不讨论主题视觉重构；示例基于 Node 与 pnpm 环境”。&lt;/p&gt;
+&lt;p&gt;这一步能避免读者把不同框架、不同部署平台的问题套进同一份命令里，也让搜索进入页面的人快速判断是否值得继续阅读。&lt;/p&gt;
+&lt;h2&gt;把步骤写成最小闭环&lt;/h2&gt;
+&lt;p&gt;每个步骤都应包含操作、预期结果和失败时的第一检查点。不要只写“修改配置后重新部署”，而应把判断写出来：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;操作：在页面开关中启用目标页面，并在导航 links 中加入入口。
+预期：本地首页能看到菜单项，点击后的 URL 为目标页面路径。
+失败时：先检查页面开关是否过滤了导航项，再检查菜单是否真的加入 links 数组。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;读者不需要一篇百科全书；他们需要能在十分钟内排除第一层不确定性的路径。&lt;/p&gt;
+&lt;h2&gt;用验证证据替代“应该可以”&lt;/h2&gt;
+&lt;p&gt;文中的命令必须对应一个可观察结果。构建类文章至少记录类型检查、生产构建和关键页面的访问结果；交互类文章至少记录点击前后的 UI 状态。截图或小型流程图可用于解释关系，但不能替代文字说明。&lt;/p&gt;
+&lt;p&gt;如果验证被环境限制阻断，要如实写明阻断点和已经完成的检查。例如端口权限导致本地服务无法启动，不等于配置正确；相反，类型检查通过也不等于图片资源一定存在。&lt;/p&gt;
+&lt;h2&gt;保留失败分支与回滚点&lt;/h2&gt;
+&lt;p&gt;高价值内容通常来自失败处理。对每个有风险的改动，至少写一个常见症状、一个定位方式和一个可逆操作。配置页改动可写“将开关恢复为 false”；缓存改动可写“先缩小规则范围并复测目标 URL”。&lt;/p&gt;
+&lt;p&gt;发布前再检查一次：示例路径是否真实、命令是否可复制、链接是否存在、图文是否一致。这样写出来的文章不是一次性笔记，而是一份可以持续更新的运行手册。&lt;/p&gt;
+</content:encoded></item><item><title>Nginx 502/504 排错指南：反向代理常见故障的定位与修复</title><link>https://levifree.dpdns.org/posts/nginx-502-504-troubleshooting/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/nginx-502-504-troubleshooting/</guid><description>从上游服务、超时配置到网络连通性，一步步排查 Bad Gateway 和 Gateway Timeout</description><pubDate>Sat, 28 Jun 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;code&gt;502 Bad Gateway&lt;/code&gt; 和 &lt;code&gt;504 Gateway Timeout&lt;/code&gt; 是反向代理场景最常见的故障。
+很多人直接重启服务，但不定位根因，问题会反复出现。&lt;/p&gt;
+&lt;h2&gt;1. 先区分 502 与 504&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;502：Nginx 能联系上游，但上游返回异常或连接失败。&lt;/li&gt;
+&lt;li&gt;504：Nginx 等待上游超时。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这一区分会决定你排查的方向。&lt;/p&gt;
+&lt;h2&gt;2. 第一现场：看日志&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;sudo tail -n 200 /var/log/nginx/error.log
+sudo tail -n 200 /var/log/nginx/access.log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;重点关注：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;connect() failed&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;upstream timed out&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;no live upstreams&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. 验证上游服务是否存活&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;curl -I http://127.0.0.1:8080
+ss -tulpen | rg 8080
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果本机都访问不到上游，先修上游应用，不要先改 Nginx。&lt;/p&gt;
+&lt;h2&gt;4. 检查 proxy 配置&lt;/h2&gt;
+&lt;p&gt;常见问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;proxy_pass&lt;/code&gt; 地址写错&lt;/li&gt;
+&lt;li&gt;上游端口变更未同步&lt;/li&gt;
+&lt;li&gt;Host 头缺失导致上游路由失败&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;参考：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;location / {
+  proxy_pass http://127.0.0.1:8080;
+  proxy_set_header Host $host;
+  proxy_set_header X-Real-IP $remote_addr;
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_connect_timeout 5s;
+  proxy_read_timeout 60s;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;5. 资源瓶颈排查&lt;/h2&gt;
+&lt;p&gt;若故障偶发，重点看资源：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;top
+free -m
+df -h
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;高频根因：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;内存不足导致上游进程被 OOM&lt;/li&gt;
+&lt;li&gt;CPU 打满导致响应超时&lt;/li&gt;
+&lt;li&gt;磁盘满导致日志或临时文件写入失败&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;6. Docker 场景补充&lt;/h2&gt;
+&lt;p&gt;如果 Nginx 和上游在 Docker：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;检查容器是否在同一 network&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;proxy_pass&lt;/code&gt; 应指向服务名而非 &lt;code&gt;localhost&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;容器重启策略是否合理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;7. 修复后验证&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;nginx -t&lt;/code&gt; 检查配置合法&lt;/li&gt;
+&lt;li&gt;平滑重载 &lt;code&gt;systemctl reload nginx&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;连续压测/访问 5-10 分钟观察是否复发&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;502/504 的关键不是“重启好了”，而是建立稳定的排查顺序：日志 -&amp;gt; 上游 -&amp;gt; 配置 -&amp;gt; 资源。
+流程固定后，故障恢复时间会显著缩短。&lt;/p&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/02/20/nginx-proxy-manager/&quot;&gt;Docker 部署 Nginx Proxy Manager&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/06/18/linux-server-security-baseline/&quot;&gt;Linux 服务器安全基线实战&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/12/08/docker-compose-network-dns-troubleshooting/&quot;&gt;Docker Compose 网络与 DNS 故障排查&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>WebP vs AVIF 实战指南：如何在真实项目里做图片格式选型</title><link>https://levifree.dpdns.org/posts/webp-vs-avif/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/webp-vs-avif/</guid><description>不只看压缩率：结合编码耗时、兼容性、CDN 成本和 Core Web Vitals 的完整决策方法</description><pubDate>Mon, 16 Jun 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;前端性能优化里，图片通常是最大头。
+很多站点把 JS 和 CSS 优化到极致，却仍然卡在 LCP（最大内容绘制），根因常常是首屏大图体积过高。&lt;/p&gt;
+&lt;p&gt;WebP 和 AVIF 都能明显降低图片体积，但如果只看“谁更小”，你很容易做出错误决策。
+这篇文章从工程角度给出完整方案：如何选、怎么落地、如何回归验证。&lt;/p&gt;
+&lt;h2&gt;1. 先统一目标：你要优化什么指标&lt;/h2&gt;
+&lt;p&gt;图片优化不是为了“文件小”，而是为了真实体验：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;LCP：首屏大图加载速度&lt;/li&gt;
+&lt;li&gt;CLS：图片尺寸占位是否稳定&lt;/li&gt;
+&lt;li&gt;TTFB 之后的首屏渲染路径&lt;/li&gt;
+&lt;li&gt;CDN 出口流量成本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果你在做商业站点，还要考虑：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;构建时间是否可控&lt;/li&gt;
+&lt;li&gt;图片处理链路是否稳定&lt;/li&gt;
+&lt;li&gt;运维复杂度是否可接受&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;2. WebP 和 AVIF 的核心差异&lt;/h2&gt;
+&lt;h2&gt;2.1 压缩率&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;在同等主观画质下，AVIF 通常比 WebP 更小。&lt;/li&gt;
+&lt;li&gt;但不同图像类型差异很大：
+&lt;ul&gt;
+&lt;li&gt;照片类：AVIF 优势通常更明显。&lt;/li&gt;
+&lt;li&gt;图标/平面插画：WebP 已经足够优秀。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;结论：AVIF 往往更省带宽，但不是所有图都必须 AVIF。&lt;/p&gt;
+&lt;h2&gt;2.2 编码与构建成本&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;WebP 编码速度通常更快，CI/CD 压力更低。&lt;/li&gt;
+&lt;li&gt;AVIF 编码更耗 CPU，尤其在批量处理大图时，构建耗时会显著增长。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果你的项目每日多次构建，且图片频繁更新，要优先评估 AVIF 带来的构建成本。&lt;/p&gt;
+&lt;h2&gt;2.3 浏览器兼容与回退策略&lt;/h2&gt;
+&lt;p&gt;现代浏览器对 AVIF 和 WebP 支持已经很完整，但工程上仍应保留回退方案。&lt;/p&gt;
+&lt;p&gt;推荐做法：&lt;code&gt;AVIF -&amp;gt; WebP -&amp;gt; JPG/PNG&lt;/code&gt; 三层回退，使用 &lt;code&gt;&amp;lt;picture&amp;gt;&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;picture&amp;gt;
+  &amp;lt;source srcset=&quot;/img/hero.avif&quot; type=&quot;image/avif&quot;&amp;gt;
+  &amp;lt;source srcset=&quot;/img/hero.webp&quot; type=&quot;image/webp&quot;&amp;gt;
+  &amp;lt;img
+    src=&quot;/img/hero.jpg&quot;
+    alt=&quot;站点首页主视觉&quot;
+    width=&quot;1200&quot;
+    height=&quot;630&quot;
+    loading=&quot;eager&quot;
+    decoding=&quot;async&quot;
+  &amp;gt;
+&amp;lt;/picture&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这段代码同时解决两件事：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;让高能力浏览器拿到更小资源&lt;/li&gt;
+&lt;li&gt;让不支持新格式的环境稳定降级&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. 什么时候选 WebP，什么时候优先 AVIF&lt;/h2&gt;
+&lt;p&gt;你可以直接用下面这套决策逻辑：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;页面首屏关键图（Hero 图）
+&lt;ul&gt;
+&lt;li&gt;首选 AVIF（质量可接受前提下）&lt;/li&gt;
+&lt;li&gt;同时保留 WebP 和 JPG 回退&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;中小尺寸内容图
+&lt;ul&gt;
+&lt;li&gt;WebP 作为默认选项，性价比高&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;后台管理系统或内部工具
+&lt;ul&gt;
+&lt;li&gt;优先 WebP，降低构建和维护复杂度&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;用户上传图片量很大
+&lt;ul&gt;
+&lt;li&gt;先统一 WebP，再对热点资源追加 AVIF&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;工程目标不是“全站 AVIF”，而是“在收益最高的位置用 AVIF”。&lt;/p&gt;
+&lt;h2&gt;4. 实战：用 Sharp 批量生成多格式&lt;/h2&gt;
+&lt;p&gt;如果你是 Node 项目，Sharp 是最稳的路线之一。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm i -D sharp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;示例脚本（&lt;code&gt;scripts/image-build.mjs&lt;/code&gt;）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import fs from &apos;node:fs/promises&apos;;
+import path from &apos;node:path&apos;;
+import sharp from &apos;sharp&apos;;
+
+const inputDir = &apos;img/source&apos;;
+const outputDir = &apos;img/optimized&apos;;
+
+await fs.mkdir(outputDir, { recursive: true });
+const files = await fs.readdir(inputDir);
+
+for (const file of files) {
+  const inputPath = path.join(inputDir, file);
+  const ext = path.extname(file).toLowerCase();
+  const base = path.basename(file, ext);
+
+  if (![&apos;.jpg&apos;, &apos;.jpeg&apos;, &apos;.png&apos;].includes(ext)) continue;
+
+  const image = sharp(inputPath).rotate();
+
+  await image
+    .clone()
+    .webp({ quality: 78 })
+    .toFile(path.join(outputDir, `${base}.webp`));
+
+  await image
+    .clone()
+    .avif({ quality: 52, effort: 4 })
+    .toFile(path.join(outputDir, `${base}.avif`));
+
+  await image
+    .clone()
+    .jpeg({ quality: 82, mozjpeg: true })
+    .toFile(path.join(outputDir, `${base}.jpg`));
+}
+
+console.log(&apos;image build done&apos;);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;这份参数不是绝对标准，但适合大多数博客/内容站作为初始值。&lt;/p&gt;
+&lt;h2&gt;5. 避免“图片变小但体验变差”&lt;/h2&gt;
+&lt;p&gt;以下是常见反模式：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;只压缩，不裁剪：
+你把 3840px 大图压成 AVIF，但页面只显示 800px，仍然浪费带宽。&lt;/li&gt;
+&lt;li&gt;忽略尺寸占位：
+没有写 &lt;code&gt;width/height&lt;/code&gt;，导致图片加载时页面抖动（CLS 上升）。&lt;/li&gt;
+&lt;li&gt;首屏图片懒加载：
+首屏主图设置 &lt;code&gt;loading=&quot;lazy&quot;&lt;/code&gt; 会拖慢 LCP。&lt;/li&gt;
+&lt;li&gt;一刀切质量参数：
+所有图统一质量值，可能造成局部明显糊图。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;正确做法是：先区分场景，再按场景设置参数。&lt;/p&gt;
+&lt;h2&gt;6. CDN 与边缘优化策略&lt;/h2&gt;
+&lt;p&gt;如果你使用 Cloudflare、CloudFront、Fastly 等 CDN，可以结合以下策略：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;根据 &lt;code&gt;Accept&lt;/code&gt; 头自动协商格式&lt;/li&gt;
+&lt;li&gt;首屏关键图做多尺寸版本（&lt;code&gt;srcset&lt;/code&gt;）&lt;/li&gt;
+&lt;li&gt;对热门资源设置更长缓存周期&lt;/li&gt;
+&lt;li&gt;对低访问图使用更保守编码策略，减少构建成本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这能把“构建侧压力”与“传输侧收益”做平衡。&lt;/p&gt;
+&lt;h2&gt;7. 一套可执行的上线流程&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;选 3 张高流量页面图片作为试点。&lt;/li&gt;
+&lt;li&gt;生成 AVIF/WebP/JPG 三格式并接入 &lt;code&gt;&amp;lt;picture&amp;gt;&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;对比上线前后 7 天数据：
+&lt;ul&gt;
+&lt;li&gt;页面 LCP&lt;/li&gt;
+&lt;li&gt;图片总流量&lt;/li&gt;
+&lt;li&gt;错误率和兼容反馈&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;如果结果稳定，再扩展到其他页面。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;不要一次性重构整个站点，先用小样本跑通闭环。&lt;/p&gt;
+&lt;h2&gt;8. 给博客站点的简化建议&lt;/h2&gt;
+&lt;p&gt;如果你维护的是 Jekyll 或轻量博客：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;封面图和正文大图：三格式回退&lt;/li&gt;
+&lt;li&gt;小图标：优先 SVG&lt;/li&gt;
+&lt;li&gt;截图类教程图：优先 WebP（文字边缘更清晰）&lt;/li&gt;
+&lt;li&gt;每篇文章控制图片总量，避免“图太多导致正文价值稀释”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;WebP 和 AVIF 不是对立关系，而是组合关系。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;WebP：稳定、快、够用，适合默认策略。&lt;/li&gt;
+&lt;li&gt;AVIF：体积优势明显，适合关键资源和高价值页面。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;先从核心页面做增量优化，再逐步扩展，才是长期可维护的性能策略。&lt;/p&gt;
+</content:encoded></item><item><title>个人站监控实战：用 Uptime Kuma 建立可行动的故障告警</title><link>https://levifree.dpdns.org/posts/self-hosted-monitoring-uptime-kuma-guide/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/self-hosted-monitoring-uptime-kuma-guide/</guid><description>从监控项、阈值、告警分级到故障演练，避免“有告警但不知道下一步做什么”</description><pubDate>Wed, 21 May 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;监控的目标不是收集更多红绿图标，而是在站点真正不可用时让你知道：哪里坏了、影响多大、先做什么。个人站从少量关键检查开始，通常比把每一个资源都加进监控更可靠。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/images/content/article-quality-loop.svg&quot; alt=&quot;技术文章质量闭环&quot; /&gt;&lt;/p&gt;
+&lt;h2&gt;1. 先定义最小监控集&lt;/h2&gt;
+&lt;p&gt;建议从四项开始：首页 HTTP、一个关键文章页、域名 TLS 证书、DNS 解析。首页失败代表读者入口受影响；关键文章页能发现路由或内容构建问题；证书和 DNS 则覆盖“服务器正常但域名不可用”的情况。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker run -d --restart=always -p 3001:3001 \
+  -v uptime-kuma:/app/data --name uptime-kuma louislam/uptime-kuma:1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;管理面板不应暴露在未设访问控制的公网。优先使用反向代理、强密码和定期备份数据卷；测试告警时使用自己的测试 URL，而不是频繁请求第三方服务。&lt;/p&gt;
+&lt;h2&gt;2. 阈值要对应行动&lt;/h2&gt;
+&lt;p&gt;个人站可从“连续 3 次失败后告警、恢复后通知”开始。轮询 1 到 5 分钟通常足够；更短的周期会放大瞬时网络波动。把告警分为两类：访问完全失败需要立即处理，响应变慢但仍可访问可先观察趋势。&lt;/p&gt;
+&lt;h2&gt;3. 每条告警都写第一检查点&lt;/h2&gt;
+&lt;p&gt;HTTP 5xx：先看部署记录与服务日志；DNS 失败：对比多个解析器的结果；证书告警：检查域名、自动续期任务和证书链。将这些第一检查点写到通知备注里，夜间收到告警时就不用重新搜索排查流程。&lt;/p&gt;
+&lt;h2&gt;4. 做一次可控演练&lt;/h2&gt;
+&lt;p&gt;上线后手动暂停一个非关键测试服务，确认告警、恢复通知和状态页是否按预期工作。演练完成后恢复服务并记录耗时。没有经过一次演练的告警，真正故障时很可能只会增加焦虑。&lt;/p&gt;
+&lt;h2&gt;结语&lt;/h2&gt;
+&lt;p&gt;监控系统的价值在于缩短“发现—判断—恢复”的时间。保持监控项少而关键、阈值可解释、处理步骤可执行，才是个人站最可持续的方案。&lt;/p&gt;
+</content:encoded></item><item><title>提升 macOS 效率的 5 个终端 (Terminal) 技巧</title><link>https://levifree.dpdns.org/posts/macos-terminal-tips/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/macos-terminal-tips/</guid><description>摆脱鼠标依赖，让你的命令行操作行云流水</description><pubDate>Sat, 12 Apr 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;作为一名 macOS 用户，终端 (Terminal) 是我们最强大的工具之一。无论你是开发者还是普通的高级用户，掌握一些 Shell 技巧都能让你的工作效率倍增。&lt;/p&gt;
+&lt;p&gt;本文将分享 5 个我每天都在用的 Zsh/Bash 小技巧，不需要安装复杂的插件，开箱即用。&lt;/p&gt;
+&lt;h2&gt;1. 快速回到上一个目录 (&lt;code&gt;cd -&lt;/code&gt;)&lt;/h2&gt;
+&lt;p&gt;这可能是最简单但最实用的命令。
+当你在深层目录 &lt;code&gt;/Users/levi/project/src/components/&lt;/code&gt; 和系统目录 &lt;code&gt;/etc/nginx/&lt;/code&gt; 之间频繁切换时，不需要每次都打完整路径。&lt;/p&gt;
+&lt;p&gt;只需输入：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;cd -
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;系统就会自动把你带回“上一次所在的目录”。&lt;/p&gt;
+&lt;h2&gt;2. 这里的命令太长了？用 &lt;code&gt;Ctrl + A&lt;/code&gt; 和 &lt;code&gt;Ctrl + E&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;当你在终端敲了一行巨长的命令，结果发现最开头的 &lt;code&gt;sudo&lt;/code&gt; 忘了加，或者拼写错了一个词：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;不要&lt;/strong&gt; 狂按左箭头键。&lt;/li&gt;
+&lt;li&gt;按下 &lt;strong&gt;&lt;code&gt;Ctrl + A&lt;/code&gt;&lt;/strong&gt;：光标瞬间跳到行首。&lt;/li&gt;
+&lt;li&gt;按下 &lt;strong&gt;&lt;code&gt;Ctrl + E&lt;/code&gt;&lt;/strong&gt;：光标瞬间跳到行尾。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这两个快捷键是 Readline 的标准配置，在大多数 Shell 环境中通用。&lt;/p&gt;
+&lt;h2&gt;3. 搜索历史命令 (&lt;code&gt;Ctrl + R&lt;/code&gt;)&lt;/h2&gt;
+&lt;p&gt;这是一个能让你显得很“极客”的操作。
+如果你想执行几天前运行过的一条复杂的 &lt;code&gt;docker run&lt;/code&gt; 命令，但记不清具体参数了？&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;按下 &lt;strong&gt;&lt;code&gt;Ctrl + R&lt;/code&gt;&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;输入关键字（比如 &lt;code&gt;docker&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;终端会自动显示最近匹配的一条历史记录。&lt;/li&gt;
+&lt;li&gt;如果你想找更早之前的，继续按 &lt;code&gt;Ctrl + R&lt;/code&gt; 即可。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;4. 别名 (Alias) 解放双手&lt;/h2&gt;
+&lt;p&gt;如果你发现自己经常输入很长的命令，比如 &lt;code&gt;git commit -m &quot;update&quot;&lt;/code&gt;，一定要设置别名。&lt;/p&gt;
+&lt;p&gt;编辑你的 &lt;code&gt;~/.zshrc&lt;/code&gt; 文件：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 快速提交
+alias gcm=&quot;git commit -m&quot;
+# 快速查看状态
+alias gs=&quot;git status&quot;
+# 显示隐藏文件并易读大小
+alias ll=&quot;ls -lah&quot;
+# 快速刷新DNS缓存
+alias flushdns=&quot;sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;保存后运行 &lt;code&gt;source ~/.zshrc&lt;/code&gt;，以后只需要打 &lt;code&gt;gcm &quot;message&quot;&lt;/code&gt; 就行了。&lt;/p&gt;
+&lt;h2&gt;5. &lt;code&gt;open .&lt;/code&gt; 图形化打开当前文件夹&lt;/h2&gt;
+&lt;p&gt;有时候在终端里操作文件很累，想用 Finder（访达）来拖拽文件？
+直接输入：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;open .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;macOS 会立即弹出一个 Finder 窗口，显示的正是你当前终端所在的目录。这个技巧在管理博客图片资源时特别好用。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;工具的意义在于服务人。这些终端技巧虽然微小，但每天节省下来的几秒钟积累起来，就是巨大的效率提升。&lt;/p&gt;
+&lt;p&gt;如果你有其他独家秘籍，欢迎在评论区分享！&lt;/p&gt;
+</content:encoded></item><item><title>Cloudflare Pages 性能与安全配置：先验证默认行为，再做最小改动</title><link>https://levifree.dpdns.org/posts/cloudflare-pages-performance-security/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/cloudflare-pages-performance-security/</guid><description>从 Pages 默认缓存、静态响应头到上线后的验证，避免为了优化而制造陈旧内容或安全回归</description><pubDate>Tue, 18 Mar 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Cloudflare Pages 的性能优化最容易犯的错误，是还没确认默认行为就叠加缓存规则。Pages 已为静态资源提供 CDN 缓存与 ETag；自定义规则应只解决已经测到的问题，而不是作为默认动作。&lt;a href=&quot;https://developers.cloudflare.com/pages/configuration/serving-pages/&quot;&gt;Cloudflare 的 Pages 文档&lt;/a&gt; 也明确提醒，额外缓存可能造成部署后的陈旧资源。&lt;/p&gt;
+&lt;h2&gt;1. 先建立基线&lt;/h2&gt;
+&lt;p&gt;在修改前记录三个页面：首页、带图片的文章页、404 页。用浏览器网络面板或 &lt;code&gt;curl -I&lt;/code&gt; 保存响应状态、&lt;code&gt;cache-control&lt;/code&gt;、&lt;code&gt;etag&lt;/code&gt; 和资源体积。部署后使用同一组 URL 对比，而不是只看一次 Lighthouse 分数。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;curl -I https://example.com/
+curl -I https://example.com/assets/app.abc123.css
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果 HTML 更新后仍显示旧版本，先确认是否已经完成新部署，再排查浏览器缓存与自定义 Cache Rule；不要一开始就给所有路径设置超长 TTL。&lt;/p&gt;
+&lt;h2&gt;2. 只对不可变资源加浏览器缓存&lt;/h2&gt;
+&lt;p&gt;带内容哈希的 CSS、JS 与构建产物适合长缓存，因为文件名变化就代表内容变化。不要把同样的规则套到文章 HTML、RSS 或 API 数据上。Cloudflare Pages 支持在静态资产目录放置 &lt;code&gt;_headers&lt;/code&gt; 文件；若项目使用 Functions/SSR，响应头应在函数响应中设置，而不是依赖 &lt;code&gt;_headers&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/assets/*
+  Cache-Control: public, max-age=31556952, immutable
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;上线后强制刷新一次首页，并在无痕窗口确认新部署的 HTML 能引用到新资源。出现旧页面时，立即撤回该规则或清理缓存，再重新验证。&lt;/p&gt;
+&lt;h2&gt;3. 采用低风险安全响应头&lt;/h2&gt;
+&lt;p&gt;静态站可从不会破坏站内资源的头开始：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;code&gt;Content-Security-Policy&lt;/code&gt; 需要在真实页面加载后再逐步收紧。先从 report-only 或明确列出已有脚本、字体、图片域名开始；直接套用 &lt;code&gt;default-src &apos;self&apos;&lt;/code&gt; 可能使分析、评论或字体加载失效。&lt;/p&gt;
+&lt;h2&gt;4. 上线验收清单&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;首页、文章页与 404 返回正确状态码。&lt;/li&gt;
+&lt;li&gt;主 CSS、JS 和图片没有 404。&lt;/li&gt;
+&lt;li&gt;新部署后无痕窗口可立即看到更新。&lt;/li&gt;
+&lt;li&gt;移动端菜单、搜索与外部组件没有被 CSP 阻断。&lt;/li&gt;
+&lt;li&gt;仅在确定内容完全静态时才扩大缓存范围。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这套顺序的目标不是“配置越多越好”，而是让每一条规则都有可复核的收益和明确回滚点。&lt;/p&gt;
+</content:encoded></item><item><title>AdSense 低价值内容恢复实战：个人技术博客 30 天优化清单</title><link>https://levifree.dpdns.org/posts/adsense-low-value-content-recovery/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/adsense-low-value-content-recovery/</guid><description>从内容结构、站点信号到复审节奏，给出可执行的整改路径</description><pubDate>Sun, 09 Mar 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;当 AdSense 给出“低价值内容”时，很多站长第一反应是疯狂加文章数量。
+但实操里，复审是否通过，往往看的是“整体站点质量信号”，而不只是文章篇数。&lt;/p&gt;
+&lt;p&gt;这篇文章分享一套可以在 30 天内执行的整改流程，适用于技术博客和个人站。&lt;/p&gt;
+&lt;h2&gt;1. 先判断：什么是“低价值内容”&lt;/h2&gt;
+&lt;p&gt;从站长实务角度，常见触发点有 5 类：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;内容太薄：文章字数少、信息密度低、可执行细节不足。&lt;/li&gt;
+&lt;li&gt;重复或同质化：主题重复、段落模板化、观点高度雷同。&lt;/li&gt;
+&lt;li&gt;页面信号不足：缺少清晰的关于页、隐私政策、联系方式、导航结构。&lt;/li&gt;
+&lt;li&gt;站点体验弱：页面加载慢、移动端体验差、广告位布局干扰阅读。&lt;/li&gt;
+&lt;li&gt;更新和覆盖不足：内容量和更新频率与站点定位不匹配。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;注意：这类问题通常是“组合出现”，不是单点故障。&lt;/p&gt;
+&lt;h2&gt;2. 先做站点级体检（第 1-3 天）&lt;/h2&gt;
+&lt;p&gt;先不要急着重投。先做体检，确认短板在哪。&lt;/p&gt;
+&lt;h3&gt;2.1 内容层&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;统计所有文章长度（建议目标：核心文至少 1200-2000 中文字）&lt;/li&gt;
+&lt;li&gt;统计每篇是否包含：问题定义、步骤、示例、风险提示、总结&lt;/li&gt;
+&lt;li&gt;找出重复选题（标题不同但内容类似）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;2.2 架构层&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;导航是否包含：首页、归档、关于、隐私政策&lt;/li&gt;
+&lt;li&gt;是否有明确作者信息与联系方式&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;robots.txt&lt;/code&gt;、&lt;code&gt;sitemap.xml&lt;/code&gt;、&lt;code&gt;ads.txt&lt;/code&gt; 是否可访问&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;2.3 体验层&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;移动端阅读是否顺畅&lt;/li&gt;
+&lt;li&gt;首屏是否被广告或弹层干扰&lt;/li&gt;
+&lt;li&gt;页面是否有明显失效链接/失效图片&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. 内容整改：从“泛介绍”升级为“可执行指南”（第 4-20 天）&lt;/h2&gt;
+&lt;p&gt;整改优先级建议：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先改历史流量高页面（ROI 最高）&lt;/li&gt;
+&lt;li&gt;再改字数低、信息密度低的页面&lt;/li&gt;
+&lt;li&gt;最后补新文，形成主题集群&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;3.1 高价值文章的统一结构&lt;/h3&gt;
+&lt;p&gt;可以直接套这个模板：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;背景和问题边界（这篇文解决什么，不解决什么）&lt;/li&gt;
+&lt;li&gt;前置条件（环境、版本、依赖）&lt;/li&gt;
+&lt;li&gt;分步实操（每步给命令或截图）&lt;/li&gt;
+&lt;li&gt;常见错误与排查（至少 3 个）&lt;/li&gt;
+&lt;li&gt;安全与合规提示&lt;/li&gt;
+&lt;li&gt;总结与后续延伸&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;3.2 提升原创度的方法&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;加入真实项目中的决策理由，而不只是“怎么做”&lt;/li&gt;
+&lt;li&gt;记录失败案例和取舍过程&lt;/li&gt;
+&lt;li&gt;给出你自己的参数基线和验证结果&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这些内容是模板站和采集站最难复制的部分，也是“价值信号”的核心。&lt;/p&gt;
+&lt;h2&gt;4. 新增内容策略：少而精，不追灌水（第 10-25 天）&lt;/h2&gt;
+&lt;p&gt;建议采用“主题集群”思路，而不是随机发文：&lt;/p&gt;
+&lt;p&gt;示例（技术博客）：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;集群 A：静态站点性能优化&lt;/li&gt;
+&lt;li&gt;集群 B：Linux 运维安全基线&lt;/li&gt;
+&lt;li&gt;集群 C：开发效率与自动化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;每个集群至少 3 篇：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;入门概览（地图文）&lt;/li&gt;
+&lt;li&gt;实操教程（步骤文）&lt;/li&gt;
+&lt;li&gt;问题排查（FAQ 文）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这样站点的专业定位会更清晰，广告系统也更容易识别内容主题。&lt;/p&gt;
+&lt;h2&gt;5. 合规清理：哪些内容要删或重写&lt;/h2&gt;
+&lt;p&gt;对于个人技术博客，建议清理这几类内容：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;只有几百字的“泛泛介绍”且无任何实操细节&lt;/li&gt;
+&lt;li&gt;过时严重且命令不可用的旧教程&lt;/li&gt;
+&lt;li&gt;标题党或夸大收益、引导误解的页面&lt;/li&gt;
+&lt;li&gt;未经授权搬运内容&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;处理方式：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;可修复：补实操和版本说明后保留&lt;/li&gt;
+&lt;li&gt;不可修复：删除并做 301 重定向或归档说明&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;6. 复审前的最低可交付标准（第 21-27 天）&lt;/h2&gt;
+&lt;p&gt;建议至少满足：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;站内高质量原创文 &amp;gt;= 20 篇（优先深度，不要凑数）&lt;/li&gt;
+&lt;li&gt;近 30 天有稳定更新（例如每周 2 篇）&lt;/li&gt;
+&lt;li&gt;重要页面完整可访问（About/Privacy/Contact/ads.txt）&lt;/li&gt;
+&lt;li&gt;无明显违规或高风险内容&lt;/li&gt;
+&lt;li&gt;移动端可读性正常&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;7. 复审节奏与预期（第 28-30 天）&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;完成整改后再提交复审，不要频繁秒投。&lt;/li&gt;
+&lt;li&gt;每次复审之间至少留出一段稳定观察期。&lt;/li&gt;
+&lt;li&gt;记录每次改动清单，便于定位有效动作。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;复审不是抽奖，核心是站点整体质量是否显著改善。&lt;/p&gt;
+&lt;h2&gt;8. 给独立博客的最后建议&lt;/h2&gt;
+&lt;p&gt;AdSense 的“低价值内容”本质上是一个信号：
+你的网站在“可读性、专业度、可信度”三个维度还不够强。&lt;/p&gt;
+&lt;p&gt;真正有效的策略不是“多发”，而是“发有复用价值、可执行、可验证的内容”。&lt;/p&gt;
+&lt;p&gt;当你持续做这件事，广告通过只是副产品。&lt;/p&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/03/09/jekyll-content-quality-checklist/&quot;&gt;Jekyll 发布前内容质量自检模板&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/10/14/static-blog-content-cluster-strategy/&quot;&gt;静态博客内容集群策略&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/07/16/jekyll-seo-technical-optimization/&quot;&gt;Jekyll SEO 技术优化清单&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>Jekyll 博客内容质量清单：发布前 15 分钟自检模板</title><link>https://levifree.dpdns.org/posts/jekyll-content-quality-checklist/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/jekyll-content-quality-checklist/</guid><description>把“写完就发”升级为“可复用资产”：覆盖可读性、SEO、可信度和合规</description><pubDate>Sun, 09 Mar 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;技术博客最常见的问题不是不会写，而是“写完就发，发完就沉底”。
+要让文章长期带来搜索流量、读者收藏和广告价值，你需要一套发布前自检流程。&lt;/p&gt;
+&lt;p&gt;这篇文章给你一份可以直接照抄的 15 分钟检查清单，适用于 Jekyll 站点。&lt;/p&gt;
+&lt;h2&gt;1. 文章结构检查（3 分钟）&lt;/h2&gt;
+&lt;p&gt;先确认内容是否具备“可执行”结构，而不是流水账。&lt;/p&gt;
+&lt;p&gt;最低结构建议：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;问题定义：这篇文解决什么场景&lt;/li&gt;
+&lt;li&gt;前置条件：环境、版本、依赖&lt;/li&gt;
+&lt;li&gt;分步过程：每一步都能复现&lt;/li&gt;
+&lt;li&gt;排错章节：至少 3 个常见报错&lt;/li&gt;
+&lt;li&gt;总结：适用边界和下一步建议&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;如果缺少其中 2 项以上，这篇文章通常还不够成熟。&lt;/p&gt;
+&lt;h2&gt;2. 信息密度检查（2 分钟）&lt;/h2&gt;
+&lt;p&gt;快速判断“有没有干货”：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;是否包含可复制命令&lt;/li&gt;
+&lt;li&gt;是否说明参数为什么这么配&lt;/li&gt;
+&lt;li&gt;是否覆盖失败分支（不是只写 happy path）&lt;/li&gt;
+&lt;li&gt;是否给出明确版本信息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;判断标准：读者不需要“猜你在说什么”。&lt;/p&gt;
+&lt;h2&gt;3. SEO 基础检查（3 分钟）&lt;/h2&gt;
+&lt;p&gt;Jekyll 文章发布前，至少核对这几项：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;title&lt;/code&gt; 是否清晰表达主题和人群&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;subtitle&lt;/code&gt; 是否补足上下文&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tags&lt;/code&gt; 是否与正文一致（避免乱打标签）&lt;/li&gt;
+&lt;li&gt;首段是否在 80-120 字内讲清价值&lt;/li&gt;
+&lt;li&gt;是否有至少 2 个二级标题（&lt;code&gt;##&lt;/code&gt;）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果你的站点有站内搜索，标题和首段决定了点击率上限。&lt;/p&gt;
+&lt;h2&gt;4. 可信度检查（2 分钟）&lt;/h2&gt;
+&lt;p&gt;技术文要建立可信度，至少做到：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;标注命令适用系统（macOS/Linux/Windows）&lt;/li&gt;
+&lt;li&gt;标注版本（如 Node 20、Python 3.12）&lt;/li&gt;
+&lt;li&gt;对高风险操作加警告&lt;/li&gt;
+&lt;li&gt;对引用资料注明来源（官方文档优先）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;可信度越高，读者停留时间和回访率越高。&lt;/p&gt;
+&lt;h2&gt;5. 合规检查（2 分钟）&lt;/h2&gt;
+&lt;p&gt;如果你依赖广告变现，这一步不能省。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;是否含有误导性标题&lt;/li&gt;
+&lt;li&gt;是否包含潜在违规导向（攻击、绕过、侵权）&lt;/li&gt;
+&lt;li&gt;是否出现“结论性断言但无依据”&lt;/li&gt;
+&lt;li&gt;是否存在明显采集痕迹&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;不确定的段落，宁可删掉，也不要赌审核。&lt;/p&gt;
+&lt;h2&gt;6. Jekyll 站点级检查（2 分钟）&lt;/h2&gt;
+&lt;p&gt;发布后快速检查：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;页面能否正常渲染&lt;/li&gt;
+&lt;li&gt;内链是否可点击&lt;/li&gt;
+&lt;li&gt;图片路径是否正确&lt;/li&gt;
+&lt;li&gt;文章是否进入归档页&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;feed.xml&lt;/code&gt; 是否更新&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;你可以在本地先跑：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;bundle exec jekyll serve
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后手动点开文章，检查移动端布局和代码高亮。&lt;/p&gt;
+&lt;h2&gt;7. 一份可复制的发布前模板&lt;/h2&gt;
+&lt;p&gt;你可以把下面这段直接放进你的草稿顶部：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;[发布前检查]
+- [ ] 标题是否准确且不夸张
+- [ ] 首段是否说清目标读者与收益
+- [ ] 是否有前置条件与版本信息
+- [ ] 是否有可复制命令与示例
+- [ ] 是否有常见错误与排查
+- [ ] 是否标注风险操作
+- [ ] 是否完成内链和图片检查
+- [ ] 是否通过移动端阅读检查
+- [ ] 是否通过合规检查
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;当你连续执行 20 篇后，文章质量会显著稳定。&lt;/p&gt;
+&lt;h2&gt;8. 建议的周节奏&lt;/h2&gt;
+&lt;p&gt;如果你是个人站长，可用这个节奏：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;周一：选题与资料整理&lt;/li&gt;
+&lt;li&gt;周三：写正文与代码示例&lt;/li&gt;
+&lt;li&gt;周五：自检 + 发布&lt;/li&gt;
+&lt;li&gt;周末：回看数据（搜索曝光、停留时长、跳出）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;不要把“发布”当终点，数据复盘才是内容升级的开始。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;高质量内容不是灵感驱动，而是流程驱动。&lt;/p&gt;
+&lt;p&gt;你只要把发布前自检流程固定下来，哪怕每周只发 1 篇，长期效果也会好过“高频低质”的更新方式。&lt;/p&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/07/22/developer-documentation-writing-guide/&quot;&gt;技术文档写作实战&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/03/09/adsense-low-value-content-recovery/&quot;&gt;AdSense 低价值内容恢复实战&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/07/16/jekyll-seo-technical-optimization/&quot;&gt;Jekyll SEO 技术优化清单&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>Docker 部署 Nginx Proxy Manager: 小白也能搞定反向代理</title><link>https://levifree.dpdns.org/posts/nginx-proxy-manager/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/nginx-proxy-manager/</guid><description>告别繁琐的 Nginx 配置文件，用可视化面板轻松管理 SSL 证书与域名转发</description><pubDate>Thu, 20 Feb 2025 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;如果你自己搭建过 Home Lab 或者 VPS 服务，一定遇到过这个问题：
+我有多个服务（Portainer, Halo, Alist），它们运行在不同的端口（9000, 8090, 5244），但我只想用一个域名（如 &lt;code&gt;demo.com&lt;/code&gt;）的不同子域名来访问它们，而且都要加上 HTTPS 小绿锁。&lt;/p&gt;
+&lt;p&gt;手写 Nginx 配置文件 (&lt;code&gt;nginx.conf&lt;/code&gt;) 不仅容易出错，而且申请和续期 SSL 证书也非常麻烦。&lt;/p&gt;
+&lt;p&gt;今天推荐的神器 &lt;strong&gt;Nginx Proxy Manager (NPM)&lt;/strong&gt;，能让你在图形化界面中几分钟搞定这一切。&lt;/p&gt;
+&lt;h2&gt;1. 为什么选择 Nginx Proxy Manager?&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;可视化 UI&lt;/strong&gt;：所有配置都在网页上点点点。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;自动 SSL&lt;/strong&gt;：内置 Let&apos;s Encrypt 支持，一键申请并自动续期证书。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Docker 部署&lt;/strong&gt;：不污染宿主机环境，随时可以迁移。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;架构示意图&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;User (Browser)
+      │
+      ▼
+[ Nginx Proxy Manager (Port 80/443) ] ────► [ Automatic SSL Management ]
+      │
+      ├───► demo.com      ────► [ Portainer (Port 9000) ]
+      ├───► blog.demo.com ────► [ Halo Blog (Port 8090) ]
+      └───► pan.demo.com  ────► [ Alist (Port 5244) ]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;2. Docker Compose 部署&lt;/h2&gt;
+&lt;p&gt;首先，确保你的服务器已经安装了 Docker 和 Docker Compose。
+创建一个文件夹并新建 &lt;code&gt;docker-compose.yml&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;version: &apos;3&apos;
+services:
+  app:
+    image: &apos;jc21/nginx-proxy-manager:latest&apos;
+    restart: unless-stopped
+    ports:
+      - &apos;80:80&apos;      # HTTP 流量
+      - &apos;81:81&apos;      # 管理面板入口
+      - &apos;443:443&apos;    # HTTPS 流量
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;启动服务：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;docker-compose up -d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;3. 初始化配置&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;访问 &lt;code&gt;http://&amp;lt;服务器IP&amp;gt;:81&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;默认登录账号：&lt;code&gt;admin@example.com&lt;/code&gt;，密码：&lt;code&gt;changeme&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;首次登录后务必修改邮箱和密码。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;4. 实战：转发 Portainer 面板&lt;/h2&gt;
+&lt;p&gt;假设你的 Portainer 运行在 &lt;code&gt;http://127.0.0.1:9000&lt;/code&gt;，你想用 &lt;code&gt;portainer.你的域名.com&lt;/code&gt; 访问。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;添加 Proxy Host&lt;/strong&gt;：点击 Dashboard 的 &quot;Proxy Hosts&quot; -&amp;gt; &quot;Add Proxy Host&quot;。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Details 选项卡&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;Domain Names: &lt;code&gt;portainer.你的域名.com&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Scheme: &lt;code&gt;http&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Forward Hostname / IP: &lt;code&gt;172.17.0.1&lt;/code&gt; (这是 Docker 网桥的宿主机 IP，或者填公网 IP)&lt;/li&gt;
+&lt;li&gt;Forward Port: &lt;code&gt;9000&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;勾选 &lt;code&gt;Block Common Exploits&lt;/code&gt; (基础防护)。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SSL 选项卡&lt;/strong&gt;：
+&lt;ul&gt;
+&lt;li&gt;SSL Certificate: 选择 &quot;Request a new SSL Certificate&quot;。&lt;/li&gt;
+&lt;li&gt;勾选 &lt;code&gt;Force SSL&lt;/code&gt; (强制 HTTPS)。&lt;/li&gt;
+&lt;li&gt;填写 Email 并同意协议。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;保存&lt;/strong&gt;：点击 Save。等待几秒钟，NPM 会自动验证域名并申请证书。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;搞定！现在你可以通过安全的 HTTPS 链接访问你的面板了。&lt;/p&gt;
+&lt;h2&gt;常见坑点与排查&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;SSL 申请失败 (Internal Error)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;检查端口&lt;/strong&gt;: 必须确保你服务器防火墙的 &lt;strong&gt;80&lt;/strong&gt; 和 &lt;strong&gt;443&lt;/strong&gt; 端口是对外开放的。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DNS 解析&lt;/strong&gt;: 确保你的域名已经正确解析到了服务器 IP，且生效（可以用 &lt;code&gt;ping&lt;/code&gt; 检查）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Email 未填&lt;/strong&gt;: 在申请证书时，Email 字段虽然可选，但建议填写，否则 Let&apos;s Encrypt 可能会拒绝请求。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;502 Bad Gateway&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;IP 填写错误&lt;/strong&gt;: 在 Forward Hostname 中，千万&lt;strong&gt;不要填 &lt;code&gt;127.0.0.1&lt;/code&gt;&lt;/strong&gt;（除非 NPM 网络模式为 host）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;正确做法&lt;/strong&gt;: 填写 Docker 容器的局域网 IP，或者宿主机的内网 IP（如 &lt;code&gt;172.17.0.1&lt;/code&gt;）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;上传文件限制&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;默认 Nginx 配置限制了上传大小。如果遇到上传大文件失败，需要在 NPM 的 Proxy Host 配置 -&amp;gt; &lt;strong&gt;Advanced&lt;/strong&gt; 中添加：&lt;pre&gt;&lt;code&gt;client_max_body_size 0;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;5. 总结&lt;/h2&gt;
+&lt;p&gt;Nginx Proxy Manager 极大降低了反向代理的门槛。对于个人开发者和家庭实验室用户来说，它兼顾了易用性和功能性，是必备的基础设施之一。&lt;/p&gt;
+</content:encoded></item><item><title>重构的艺术：如何写出同事不骂街的 TypeScript 代码</title><link>https://levifree.dpdns.org/posts/typescript-refactoring/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/typescript-refactoring/</guid><description>代码是写给人看的，顺便给机器运行。5 个实用的重构小技巧</description><pubDate>Fri, 10 Jan 2025 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&quot;Any fool can write code that a computer can understand. Good programmers write code that humans can understand.&quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;接手屎山代码（Spaghetti Code）是每个程序员的噩梦。为了不让你的代码成为别人的噩梦，我们来聊聊 TypeScript 项目中的重构艺术。&lt;/p&gt;
+&lt;h2&gt;1. 拒绝 &lt;code&gt;any&lt;/code&gt;，拥抱类型&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;any&lt;/code&gt; 是 TypeScript 的逃生舱，但用多了就变成了 &lt;code&gt;AnyScript&lt;/code&gt;。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;坏味道&lt;/strong&gt;：&lt;code&gt;function process(data: any) { ... }&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;重构&lt;/strong&gt;：即使不知道确切类型，也请使用 &lt;code&gt;unknown&lt;/code&gt;，迫使你在使用前进行类型收窄（Type Narrowing）。或者定义一个 &lt;code&gt;interface&lt;/code&gt;，哪怕只有部分字段。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;2. 卫语句 (Guard Clause) 代替嵌套 &lt;code&gt;if&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;不要写“箭头型”代码（嵌套太深）。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Bad:&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function processUser(user: User) {
+  if (user != null) {
+    if (user.isActive) {
+      if (user.hasCredit) {
+         // 核心逻辑...
+      }
+    }
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Good:&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;function processUser(user: User) {
+  if (!user || !user.isActive || !user.hasCredit) return;
+  
+  // 核心逻辑在主层级，清清爽爽
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;3. 魔法数字 (Magic Numbers) 必须死&lt;/h2&gt;
+&lt;p&gt;不要在代码里直接写 &lt;code&gt;if (status === 2)&lt;/code&gt;。鬼知道 2 是什么意思？是“成功”？还是“失败”？还是“处理中”？&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;重构&lt;/strong&gt;：使用 &lt;code&gt;enum&lt;/code&gt; 或 &lt;code&gt;const&lt;/code&gt; 常量。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;enum OrderStatus {
+  Pending = 0,
+  Processing = 1,
+  Completed = 2
+}
+
+if (order.status === OrderStatus.Completed) { ... }
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;4. 函数单一职责&lt;/h2&gt;
+&lt;p&gt;一个函数应该只做一件事。
+如果你发现你的函数名是 &lt;code&gt;fetchDataAndProcessAndSave()&lt;/code&gt;，那它绝对太长了。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;把“获取数据”拆出去。&lt;/li&gt;
+&lt;li&gt;把“处理逻辑”拆出去。&lt;/li&gt;
+&lt;li&gt;把“保存”拆出去。
+主函数只负责像指挥官一样调用它们。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;5. 使用可选链 (Optional Chaining)&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Bad:&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;if (user &amp;amp;&amp;amp; user.address &amp;amp;&amp;amp; user.address.street) {
+  console.log(user.address.street);
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Good:&lt;/strong&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;console.log(user?.address?.street);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;不仅代码短了，而且可读性极佳。&lt;/p&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;好的代码就像一篇好文章，读起来行云流水。重构不是为了炫技，而是为了让未来的自己（和同事）少掉几根头发。&lt;/p&gt;
+</content:encoded></item><item><title>Python 自动化办公：5分钟写一个批量重命名脚本</title><link>https://levifree.dpdns.org/posts/python-rename-script/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/python-rename-script/</guid><description>告别枯燥的手工劳动，用几十行代码拯救你的下班时间</description><pubDate>Thu, 12 Dec 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;你是否遇到过这种情况：
+老板发给你 500 张活动照片，文件名全是 &lt;code&gt;IMG_20260131_123456.jpg&lt;/code&gt; 这种乱码，要求你全部改成 &lt;code&gt;活动现场_001.jpg&lt;/code&gt;, &lt;code&gt;活动现场_002.jpg&lt;/code&gt;...？&lt;/p&gt;
+&lt;p&gt;手动改？那你要改到明年。用 Python，只需要喝口水的功夫。&lt;/p&gt;
+&lt;h2&gt;1. 准备工作&lt;/h2&gt;
+&lt;p&gt;确保电脑已安装 Python。我们只需要用到内置的 &lt;code&gt;os&lt;/code&gt; 库，无需安装任何第三方包。&lt;/p&gt;
+&lt;h2&gt;2. 核心代码&lt;/h2&gt;
+&lt;p&gt;新建一个文件 &lt;code&gt;rename.py&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;import os
+
+def batch_rename(path, prefix):
+    # 1. 确保路径存在
+    if not os.path.exists(path):
+        print(f&quot;路径 {path} 不存在！&quot;)
+        return
+
+    # 2. 获取该目录下所有文件
+    files = os.listdir(path)
+    # 按原始文件名排序，防止乱序
+    files.sort()
+
+    count = 0
+    for filename in files:
+        # 跳过隐藏文件（如 .DS_Store）和脚本自己
+        if filename.startswith(&apos;.&apos;) or filename == &apos;rename.py&apos;:
+            continue
+            
+        # 3. 构造新文件名
+        # 获取文件扩展名 (如 .jpg)
+        ext = os.path.splitext(filename)[1]
+        
+        # 格式化数字，例如 001, 002
+        new_name = f&quot;{prefix}_{count+1:03d}{ext}&quot;
+        
+        old_file = os.path.join(path, filename)
+        new_file = os.path.join(path, new_name)
+        
+        # 4. 执行重命名
+        try:
+            os.rename(old_file, new_file)
+            print(f&quot;✅ {filename} -&amp;gt; {new_name}&quot;)
+            count += 1
+        except Exception as e:
+            print(f&quot;❌ 重命名 {filename} 失败: {e}&quot;)
+
+    print(f&quot;\n🎉 完成！共处理 {count} 个文件。&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    # 在这里修改你的文件夹路径和想要的前缀
+    target_path = &quot;./photos&quot;
+    new_prefix = &quot;活动现场&quot;
+    
+    batch_rename(target_path, new_prefix)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;3. 代码解析&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;os.listdir(path)&lt;/code&gt;: 列出文件夹里所有的东西。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;path.join()&lt;/code&gt;: 智能拼接路径，不用担心 Windows/Mac 斜杠方向不一样的问题。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;f&quot;{prefix}_{count+1:03d}{ext}&quot;&lt;/code&gt;: 这是 Python 的 f-string 格式化大法。&lt;code&gt;:03d&lt;/code&gt; 的意思是“不足3位自动补零”，于是你就得到了 &lt;code&gt;001&lt;/code&gt;, &lt;code&gt;009&lt;/code&gt;, &lt;code&gt;010&lt;/code&gt; 这样整齐的序号。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;4. 扩展思路&lt;/h2&gt;
+&lt;p&gt;一旦掌握了这个逻辑，你能做更多事：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;按日期归档&lt;/strong&gt;：读取文件的创建时间，自动把文件移动到 &lt;code&gt;2026-01&lt;/code&gt; 文件夹里。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;筛选文件&lt;/strong&gt;：只处理 &lt;code&gt;.pdf&lt;/code&gt; 文件，把 &lt;code&gt;.txt&lt;/code&gt; 删掉。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;学会编程思维，哪怕只是这种小脚本，也能极大提升你的职场幸福感。&lt;/p&gt;
+</content:encoded></item><item><title>Git 冲突处理实战手册：从定位到收敛的一套标准流程</title><link>https://levifree.dpdns.org/posts/git-conflict-resolution-playbook/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/git-conflict-resolution-playbook/</guid><description>告别手忙脚乱：处理 merge/rebase 冲突时的步骤、命令与风险控制</description><pubDate>Tue, 03 Dec 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;代码冲突不可怕，可怕的是在冲突时临时发挥，把历史改乱、逻辑改坏。
+这篇文章给你一个冲突处理 SOP，适合团队协作场景。&lt;/p&gt;
+&lt;h2&gt;1. 先判断你在 merge 还是 rebase&lt;/h2&gt;
+&lt;p&gt;命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git status
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果提示 &lt;code&gt;rebase in progress&lt;/code&gt;，处理方式和 merge 不同。&lt;/p&gt;
+&lt;h2&gt;2. 冲突处理前的 3 条原则&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;先保证代码语义正确，再追求历史好看。&lt;/li&gt;
+&lt;li&gt;冲突阶段不做额外需求改动。&lt;/li&gt;
+&lt;li&gt;每次解决一小块，及时运行测试。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;3. Merge 冲突处理流程&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;git pull origin main
+# 出现冲突后，编辑冲突文件
+# 删除 &amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; ======= &amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; 标记
+
+git add &amp;lt;resolved-files&amp;gt;
+git commit
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;4. Rebase 冲突处理流程&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;git fetch origin
+git rebase origin/main
+# 修复冲突
+
+git add &amp;lt;resolved-files&amp;gt;
+git rebase --continue
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;若发现 rebase 路线错误：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git rebase --abort
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;5. 最常见的 5 类冲突&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;同一行被两边同时修改&lt;/li&gt;
+&lt;li&gt;文件重命名与内容修改同时发生&lt;/li&gt;
+&lt;li&gt;删除文件与编辑文件冲突&lt;/li&gt;
+&lt;li&gt;锁文件（如 &lt;code&gt;package-lock.json&lt;/code&gt;）频繁冲突&lt;/li&gt;
+&lt;li&gt;自动格式化工具导致大面积无意义差异&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;6. 实用技巧&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;git diff --name-only --diff-filter=U&lt;/code&gt;：只看冲突文件&lt;/li&gt;
+&lt;li&gt;优先解决核心业务文件，再处理配置或格式文件&lt;/li&gt;
+&lt;li&gt;锁文件冲突尽量通过重新生成解决，不手改复杂段落&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;7. 冲突后回归检查&lt;/h2&gt;
+&lt;p&gt;至少执行：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;项目构建&lt;/li&gt;
+&lt;li&gt;核心测试用例&lt;/li&gt;
+&lt;li&gt;关键页面手动冒烟测试&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这一步不能省，否则“冲突虽解，功能已坏”。&lt;/p&gt;
+&lt;h2&gt;8. 团队层面的预防&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;小步提交，减少超大 PR&lt;/li&gt;
+&lt;li&gt;长分支每天同步上游&lt;/li&gt;
+&lt;li&gt;合并前先跑 CI&lt;/li&gt;
+&lt;li&gt;统一 formatter 和 lint 规则&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;冲突处理不是技术难题，而是工程纪律问题。
+有流程、有边界、有回归检查，冲突就不会成为团队效率黑洞。&lt;/p&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/09/12/git-rebase-vs-merge-pr-workflow/&quot;&gt;Git Rebase vs Merge 工作流&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/08/20/git-commit-convention/&quot;&gt;Git Commit 规范指南&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2023/12/06/git-sync-fork-upstream-guide/&quot;&gt;Git Fork 同步上游实战&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>GitHub Actions 实战：为 Jekyll 博客搭建自动化质量检查流水线</title><link>https://levifree.dpdns.org/posts/github-actions-blog-ci-cd/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/github-actions-blog-ci-cd/</guid><description>每次提交自动检查 Markdown、死链与构建状态，减少线上翻车</description><pubDate>Mon, 18 Nov 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;很多个人博客只有“能发布”，但缺少“发布前自动验收”。
+当文章多起来后，死链、Front Matter 错误、构建失败会频繁出现。&lt;/p&gt;
+&lt;p&gt;这篇教程给你一个轻量 CI：每次 Push/PR 自动做三件事。&lt;/p&gt;
+&lt;h2&gt;目标&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;校验 Markdown 基本规范&lt;/li&gt;
+&lt;li&gt;检查站内链接可用性&lt;/li&gt;
+&lt;li&gt;执行 Jekyll 构建，确保可发布&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;1. 新建工作流&lt;/h2&gt;
+&lt;p&gt;创建 &lt;code&gt;.github/workflows/blog-quality.yml&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;name: Blog Quality
+
+on:
+  push:
+    branches: [&quot;master&quot;, &quot;main&quot;]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: &quot;20&quot;
+
+      - name: Install markdownlint
+        run: npm i -g markdownlint-cli
+
+      - name: Lint markdown
+        run: markdownlint &quot;**/*.md&quot; --ignore node_modules
+
+      - name: Build Jekyll
+        run: bundle exec jekyll build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;2. 死链检查（可选但推荐）&lt;/h2&gt;
+&lt;p&gt;可加 lychee：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;      - name: Link check
+        uses: lycheeverse/lychee-action@v2
+        with:
+          args: --verbose --no-progress &quot;./**/*.md&quot; &quot;./_site/**/*.html&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果外链较多，建议白名单忽略偶发超时域名，避免误报。&lt;/p&gt;
+&lt;h2&gt;3. 分支保护&lt;/h2&gt;
+&lt;p&gt;在仓库设置中启用 Branch Protection：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;要求 PR 必须通过 &lt;code&gt;Blog Quality&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;禁止直接 push 到主分支&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这一步能显著降低“手滑上线坏内容”的概率。&lt;/p&gt;
+&lt;h2&gt;常见报错与排查&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;bundler: command not found: jekyll&lt;/code&gt;：Gem 依赖没装全，先 &lt;code&gt;bundle install&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Front Matter&lt;/code&gt; 语法错误：检查 &lt;code&gt;---&lt;/code&gt; 是否成对、缩进是否一致。&lt;/li&gt;
+&lt;li&gt;死链误报：先本地 &lt;code&gt;curl -I&lt;/code&gt; 验证，再加入忽略列表。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;高质量博客的关键不是写得快，而是“每次发布都稳定”。
+把 CI 建起来后，你可以把精力放在内容上，而不是线上排错。&lt;/p&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/04/22/jekyll-build-errors-troubleshooting/&quot;&gt;Jekyll 构建报错排查手册&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/07/22/developer-documentation-writing-guide/&quot;&gt;技术文档写作实战&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/07/16/jekyll-seo-technical-optimization/&quot;&gt;Jekyll SEO 技术优化清单&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>Obsidian vs Notion 深度对比：2026 年如何搭建真正可持续的第二大脑</title><link>https://levifree.dpdns.org/posts/obsidian-vs-notion/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/obsidian-vs-notion/</guid><description>不只聊功能清单：从数据所有权、协作成本到长期维护，给出可执行选型框架</description><pubDate>Thu, 10 Oct 2024 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&quot;Your mind is for having ideas, not holding them.&quot; - David Allen&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;很多人把 Obsidian 和 Notion 的选择题，简化成“本地 Markdown vs 在线文档”。
+但当你的笔记规模从 100 条变成 5000 条，真正决定体验的，是以下三个问题：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;你的知识库要不要可迁移？&lt;/li&gt;
+&lt;li&gt;你的工作流是“个人深度思考”为主，还是“多人协作交付”为主？&lt;/li&gt;
+&lt;li&gt;你是否愿意长期维护一套系统？&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这篇文章不走参数堆砌路线，而是给你一套可以直接落地的决策方法。&lt;/p&gt;
+&lt;h2&gt;1. 先定义问题：你要解决什么？&lt;/h2&gt;
+&lt;p&gt;在做工具选择前，先把“需求”说清楚。下面是我建议的最小需求清单：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;采集速度：手机和电脑上是否能快速记录&lt;/li&gt;
+&lt;li&gt;检索能力：关键词搜索、标签、关系网络是否够用&lt;/li&gt;
+&lt;li&gt;结构能力：是以“页面”为核心，还是以“数据库/项目”为核心&lt;/li&gt;
+&lt;li&gt;协作能力：是否需要多人实时编辑&lt;/li&gt;
+&lt;li&gt;数据安全：是否可离线、是否可完整导出&lt;/li&gt;
+&lt;li&gt;长期成本：订阅费用 + 迁移成本 + 学习成本&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果这一步你不做，后面所有“谁更好”的讨论都会失焦。&lt;/p&gt;
+&lt;h2&gt;2. 核心差异：本地优先 vs 云端优先&lt;/h2&gt;
+&lt;h3&gt;Obsidian：本地优先（Local-first）&lt;/h3&gt;
+&lt;p&gt;Obsidian 的底层是文件夹 + Markdown 文本。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;优点：
+&lt;ul&gt;
+&lt;li&gt;数据所有权强，文件可被 Git、iCloud、Syncthing 等任何工具接管&lt;/li&gt;
+&lt;li&gt;离线可用，搜索速度快&lt;/li&gt;
+&lt;li&gt;插件生态自由度高，适合深度定制&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;成本：
+&lt;ul&gt;
+&lt;li&gt;初始配置门槛偏高&lt;/li&gt;
+&lt;li&gt;协作体验不如在线文档顺滑&lt;/li&gt;
+&lt;li&gt;多设备同步需要自行规划&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Notion：云端优先（Cloud-first）&lt;/h3&gt;
+&lt;p&gt;Notion 的底层是块（Block）和数据库（Database）。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;优点：
+&lt;ul&gt;
+&lt;li&gt;开箱即用，模板和 UI 完整&lt;/li&gt;
+&lt;li&gt;团队协作体验成熟，分享/评论/权限管理简单&lt;/li&gt;
+&lt;li&gt;数据库视图（看板、表格、日历）非常适合项目管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;成本：
+&lt;ul&gt;
+&lt;li&gt;重度使用时，结构复杂度上升快&lt;/li&gt;
+&lt;li&gt;离线和导出能力有边界&lt;/li&gt;
+&lt;li&gt;对网络和平台服务连续性依赖更高&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. 你真正需要比较的 5 个维度&lt;/h2&gt;
+&lt;h2&gt;3.1 数据可迁移性&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Obsidian：天然强。Markdown + 附件目录，几乎没有锁定。&lt;/li&gt;
+&lt;li&gt;Notion：可导出，但数据库关系、评论、部分展示能力迁移后会损失。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果你未来有“跨平台搬家”的概率，优先考虑文件形态更开放的方案。&lt;/p&gt;
+&lt;h2&gt;3.2 知识连接能力&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Obsidian：双向链接、反向链接、图谱视图是核心体验。&lt;/li&gt;
+&lt;li&gt;Notion：可通过关系字段建立结构化链接，更像“数据库建模”。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;结论：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;需要“想法与想法”的网状连接，Obsidian 更自然。&lt;/li&gt;
+&lt;li&gt;需要“任务与字段”的结构化管理，Notion 更高效。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3.3 协作效率&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Obsidian：个人知识管理优秀，团队实时协作能力相对弱。&lt;/li&gt;
+&lt;li&gt;Notion：多人编辑、评论和权限控制成熟，协作交付更顺畅。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果你的文档最终要“被团队消费”，Notion 通常更省沟通成本。&lt;/p&gt;
+&lt;h2&gt;3.4 维护负担&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Obsidian：自由度越高，维护成本越高（插件冲突、目录重构、同步策略）。&lt;/li&gt;
+&lt;li&gt;Notion：维护负担较低，但你要接受平台边界。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;建议：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;个人玩家：可以追求可玩性。&lt;/li&gt;
+&lt;li&gt;团队场景：优先追求稳定、可复制。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3.5 成本模型&lt;/h2&gt;
+&lt;p&gt;除了订阅费用，还要算“时间成本”：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;学习时间（上手与规则制定）&lt;/li&gt;
+&lt;li&gt;迁移时间（历史内容重构）&lt;/li&gt;
+&lt;li&gt;维护时间（每周花多少时间打理系统）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在真实项目里，时间成本往往比订阅费更贵。&lt;/p&gt;
+&lt;h2&gt;4. 三类用户的推荐选型&lt;/h2&gt;
+&lt;h3&gt;类型 A：研究型/写作者/开发者（强个人知识沉淀）&lt;/h3&gt;
+&lt;p&gt;优先：Obsidian&lt;/p&gt;
+&lt;p&gt;原因：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;本地文本可控&lt;/li&gt;
+&lt;li&gt;链接思维强&lt;/li&gt;
+&lt;li&gt;适合长期积累与复用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;类型 B：内容团队/运营团队（多人协作和交付）&lt;/h3&gt;
+&lt;p&gt;优先：Notion&lt;/p&gt;
+&lt;p&gt;原因：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;协作与权限体系完整&lt;/li&gt;
+&lt;li&gt;数据库驱动流程管理&lt;/li&gt;
+&lt;li&gt;成员上手快，组织成本低&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;类型 C：既要协作也要沉淀（多数人属于这一类）&lt;/h3&gt;
+&lt;p&gt;优先：混合架构（Notion + Obsidian）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Notion 负责“协作中台”&lt;/li&gt;
+&lt;li&gt;Obsidian 负责“个人知识深加工”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;5. 一套可复制的混合工作流&lt;/h2&gt;
+&lt;p&gt;这是我目前在用的“采集-处理-输出”三层模型。&lt;/p&gt;
+&lt;h3&gt;第 1 层：采集（Capture）&lt;/h3&gt;
+&lt;p&gt;工具：Notion&lt;/p&gt;
+&lt;p&gt;做法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;用移动端快速收集网页、想法、会议纪要&lt;/li&gt;
+&lt;li&gt;所有输入先进 Inbox 数据库&lt;/li&gt;
+&lt;li&gt;每条内容都加 2 个字段：来源、主题&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;第 2 层：处理（Process）&lt;/h3&gt;
+&lt;p&gt;工具：Obsidian&lt;/p&gt;
+&lt;p&gt;做法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每周从 Notion Inbox 挑选高价值条目&lt;/li&gt;
+&lt;li&gt;转成原子笔记（一个笔记只讲一个观点）&lt;/li&gt;
+&lt;li&gt;使用双向链接串联主题和上下文&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;第 3 层：输出（Publish）&lt;/h3&gt;
+&lt;p&gt;工具：博客/GitHub/团队文档&lt;/p&gt;
+&lt;p&gt;做法：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Obsidian 内写成结构化草稿&lt;/li&gt;
+&lt;li&gt;输出到博客或团队文档前做一次事实核查&lt;/li&gt;
+&lt;li&gt;发布后把链接回写到 Notion 项目库，形成闭环&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;6. 防止“工具内耗”的 7 条规则&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;每周固定一次整理，不做全天候整理。&lt;/li&gt;
+&lt;li&gt;新增标签前先搜索旧标签，避免同义词泛滥。&lt;/li&gt;
+&lt;li&gt;不追求完美模板，模板只服务高频场景。&lt;/li&gt;
+&lt;li&gt;每篇笔记只解决一个问题，避免“大杂烩”。&lt;/li&gt;
+&lt;li&gt;输入和输出分开：采集时不润色，写作时再加工。&lt;/li&gt;
+&lt;li&gt;每月清理失效链接和空页面。&lt;/li&gt;
+&lt;li&gt;工具改造频率控制在“每月一次”以内。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;7. 一个简单决策表&lt;/h2&gt;
+&lt;p&gt;如果你还没法决定，就用下面这组判断：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;你 80% 的时间在协作？选 Notion。&lt;/li&gt;
+&lt;li&gt;你 80% 的时间在沉淀和写作？选 Obsidian。&lt;/li&gt;
+&lt;li&gt;两者都很重要？做混合架构，不要强行二选一。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;Obsidian 和 Notion 都是优秀工具，但它们解决的是不同问题。
+真正高质量的第二大脑，不是“选了哪款工具”，而是你是否建立了稳定可持续的知识流程。&lt;/p&gt;
+&lt;p&gt;先搭流程，再选工具。你会少走很多弯路。&lt;/p&gt;
+</content:encoded></item><item><title>Git Rebase vs Merge：团队 PR 工作流如何选才不翻车</title><link>https://levifree.dpdns.org/posts/git-rebase-vs-merge-pr-workflow/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/git-rebase-vs-merge-pr-workflow/</guid><description>从提交历史可读性、冲突处理到回滚策略，给出可落地的协作规范</description><pubDate>Thu, 12 Sep 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;“到底用 rebase 还是 merge”是每个团队都会争论的话题。
+争论本身没意义，关键是你们的目标是什么：历史整洁、排查效率、还是风险最小化？&lt;/p&gt;
+&lt;h2&gt;1. 两者本质区别&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;merge&lt;/code&gt;：保留分叉历史，新增 merge commit。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;rebase&lt;/code&gt;：重写提交基线，让历史线性化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;简单说：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;你想看见真实开发分支轨迹，用 merge。&lt;/li&gt;
+&lt;li&gt;你想得到干净主线历史，用 rebase。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;2. 推荐规则（可直接落地）&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;个人功能分支：允许 rebase，先整理提交再提 PR。&lt;/li&gt;
+&lt;li&gt;主分支（main/master）：禁止 rebase 历史，只接受受控合并。&lt;/li&gt;
+&lt;li&gt;公共分支已被他人基于开发后，不要再强推 rebase。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;3. 常见流程模板&lt;/h2&gt;
+&lt;h3&gt;场景 A：保持主分支线性&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;git checkout feature/login
+git fetch origin
+git rebase origin/main
+# 解决冲突后
+# git rebase --continue
+
+git push --force-with-lease
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;然后在 GitHub 用 &lt;code&gt;Squash and merge&lt;/code&gt;。&lt;/p&gt;
+&lt;h3&gt;场景 B：保留分支语义&lt;/h3&gt;
+&lt;p&gt;如果团队重视“功能分支完整上下文”，可使用 merge commit：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git checkout main
+git pull origin main
+git merge --no-ff feature/login
+git push origin main
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;4. 冲突处理与风险控制&lt;/h2&gt;
+&lt;p&gt;最容易翻车的是“边 rebase 边改业务逻辑”。
+建议：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;rebase 冲突阶段只做必要冲突消解&lt;/li&gt;
+&lt;li&gt;逻辑改动另起提交&lt;/li&gt;
+&lt;li&gt;大分支每天小步同步上游，减少一次性冲突量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;5. 回滚策略&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;merge 模式下可直接回滚 merge commit&lt;/li&gt;
+&lt;li&gt;squash 模式下回滚更简单，但会丢失中间提交语义&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;所以你要在“历史简洁”和“历史细节”之间做取舍。&lt;/p&gt;
+&lt;h2&gt;6. 一个实用团队约定&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;PR 合并前：必须通过 CI&lt;/li&gt;
+&lt;li&gt;PR 合并前：提交历史自检（去掉 &lt;code&gt;fix typo&lt;/code&gt; 等噪音提交）&lt;/li&gt;
+&lt;li&gt;发布前：为高风险改动打 tag&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;rebase 和 merge 没有绝对优劣，只有是否契合团队协作模型。
+把规则写进团队文档并执行一致，比任何“偏好争论”都更重要。&lt;/p&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/08/20/git-commit-convention/&quot;&gt;Git Commit 规范指南&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/12/03/git-conflict-resolution-playbook/&quot;&gt;Git 冲突处理实战手册&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2023/12/06/git-sync-fork-upstream-guide/&quot;&gt;Git Fork 同步上游实战&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>告别 git push -f：团队协作中的 Git Commit 规范指南</title><link>https://levifree.dpdns.org/posts/git-commit-convention/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/git-commit-convention/</guid><description>如何写出优雅的 Commit Message？Conventional Commits 最佳实践</description><pubDate>Tue, 20 Aug 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;在团队代码 Review 时，最让人头大的不是代码逻辑，而是看到满屏的 Commit 记录写着：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;update&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;fix bug&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;temp 123&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这种“天书”让回溯历史变成了侦探游戏。今天我们来聊聊如何引入 &lt;strong&gt;Conventional Commits (约定式提交)&lt;/strong&gt;，让你的 Git 历史像说明书一样清晰。&lt;/p&gt;
+&lt;h2&gt;1. 为什么需要规范？&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;自动化生成 Changelog&lt;/strong&gt;：如果格式规范，脚本可以自动抓取 &lt;code&gt;feat&lt;/code&gt; 开头的提交生成版本更新日志。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;快速定位问题&lt;/strong&gt;：看到 &lt;code&gt;fix(user-auth)&lt;/code&gt; 就能瞬间知道修的是用户登录模块的 Bug。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;触发 CI/CD&lt;/strong&gt;：某些类型的提交（如 &lt;code&gt;docs&lt;/code&gt;）可以配置为跳过耗时的构建流程。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;2. 标准格式&lt;/h2&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;type&amp;gt;(&amp;lt;scope&amp;gt;): &amp;lt;subject&amp;gt;
+
+&amp;lt;body&amp;gt;
+
+&amp;lt;footer&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;结构图解&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;  Header:  feat(auth): add google login support
+           │    │      │
+           │    │      └─ Subject (简短描述)
+           │    └─ Scope (影响范围，可选)
+           └─ Type (类型：功能/修复/文档等)
+
+    Body:  (空一行)
+           Specifically, used the OAuth2.0 SDK.
+           Added a new callback route.
+
+  Footer:  (空一行)
+           Closes #123 (关联 Issue)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;2.1 常用的 Type&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;feat&lt;/code&gt;: 新功能 (Feature)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;fix&lt;/code&gt;: 修补 Bug&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;docs&lt;/code&gt;: 文档修改&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;style&lt;/code&gt;: 格式调整（不影响代码运行，如空格、分号）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;refactor&lt;/code&gt;: 重构（即不是新功能，也不是修 Bug）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;perf&lt;/code&gt;: 性能优化&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;test&lt;/code&gt;: 增加测试&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;chore&lt;/code&gt;: 构建过程或辅助工具变动&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;2.2 范例&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;code&gt;feat(login): add google oauth login support&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;fix(nav): fix navbar overlap on mobile screen&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;3. 工具辅助：Commitizen&lt;/h2&gt;
+&lt;p&gt;不想每次手动记这些规则？用工具强制约束。&lt;/p&gt;
+&lt;p&gt;安装 commitizen：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;npm install -g commitizen
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;初始化适配器：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;commitizen init cz-conventional-changelog --save-dev --save-exact
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;以后提交代码时，不要用 &lt;code&gt;git commit&lt;/code&gt;，而是用：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git cz
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;它会弹出一个交互式界面，引导你选择类型、填写描述。&lt;/p&gt;
+&lt;h2&gt;4. 强制校验：Husky + Commitlint&lt;/h2&gt;
+&lt;p&gt;为了防止团队成员“偷懒”绕过规范，可以在 Commit 钩子 (Hook) 中做拦截。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;安装 Husky 和 Commitlint。&lt;/li&gt;
+&lt;li&gt;配置 &lt;code&gt;commit-msg&lt;/code&gt; 钩子。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;当有人试图提交 &lt;code&gt;git commit -m &quot;update&quot;&lt;/code&gt; 这种不规范信息时，Git 会直接报错拒绝提交。&lt;/p&gt;
+&lt;h2&gt;常见报错与解决&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Husky 不生效？&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;确保你执行过 &lt;code&gt;npm install&lt;/code&gt; 并且脚本中触发了 &lt;code&gt;husky install&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;在 CI 环境中，可能需要显式执行 &lt;code&gt;npm run prepare&lt;/code&gt;。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Windows 下的乱码或换行符问题&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在 Windows 上使用 &lt;code&gt;git cz&lt;/code&gt; 可能会遇到 emoji 显示乱码。建议使用 Windows Terminal 或 Git Bash，并设置 UTF-8 编码。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;想从规范中“逃逸”&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果你真的急着修一个线上 Bug，不想填那些复杂的表单，可以使用 &lt;code&gt;--no-verify&lt;/code&gt; 参数跳过检查：&lt;pre&gt;&lt;code&gt;git commit -m &quot;hotfix&quot; --no-verify
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;注：慎用！&lt;/em&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;5. 总结&lt;/h2&gt;
+&lt;p&gt;Git 记录是一个项目的历史档案。编写规范的 Commit Message，是对队友的尊重，也是对自己职业素养的体现。&lt;/p&gt;
+</content:encoded></item><item><title>Jekyll SEO 技术优化清单：从可抓取到可排名的实战配置</title><link>https://levifree.dpdns.org/posts/jekyll-seo-technical-optimization/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/jekyll-seo-technical-optimization/</guid><description>Sitemap、结构化数据、Canonical 与内容聚合页，给个人博客一套可执行的 SEO 基线</description><pubDate>Tue, 16 Jul 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;很多博客“写了很多”，但搜索曝光一直上不去，通常不是内容完全不行，而是技术层面没有打底。
+本文给你一套适用于 Jekyll 站点的 SEO 技术清单，目标是先做到“可抓取、可理解、可归档”。&lt;/p&gt;
+&lt;h2&gt;1. 抓取与索引基础&lt;/h2&gt;
+&lt;p&gt;先确认三件事：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;robots.txt&lt;/code&gt; 可访问且规则正确&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sitemap.xml&lt;/code&gt; 可访问并包含文章 URL&lt;/li&gt;
+&lt;li&gt;文章页面不含误设的 &lt;code&gt;noindex&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;最小检查命令：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;curl -I https://your-domain.com/robots.txt
+curl -I https://your-domain.com/sitemap.xml
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;2. 统一 Canonical 规则&lt;/h2&gt;
+&lt;p&gt;Jekyll 很容易因为分页、分类页或参数链接出现重复 URL。
+建议每篇文章都输出 canonical，指向唯一正式地址。&lt;/p&gt;
+&lt;p&gt;示例（放在 &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;link rel=&quot;canonical&quot; href=&quot;{{ page.url | replace:&apos;index.html&apos;,&apos;&apos; }}&quot;&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;3. 结构化数据（JSON-LD）&lt;/h2&gt;
+&lt;p&gt;给文章页补 &lt;code&gt;BlogPosting&lt;/code&gt; 结构化数据，帮助搜索引擎理解正文类型与作者信息。&lt;/p&gt;
+&lt;p&gt;关键字段至少包含：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;headline&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;datePublished&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;dateModified&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;author&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;mainEntityOfPage&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果你有封面图，补上 &lt;code&gt;image&lt;/code&gt; 字段效果更好。&lt;/p&gt;
+&lt;h2&gt;4. 信息架构：聚合页要有价值&lt;/h2&gt;
+&lt;p&gt;很多站点的标签页/归档页只有一堆链接，内容太薄。
+建议：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;每个聚合页增加主题说明&lt;/li&gt;
+&lt;li&gt;给重点分类写导读段&lt;/li&gt;
+&lt;li&gt;在聚合页内部做“新手入口”与“进阶入口”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这样不仅提升用户体验，也能减少“薄内容页面”信号。&lt;/p&gt;
+&lt;h2&gt;5. 内链策略&lt;/h2&gt;
+&lt;p&gt;每篇技术文至少做两类内链：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;横向内链：同主题相关文章&lt;/li&gt;
+&lt;li&gt;纵向内链：前置知识和进阶教程&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;原则：内链要服务阅读路径，而不是为了凑数量。&lt;/p&gt;
+&lt;h2&gt;6. 元数据与可读标题&lt;/h2&gt;
+&lt;p&gt;发布前检查：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;title&lt;/code&gt; 不做标题党，包含明确主题词&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;subtitle&lt;/code&gt; 补充场景和收益&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;tags&lt;/code&gt; 与正文一致，避免泛标签&lt;/li&gt;
+&lt;li&gt;首段 80-120 字讲清“这篇文帮你解决什么”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;7. 性能与 SEO 联动&lt;/h2&gt;
+&lt;p&gt;技术 SEO 不只是标签，页面体验也影响结果。&lt;/p&gt;
+&lt;p&gt;建议优先优化：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;首屏图片体积&lt;/li&gt;
+&lt;li&gt;阻塞渲染的 JS/CSS&lt;/li&gt;
+&lt;li&gt;移动端可读性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;8. 发布后的验证流程&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;本地 &lt;code&gt;bundle exec jekyll build&lt;/code&gt; 确认构建成功&lt;/li&gt;
+&lt;li&gt;上线后手动检查关键页面状态码&lt;/li&gt;
+&lt;li&gt;在搜索控制台提交 sitemap&lt;/li&gt;
+&lt;li&gt;观察 2-4 周曝光和索引变化&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;对个人博客来说，SEO 的第一步不是“研究黑科技”，而是先把技术基线做完整。
+当抓取、结构和体验都达标时，优质内容的价值才会被更稳定地放大。&lt;/p&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/10/14/static-blog-content-cluster-strategy/&quot;&gt;静态博客内容集群策略&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/04/22/jekyll-build-errors-troubleshooting/&quot;&gt;Jekyll 构建报错排查手册&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/03/09/adsense-low-value-content-recovery/&quot;&gt;AdSense 低价值内容恢复实战&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>Linux 服务器安全基线实战：新机上线前必须完成的 12 项加固</title><link>https://levifree.dpdns.org/posts/linux-server-security-baseline/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/linux-server-security-baseline/</guid><description>从账户、SSH、防火墙到日志审计，给个人站长一份可直接执行的上线清单</description><pubDate>Tue, 18 Jun 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;刚买 VPS 时，很多人第一步是“装应用”，但正确顺序应该是“先加固，再上线”。
+本文给你一份我自己长期使用的安全基线，适合个人博客、API 小服务、HomeLab 公网入口。&lt;/p&gt;
+&lt;h2&gt;1. 账号与权限&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;新建普通运维用户，禁用 &lt;code&gt;root&lt;/code&gt; 直连。&lt;/li&gt;
+&lt;li&gt;给运维用户最小化 sudo 权限。&lt;/li&gt;
+&lt;li&gt;删除不必要系统账户，关闭无用登录 shell。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;adduser levi
+usermod -aG sudo levi
+passwd -l root
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;2. SSH 最小暴露面&lt;/h2&gt;
+&lt;p&gt;编辑 &lt;code&gt;/etc/ssh/sshd_config&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;PermitRootLogin no
+PasswordAuthentication no
+PubkeyAuthentication yes
+ChallengeResponseAuthentication no
+MaxAuthTries 3
+LoginGraceTime 20
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;重启前务必开一个新终端测试，确认密钥可登录，再执行：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo systemctl restart sshd
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;3. 防火墙白名单&lt;/h2&gt;
+&lt;p&gt;默认拒绝入站，只放行必要端口（如 22/80/443）。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 22/tcp
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw enable
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;4. 自动安全更新&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Debian/Ubuntu：启用 &lt;code&gt;unattended-upgrades&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;RHEL 系：启用 dnf 自动更新策略&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;核心目的是降低“已知漏洞窗口期”。&lt;/p&gt;
+&lt;h2&gt;5. 登录失败防护&lt;/h2&gt;
+&lt;p&gt;安装 Fail2ban，拦截暴力破解来源 IP。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo apt install fail2ban -y
+sudo systemctl enable --now fail2ban
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;建议至少启用 &lt;code&gt;sshd&lt;/code&gt; jail，并设置合理封禁时长。&lt;/p&gt;
+&lt;h2&gt;6. 服务最小化&lt;/h2&gt;
+&lt;p&gt;执行一次服务盘点：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;sudo ss -tulpen
+sudo systemctl list-unit-files --type=service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;任何你“不知道为何存在”的公网监听端口，都应先停用再确认。&lt;/p&gt;
+&lt;h2&gt;7. 日志与审计&lt;/h2&gt;
+&lt;p&gt;至少保证：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;SSH 登录日志可追踪&lt;/li&gt;
+&lt;li&gt;sudo 操作可追踪&lt;/li&gt;
+&lt;li&gt;系统日志按周期轮转&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;建议保留最近 30-90 天安全日志，便于追溯异常。&lt;/p&gt;
+&lt;h2&gt;8. 备份与恢复演练&lt;/h2&gt;
+&lt;p&gt;安全不只是“防入侵”，也包括“可恢复”。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;配置每日快照或异地备份&lt;/li&gt;
+&lt;li&gt;每月至少做一次恢复演练&lt;/li&gt;
+&lt;li&gt;备份内容包含站点、数据库、证书、关键配置&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;常见错误&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;先关密码登录，后配密钥，导致自己被锁在门外。&lt;/li&gt;
+&lt;li&gt;防火墙规则一次性改太多，误封 22 端口。&lt;/li&gt;
+&lt;li&gt;只做备份，不做恢复验证。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;把基线做完再部署业务，你的服务器抗风险能力会提升一个量级。
+对于个人站点，这 12 项已经能覆盖绝大多数常见攻击面。&lt;/p&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/11/05/ssh-key-security/&quot;&gt;SSH 密钥安全指南&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/06/28/nginx-502-504-troubleshooting/&quot;&gt;Nginx 502/504 排错指南&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/05/21/self-hosted-monitoring-uptime-kuma-guide/&quot;&gt;Uptime Kuma 监控实战&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>VS Code + GitHub Copilot: AI 时代开发者的效率核武器</title><link>https://levifree.dpdns.org/posts/vscode-copilot-ai-coding-guide/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/vscode-copilot-ai-coding-guide/</guid><description>AI 结对编程时代，如何利用 Copilot 节省 50% 的编码时间</description><pubDate>Wed, 15 May 2024 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&quot;Automation is cost cutting by tightening the corners and not cutting them.&quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;在 2026 年的今天，AI 辅助编程已经不再是新鲜事，而是每一位开发者的标配。作为市面上最强大的 AI 编程助手组合，Visual Studio Code (VS Code) 配合 GitHub Copilot，已经彻底改变了我们写代码的方式。&lt;/p&gt;
+&lt;p&gt;本文将分享如何高效利用这一组合，不仅是作为“自动补全”，更是作为你的“全天候结对编程伙伴”。&lt;/p&gt;
+&lt;h2&gt;1. 超越自动补全：Copilot 的核心能力&lt;/h2&gt;
+&lt;p&gt;很多新手只把 Copilot 当作更智能的 IntelliSense，这其实大材小用了。&lt;/p&gt;
+&lt;h3&gt;1.1 上下文感知&lt;/h3&gt;
+&lt;p&gt;Copilot 能够读取你当前打开的所有标签页 (Tabs)。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;技巧&lt;/strong&gt;：在写新功能时，把你引用的接口定义 (&lt;code&gt;types.ts&lt;/code&gt;)、相关的后端逻辑文件 (&lt;code&gt;controller.py&lt;/code&gt;) 都打开。Copilot 会基于这些上下文，精准生成符合你业务逻辑的代码。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;1.2 编写测试用例&lt;/h3&gt;
+&lt;p&gt;这是 Copilot 最擅长的领域之一。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;操作&lt;/strong&gt;：写完一个函数后，在下方输入 &lt;code&gt;// test case for above function&lt;/code&gt;，Copilot 往往能生成覆盖率极高的单元测试，甚至考虑到边界情况。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;2. VS Code Chat：不仅仅是问答&lt;/h2&gt;
+&lt;p&gt;新版的 VS Code 深度集成了 Copilot Chat。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;右键解释&lt;/strong&gt;：遇到看不懂的遗留代码（Legacy Code），选中并右键 &lt;code&gt;Copilot &amp;gt; Explain This&lt;/code&gt;。它会用通俗的语言解释代码逻辑。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;一键重构&lt;/strong&gt;：选中一段乱糟糟的代码，在 Chat 中输入 &lt;code&gt;/fix&lt;/code&gt; 或 &lt;code&gt;/optimize&lt;/code&gt;，它会帮你重构变量名、提取函数，甚至优化算法复杂度。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. 实用快捷键与配置&lt;/h2&gt;
+&lt;p&gt;为了让体验更丝滑，建议掌握以下快捷键：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Tab&lt;/code&gt;&lt;/strong&gt;: 接受建议。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;Ctrl + Enter&lt;/code&gt; (Mac: &lt;code&gt;Cmd + Enter&lt;/code&gt;)&lt;/strong&gt;: 打开 GitHub Copilot 建议面板，一次性查看 10 种可能的实现方案。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;行内 Chat&lt;/strong&gt;: &lt;code&gt;Ctrl + I&lt;/code&gt; (Mac: &lt;code&gt;Cmd + I&lt;/code&gt;)，直接在代码行内唤起对话框进行修改，不用切换侧边栏。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;4. 避免“AI 幻觉”陷阱&lt;/h2&gt;
+&lt;p&gt;虽然 Copilot 很强，但它也会一本正经地胡说八道。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;永远不要盲目 Accept&lt;/strong&gt;：对于生成的正则、复杂的 SQL 或算法，一定要人工 Review 一遍。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;安全隐患&lt;/strong&gt;：注意不要让 AI 生成包含硬编码密码或密钥的代码。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;5. 结语&lt;/h2&gt;
+&lt;p&gt;工具无法替代思考，但可以释放思考。将重复的样板代码交给 Copilot，把你的精力集中在系统架构和业务价值上，这才是 AI 时代开发者的生存之道。&lt;/p&gt;
+</content:encoded></item><item><title>Jekyll 构建报错排查手册：10 个最常见错误与修复步骤</title><link>https://levifree.dpdns.org/posts/jekyll-build-errors-troubleshooting/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/jekyll-build-errors-troubleshooting/</guid><description>从 Front Matter、依赖冲突到端口占用，给博客维护者一份可复制的故障处理流程</description><pubDate>Mon, 22 Apr 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Jekyll 的问题往往不是“大故障”，而是被一堆小问题反复打断：今天 front matter 报错，明天 gem 版本冲突。
+这篇文章把我最常遇到的 10 类构建错误整理成标准排查流程。&lt;/p&gt;
+&lt;h2&gt;1. &lt;code&gt;bundler: command not found: jekyll&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;原因：本地依赖未安装完整。&lt;/p&gt;
+&lt;p&gt;修复：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;bundle install
+bundle exec jekyll serve
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;如果你是新机器，先确认 Ruby 与 Bundler 已安装。&lt;/p&gt;
+&lt;h2&gt;2. Front Matter 解析失败&lt;/h2&gt;
+&lt;p&gt;常见错误信息：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;YAML Exception reading ...
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;高频原因：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;---&lt;/code&gt; 没有成对出现&lt;/li&gt;
+&lt;li&gt;缩进混用空格和 tab&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;title&lt;/code&gt; 等字段含未转义特殊字符&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;修复建议：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;先从报错文件顶部 30 行开始查&lt;/li&gt;
+&lt;li&gt;用 2 空格统一缩进&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. 日期格式导致文章不显示&lt;/h2&gt;
+&lt;p&gt;原因：&lt;code&gt;date&lt;/code&gt; 字段格式非法或未来时间策略不一致。&lt;/p&gt;
+&lt;p&gt;检查：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;是否使用 &lt;code&gt;YYYY-MM-DD HH:MM:SS&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;_config.yml&lt;/code&gt; 中 &lt;code&gt;future&lt;/code&gt; 设置是否符合预期&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;4. 端口占用，服务启动失败&lt;/h2&gt;
+&lt;p&gt;报错示例：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Address already in use - bind(2)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;修复：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;lsof -i :4000
+kill -9 &amp;lt;PID&amp;gt;
+bundle exec jekyll serve --port 4001
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;5. 中文路径或编码问题&lt;/h2&gt;
+&lt;p&gt;有些系统环境下，非 UTF-8 文件会导致解析异常。&lt;/p&gt;
+&lt;p&gt;建议：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Markdown 文件统一 UTF-8&lt;/li&gt;
+&lt;li&gt;文件名尽量使用英文、数字、连字符&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;6. 插件环境差异（本地能跑，线上失败）&lt;/h2&gt;
+&lt;p&gt;原因：本地插件和 GitHub Pages 支持插件集合不一致。&lt;/p&gt;
+&lt;p&gt;处理：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;优先使用 GitHub Pages 白名单插件&lt;/li&gt;
+&lt;li&gt;或改成 Actions 自构建后发布 &lt;code&gt;_site&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;7. Liquid 语法错误&lt;/h2&gt;
+&lt;p&gt;常见在 include 和循环中。&lt;/p&gt;
+&lt;p&gt;示例问题：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;标签未闭合&lt;/li&gt;
+&lt;li&gt;变量名拼错&lt;/li&gt;
+&lt;li&gt;条件判断写法不合法&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;排查技巧：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;从最近改动的布局文件开始定位&lt;/li&gt;
+&lt;li&gt;临时注释可疑块做二分排查&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;8. 资源路径 404&lt;/h2&gt;
+&lt;p&gt;多见于 &lt;code&gt;baseurl&lt;/code&gt; 配置不一致。&lt;/p&gt;
+&lt;p&gt;建议：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;本地和线上都统一通过 `` 拼路径&lt;/li&gt;
+&lt;li&gt;图片与脚本避免硬编码绝对路径&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;9. 增量构建缓存导致“改了不生效”&lt;/h2&gt;
+&lt;p&gt;修复：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;bundle exec jekyll clean
+bundle exec jekyll serve
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;10. 依赖版本冲突&lt;/h2&gt;
+&lt;p&gt;症状：更新 gem 后突然无法构建。&lt;/p&gt;
+&lt;p&gt;处理流程：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;先看 &lt;code&gt;Gemfile.lock&lt;/code&gt; 变更&lt;/li&gt;
+&lt;li&gt;回退到上一个可用锁版本&lt;/li&gt;
+&lt;li&gt;分批升级 gem，不要一次性全升&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;一套通用排查流程&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;先看第一条报错，不要被后续连锁错误干扰&lt;/li&gt;
+&lt;li&gt;锁定“最近修改文件”优先检查&lt;/li&gt;
+&lt;li&gt;先恢复可构建，再做优化&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;Jekyll 排错的关键是流程化，而不是临时猜测。
+把这 10 条高频问题掌握后，90% 的构建故障都能快速定位。&lt;/p&gt;
+&lt;h2&gt;延伸阅读&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/07/16/jekyll-seo-technical-optimization/&quot;&gt;Jekyll SEO 技术优化清单&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2024/11/18/github-actions-blog-ci-cd/&quot;&gt;GitHub Actions 博客质量流水线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;/2025/03/09/jekyll-content-quality-checklist/&quot;&gt;Jekyll 发布前内容质量自检模板&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content:encoded></item><item><title>Next.js App Router 上手指南：从路由到服务端渲染</title><link>https://levifree.dpdns.org/posts/nextjs-app-router/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/nextjs-app-router/</guid><description>忘掉 getStaticProps？Next.js 14+ 核心概念极简解析</description><pubDate>Mon, 25 Mar 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;Next.js 最近几年的变化可谓天翻地覆。自从引入 &lt;strong&gt;App Router&lt;/strong&gt; (&lt;code&gt;app&lt;/code&gt; 目录) 以来，它几乎重塑了 React 应用的构建方式。
+如果你还在用这 &lt;code&gt;pages&lt;/code&gt; 目录写 &lt;code&gt;getServerSideProps&lt;/code&gt;，那你是时候升级一下知识库了。&lt;/p&gt;
+&lt;h2&gt;1. 目录即路由&lt;/h2&gt;
+&lt;p&gt;在 App Router 中，文件系统就是路由。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;app/page.tsx&lt;/code&gt; -&amp;gt; &lt;code&gt;/&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;app/about/page.tsx&lt;/code&gt; -&amp;gt; &lt;code&gt;/about&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;app/blog/[id]/page.tsx&lt;/code&gt; -&amp;gt; &lt;code&gt;/blog/123&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;这种结构非常直观。每个文件夹还可以包含 &lt;code&gt;layout.tsx&lt;/code&gt; (布局), &lt;code&gt;loading.tsx&lt;/code&gt; (加载中), &lt;code&gt;error.tsx&lt;/code&gt; (错误处理)，实现了&lt;strong&gt;嵌套路由&lt;/strong&gt;和&lt;strong&gt;UI 状态&lt;/strong&gt;的完美解耦。&lt;/p&gt;
+&lt;h3&gt;文件结构可视化&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;app/
+├── layout.tsx      (Root Layout: &amp;lt;html&amp;gt;...&amp;lt;/html&amp;gt;)
+├── page.tsx        (Home Page: /)
+├── about/
+│   └── page.tsx    (About Page: /about)
+└── blog/
+    ├── layout.tsx  (Blog Layout: sidebar, etc.)
+    └── [id]/
+        └── page.tsx (Post Page: /blog/123)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;2. Server Components (服务端组件)&lt;/h2&gt;
+&lt;p&gt;这是最大的思想转变。&lt;strong&gt;在 App 目录下的组件，默认都是 Server Components。&lt;/strong&gt;
+这意味着：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;它们直接在服务器上运行。&lt;/li&gt;
+&lt;li&gt;可以直接连接数据库，读取文件系统。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;不会&lt;/strong&gt;被打包到客户端的 JavaScript bundle 中（极大减小了体积）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code&gt;// app/page.tsx
+// 这是一个服务端组件，可以直接写 async/await
+import db from &apos;./db&apos;;
+
+export default async function Page() {
+  const users = await db.query(&apos;SELECT * FROM users&apos;); // 直接查库！
+  
+  return (
+    &amp;lt;ul&amp;gt;
+      {users.map(user =&amp;gt; &amp;lt;li key={user.id}&amp;gt;{user.name}&amp;lt;/li&amp;gt;)}
+    &amp;lt;/ul&amp;gt;
+  );
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;3. Client Components (客户端组件)&lt;/h2&gt;
+&lt;p&gt;如果你需要 &lt;code&gt;useState&lt;/code&gt;, &lt;code&gt;useEffect&lt;/code&gt; 或者 DOM 事件（onClick），你需要显式地在文件顶部声明 &lt;code&gt;&quot;use client&quot;&lt;/code&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&apos;use client&apos;;
+
+import { useState } from &apos;react&apos;;
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+  return &amp;lt;button onClick={() =&amp;gt; setCount(c =&amp;gt; c+1)}&amp;gt;{count}&amp;lt;/button&amp;gt;;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;最佳实践&lt;/strong&gt;：尽可能让叶子节点（Button, Input）做成 Client Component，而把大框架保留为 Server Component。&lt;/p&gt;
+&lt;h2&gt;4. 获取数据 (Data Fetching)&lt;/h2&gt;
+&lt;p&gt;再也没有 &lt;code&gt;getStaticProps&lt;/code&gt; 了。现在获取数据就是标准的 &lt;code&gt;fetch&lt;/code&gt; API。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// 类似 getStaticProps (默认缓存)
+fetch(&apos;https://...&apos;, { cache: &apos;force-cache&apos; });
+
+// 类似 getServerSideProps (每次刷新)
+fetch(&apos;https://...&apos;, { cache: &apos;no-store&apos; });
+
+// ISR (每10秒更新一次)
+fetch(&apos;https://...&apos;, { next: { revalidate: 10 } });
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;5. 总结&lt;/h2&gt;
+&lt;p&gt;App Router 虽然学习曲线稍陡，但它带来了更小的包体积、更快的首屏加载速度和更清晰的数据流。对于 2026 年的新项目，这是唯一的选择。&lt;/p&gt;
+</content:encoded></item><item><title>iPad 生产力指南：掌握这 5 个多任务处理技巧 (iPadOS 17+)</title><link>https://levifree.dpdns.org/posts/ipad-productivity-tips/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/ipad-productivity-tips/</guid><description>从分屏浏览到台前调度，彻底释放 iPad 的办公潜能</description><pubDate>Tue, 02 Jan 2024 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;iPad 早已不仅仅是娱乐设备。随着 iPadOS 的不断迭代，尤其是 &lt;strong&gt;台前调度 (Stage Manager)&lt;/strong&gt; 的加入，它在处理多任务方面的能力已经大幅提升。&lt;/p&gt;
+&lt;p&gt;无论你是学生还是职场人士，掌握这些系统级交互技巧，都能让你的工作效率翻倍。&lt;/p&gt;
+&lt;h2&gt;1. 灵活运用“分屏浏览” (Split View)&lt;/h2&gt;
+&lt;p&gt;这是最基础也最实用的功能。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;如何触发&lt;/strong&gt;：在打开一个 App 的状态下，点击屏幕顶部的“三个点”图标，选择“分屏浏览”。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;应用场景&lt;/strong&gt;：左边开浏览器查资料，右边开 Notion 做笔记；或者左边看网课视频，右边写论文。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;小技巧&lt;/strong&gt;：你可以拖动中间的分隔条来调整两个 App 的宽度比例（50:50 或 70:30）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;2. “侧拉” (Slide Over) 的妙用&lt;/h2&gt;
+&lt;p&gt;侧拉窗口是浮在主屏幕之上的一个小窗口，非常适合用来放一些“用完即走”的工具类 App。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;推荐放置&lt;/strong&gt;：计算器、微信、音乐播放器、词典。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;操作&lt;/strong&gt;：在任何界面，从屏幕右侧边缘向左滑，即可呼出侧拉窗口。再次向右滑可隐藏。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;隐藏技巧&lt;/strong&gt;：侧拉窗口也可以多开！在侧拉窗口底部横条左右滑动，可以快速切换不同的侧拉 App。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;3. 掌握“台前调度” (Stage Manager)&lt;/h2&gt;
+&lt;p&gt;如果你使用的是搭载 M 系列芯片（或 A12X/Z）的 iPad Pro/Air，这是提升效率的终极武器。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;核心逻辑&lt;/strong&gt;：它不再让 App 强制全屏，而是像电脑窗口一样重叠、调整大小。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;分组管理&lt;/strong&gt;：你可以把“Word + 浏览器”编为一组，“Lightroom + 文件 App”编为另一组。点击左侧的任务栏即可一键切换整个工作流。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;外接显示器&lt;/strong&gt;：在 M 系列芯片的 iPad 上，台前调度支持真正的外接显示器扩展（而非简单的屏幕镜像），让你获得双屏办公体验。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;4. 快速备忘录 (Quick Note)&lt;/h2&gt;
+&lt;p&gt;灵感稍纵即逝，你需要最快的记录方式。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;手势&lt;/strong&gt;：使用 Apple Pencil 从屏幕右下角向中间滑动，或者用手指从右下角上滑（需在设置中开启）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;联动&lt;/strong&gt;：当你在 Safari 浏览器中呼出快速备忘录时，点击“添加链接”，它会自动把你当前正在看的网页链接插进去，方便以后回溯。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;5. 通用控制 (Universal Control)&lt;/h2&gt;
+&lt;p&gt;如果你同时拥有 Mac 和 iPad，这个功能是“生态壁垒”的最佳体现。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;无缝连接&lt;/strong&gt;：只需把 iPad 放在 Mac 旁边，你就可以直接把 Mac 的鼠标光标移到 iPad 屏幕上！&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;文件传输&lt;/strong&gt;：不需要 AirDrop，直接用鼠标把 Mac 里的图片拖拽到 iPad 的相册里，或者把 iPad 里的文档拖到 Mac 桌面。这才是真正的“生产力”。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;工具不仅要好用，更要“会用”。
+不要让你的 iPad 仅仅成为“买前生产力，买后爱奇艺”的设备。尝试在日常工作中强迫自己使用上述 1-2 个技巧，一周后你会发现离不开它们。&lt;/p&gt;
+</content:encoded></item><item><title>AMH 面板建站实战：从零部署高性能 WordPress 博客</title><link>https://levifree.dpdns.org/posts/amh-wordpress-installation-guide/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/amh-wordpress-installation-guide/</guid><description>基于 Azure B1s / VPS 的 Linux 环境配置与 AMH 面板使用全指南</description><pubDate>Mon, 25 Dec 2023 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&quot;A man is not old until his regrets take place of his dreams.&quot;
+&quot;只有当遗憾取代了梦想，人才算老。&quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&amp;lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&amp;gt;
+&amp;lt;strong&amp;gt;教程概览：&amp;lt;/strong&amp;gt; 本文将手把手教你如何在一台全新的 Linux 服务器（如 Azure B1s）上，配置系统环境、安装 AMH 开源主机面板，并最终部署一个运行在 PHP 8.0 环境下的 WordPress 博客。
+&amp;lt;/div&amp;gt;&lt;/p&gt;
+&lt;h2&gt;第一阶段：服务器基础环境配置&lt;/h2&gt;
+&lt;p&gt;在安装面板之前，我们需要对 Linux 服务器进行一些必要的初始化设置。本教程以 &lt;strong&gt;Azure B1s&lt;/strong&gt; (CentOS/AlmaLinux 系) 为例，其他 VPS 操作类似。&lt;/p&gt;
+&lt;h3&gt;1. 更新系统与安装基础工具&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;# 安装 YUM 增强工具并更新系统
+yum install -y yum-utils
+yum update -y
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;2. 配置 Swap 虚拟内存 (关键)&lt;/h3&gt;
+&lt;p&gt;对于像 Azure B1s 这样内存较小（1G）的服务器，开启 Swap 是防止数据库崩溃的关键，建议配置 4G - 8G Swap。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 1. 停止并删除 Azure 默认的临时 Swap (如果有)
+swapoff /mnt/resource/swapfile
+rm -rf /mnt/resource/swapfile
+sed -i &quot;/&apos;\/mnt/resource/swapfile swap swap defaults 0 0&apos;//&quot; /etc/fstab
+
+# 2. 创建新的 Swap 文件 (8G)
+dd if=/dev/zero of=/swapfile bs=1024 count=8388608
+
+# 3. 设置权限并格式化
+chmod 600 /swapfile
+mkswap /swapfile
+swapon /swapfile
+
+# 4. 设置开机自动挂载
+echo &apos;/swapfile swap swap sw 0 0&apos; | tee -a /etc/fstab
+
+# 5. 验证
+free -m
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;3. 系统优化配置&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;# 设置时区为上海
+timedatectl set-timezone Asia/Shanghai
+
+# 关闭系统防火墙 (推荐使用云服务商的安全组管理端口)
+systemctl stop firewalld
+systemctl disable firewalld
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;第二阶段：安装 AMH 主机面板&lt;/h2&gt;
+&lt;p&gt;AMH 是一款国内老牌的开源主机面板，特点是模块化、极简、占用资源少。&lt;/p&gt;
+&lt;h3&gt;1. 执行安装脚本&lt;/h3&gt;
+&lt;p&gt;访问 &lt;a href=&quot;https://amh.sh/install.htm&quot;&gt;AMH 官网安装页&lt;/a&gt; 获取最新命令，或直接使用以下定制命令（Nginx 1.20 + MySQL 5.6 + PHP 8.0）：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;wget http://dl.amh.sh/amh.sh &amp;amp;&amp;amp; bash amh.sh nginx-1.20,mysql-5.6,php-8.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;提示&lt;/strong&gt;：如果提示 &lt;code&gt;wget: command not found&lt;/code&gt;，请先执行 &lt;code&gt;yum install -y wget&lt;/code&gt;。安装过程大约需要 15-30 分钟。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;2. 登录面板&lt;/h3&gt;
+&lt;p&gt;安装完成后，通过浏览器访问 &lt;code&gt;http://你的IP:8888&lt;/code&gt; 或 &lt;code&gt;https://你的IP:9999&lt;/code&gt;。使用终端输出的默认账号密码登录。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/img/AMH_Install_WordPress/34.png&quot; alt=&quot;AMH登录界面&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;3. 安装必要软件扩展&lt;/h3&gt;
+&lt;p&gt;登录面板后，进入 &lt;strong&gt;软件商店&lt;/strong&gt;，建议安装以下扩展以支持 WordPress 运行：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;amrewrite&lt;/strong&gt;: 伪静态规则管理&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;amssl&lt;/strong&gt;: SSL 证书自动申请&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;pecl_redis / redis&lt;/strong&gt;: 缓存支持 (可选，性能优化)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;php-generic&lt;/strong&gt;: PHP 通用扩展管理&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;第三阶段：部署 WordPress 网站&lt;/h2&gt;
+&lt;h3&gt;1. 创建虚拟主机 (LNMP 环境)&lt;/h3&gt;
+&lt;p&gt;进入 &lt;strong&gt;网站&lt;/strong&gt; -&amp;gt; &lt;strong&gt;虚拟主机&lt;/strong&gt; -&amp;gt; &lt;strong&gt;新增虚拟主机&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;主标识域名&lt;/strong&gt;: 填写你的域名 (如 &lt;code&gt;example.com&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;运行环境&lt;/strong&gt;: 选择 &lt;code&gt;lnmp01&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;网络&lt;/strong&gt;: 勾选 &lt;code&gt;HTTPS&lt;/code&gt;，端口自动设置为 443&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;URL重写规则&lt;/strong&gt;: 这里选择 &lt;code&gt;wordpress2&lt;/code&gt; 规则（非常重要，否则文章页 404）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;WordPress Nginx 伪静态规则参考&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;location / {
+    try_files $uri $uri/ /index.php?$args;
+}
+rewrite /wp-admin$ $scheme://$host$uri/ permanent;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/img/AMH_Install_WordPress/2.png&quot; alt=&quot;新增虚拟主机&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;2. 申请 SSL 证书&lt;/h3&gt;
+&lt;p&gt;进入 &lt;strong&gt;网站&lt;/strong&gt; -&amp;gt; &lt;strong&gt;SSL证书&lt;/strong&gt; -&amp;gt; &lt;strong&gt;AMSSL&lt;/strong&gt;：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;选择刚才创建的虚拟主机。&lt;/li&gt;
+&lt;li&gt;勾选 &lt;strong&gt;一键自动配置&lt;/strong&gt; (推荐 Let&apos;s Encrypt)。&lt;/li&gt;
+&lt;li&gt;点击创建，等待证书签发并自动部署。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/img/AMH_Install_WordPress/9.png&quot; alt=&quot;SSL配置&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;3. 安装 PHP 扩展&lt;/h3&gt;
+&lt;p&gt;WordPress 及其插件通常需要以下 PHP 扩展支持。进入 &lt;strong&gt;网站&lt;/strong&gt; -&amp;gt; &lt;strong&gt;PHP扩展&lt;/strong&gt;，为 &lt;code&gt;lnmp01&lt;/code&gt; 环境安装：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;fileinfo&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;exif&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;imagick&lt;/code&gt; (图像处理)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;opcache&lt;/code&gt; (性能加速)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;curl&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;第四阶段：安装 WordPress 程序&lt;/h2&gt;
+&lt;h3&gt;1. 下载与解压&lt;/h3&gt;
+&lt;p&gt;点击面板上的 &lt;strong&gt;文件&lt;/strong&gt; 管理，进入网站根目录（通常是 &lt;code&gt;/home/wwwroot/lnmp01/domain/你的域名/web/&lt;/code&gt;）。&lt;/p&gt;
+&lt;p&gt;使用 &lt;strong&gt;远程下载&lt;/strong&gt; 功能：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;https://cn.wordpress.org/latest-zh_CN.tar.gz
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;下载完成后，选择文件点击 &lt;strong&gt;智能解压&lt;/strong&gt;。解压后将 &lt;code&gt;wordpress&lt;/code&gt; 文件夹内的所有文件 &lt;strong&gt;移动&lt;/strong&gt; 到 &lt;code&gt;web&lt;/code&gt; 根目录下，并删除默认的 &lt;code&gt;index.html&lt;/code&gt;。&lt;/p&gt;
+&lt;h3&gt;2. 配置数据库连接&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;将 &lt;code&gt;wp-config-sample.php&lt;/code&gt; 重命名为 &lt;code&gt;wp-config.php&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;在线编辑该文件，填入数据库信息：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code&gt;define( &apos;DB_NAME&apos;, &apos;wordpress_db&apos; ); // 你的数据库名
+define( &apos;DB_USER&apos;, &apos;root&apos; );         // 你的数据库用户名
+define( &apos;DB_PASSWORD&apos;, &apos;你的密码&apos; ); // 你的数据库密码
+define( &apos;DB_HOST&apos;, &apos;localhost&apos; );
+define( &apos;DB_CHARSET&apos;, &apos;utf8&apos; );
+
+// 性能优化参数
+define( &apos;WP_MEMORY_LIMIT&apos;, &apos;256M&apos; );
+define( &apos;FS_METHOD&apos;, &apos;direct&apos; );
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ol&gt;
+&lt;li&gt;回到面板 &lt;strong&gt;数据库&lt;/strong&gt; 管理，创建一个名为 &lt;code&gt;wordpress_db&lt;/code&gt; 的空数据库（名称需与配置文件一致）。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;3. 权限修正&lt;/h3&gt;
+&lt;p&gt;这一步至关重要：在 &lt;strong&gt;文件&lt;/strong&gt; 管理中，勾选 &lt;code&gt;web&lt;/code&gt; 目录，点击 &lt;strong&gt;权限&lt;/strong&gt;，将所有者改为 &lt;code&gt;www&lt;/code&gt;，用户组改为 &lt;code&gt;www&lt;/code&gt;，并勾选 &lt;strong&gt;递归处理&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://levifree.dpdns.org/img/AMH_Install_WordPress/25.png&quot; alt=&quot;权限设置&quot; /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;第五阶段：完成安装&lt;/h2&gt;
+&lt;p&gt;打开浏览器访问你的域名，你应该能看到 WordPress 的安装欢迎界面。设置好站点标题、管理员账号密码，点击安装即可！&lt;/p&gt;
+&lt;h3&gt;进阶优化建议：WWW 跳转&lt;/h3&gt;
+&lt;p&gt;如果你希望访问 &lt;code&gt;www.example.com&lt;/code&gt; 自动跳转到 &lt;code&gt;example.com&lt;/code&gt;（或反之）：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在 AMH 中创建一个 &lt;strong&gt;子域主机&lt;/strong&gt; &lt;code&gt;www.example.com&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;在 &lt;strong&gt;伪静态规则&lt;/strong&gt; 中添加 301 跳转规则。&lt;/li&gt;
+&lt;li&gt;或者直接使用 AMH 面板的 &lt;strong&gt;AMRewrite&lt;/strong&gt; 模块设置域名 301 重定向。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr /&gt;
+&lt;h2&gt;免责声明&lt;/h2&gt;
+&lt;p&gt;&amp;lt;div class=&quot;well&quot;&amp;gt;
+&amp;lt;p&amp;gt;本项目提供的教程仅用于技术交流与学习。&amp;lt;/p&amp;gt;
+&amp;lt;ul&amp;gt;
+&amp;lt;li&amp;gt;文中涉及的云服务商（如 Azure）及软件面板（AMH）均为演示环境，作者与其无利益关联。&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;请在合法合规的前提下搭建网站，并在正式上线前做好数据备份。&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;作者不对因操作失误导致的服务器数据丢失承担责任。&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;&lt;/p&gt;
+</content:encoded></item><item><title>acme.sh 证书申请指南：免费、自动续期的泛域名 SSL/TLS 证书</title><link>https://levifree.dpdns.org/posts/acme-sh-free-ssl-certificate-guide/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/acme-sh-free-ssl-certificate-guide/</guid><description>从零开始：通过 Cloudflare API 实现全自动化 HTTPS 配置</description><pubDate>Sun, 24 Dec 2023 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;“After climbing a great hill, one only finds that there are many more hills to climb.”
+“登上高峰后，你会发现还有更多的山峰要翻越。”&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&amp;lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&amp;gt;
+&amp;lt;strong&amp;gt;核心知识点：&amp;lt;/strong&amp;gt; 本文将详细介绍如何使用 &amp;lt;code&amp;gt;acme.sh&amp;lt;/code&amp;gt; 脚本免费申请 &amp;lt;strong&amp;gt;泛域名 (Wildcard)&amp;lt;/strong&amp;gt; 证书，并配置自动续期。重点推荐使用 Cloudflare API Token 进行 DNS 验证，这是目前最安全、便捷的方案。
+&amp;lt;/div&amp;gt;&lt;/p&gt;
+&lt;h2&gt;什么是 acme.sh？&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/acmesh-official/acme.sh&quot;&gt;acme.sh&lt;/a&gt; 是一个纯 Shell 编写的 ACME 协议客户端。与官方的 Certbot 相比，它有以下显著优势：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;轻量级&lt;/strong&gt;：无任何依赖，不需要安装 Python。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;兼容性&lt;/strong&gt;：支持几乎所有 Linux 发行版。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;功能全&lt;/strong&gt;：自动处理 cron 任务，支持自动注入证书到 Nginx/Apache，支持 Docker 部署。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DNS 支持&lt;/strong&gt;：内置了 100+ 种 DNS 服务商的 API 支持。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;第一步：安装 acme.sh&lt;/h2&gt;
+&lt;p&gt;安装过程非常简单，只需要一行命令。建议切换到 &lt;code&gt;root&lt;/code&gt; 用户执行。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 替换为你的真实邮箱，用于接收证书过期提醒
+curl https://get.acme.sh | sh -s email=my@example.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;安装完成后，脚本会自动完成以下操作：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;将 acme.sh 安装到 &lt;code&gt;~/.acme.sh/&lt;/code&gt; 目录。&lt;/li&gt;
+&lt;li&gt;创建 &lt;code&gt;alias acme.sh=~/.acme.sh/acme.sh&lt;/code&gt; 别名。&lt;/li&gt;
+&lt;li&gt;自动创建每日 Cron Job 以检查证书是否需要更新。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;使命令生效&lt;/h3&gt;
+&lt;p&gt;安装后，你需要刷新一下 Shell 环境：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;source ~/.bashrc
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;第二步：切换默认 CA（推荐）&lt;/h2&gt;
+&lt;p&gt;acme.sh 默认使用 ZeroSSL 作为证书颁发机构。如果你更习惯使用 &lt;strong&gt;Let&apos;s Encrypt&lt;/strong&gt;，可以随时切换：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;acme.sh --set-default-ca --server letsencrypt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;第三步：申请证书（推荐 DNS 方式）&lt;/h2&gt;
+&lt;p&gt;acme.sh 支持 HTTP 验证和 DNS 验证。&lt;strong&gt;强烈推荐使用 DNS 验证&lt;/strong&gt;，因为：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;支持&lt;strong&gt;泛域名&lt;/strong&gt;证书（如 &lt;code&gt;*.example.com&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;不需要依赖 Web 服务器，不需要公网 IP（内网服务器也能用）。&lt;/li&gt;
+&lt;li&gt;如果不使用 API 自动验证，每 3 个月要手动解析一次 TXT 记录，非常麻烦。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;准备：获取 DNS API 凭证&lt;/h3&gt;
+&lt;p&gt;我们以 &lt;strong&gt;Cloudflare&lt;/strong&gt; 为例。为了安全起见，我们不再使用 Global API Key，而是使用权限受限的 &lt;strong&gt;API Token&lt;/strong&gt;。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;登录 Cloudflare 控制台 -&amp;gt; &lt;strong&gt;My Profile&lt;/strong&gt; -&amp;gt; &lt;strong&gt;API Tokens&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;点击 &lt;strong&gt;Create Token&lt;/strong&gt;。&lt;/li&gt;
+&lt;li&gt;选择 &lt;strong&gt;Edit zone DNS&lt;/strong&gt; 模板。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Zone Resources&lt;/strong&gt; 选择 &lt;code&gt;Include -&amp;gt; All zones&lt;/code&gt; 或者指定你的域名。&lt;/li&gt;
+&lt;li&gt;生成并复制你的 &lt;code&gt;Token&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;同时在控制台首页右侧找到你的 &lt;code&gt;Account ID&lt;/code&gt;。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;执行申请&lt;/h3&gt;
+&lt;p&gt;在终端中导入我们将才获取的凭证：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;export CF_Token=&quot;你的_API_Token&quot;
+export CF_Account_ID=&quot;你的_Account_ID&quot;
+
+# 申请泛域名证书（包括主域名和所有子域名）
+# --keylength ec-256 表示申请更现代、更快速的 ECC 证书
+acme.sh --issue --dns dns_cf -d example.com -d *.example.com --keylength ec-256
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：脚本执行完毕后，你的 ID 和 Token 会被自动加密保存在 &lt;code&gt;~/.acme.sh/account.conf&lt;/code&gt; 中，下次自动续期时无需再次输入。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr /&gt;
+&lt;h2&gt;第四步：安装证书到 Web 服务器&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;千万不要&lt;/strong&gt;直接在 Nginx/Apache 配置文件中指向 &lt;code&gt;~/.acme.sh/&lt;/code&gt; 目录下的文件。该目录结构随时可能变动。&lt;/p&gt;
+&lt;p&gt;你应该使用 &lt;code&gt;--install-cert&lt;/code&gt; 命令将证书复制到指定位置，并告知脚本重载 Web 服务。&lt;/p&gt;
+&lt;h3&gt;Nginx 示例&lt;/h3&gt;
+&lt;p&gt;假设你的 Nginx 证书目录在 &lt;code&gt;/etc/nginx/ssl&lt;/code&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mkdir -p /etc/nginx/ssl
+
+acme.sh --install-cert -d example.com --ecc \
+--key-file       /etc/nginx/ssl/server.key  \
+--fullchain-file /etc/nginx/ssl/fullchain.cer \
+--reloadcmd     &quot;systemctl force-reload nginx&quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Nginx 配置参考&lt;/h3&gt;
+&lt;p&gt;在你的 Nginx 配置文件中（如 &lt;code&gt;/etc/nginx/conf.d/example.com.conf&lt;/code&gt;），确保路径与上面一致：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;server {
+    listen 443 ssl http2;
+    server_name example.com;
+
+    # 证书路径配置
+    ssl_certificate     /etc/nginx/ssl/fullchain.cer;
+    ssl_certificate_key /etc/nginx/ssl/server.key;
+
+    # 推荐的 SSL 安全参数
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers EECDH+CHACHA20:EECDH+CHACHA20-draft:EECDH+AES128:RSA+AES128:EECDH+AES256:RSA+AES256:EECDH+3DES:RSA+3DES:!MD5;
+    
+    # ... 其他配置
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;进阶：如何更新证书？&lt;/h2&gt;
+&lt;h3&gt;自动更新（无需操作）&lt;/h3&gt;
+&lt;p&gt;acme.sh 会每 60 天自动检测证书。如果发现证书即将过期，它会自动：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;调用 API 重新验证 DNS。&lt;/li&gt;
+&lt;li&gt;重新签发证书。&lt;/li&gt;
+&lt;li&gt;将新证书复制到 &lt;code&gt;/etc/nginx/ssl/&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;执行 &lt;code&gt;systemctl force-reload nginx&lt;/code&gt; 重载服务。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;你完全不需要操心。&lt;/p&gt;
+&lt;h3&gt;脚本本身的更新&lt;/h3&gt;
+&lt;p&gt;建议开启 acme.sh 脚本的自动升级功能，以保持与最新的 ACME 协议兼容：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;acme.sh --upgrade --auto-upgrade
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;常见问题排查&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Unknown error (DNS 验证失败)&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;检查 API Token 权限是否正确（是否包含 &lt;strong&gt;Zone.DNS&lt;/strong&gt; 的 &lt;strong&gt;Edit&lt;/strong&gt; 权限）。&lt;/li&gt;
+&lt;li&gt;检查 DNS 服务器是否生效，有时生效有延迟，可以加 &lt;code&gt;--dnssleep 60&lt;/code&gt; 参数让脚本多等一会儿。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Web 验证失败&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;确保 80 端口开放且没有被防火墙拦截。&lt;/li&gt;
+&lt;li&gt;如果你只是临时验证，没有 Nginx，可以使用 &lt;code&gt;--standalone&lt;/code&gt; 模式（需临时停止占用 80 端口的服务）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr /&gt;
+&lt;h2&gt;免责声明&lt;/h2&gt;
+&lt;p&gt;&amp;lt;div class=&quot;well&quot;&amp;gt;
+&amp;lt;p&amp;gt;本项目提供的教程仅用于教育和测试目的。&amp;lt;/p&amp;gt;
+&amp;lt;ul&amp;gt;
+&amp;lt;li&amp;gt;在使用脚本修改生产环境配置前，建议先备份相关配置文件。&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;Token 和 Key 等敏感信息请妥善保管，切勿泄露。&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;因使用不当导致的服务中断或数据丢失，作者不承担责任。&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;&lt;/p&gt;
+</content:encoded></item><item><title>前端开发实战：如何使用 Charles 脚本进行 API 数据 Mock</title><link>https://levifree.dpdns.org/posts/javascript-mock-api-tutorial/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/javascript-mock-api-tutorial/</guid><description>告别后端依赖，利用本地代理工具自行构造测试场景</description><pubDate>Fri, 22 Dec 2023 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&quot;Quality is not an act, it is a habit.&quot;&lt;br /&gt;
+&quot;质量不是一种行为，而是一种习惯。&quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&amp;lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&amp;gt;
+&amp;lt;strong&amp;gt;面向人群：&amp;lt;/strong&amp;gt; 本文主要面向 Web 前端和移动端开发者。你将学习如何配合抓包工具（如 Charles 或 Fiddler），利用简单的脚本逻辑，在本地拦截并修改服务器响应，从而高效地测试 App 或网页的 UI 表现。
+&amp;lt;/div&amp;gt;&lt;/p&gt;
+&lt;h2&gt;前言：前端开发的痛点&lt;/h2&gt;
+&lt;p&gt;在项目开发过程中，前后端通常是并行开发的。但我们经常遭遇以下尴尬：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;后端接口未就绪&lt;/strong&gt;：后端还在写 CRUD，前端页面已经切好了，却只能填假数据。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;异常场景难复现&lt;/strong&gt;：想自测“服务器返回空列表”或“超长文本截断”，需要后端配合改库，非常麻烦。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;数据覆盖不全&lt;/strong&gt;：测试环境造数据成本高，甚至还需要删库重跑。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;这时，&lt;strong&gt;本地 Mock&lt;/strong&gt; 技术就派上用场了。通过在网络层拦截请求，我们可以运行一段简单的代码来实时修改 Response（响应体），让客户端以为服务器返回了我们要的数据。&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;核心原理：中间人 (MITM) 脚本&lt;/h2&gt;
+&lt;p&gt;大多数专业的网络调试工具（如 Charles, Fiddler, Proxyman）都支持 &lt;strong&gt;Scripting (脚本)&lt;/strong&gt; 功能。&lt;/p&gt;
+&lt;p&gt;流程如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;拦截 (Intercept)&lt;/strong&gt;：工具捕获特定的 URL 请求（例如 &lt;code&gt;api.myapp.com/user&lt;/code&gt;）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;执行 (Execute)&lt;/strong&gt;：工具运行你编写的 &lt;code&gt;.js&lt;/code&gt; 脚本。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;篡改 (Modify)&lt;/strong&gt;：脚本读取原始 Response JSON，修改特定字段。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;返回 (Return)&lt;/strong&gt;：客户端接收到修改后的数据。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr /&gt;
+&lt;h2&gt;JavaScript 脚本编写实战&lt;/h2&gt;
+&lt;p&gt;脚本的核心逻辑通常分为三步：&lt;code&gt;Parse&lt;/code&gt; (解析) -&amp;gt; &lt;code&gt;Modify&lt;/code&gt; (修改) -&amp;gt; &lt;code&gt;Stringify&lt;/code&gt; (重组)。&lt;/p&gt;
+&lt;h3&gt;场景一：Mock 长文本 (测试 UI 布局)&lt;/h3&gt;
+&lt;p&gt;假设后端返回的标准用户信息如下：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;{
+  &quot;id&quot;: 101,
+  &quot;nickname&quot;: &quot;Levi&quot;,
+  &quot;bio&quot;: &quot;Frontend Developer&quot;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;我们需要测试当用户昵称特别长时，UI 是否会正确换行或显示省略号。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;脚本代码示例&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// 1. 获取原始响应体
+// 大多数工具会将响应体暴露为 response.body 或类似变量
+let obj = JSON.parse($response.body);
+
+// 2. 修改数据：注入超长文本，测试边界情况
+obj.nickname = &quot;这是一段非常非常长的测试文本，用于验证 UI 组件在极端情况下的布局表现是否正常&quot;;
+
+// 3. 重组并返回
+// 将修改后的对象转回字符串
+$done({ body: JSON.stringify(obj) });
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;场景二：模拟服务器错误 (测试健壮性)&lt;/h3&gt;
+&lt;p&gt;App 需要能够优雅地处理服务器报错（如 500 错误或网络超时）。我们可以编写脚本，强制把正常的成功响应改为错误信息。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;脚本代码示例&lt;/strong&gt;：&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;// 注意：这次我们不解析原数据，直接构造错误响应
+
+let errorResponse = {
+    &quot;code&quot;: 500,
+    &quot;status&quot;: &quot;error&quot;,
+    &quot;message&quot;: &quot;Internal Server Error: 模拟服务器内部错误&quot;
+};
+
+$done({ 
+    status: 500, // 修改 HTTP 状态码
+    body: JSON.stringify(errorResponse) 
+});
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;进阶技巧：条件断点与随机化&lt;/h2&gt;
+&lt;p&gt;为了测试更真实的场景，我们可以引入随机逻辑，模拟不稳定的数据返回。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;let obj = JSON.parse($response.body);
+
+// 随机生成 50% 的概率让列表为空，测试“空状态”页面 (Empty State)
+if (Math.random() &amp;gt; 0.5) {
+    obj.data_list = []; 
+}
+
+console.log(&quot;当前 Mock 状态: &quot; + (obj.data_list.length === 0 ? &quot;空列表&quot; : &quot;有数据&quot;));
+
+$done({ body: JSON.stringify(obj) });
+&lt;/code&gt;&lt;/pre&gt;
+&lt;hr /&gt;
+&lt;h2&gt;最佳实践与注意事项&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;异常捕获&lt;/strong&gt;：在解析 JSON 时最好包裹在 &lt;code&gt;try-catch&lt;/code&gt; 块中，防止原始数据解析失败导致脚本报错。&lt;pre&gt;&lt;code&gt;try {
+    let obj = JSON.parse($response.body);
+    // ... modifications
+    $done({ body: JSON.stringify(obj) });
+} catch (e) {
+    console.log(&quot;JSON Parse Error: &quot; + e);
+    $done({}); // 保持原状
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;仅用于开发自测&lt;/strong&gt;：此类脚本仅应在本地开发环境或测试环境使用，严禁用于生产环境或恶意攻击。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;仅处理已授权流量&lt;/strong&gt;：请确保你拦截和调试的是自己负责的应用、测试域名或已获得授权的接口，不要触碰第三方未授权系统。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;避免真实用户数据&lt;/strong&gt;：调试环境应尽量使用脱敏数据，避免在脚本、日志或截图中暴露手机号、邮箱、Token 等敏感信息。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;p&gt;掌握基于脚本的网络层 Mock 技术，能极大减少前端开发对后端的依赖。你不需要等待后端部署，也不需要求人改数据，几行代码就能构建出你想要的任何测试场景，大幅提升开发效率。&lt;/p&gt;
+&lt;p&gt;Happy Coding!&lt;/p&gt;
+</content:encoded></item><item><title>Git 实战：三种方法让你的 Fork 仓库与上游保持同步</title><link>https://levifree.dpdns.org/posts/git-sync-fork-upstream-guide/</link><guid isPermaLink="true">https://levifree.dpdns.org/posts/git-sync-fork-upstream-guide/</guid><description>从点击按钮到自动化脚本：全方位掌握 Git Upstream 同步技巧</description><pubDate>Wed, 06 Dec 2023 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;&quot;We loved with a love that was more than love.&quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&amp;lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&amp;gt;
+&amp;lt;strong&amp;gt;场景描述：&amp;lt;/strong&amp;gt; 当我们在 GitHub 上 Fork 了一个开源项目后，原作者（Upstream）更新了代码，而我们的 Fork 仓库还停留在旧版本。如何将上游的更新合并到我们的仓库中？本文提供三种解决方案：不仅包含最简单的 UI 操作，还有硬核的 CLI 命令，以及“懒人必备”的 GitHub Actions 自动化脚本。
+&amp;lt;/div&amp;gt;&lt;/p&gt;
+&lt;h2&gt;方法一：GitHub 网页端一键同步 (最简单)&lt;/h2&gt;
+&lt;p&gt;从 2021 年开始，GitHub 原生支持了网页端同步功能，适合绝大多数普通用户。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;打开你的 Fork 仓库页面。&lt;/li&gt;
+&lt;li&gt;点击代码列表上方的 &lt;strong&gt;Fetch upstream&lt;/strong&gt; 下拉菜单。&lt;/li&gt;
+&lt;li&gt;点击 &lt;strong&gt;Fetch and merge&lt;/strong&gt; 按钮。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;img src=&quot;https://docs.github.com/assets/cb-25535/images/help/repository/fetch-upstream-drop-down.png&quot; alt=&quot;GitHub Sync Button&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;优点：无需任何命令，操作极简。&lt;/em&gt;
+&lt;em&gt;缺点：需要手动点，且解决冲突能力较弱。&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;方法二：Git 命令行同步 (最专业)&lt;/h2&gt;
+&lt;p&gt;如果你是开发者，建议掌握命令行（CLI）方式，因为这能让你完全控制合并过程，方便处理代码冲突。&lt;/p&gt;
+&lt;h3&gt;1. 配置上游仓库&lt;/h3&gt;
+&lt;p&gt;首先，我们需要告诉本地 git，&quot;上游&quot;在哪里。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;# 查看当前远程仓库
+git remote -v
+# 输出通常只有 origin (你的仓库)
+
+# 添加上游仓库 (请将 URL 替换为原作者的仓库地址)
+git remote add upstream https://github.com/ORIGINAL_OWNER/ORIGINAL_REPO.git
+
+# 再次查看，应该能看到 upstream
+git remote -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;2. 拉取并合并&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;# 1. 切换到主分支 (main 或 master)
+git checkout main
+
+# 2. 从上游拉取最新代码到本地缓存
+git fetch upstream
+
+# 3. 将上游代码合并到你的本地分支
+git merge upstream/main
+
+# 4. 推送到你的 GitHub 仓库
+git push origin main
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;优点：完全控制权，可处理复杂冲突。&lt;/em&gt;
+&lt;em&gt;缺点：步骤较多，需要 Git 基础。&lt;/em&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;h2&gt;方法三：GitHub Actions 定时自动同步 (最省心)&lt;/h2&gt;
+&lt;p&gt;如果你 Fork 仓库是为了做一个镜像（Mirror），或者单纯想保持最新而懒得手动去点，可以使用 GitHub Actions 设置定时任务。&lt;/p&gt;
+&lt;h3&gt;1. 创建工作流文件&lt;/h3&gt;
+&lt;p&gt;在你的仓库中，点击 &lt;strong&gt;Actions&lt;/strong&gt; -&amp;gt; &lt;strong&gt;New workflow&lt;/strong&gt;，创建一个名为 &lt;code&gt;.github/workflows/sync.yml&lt;/code&gt; 的文件。&lt;/p&gt;
+&lt;p&gt;如果你 Fork 的仓库里已存在其他工作流，点击 &lt;code&gt;Actions&lt;/code&gt; 后可能需要先点击 &lt;code&gt;New workflow&lt;/code&gt;，如下图所示：
+&lt;img src=&quot;https://levifree.dpdns.org/img/syncworkflow/createworkflow.png&quot; alt=&quot;新建工作流&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;2. 填入配置代码&lt;/h3&gt;
+&lt;p&gt;复制以下 YAML 内容，并&lt;strong&gt;务必修改第四步中的上游仓库地址&lt;/strong&gt;。&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;name: Upstream Sync
+
+permissions:
+  contents: write
+
+on:
+  schedule:
+    - cron: &quot;0 0 * * *&quot; # 每天 UTC 时间 0:00 (北京时间 8:00) 执行一次
+  workflow_dispatch: # 允许手动点击按钮触发
+
+jobs:
+  sync_latest_from_upstream:
+    name: Sync latest commits from upstream repo
+    runs-on: ubuntu-latest
+    if: ${{ github.event.repository.fork }}
+
+    steps:
+      # 第一步：检出代码
+      - name: Checkout target repo
+        uses: actions/checkout@v3
+
+      # 第二步：执行同步动作
+      - name: Sync upstream changes
+        id: sync
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
+        with:
+          # ⚠️⚠️ 请修改下方这两行！填入原作者的仓库地址和分支 ⚠️⚠️
+          upstream_sync_repo: original-author/original-repo
+          upstream_sync_branch: main
+          
+          # 你的分支名
+          target_sync_branch: main
+          target_repo_token: ${{ secrets.GITHUB_TOKEN }}
+          test_mode: false
+
+      # 第三步：检查是否失败（通常是因为上游改动了 workflow 文件，出于安全 GitHub 会暂停自动更新）
+      - name: Sync check
+        if: failure()
+        run: |
+          echo &quot;[Error] 自动同步失败。可能是上游仓库更新了 .github/workflows 文件。&quot;
+          echo &quot;请手动前往 GitHub 界面 Fetch Upstream 一次以恢复自动化。&quot;
+          exit 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;请参考下图说明进行修改：
+&lt;img src=&quot;https://levifree.dpdns.org/img/syncworkflow/modification.png&quot; alt=&quot;修改说明&quot; /&gt;&lt;/p&gt;
+&lt;p&gt;以下是配置完成后的完整代码示例图（注意：部分密钥无需手动填写）：
+&lt;img src=&quot;https://levifree.dpdns.org/img/syncworkflow/sync.jpg&quot; alt=&quot;全部代码&quot; /&gt;&lt;/p&gt;
+&lt;h3&gt;3. 注意事项&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;首次运行&lt;/strong&gt;：创建完文件后，建议切到 Actions 页面手动触发一次（Run workflow）以验证配置是否正确。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;保护机制&lt;/strong&gt;：如果上游仓库修改了 workflow 文件，GitHub 为了安全会暂停你的自动任务，此时需要手动 Sync 一次来重新激活。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;hr /&gt;
+&lt;h2&gt;总结&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;偶尔同步&lt;/strong&gt;：直接用 &lt;strong&gt;方法一&lt;/strong&gt;（网页点一下）。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;开发代码&lt;/strong&gt;：必须用 &lt;strong&gt;方法二&lt;/strong&gt;（命令行），因为你需要处理 Merge 冲突。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;纯粹备份&lt;/strong&gt;：使用 &lt;strong&gt;方法三&lt;/strong&gt;（Actions），设置好后就可以当甩手掌柜了。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;免责声明&lt;/h2&gt;
+&lt;p&gt;&amp;lt;div class=&quot;well&quot;&amp;gt;
+&amp;lt;ul&amp;gt;
+&amp;lt;li&amp;gt;本文提供的自动化脚本仅用于合规的开源项目同步。&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;请勿用于恶意克隆或违反 GitHub 服务条款的行为。&amp;lt;/li&amp;gt;
+&amp;lt;li&amp;gt;自动化同步可能会覆盖你对仓库的自定义修改，请谨慎使用。&amp;lt;/li&amp;gt;
+&amp;lt;/ul&amp;gt;
+&amp;lt;/div&amp;gt;&lt;/p&gt;
+</content:encoded></item></channel></rss>
