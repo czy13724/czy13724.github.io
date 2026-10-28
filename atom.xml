@@ -5,7 +5,7 @@
   <link href="https://levifree.com/" rel="alternate" type="text/html"/>
   <link href="https://levifree.com/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://levifree.com/</id>
-  <updated>2026-10-28T07:23:58.170Z</updated>
+  <updated>2026-10-28T07:39:36.906Z</updated>
   <language>zh_CN</language>
   <entry>
     <title>站长日记：在喧嚣的信息时代，给自己的数字领地做一次深度断舍离</title>
@@ -227,7 +227,7 @@ status: "active" # active | deprecated | archived
 <h3>L3 级弃用警告示例</h3>
 <p>对于已经过时但仍有部分历史参考价值的文章，在文章第一段使用醒目的 Admonition 提示框：</p>
 <pre><code>&gt; [!WARNING]
-&gt; **版本弃用提醒**：本文介绍的方案仅适用于 Jekyll 3.x 及以下版本。自 2026 年起本站已全面迁移至 Astro 7。如果您正在搭建全新的静态博客，强烈建议阅读最新教程：[《Astro 静态博客搭建与性能优化实战》](/posts/astro-static-blog-guide)。
+&gt; **版本弃用提醒**：本文介绍的方案仅适用于 Jekyll 3.x 及以下版本。自 2026 年起本站已全面迁移至 Astro 7。如果您正在搭建全新的静态博客，强烈建议阅读最新教程：[《Astro 静态站图片 404 排查实战》](/posts/astro-static-assets-404-debugging/)。
 </code></pre>
 <hr />
 <h2>四、自动化死链与可用性巡检</h2>
@@ -1305,7 +1305,7 @@ PubkeyAuthentication yes
 <p>为了防止被搜索引擎判定为“关键词堆砌”或“低质互链”，上下文内链必须严格遵循以下三项规范：</p>
 <h3>1. 锚文本（Anchor Text）必须具备明确的目的预期</h3>
 <ul>
-<li>❌ 错误示范：“关于这个知识点，请点击<a href="/">这里</a>或者<a href="/posts/xxx">参考这篇</a>。”</li>
+<li>❌ 错误示范：“关于这个知识点，请点击这里（链接到 /）或者参考这篇（链接到 /posts/xxx）。”（无明确语义，且占位死链会破坏用户体验与权重）</li>
 <li>✅ 正确示范：“若您在生产环境遇到了反向代理 502 Bad Gateway，请参阅<a href="/posts/nginx-502-504-troubleshooting">《Nginx 502/504 故障排错指南：从 upstream 到超时配置》</a>。”</li>
 </ul>
 <h3>2. 单向流动必须变为“回路闭环”</h3>

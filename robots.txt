@@ -1,6 +1,5 @@
 User-agent: *
-Disallow: /
-Allow: /$
-Allow: /posts/
+Allow: /
+Disallow: /api/
 
 Sitemap: https://levifree.com/sitemap-index.xml
