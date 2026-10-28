@@ -21,6 +21,7 @@ const diaryData: DiaryItem[] = [
 		location: "书房 / 坐垫",
 		mood: "空灵",
 		tags: ["冥想", "正念", "心流", "日常"],
+		images: ["/images/diary/meditation.webp"],
 	},
 	{
 		id: 10,
@@ -30,6 +31,7 @@ const diaryData: DiaryItem[] = [
 		location: "河边绿道",
 		mood: "惬意",
 		tags: ["散步", "晚霞", "生活碎片"],
+		images: ["/images/diary/sunset.webp"],
 	},
 	{
 		id: 9,
@@ -39,6 +41,7 @@ const diaryData: DiaryItem[] = [
 		location: "窗前小桌",
 		mood: "专注",
 		tags: ["手冲咖啡", "阅读", "慢生活"],
+		images: ["/images/diary/coffee.webp"],
 	},
 	{
 		id: 8,
@@ -67,6 +70,7 @@ const diaryData: DiaryItem[] = [
 		location: "茶台",
 		mood: "安详",
 		tags: ["喝茶", "独处", "慢生活"],
+		images: ["/images/diary/tea.webp"],
 	},
 	{
 		id: 5,
@@ -103,13 +107,14 @@ const diaryData: DiaryItem[] = [
 		location: "露台",
 		mood: "释然",
 		tags: ["夏夜", "随感", "独处"],
+		images: ["/images/diary/night.webp"],
 	},
 	{
 		id: 1,
 		content:
 			"樱花飘落的速度是秒速五厘米，而代码编译通过的喜悦就在那一瞬间。生活简单，我也是。",
 		date: "2026-05-10T14:20:00Z",
-		images: ["/images/diary/sakura.jpg", "/images/diary/1.webp"],
+		images: ["/images/diary/sakura.webp", "/images/diary/1.webp"],
 		location: "公园",
 		mood: "愉快",
 		tags: ["生活", "摄影"],
