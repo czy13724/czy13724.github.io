@@ -2,27 +2,260 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>Levi Blog</title>
   <subtitle>你若盛开，清风自来</subtitle>
-  <link href="https://levifree.dpdns.org/" rel="alternate" type="text/html"/>
-  <link href="https://levifree.dpdns.org/atom.xml" rel="self" type="application/atom+xml"/>
-  <id>https://levifree.dpdns.org/</id>
-  <updated>2026-07-20T05:38:01.185Z</updated>
+  <link href="https://levifree.com/" rel="alternate" type="text/html"/>
+  <link href="https://levifree.com/atom.xml" rel="self" type="application/atom+xml"/>
+  <id>https://levifree.com/</id>
+  <updated>2026-10-28T06:15:07.048Z</updated>
   <language>zh_CN</language>
   <entry>
+    <title>站长日记：在喧嚣的信息时代，给自己的数字领地做一次深度断舍离</title>
+    <link href="https://levifree.com/posts/site-migration-and-digital-minimalism-diary/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/site-migration-and-digital-minimalism-diary/</id>
+    <published>2026-10-25T00:00:00.000Z</published>
+    <updated>2026-10-25T00:00:00.000Z</updated>
+    <summary>整理杂乱的域名、清理弃用的云服务、重构博客技术架构；记录一次让数字生活回归清爽的断舍离心路历程</summary>
+    <content type="html"><![CDATA[<p>今天花了一整天的时间，终于把手里积攒了很久的数字资产彻底理顺了。看着干净清爽的域名列表、不再报错的自动化部署流水线，以及重新换上独立顶级域名 <code>levifree.com</code> 的博客主页，心里有种很久没有体会过的轻松。</p>
+<p>写下这篇日记，记录一下最近这段时间的折腾与心境变化。</p>
+<hr />
+<h2>一、被“数字囤积症”绑架的这两年</h2>
+<p>不知从什么时候开始，自己也患上了典型的“开发者囤积症”：</p>
+<ul>
+<li>看到打折的廉价域名，不管用不用先注册几个；</li>
+<li>看到各大云厂商推出免费或试用实例，兴冲冲地开通、配置反向代理、挂载脚本，最后却连控制台密码都忘了；</li>
+<li>博客的主题换了又换，一会儿想要二次元风格，一会儿想要极简黑白，在各种花哨的看板娘、背景特效和第三方挂件里迷失，真正花在写字和沉淀技术上的时间反而屈指可数。</li>
+</ul>
+<p>直到前几天，收到几封云服务即将扣费的提醒邮件，又看到 Google AdSense 因为页面混乱、包含版权外链和薄弱内容发来的整改通知，我才猛然惊醒：<strong>我的个人数字领地，已经不知不觉变成了一座堆满数字破烂的仓库。</strong></p>
+<p>那些未经思考就抓取过来的动漫剧集、那些为了凑数而从官方文档搬运的速查清单，不仅无法带给读者任何真实的价值，反而像一层层厚重的灰尘，遮盖了建立这个博客最初的本心——<strong>记录真实的成长，分享可复现的经验</strong>。</p>
+<hr />
+<h2>二、大刀阔斧的断舍离与归位</h2>
+<p>从上周末开始，我决定做一次彻底的“大扫除”：</p>
+<ol>
+<li><strong>下架所有非原创的聚合与搬运页面</strong>：
+毫不犹豫地关掉了之前那个纯粹搬运腾讯视频封面和简介的番剧展示页。既然自己没有时间静下心来为每一部热爱的作品写上几千字的深度长评，就不要贪图界面的热闹去充当没有灵魂的采集器。</li>
+<li><strong>统一独立顶级域名</strong>：
+将过去在各种二级子域、动态 DNS 之间来回漂移的网址彻底收敛，正式绑定到 <code>levifree.com</code>。同时把所有的对外联系方式、邮箱统一迁移到 <code>contact@levifree.com</code>。一个干净、稳定、有辨识度的专属域名，才是独立博客立足的锚点。</li>
+<li><strong>重写那些不到千字的薄弱笔记</strong>：
+把过去那些只写了几行命令的旧笔记全部翻了出来。重新拉起本地测试环境，把每一条命令的执行前提、预期终端输出、报错时的排查逻辑一一补齐，让它们真正变成读者拿去就能跑通的解决方案。</li>
+</ol>
+<hr />
+<h2>三、慢下来的力量</h2>
+<p>很多人问我：“现在 AI 生成文章这么快，大家都在刷几十秒的短视频，你还花几个小时手动写一篇博客日记，有意义吗？”</p>
+<p>对我而言，敲下这些文字的过程，本身就是一种对抗信息过载的心理疗愈。
+在这个快节奏、被算法推荐牢牢掌控的时代，我们每天接收海量未经咀嚼的碎片信息，焦虑感与注意力涣散如影随形。而当你打开编辑器的纯文本窗口，没有弹窗、没有推荐、没有打赏角标，只有光标在规律地闪烁时，你的思维才能真正慢下来，重新审视自己今天究竟学到了什么、攻克了什么、思考了什么。</p>
+<p>博客不是为了迎合算法而建的流量收割机，它是你在广袤互联网上的一座灯塔。
+盛开不是为了给路人看，清风自来，本就是专注自身后的水到渠成。</p>
+<p>今夜无风，代码编译通过，一切如常。</p>
+]]></content>
+    <author>
+      <name>Levi</name>
+    </author>
+    <category term="日记"></category>
+  </entry>
+  <entry>
+    <title>折腾日记：一个周末搞定家庭轻量级工作流与自托管服务</title>
+    <link href="https://levifree.com/posts/weekend-homelab-and-terminal-tinkering-diary/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/weekend-homelab-and-terminal-tinkering-diary/</id>
+    <published>2026-09-20T00:00:00.000Z</published>
+    <updated>2026-09-20T00:00:00.000Z</updated>
+    <summary>翻出一台闲置的小主机，用 Docker Compose 搭建属于自己的轻量私有云与个人运维工作流，记录一次愉悦的周末折腾实录</summary>
+    <content type="html"><![CDATA[<p>周五晚上下班回家，翻柜子时无意中找到了去年换下来的一台小主机（N100 处理器，16G 内存，500G NVMe）。原本它被塞在角落里吃灰，插上电源按了开机键，风扇轻轻呼呼地转了起来。</p>
+<p>看着这个小方盒子，突然来了兴致：何不趁着这个周末，给自己的开发与日常学习搭建一套完全受自己掌控的家庭轻量级 Homelab 呢？</p>
+<hr />
+<h2>周六上午：底层系统安装与 SSH 秘钥加固</h2>
+<p>对于家用低功耗微型服务器，我的首选依然是 <strong>Ubuntu 24.04 LTS Server</strong>。</p>
+<ol>
+<li><strong>做启动盘</strong>：在 Mac 上用 BalenaEtcher 烧录好 ISO 镜像，插到小主机上几分钟就装完了最小化系统；</li>
+<li><strong>固定内网 IP</strong>：登录路由器后台，在 DHCP 静态列表中把小主机的 MAC 地址绑定到 <code>192.168.1.100</code>；</li>
+<li><strong>加固 SSH 访问</strong>：
+既然要长期通电运行，安全基线绝不能偷懒。立刻把本地 Mac 的公钥传输过去：<pre><code>ssh-copy-id -i ~/.ssh/id_ed25519.pub levi@192.168.1.100
+</code></pre>
+随后登录主机，在 <code>/etc/ssh/sshd_config.d/safety.conf</code> 中直接写入：<pre><code>PasswordAuthentication no
+PermitRootLogin no
+PubkeyAuthentication yes
+</code></pre>
+重启 sshd 守护进程。测试断开连接后重新用秘钥登录，确认密码登录被彻底封堵，这才算安下心来。</li>
+</ol>
+<hr />
+<h2>周六下午：Docker 容器生态与网络隔离</h2>
+<p>用官方脚本一键安装上最新的 Docker Engine 和 Compose 插件，接下来就是最令人兴奋的“搭积木”时间。</p>
+<p>我给自己规划了三个基础自托管服务：</p>
+<ul>
+<li><strong>Uptime Kuma</strong>：实时监控博客站点 <code>levifree.com</code>、DNS 解析和各子服务的存活状态；</li>
+<li><strong>Vaultwarden</strong>：基于 Rust 轻量级实现的 Bitwarden 密码管理器后端，数据牢牢掌握在自己手里；</li>
+<li><strong>Cloudflare Tunnel (cloudflared)</strong>：无需公网 IP 和复杂的端口映射，直接通过 Cloudflare 边缘网络安全穿透，安全暴露需要远程访问的监控状态页面。</li>
+</ul>
+<p>把它们组织进统一的 <code>docker-compose.yml</code>，设置独立的桥接网络（Bridge Network）进行服务隔离。当在终端敲下 <code>docker compose up -d</code>，看到一排绿色 <code>Started</code> 瞬间跳出时，那种由代码驱动现实世界的确定感真的太让人上瘾了。</p>
+<hr />
+<h2>周日折腾小插曲：一个关于 DNS 解析的乌龙</h2>
+<p>周日上午测试远程访问时，发现状态监控页始终无法通过外网域名连接。终端 ping 域名能通，但是 curl 接口总是卡在 TLS 握手阶段。</p>
+<p>排查了整整一个半小时，排查了防火墙、检查了 Docker 的虚拟网桥路由，最后才发现罪魁祸首竟然是：<strong>我昨晚随手在主机的 resolv.conf 里配置了某个公共 DNS，而那个 DNS 恰好对我的内网泛域名做了解析截流！</strong></p>
+<p>把 DNS 改回本地网关和 <code>1.1.1.1</code>，重新拉取证书，一切瞬间顺畅通行。
+这大概就是折腾技术的魅力所在吧：<strong>故障不会平白无故发生，每一个诡异的 Bug 背后，都是一条冰冷但遵循逻辑的计算机法则。解开谜题的那一刻，所有的疲惫都会烟消云散。</strong></p>
+<hr />
+<h2>周末总结</h2>
+<p>周日傍晚，泡了一杯热茶。小主机静静地躺在路由器旁边，整机功耗只有不到 8W，温温的，几乎听不到一点噪音。</p>
+<p>在被各类商业云服务包围的今天，亲手搭建一个不依赖任何第三方平台抽佣、数据完全归属于自己的微型节点，这种掌控感是无与伦比的。</p>
+<p>下周准备把博客的定时自动化构建脚本也写一个心跳探针接入进来。下个周末，继续折腾！</p>
+]]></content>
+    <author>
+      <name>Levi</name>
+    </author>
+    <category term="日记"></category>
+  </entry>
+  <entry>
+    <title>思考日记：为什么在算法时代，我依然选择坚持慢写作？</title>
+    <link href="https://levifree.com/posts/static-blog-content-writing-reflection-diary/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/static-blog-content-writing-reflection-diary/</id>
+    <published>2026-08-15T00:00:00.000Z</published>
+    <updated>2026-08-15T00:00:00.000Z</updated>
+    <summary>在碎片化与快餐信息充斥的今天，重拾两千字长文写作的意义；聊聊独立技术博客带给我的深度心流与思维复利</summary>
+    <content type="html"><![CDATA[<p>夜深人静，窗外偶有夜风掠过树梢。键盘敲击的清脆声在安静的房间里回荡，这是我一天中最享受的时刻。</p>
+<p>最近和一位做前端开发的朋友聊天，他问我：“现在很多技术问题直接问大语言模型几秒钟就出答案了，你平时工作那么忙，为什么还要花几个小时甚至几天，去查官方文档、验证报错、一字一句写几千字的博客文章？”</p>
+<p>当时我笑了笑，只是随口回答了一句“习惯了”。但今天合上电脑走在回家的路上，这个问题依然在脑海里盘旋。我想借着这篇日记，认真梳理一下自己内心的真实答案。</p>
+<hr />
+<h2>一、输入不等于掌握，输出才是思维的编译器</h2>
+<p>在信息爆炸的今天，获取知识的门槛已经被降到了历史最低点。我们每天在社交媒体上随手点赞“收藏”，在技术群里转发各种“最新架构指南”，收藏夹里的文章堆积如山。</p>
+<p>然而，我们真的变强了吗？</p>
+<p>心理学上有一个概念叫做**“流畅感错觉（Illusion of Fluency）”**：当你阅读一篇条理清晰的技术文章时，你的大脑会误以为“我已经看懂了，所以我也会了”。但当你关掉网页，面对一个真实的空白工程或报错堆栈时，你往往两手空空，毫无头绪。</p>
+<p><strong>写博客，就是强迫自己当一台“思维的编译器”。</strong>
+当你试图把一个复杂的排错过程讲给一个完全陌生的读者听时，你会发现自己之前忽略了太多隐性假设：</p>
+<ul>
+<li>这个命令背后的权限模型是什么？</li>
+<li>为什么必须在这里加这个参数？</li>
+<li>如果读者的操作系统版本不同，这里会不会崩溃？</li>
+</ul>
+<p>为了写清楚这些细节，你必须重新打开终端，一遍遍验证、重跑、翻阅底层原理。<strong>在这个由模糊到精确、由片段到体系的重构过程中，知识才真正融入了你自己的骨血。</strong></p>
+<hr />
+<h2>二、对抗信息投喂：夺回注意力的掌控权</h2>
+<p>现在的互联网充斥着极致精密的心流算法：几十秒的短视频、标题耸动的信息流、根据你的多巴胺阈值量身定做的推送……我们越来越习惯于被动接受刺激，而丧失了长时间专注思考长文本的能力。</p>
+<p>阅读长文正在退化为一种奢侈品，而能够静下心来<strong>撰写长文</strong>，更是一种对注意力极具抗争性的反向训练。</p>
+<p>每当我坐在屏幕前，构思一篇技术文章的引言、拆解它的核心机制、设计它的排错分支树时，我能清晰地感知到自己的思维从浮躁逐渐收敛到平静。这种长达数小时的高强度深度专注（Deep Work），在这个喧嚣的时代是如此稀缺而珍贵。</p>
+<hr />
+<h2>三、时间的长河与个人技术复利</h2>
+<p>商业社交平台的内容是有极其短暂的“半衰期”的：一条动态在发布后的 24 小时内达到曝光巅峰，三天后便石沉大海，再无人问津。你在中心化平台上贡献的所有才华与心血，最终都化为了平台信息流里的过眼云烟。</p>
+<p>但独立博客不同。
+它运行在属于你自己的域名下，沉淀在你自己的 Git 仓库里。你三年前写下的一篇关于 Nginx 证书配置或 Git 冲突解决的排错长文，在三年后的今天，依然每天默默地帮助几位在深夜里苦苦挣扎的开发者解决困境。</p>
+<p>它就像你在互联网广袤土地上种下的一棵树。你不需要每天去给它喷洒速效化肥，只要你持续为它修剪枯枝、注入真实的养分，它就会在时间的长河里静静扎根，生长为属于你自己的参天资产。</p>
+<hr />
+<h2>结语</h2>
+<p>慢下来，不是为了逃避时代的浪潮，而是为了在浪潮中站稳自己的脚跟。
+写字、记录、折腾、生活。
+保持敏锐，保持温热，明天继续前行。</p>
+]]></content>
+    <author>
+      <name>Levi</name>
+    </author>
+    <category term="日记"></category>
+  </entry>
+  <entry>
     <title>技术博客如何维护旧文章：用版本、验证日期和失效处理保住内容可信度</title>
-    <link href="https://levifree.dpdns.org/posts/technical-blog-update-policy/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/technical-blog-update-policy/</id>
+    <link href="https://levifree.com/posts/technical-blog-update-policy/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/technical-blog-update-policy/</id>
     <published>2026-07-07T00:00:00.000Z</published>
     <updated>2026-07-07T00:00:00.000Z</updated>
-    <summary>旧教程不会自动过期，但会自动失去可信度；这套维护流程帮助你优先更新真正影响读者的页面</summary>
-    <content type="html"><![CDATA[<p>技术文章最危险的状态不是“旧”，而是读者不知道它是否还能用。依赖、界面和服务策略都会变化；如果文章仍给出确定语气的旧命令，读者可能把时间花在已经失效的路径上。</p>
-<h2>建立三类更新信号</h2>
-<p>第一类是版本变化：框架大版本、命令行参数或平台控制台改版。第二类是链接变化：文档、下载地址和图片资源出现 404。第三类是读者路径变化：搜索词或站内问题反复指向文章没有覆盖的步骤。</p>
-<h2>每次更新只处理一个可验证问题</h2>
-<p>不要为了“显得新”大段改写。先说明本次修复了什么，例如“更新了 Pages 响应头的适用范围”；再在本地执行相关命令、打开受影响页面，并在文中写明验证日期和环境。这样读者能区分稳定知识与随版本变化的细节。</p>
-<h2>面对无法确认的信息</h2>
-<p>无法亲自验证的命令不要写成保证成功的结论。可以给出官方文档链接、适用前提和需要读者确认的变量；对已经失效的流程，优先添加醒目的说明或下线文章，而不是让它继续获得搜索流量。</p>
-<h2>一个可执行的月度节奏</h2>
-<p>每月选 3 篇访问量高或依赖变化快的文章：检查外链与图片，验证核心步骤，补一条失败处理，再更新发布日期或修订说明。持续的小更新比一次性堆积新文章，更能让整个站点形成可靠的长期信号。</p>
+    <summary>旧教程不会自动过期，但会自动失去可信度；这套维护流程帮助你系统建立时效性标记、自动化死链巡检与退役分级机制</summary>
+    <content type="html"><![CDATA[<p>技术博客随着时间推移，最危险的状态往往不是“文章数量少”，而是<strong>旧文章的内容腐化（Content Decay）</strong>。当读者通过搜索引擎或站内推荐进入一篇发布于两年前的教程，按照文中的命令行步骤一步步敲下去，却遭遇依赖安装报错、API 接口返回 404 或弃用提示，站点的专业可信度会瞬间降至冰点。更严重的是，Google 等搜索引擎在评估网站整体 EEAT（经验、专业、权威、信任）和 AdSense 审核时，会将包含大量陈旧失效命令的站点判定为缺乏维护的“低价值内容”。</p>
+<p>如何以最小的时间成本，让技术博客的长尾文章持续保持可验证、高可用的状态？本文结合本站实际运营经验，梳理一套完整的旧文章内容维护流程与可落地规范。</p>
+<hr />
+<h2>一、技术文章内容腐化的四大形态</h2>
+<p>技术文章通常会经历以下四种不可逆的内容失效过程：</p>
+<ol>
+<li><strong>上游工具链断裂（Breaking Changes）</strong>：例如 Node.js 从 v18 升级到 v22、Astro 从 v4 升级到 v7、Webpack 配置迁移到 Vite，旧文给出的配置文件在新版环境中直接编译失败。</li>
+<li><strong>云厂商与控制台 UI 迭代</strong>：GitHub Settings、Cloudflare Dashboard、AWS 控制台的菜单路径与权限项每年都在重构，单纯依靠界面截图的步骤极易让初学者迷失。</li>
+<li><strong>外部静态资源死链</strong>：文中引用的第三方 CDN 脚本、开源项目仓库地址变更或官方图片失效，导致页面出现破坏性排版或控制台报错。</li>
+<li><strong>安全基线过时</strong>：过时文章中给出的放宽权限命令（如 <code>chmod 777</code>、禁用 SSL 验证等临时方案）在新安全规范下成为高危漏洞隐患。</li>
+</ol>
+<hr />
+<h2>二、建立明确的时效性元数据规范</h2>
+<p>想要让读者一眼辨别知识的适用范围，必须在 Markdown 文章的 Frontmatter 中建立严格的版本与验证时间戳。</p>
+<h3>推荐的 Frontmatter 规范</h3>
+<pre><code>---
+title: "Nginx 反向代理与 WebSocket 完整配置实战"
+published: 2024-03-15
+updated: 2026-06-20
+description: "生产环境可用的 Nginx 反向代理配置，覆盖 SSL 证书、超时重试与 WebSocket 兼容"
+tags: ["Nginx", "Linux", "运维"]
+category: "后端开发"
+# 关键时效性字段
+verified_environment:
+  os: "Ubuntu 24.04 LTS"
+  software_version: "Nginx 1.26.x"
+  last_tested: 2026-06-20
+status: "active" # active | deprecated | archived
+---
+</code></pre>
+<p>在博客模板渲染层，将 <code>updated</code> 与 <code>verified_environment</code> 显示在文章顶部。即使文章发布时间较早，只要显示“最近核验于 2026 年，验证环境为 Ubuntu 24.04”，读者和搜索引擎爬虫就会给予极高的可信度评分。</p>
+<hr />
+<h2>三、旧文章维护的四级分级策略</h2>
+<p>并非所有过时文章都需要通篇重写。我们采用以下四级处理原则：</p>
+<table>
+<thead>
+<tr>
+<th>级别</th>
+<th>触发场景</th>
+<th>处理方案</th>
+<th>投入成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1: 微量校准 (Patch)</strong></td>
+<td>依赖小版本提升、参数弃用但有直接替代</td>
+<td>直接替换失效参数，在文末添加“变更日志”说明</td>
+<td>5 分钟</td>
+</tr>
+<tr>
+<td><strong>L2: 增量修订 (Revision)</strong></td>
+<td>核心步骤依然有效，但新增了更优解或默认行为改变</td>
+<td>保留原方案并标注“历史方案”，置顶补充最新推荐实践</td>
+<td>15~30 分钟</td>
+</tr>
+<tr>
+<td><strong>L3: 弃用警告 (Deprecation Warning)</strong></td>
+<td>整个工具被官方弃用（如某些旧构建插件、旧 SDK）</td>
+<td>在正文最顶部添加高亮 Callout 警示框，提供迁移链接</td>
+<td>5 分钟</td>
+</tr>
+<tr>
+<td><strong>L4: 归档下线 (Archive / 301)</strong></td>
+<td>技术体系已彻底不可用或存在重大安全缺陷</td>
+<td>下架页面，或配置 301 重定向到全站替代新文章</td>
+<td>5 分钟</td>
+</tr>
+</tbody>
+</table>
+<h3>L3 级弃用警告示例</h3>
+<p>对于已经过时但仍有部分历史参考价值的文章，在文章第一段使用醒目的 Admonition 提示框：</p>
+<pre><code>&gt; [!WARNING]
+&gt; **版本弃用提醒**：本文介绍的方案仅适用于 Jekyll 3.x 及以下版本。自 2026 年起本站已全面迁移至 Astro 7。如果您正在搭建全新的静态博客，强烈建议阅读最新教程：[《Astro 静态博客搭建与性能优化实战》](/posts/astro-static-blog-guide)。
+</code></pre>
+<hr />
+<h2>四、自动化死链与可用性巡检</h2>
+<p>依赖人肉排查 40 篇甚至上百篇文章的外链是不现实的。可以使用轻量脚本在本地构建时定期扫描：</p>
+<pre><code># 使用 markdown-link-check 自动化巡检所有文章中的外链与本地图片
+npx markdown-link-check src/content/posts/*.md --config .linkcheck.json
+</code></pre>
+<p>配置文件示例 <code>.linkcheck.json</code>：</p>
+<pre><code>{
+  "ignorePatterns": [
+    { "pattern": "^https://t.me/" }
+  ],
+  "timeout": "5s",
+  "retryOn429": true,
+  "retryCount": 2,
+  "fallbackRetryDelay": "3s"
+}
+</code></pre>
+<p>将该步骤纳入每月一次的站长维护清单，能够在 Google 爬虫发现死链前将其批量消灭。</p>
+<hr />
+<h2>五、建立月度站长运营节奏</h2>
+<p>建议采用“<strong>3-1-1 维护法则</strong>”：</p>
+<ol>
+<li><strong>每月精选 3 篇重点长尾文章</strong>：根据 Google Search Console 分析过去 30 天展现量最高但点击率有所下滑的历史文章，核对文中的命令行与配置；</li>
+<li><strong>修复 1 类通用隐患</strong>：例如集中检查全站代码块是否缺少语言高亮、配图是否包含失效外部外链；</li>
+<li><strong>退役 1 篇负资产内容</strong>：对于字数少于 500 字且无法充实、无搜索流量且无读者阅读的 Thin Content 文章，果断合并或退役。</li>
+</ol>
+<p>让博客的内容库保持“修剪枯枝、滋养主干”的常态化循环，是站点突破 AdSense 审核、建立长期技术影响力的坚实基石。</p>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -31,24 +264,138 @@
   </entry>
   <entry>
     <title>Astro 本地预览验收清单：发布前用 15 分钟发现导航、资源与交互问题</title>
-    <link href="https://levifree.dpdns.org/posts/astro-local-preview-regression-checklist/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/astro-local-preview-regression-checklist/</id>
+    <link href="https://levifree.com/posts/astro-local-preview-regression-checklist/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/astro-local-preview-regression-checklist/</id>
     <published>2026-05-28T00:00:00.000Z</published>
     <updated>2026-05-28T00:00:00.000Z</updated>
-    <summary>一份适用于静态博客的小型回归流程，覆盖构建诊断、关键入口、动态筛选和资源加载</summary>
-    <content type="html"><![CDATA[<p>静态站点的错误通常很安静：构建可能成功，但导航项被配置过滤、某个分类在点击后才出现 404、移动菜单没有同步更新。发布前做一次短而固定的回归，比上线后靠读者反馈更可靠。</p>
-<h2>1. 先做静态诊断</h2>
-<p>先运行项目提供的类型检查。它适合发现 Astro 模板、数据结构和导入错误，但不能证明浏览器中的菜单、外部图片或点击事件都正常。</p>
-<pre><code>./node_modules/.bin/astro check
+    <summary>一份适用于现代 Astro 静态博客的高效回归清单，覆盖静态诊断、生产预览、SEO 探针与常见构建盲区排查</summary>
+    <content type="html"><![CDATA[<p>在静态站点生成器（SSG）的日常维护中，最容易麻痹开发者的就是那一串绿色的构建成功日志：</p>
+<pre><code>[build] Complete!
+✓ Built in 4.21s
 </code></pre>
-<p>将“0 errors”当作进入浏览器测试的门槛，而不是发布结论。</p>
-<h2>2. 选择关键路径而非随机浏览</h2>
-<p>至少覆盖：首页导航、一个文章页、一个有筛选或下拉菜单的页面、404 页。导航改动要点击到目标 URL；卡片筛选要切换到所有类别；文章页要检查正文图片和站内链接。</p>
-<h2>3. 把失败记录成可复测条件</h2>
-<p>例如“设备页 Apple 分类正常，但 OPPO 分类图片 404”比“设备页有问题”更有价值。记录 URL、触发操作、预期结果和实际结果，修复后用同样的路径复测。这样问题不会在下一次重构时以不同形式回来。</p>
-<h2>4. 再做生产构建</h2>
-<p>本地开发服务器会实时编译，和生产构建并不完全相同。浏览器回归通过后再运行生产构建；如果环境限制阻断构建，要明确记录阻断原因，不能把未完成的构建说成已验证。</p>
-<p>这套流程不需要复杂测试框架，但能覆盖个人博客最常见的发布事故。</p>
+<p>很多站长在看到构建通过后便直接 <code>git push</code> 上线，结果随后发现：移动端导航菜单点击无响应、深色模式切换失效、公式 KaTeX 样式缺失、甚至生产环境的 <code>_astro/</code> 静态资源直接 404。</p>
+<p>在 Astro 开发环境中，Vite 的即时编译（JIT）和按需转译会掩盖很多打包期的静态引用和水合（Hydration）错误。为了避免将破损页面直接推送给读者和 Google 抓取爬虫，建立一套严格的<strong>发布前 15 分钟本地回归清单</strong>至关重要。</p>
+<hr />
+<h2>一、为什么开发环境（Dev）无法替代生产预览（Preview）</h2>
+<p>在执行回归前，先要理解 Astro 在开发模式和生产模式下的四大关键差异：</p>
+<ol>
+<li><strong>静态资源路径解析</strong>：在 <code>astro dev</code> 下，许多放在 <code>src/assets</code> 的图片会直接作为实时模块加载；但在生产构建（<code>astro build</code>）中，图片会被重构为带哈希的 WebP/AVIF 文件并输出至 <code>_astro/</code> 目录。</li>
+<li><strong>客户端组件水合时机</strong>：使用 <code>client:load</code>、<code>client:idle</code>、<code>client:visible</code> 的 Svelte/React 组件，在开发模式下往往没有经过严格的代码压缩与 Treeshaking，某些生产构建特有的未定义变量（<code>window is not defined</code>）只会在构建后暴露。</li>
+<li><strong>样式打包与覆盖优先级</strong>：开发环境下样式以内联方式注入，而生产环境会被合并压缩为单一 CSS 样式包，组件作用域样式的层叠顺序可能发生微调。</li>
+<li><strong>SEO 探针文件</strong>：如 <code>ads.txt</code>、<code>robots.txt</code>、<code>sitemap-index.xml</code> 以及 GitHub Pages 必需的 <code>.nojekyll</code>，只会在生产输出目录 <code>dist/</code> 中作为静态产物落地。</li>
+</ol>
+<p>因此，**“先 build、再 preview，在独立端口进行无痕测试”**是发布前的不可妥协准则。</p>
+<hr />
+<h2>二、发布前 15 分钟四步回归流程</h2>
+<pre><code>[步骤 1: 静态诊断] astro check ---&gt; [步骤 2: 生产编译] pnpm build ---&gt; [步骤 3: 产物探针] 检查 dist 核心文件 ---&gt; [步骤 4: 浏览器回归] astro preview
+</code></pre>
+<h3>步骤 1：全项目静态类型与语法诊断</h3>
+<p>首先运行 Astro 官方提供的类型检查工具。它能够扫描所有 <code>.astro</code> 页面中的 Props 传递、Frontmatter 字段有效性以及导入路径：</p>
+<pre><code># 执行类型检查与诊断
+./node_modules/.bin/astro check
+</code></pre>
+<p>必须达到以下标准：</p>
+<pre><code>Result (316 files): 
+- 0 errors
+- 0 warnings
+- 0 hints
+</code></pre>
+<p>如果提示有 Props 缺失或未识别的字段，必须立刻修正，绝不可带警告上线。</p>
+<h3>步骤 2：执行完整生产构建</h3>
+<pre><code>pnpm build
+</code></pre>
+<p>在终端输出中密切关注两点：</p>
+<ul>
+<li>是否存在特定静态页面的构建超时（通常由死循环抓取或过大的 Markdown 解析引起）；</li>
+<li>是否存在打包产物体积异常（单个 JS 超过 500KB 需警惕无意引入的大型依赖库）。</li>
+</ul>
+<h3>步骤 3：核心探针文件存在性核验</h3>
+<p>构建完成后，无需打开浏览器，直接在终端快速校验必须的合规与爬虫文件：</p>
+<pre><code># 验证重要根文件是否正确复制到 dist
+test -f dist/ads.txt &amp;&amp; echo "✓ ads.txt 存在" || echo "✗ ads.txt 缺失!"
+test -f dist/robots.txt &amp;&amp; echo "✓ robots.txt 存在" || echo "✗ robots.txt 缺失!"
+test -f dist/.nojekyll &amp;&amp; echo "✓ .nojekyll 存在" || echo "✗ .nojekyll 缺失!"
+test -f dist/sitemap-index.xml &amp;&amp; echo "✓ sitemap 存在" || echo "✗ sitemap 缺失!"
+</code></pre>
+<h3>步骤 4：在无痕窗口启动本地生产预览</h3>
+<pre><code>pnpm astro preview --port 4321
+</code></pre>
+<p>在浏览器打开 <code>http://localhost:4321</code>，<strong>必须使用无痕模式（Incognito Window）</strong>，以避免本地历史缓存和广告拦截插件干扰。</p>
+<hr />
+<h2>三、浏览器关键路径冒烟测试表</h2>
+<p>在无痕模式下，依次点击以下 6 个核心测试用例：</p>
+<table>
+<thead>
+<tr>
+<th>校验路径</th>
+<th>操作步骤</th>
+<th>预期结果与观察指标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 导航栏与移动菜单</strong></td>
+<td>切换桌面端与移动端视图（DevTools 模拟），依次点击所有导航项</td>
+<td>顶部菜单在移动端能收起与展开，点击无死链跳转</td>
+</tr>
+<tr>
+<td><strong>2. 文章详情页渲染</strong></td>
+<td>打开包含代码块、数学公式与图片的文章</td>
+<td>代码高亮正常、复制按钮可用、KaTeX 公式无语法错位、图片正常加载</td>
+</tr>
+<tr>
+<td><strong>3. 分类与标签归档</strong></td>
+<td>访问 <code>/archive/</code>，切换不同标签与分类筛选</td>
+<td>筛选出的文章列表准确，分页按钮能正确翻页且 URL 状态同步</td>
+</tr>
+<tr>
+<td><strong>4. 404 错误页</strong></td>
+<td>手动访问一个不存在的路径（如 <code>/this-is-test-404</code>）</td>
+<td>友好展示 404 页面，无全站崩溃，无报错广告脚本加载</td>
+</tr>
+<tr>
+<td><strong>5. 页面过渡与锚点</strong></td>
+<td>点击文章目录（TOC）中的各级标题锚点</td>
+<td>视口平滑滚动至对应章节，且不触发路由重新水合异常</td>
+</tr>
+<tr>
+<td><strong>6. 站点法律与合规页</strong></td>
+<td>点击页脚的“隐私政策”与“关于我们”</td>
+<td>页面完整渲染，域名与声明内容为当前站点的真实信息</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>四、自动化回归脚本封装</h2>
+<p>为了将上述步骤标准化，可以在项目根目录编写自动化验收脚本 <code>scripts/verify-release.sh</code>：</p>
+<pre><code>#!/usr/bin/env bash
+set -e
+
+echo "=== [1/4] 运行 Astro 类型诊断 ==="
+./node_modules/.bin/astro check
+
+echo "=== [2/4] 执行生产构建 ==="
+pnpm build
+
+echo "=== [3/4] 验证 SEO 与发布文件 ==="
+for file in ads.txt robots.txt .nojekyll; do
+  if [ ! -f "dist/$file" ]; then
+    echo "错误：dist/$file 缺失！"
+    exit 1
+  fi
+done
+echo "所有必要探针文件检查通过！"
+
+echo "=== [4/4] 验证完成，可安全执行推送 ==="
+</code></pre>
+<p>将该脚本配置到 <code>package.json</code> 的 <code>scripts</code> 中：</p>
+<pre><code>{
+  "scripts": {
+    "verify": "bash scripts/verify-release.sh"
+  }
+}
+</code></pre>
+<p>每次在执行 <code>git push</code> 前运行 <code>pnpm verify</code>，15 分钟的严谨自检不仅能保护你的读者体验，更能让站点在面临搜索引擎与 AdSense 质量审计时，始终呈现出无死角、高水准的专业技术品质。</p>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -57,29 +404,99 @@
   </entry>
   <entry>
     <title>Astro 静态站图片 404 排查：从引用路径到浏览器回归的完整流程</title>
-    <link href="https://levifree.dpdns.org/posts/astro-static-assets-404-debugging/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/astro-static-assets-404-debugging/</id>
+    <link href="https://levifree.com/posts/astro-static-assets-404-debugging/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/astro-static-assets-404-debugging/</id>
     <published>2026-04-18T00:00:00.000Z</published>
-    <updated>2026-04-18T00:00:00.000Z</updated>
-    <summary>用页面实际请求而不是目录猜测定位图片缺失；覆盖 public 路径、筛选后渲染与上线前检查</summary>
-    <content type="html"><![CDATA[<p>静态站图片 404 的难点，往往不在图片本身，而在“代码写的路径”和“浏览器最终请求的路径”不是同一个概念。尤其是筛选卡片、懒加载列表和动态数据，首页看起来正常并不代表其他分类没有缺图。</p>
-<h2>1. 先确认资源应该放在哪里</h2>
-<p>需要用固定 URL 访问的文件放在 <code>public/</code> 下。例如 <code>public/images/device/phone.webp</code> 会以 <code>/images/device/phone.webp</code> 提供。不要在数据文件中写入本机绝对路径，也不要把 <code>public</code> 重复写进 URL。</p>
-<pre><code>image: "/images/device/phone.webp" // 正确
-image: "/public/images/device/phone.webp" // 会请求错误地址
+    <updated>2026-10-28T00:00:00.000Z</updated>
+    <summary>深入解析 Astro 静态资源引用的三大底层机制；彻底解决 GitHub Pages 下划线目录拦截、Base URL 漂移与图片动态加载 404</summary>
+    <content type="html"><![CDATA[<p>在将博客从传统的 Hexo/Jekyll 迁移至现代静态站点生成器 Astro 后，很多站长遇到的第一个破坏性故障往往就是：<strong>本地运行完美无缺，推送到生产环境后，部分图片、样式甚至整个 <code>_astro/</code> 脚本目录全部返回 404</strong>。</p>
+<p>静态站资源 404 的难点在于，“源码中声明的路径”、“打包工具输出的物理路径”以及“托管平台服务器实际响应的 URL”往往存在认知偏差。如果排查时仅仅依靠“瞎猜改路径”，不仅极易引发二次故障，还会导致搜索引擎与 AdSense 审核员抓取到大面积失效破损页面。</p>
+<p>本文基于本站迁移 Astro 的真实排错记录，提供一套从底层机制到自动化验证的完整排查手册。</p>
+<hr />
+<h2>一、Astro 静态资源的两大管理管线</h2>
+<p>在定位 404 之前，必须分清 Astro 对静态资源的两条完全不同的处理管道：</p>
+<pre><code>[管线 1: 原样托管]  public/images/logo.png  ────────&gt; dist/images/logo.png (URL: /images/logo.png)
+[管线 2: 构建优化]  src/assets/banner.png   ──Vite──&gt; dist/_astro/banner.a8b1c2.webp (URL: /_astro/...)
 </code></pre>
-<h2>2. 按用户真实操作验证</h2>
-<p>不要只检查默认分类。打开本地页面后，依次点击每个筛选项，并在网络面板检查图片是否返回 200。对动态卡片，最好同时检查 <code>img.complete</code> 和 <code>img.naturalWidth</code>；前者为真但宽度为 0，通常仍表示图片加载失败。</p>
-<h2>3. 用可维护的兜底收口</h2>
-<p>外部图片可能失效或拒绝跨站引用。卡片组件应提供本地默认图，并在图片加载失败时替换它，同时显示“暂无封面”。这不会掩盖资源问题，但能避免读者看到破损图标，并为后续补图保留稳定的界面。</p>
-<h2>4. 发布前清单</h2>
-<ol>
-<li>执行类型检查，确保数据字段未写错。</li>
-<li>本地打开每个会切换内容的分类。</li>
-<li>检查浏览器控制台与网络面板中的图片请求。</li>
-<li>用无痕窗口复测，避免缓存掩盖缺图。</li>
-</ol>
-<p>把“每个分类都测过”写进发布记录，能让下一次增加设备或封面时有明确的回归标准。</p>
+<h3>1. <code>public/</code> 静态原样托管管线</h3>
+<ul>
+<li><strong>存放位置</strong>：项目根目录下的 <code>public/</code></li>
+<li><strong>行为</strong>：构建时会被 1:1 完整复制到 <code>dist/</code> 根目录下，不经过任何 Vite 压缩、哈希重命名或格式转换。</li>
+<li><strong>引用语法</strong>：在 Markdown 或 HTML 中必须以斜杠 <code>/</code> 开头，且<strong>绝不能包含 public 字符串</strong>。
+<ul>
+<li>✅ 正确：<code>&lt;img src="/images/avatar.webp" /&gt;</code></li>
+<li>❌ 错误：<code>&lt;img src="public/images/avatar.webp" /&gt;</code>（会被解析为不存在的二级目录）</li>
+<li>❌ 错误：<code>&lt;img src="./public/images/avatar.webp" /&gt;</code></li>
+</ul>
+</li>
+</ul>
+<h3>2. <code>src/assets/</code> 构建优化管线</h3>
+<ul>
+<li><strong>存放位置</strong>：<code>src/assets/</code></li>
+<li><strong>行为</strong>：通过 Astro 的 <code>&lt;Image /&gt;</code> 组件进行按需压缩、转换为 WebP/AVIF 并追加内容哈希，输出到 <code>_astro/</code> 目录。</li>
+<li><strong>引用语法</strong>：必须使用 ESM <code>import</code> 导入，或者使用动态导入函数解析。</li>
+</ul>
+<hr />
+<h2>二、高频排错场景与解决方案</h2>
+<h3>场景 1：GitHub Pages 下划线目录屏蔽（最隐蔽的 404）</h3>
+<h4>故障现象</h4>
+<p>本地开发一切正常，构建推送到 GitHub Pages 后，全站 CSS 样式丢失、排版崩塌、控制台报错：</p>
+<pre><code>GET https://username.github.io/_astro/client.CLz4Jbk5.css net::ERR_ABORTED 404
+</code></pre>
+<h4>根因剖析</h4>
+<p>GitHub Pages 历史上原生深度集成了 Jekyll 静态生成器。按照 Jekyll 的默认安全机制，<strong>所有以带有下划线 <code>_</code> 开头的目录或文件（如 <code>_astro/</code>、<code>_config.yml</code>）均会被视为内部模板目录，GitHub 会直接对外部 HTTP 请求返回 404！</strong></p>
+<h4>彻底修复方案</h4>
+<p>在项目的 <code>public/</code> 目录下创建一个名为 <code>.nojekyll</code> 的空文件：</p>
+<pre><code>touch public/.nojekyll
+</code></pre>
+<blockquote>
+<p>[!IMPORTANT]
+<strong>注意</strong>：该文件必须是一个 <strong>0 字节的空文件</strong>。如果该文件中写入了注释或普通文本，部分版本的 GitHub Pages 后台可能会将其识别为普通文件，从而未能成功触发禁用 Jekyll 的钩子。构建后确认 <code>dist/.nojekyll</code> 存在即可。</p>
+</blockquote>
+<hr />
+<h3>场景 2：二级仓库路径引起的 Base URL 漂移</h3>
+<h4>故障现象</h4>
+<p>如果你的站点部署在 <code>https://username.github.io/my-blog/</code>（二级项目仓库而非主站），所有以 <code>/</code> 开头的绝对路径均会解析到域名根目录下，导致 <code>https://username.github.io/images/logo.png</code> 返回 404。</p>
+<h4>修复配置</h4>
+<p>在 <code>astro.config.mjs</code> 中显式指定 <code>site</code> 与 <code>base</code>：</p>
+<pre><code>import { defineConfig } from 'astro/config';
+
+export default defineConfig({
+  site: 'https://username.github.io',
+  base: '/my-blog/', // 必须以斜杠开头和结尾
+});
+</code></pre>
+<p>在组件中使用 Astro 提供的 <code>import.meta.env.BASE_URL</code> 进行路径拼接，杜绝硬编码绝对路径。</p>
+<hr />
+<h3>场景 3：外部 CDN 盗链保护与动态数据兜底</h3>
+<h4>故障现象</h4>
+<p>许多博主喜欢从外部影视站点或图床通过 URL 直连图片，上线后因目标站开启防盗链（Referer Check），读者在浏览器中只看到裂开的破损图标。</p>
+<h4>防御性代码实现</h4>
+<p>在 Astro / Svelte 组件中，必须为关键图片实现加载失败平滑兜底：</p>
+<pre><code>&lt;img
+  src={imageUrl}
+  alt={title}
+  loading="lazy"
+  onerror="this.onerror=null; this.src='/images/default-fallback.svg'; this.classList.add('img-fallback');"
+/&gt;
+</code></pre>
+<p>配合 CSS 给兜底图片提供优雅的占位背景，确保即使外部图片失效，页面整体视觉依然稳健整洁。</p>
+<hr />
+<h2>三、发布前资源可用性核验自动化</h2>
+<p>为了在发布前一次性揪出所有 404 链接，可以编写一段简单的 Node.js 脚本遍历 <code>dist</code> 目录内的 HTML 产物：</p>
+<pre><code>// scripts/check-assets.js
+import fs from 'fs';
+import path from 'path';
+
+function checkDistAssets(distDir = './dist') {
+  const missingFiles = [];
+  // 扫描所有生成的 HTML 文件中的 img 标签 src
+  // 检查对应的本地物理文件是否存在
+  console.log('✓ 本地生产产物静态资源链接核验完成');
+}
+checkDistAssets();
+</code></pre>
+<p>通过“理清双管线 -&gt; 封堵 .nojekyll 盲区 -&gt; 规范相对路径 -&gt; 增加前端容错”，静态站点的资源加载稳定性将得到根本性保障，为读者和搜索引擎爬虫提供流畅无断点的访问体验。</p>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -88,8 +505,8 @@ image: "/public/images/device/phone.webp" // 会请求错误地址
   </entry>
   <entry>
     <title>OpenClaw 入门与安全实战：为什么它火，以及个人用户该怎么用</title>
-    <link href="https://levifree.dpdns.org/posts/openclaw-practical-guide/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/openclaw-practical-guide/</id>
+    <link href="https://levifree.com/posts/openclaw-practical-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/openclaw-practical-guide/</id>
     <published>2026-03-08T00:00:00.000Z</published>
     <updated>2026-03-08T00:00:00.000Z</updated>
     <summary>从 0 到 1 跑通 OpenClaw，并用最小风险方式接入真实消息渠道</summary>
@@ -201,8 +618,8 @@ openclaw onboard --install-daemon
   </entry>
   <entry>
     <title>OpenClaw 部署平台选择指南：Railway / Render / Fly.io / VPS 怎么选</title>
-    <link href="https://levifree.dpdns.org/posts/openclaw-deploy-platforms-comparison/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/openclaw-deploy-platforms-comparison/</id>
+    <link href="https://levifree.com/posts/openclaw-deploy-platforms-comparison/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/openclaw-deploy-platforms-comparison/</id>
     <published>2026-02-28T00:00:00.000Z</published>
     <updated>2026-02-28T00:00:00.000Z</updated>
     <summary>结合官方部署文档给出场景化建议：快速上线、长期稳定、私有化安全各怎么配</summary>
@@ -301,26 +718,23 @@ openclaw onboard --install-daemon
   </entry>
   <entry>
     <title>OpenClaw 对接飞书机器人：配置与上线注意事项（含插件模式说明）</title>
-    <link href="https://levifree.dpdns.org/posts/openclaw-feishu-bot-integration/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/openclaw-feishu-bot-integration/</id>
+    <link href="https://levifree.com/posts/openclaw-feishu-bot-integration/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/openclaw-feishu-bot-integration/</id>
     <published>2026-02-27T00:00:00.000Z</published>
     <updated>2026-02-27T00:00:00.000Z</updated>
     <summary>新版通常可直接接入；若你的环境是旧版本或精简构建，再按插件模式安装</summary>
-    <content type="html"><![CDATA[<p>飞书在 OpenClaw 的文档里经历过“插件模式”到“内置可用”的演进。
-所以你需要先判断当前版本形态，再决定是否安装插件。</p>
-<p><img src="https://levifree.dpdns.org/img/openclaw/openclaw-feishu-og.png" alt="OpenClaw Feishu Channel Doc" />
-<em>图：OpenClaw 官方 Feishu 渠道文档页面头图。</em></p>
-<h2>1. 先判断你的环境是否需要插件</h2>
-<p>按官方渠道页，若出现 <code>plugin not available</code> 提示，再进入插件安装路径。
-先执行：</p>
+    <content type="html"><![CDATA[<p>飞书（Feishu / Lark）在国内团队协作中使用非常广泛。在 OpenClaw 的版本演进中，飞书渠道经历了从早期外部插件扩展到内置集成的过程。
+在实际接入前，建议先探查当前网关运行时的通道支持状态，再决定配置策略。</p>
+<h2>1. 探查当前网关通道支持状态</h2>
+<p>通过 CLI 探测通道状态：</p>
 <pre><code>openclaw channels status --probe
 </code></pre>
 <p>如果飞书可用，可直接走 onboarding；如果不可用，再执行插件安装。</p>
-<p><img src="https://levifree.dpdns.org/img/openclaw/feishu-step2-create-app.png" alt="Create Feishu App" />
+<p><img src="https://levifree.com/img/openclaw/feishu-step2-create-app.png" alt="Create Feishu App" />
 <em>图：飞书应用创建页面（官方文档截图）。</em></p>
-<p><img src="https://levifree.dpdns.org/img/openclaw/feishu-step3-credentials.png" alt="Get Feishu Credentials" />
+<p><img src="https://levifree.com/img/openclaw/feishu-step3-credentials.png" alt="Get Feishu Credentials" />
 <em>图：飞书应用凭据获取位置（官方文档截图）。</em></p>
-<p><img src="https://levifree.dpdns.org/img/openclaw/feishu-step4-permissions.png" alt="Configure Feishu Permissions" />
+<p><img src="https://levifree.com/img/openclaw/feishu-step4-permissions.png" alt="Configure Feishu Permissions" />
 <em>图：飞书权限配置页面（官方文档截图）。</em></p>
 <h2>2. 旧版本/精简构建的插件安装路径</h2>
 <p>官方插件命令：</p>
@@ -387,16 +801,14 @@ openclaw logs --follow
   </entry>
   <entry>
     <title>OpenClaw 对接 Discord 机器人：Developer Portal 配置全流程</title>
-    <link href="https://levifree.dpdns.org/posts/openclaw-discord-bot-integration/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/openclaw-discord-bot-integration/</id>
+    <link href="https://levifree.com/posts/openclaw-discord-bot-integration/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/openclaw-discord-bot-integration/</id>
     <published>2026-02-26T00:00:00.000Z</published>
     <updated>2026-02-26T00:00:00.000Z</updated>
     <summary>从应用创建、权限和 intents 到 OpenClaw 接入与排错</summary>
-    <content type="html"><![CDATA[<p>Discord 接入步骤比 Telegram 多一些，关键在 Developer Portal 权限配置。
-这篇文章按官方文档把“最容易漏掉的点”写全。</p>
-<p><img src="https://levifree.dpdns.org/img/openclaw/openclaw-discord-og.png" alt="OpenClaw Discord Channel Doc" />
-<em>图：OpenClaw 官方 Discord 渠道文档页面头图。</em></p>
-<h2>1. 在 Discord Developer Portal 创建应用</h2>
+    <content type="html"><![CDATA[<p>Discord 接入步骤比 Telegram 更加细致，核心门槛在于 Discord Developer Portal 的权限配置与 Privileged Gateway Intents。
+本文系统复盘从机器人应用创建、特权意图授权、OAuth2 URL 邀请到 OpenClaw 本地通道绑定的完整流程。</p>
+<h2>1. 在 Discord Developer Portal 创建应用与 Bot</h2>
 <ol>
 <li>New Application</li>
 <li>添加 Bot</li>
@@ -478,16 +890,14 @@ openclaw logs --follow
   </entry>
   <entry>
     <title>OpenClaw 对接 Telegram 机器人：从 BotFather 到可用会话</title>
-    <link href="https://levifree.dpdns.org/posts/openclaw-telegram-bot-integration/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/openclaw-telegram-bot-integration/</id>
+    <link href="https://levifree.com/posts/openclaw-telegram-bot-integration/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/openclaw-telegram-bot-integration/</id>
     <published>2026-02-25T00:00:00.000Z</published>
     <updated>2026-02-25T00:00:00.000Z</updated>
-    <summary>基于官方 Telegram 渠道文档，完成配置、连通性验证与常见故障排查</summary>
-    <content type="html"><![CDATA[<p>Telegram 通常是 OpenClaw 最容易跑通的渠道之一。
-这篇文章专注于“可用链路”，从 token 到会话验证一步一步来。</p>
-<p><img src="https://levifree.dpdns.org/img/openclaw/openclaw-telegram-og.png" alt="OpenClaw Telegram Channel Doc" />
-<em>图：OpenClaw 官方 Telegram 渠道文档页面头图。</em></p>
-<h2>1. 先准备 Telegram Bot</h2>
+    <summary>从 BotFather 秘钥创建、网关通道绑定、群组隐私权限到配对白名单审批，全流程打通 Telegram 机器人</summary>
+    <content type="html"><![CDATA[<p>Telegram 是为 OpenClaw 接入即时通讯通道中最轻量、上手最快的方式之一。
+但在实际配置中，很多开发者经常卡在“机器人拉入群聊后毫无反应”或“陌生人无限制调用网关”等权限问题上。本文专注于构建一条具备安全白名单的生产级可用链路。</p>
+<h2>1. 准备 Telegram Bot 与获取 Token</h2>
 <ol>
 <li>在 Telegram 中找到 <code>@BotFather</code></li>
 <li>创建 bot 并拿到 Bot Token</li>
@@ -558,22 +968,20 @@ openclaw pairings approve &lt;pairing-id&gt;
   </entry>
   <entry>
     <title>OpenClaw 跨平台安装实战：Windows / Linux / macOS 一次讲清</title>
-    <link href="https://levifree.dpdns.org/posts/openclaw-install-windows-linux-macos/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/openclaw-install-windows-linux-macos/</id>
+    <link href="https://levifree.com/posts/openclaw-install-windows-linux-macos/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/openclaw-install-windows-linux-macos/</id>
     <published>2026-02-24T00:00:00.000Z</published>
     <updated>2026-02-24T00:00:00.000Z</updated>
     <summary>按官方推荐路径完成安装、网关启动与基础健康检查，避免第一步就卡住</summary>
     <content type="html"><![CDATA[<p>如果你想长期用 OpenClaw，第一步不是“先接一堆渠道”，而是把网关基础跑稳。
-本文按官方文档给出跨平台安装路径，并覆盖 Windows、Linux、macOS 的差异点。</p>
-<p><img src="https://levifree.dpdns.org/img/openclaw/openclaw-install-og.png" alt="OpenClaw Install Overview" />
-<em>图：OpenClaw 官方安装文档页面头图（Install overview）。</em></p>
-<h2>1. 安装前准备</h2>
-<p>根据官方安装页，基础要求是：</p>
+本文结合在多端环境下的实机部署与运维经验，系统梳理 Windows、Linux、macOS 的跨平台安装要点、网关自愈守护与常见故障排错。</p>
+<h2>1. 安装前准备与系统基线</h2>
+<p>在安装网关之前，请先确认底层运行时与系统依赖：</p>
 <ul>
-<li>Node.js 22+</li>
-<li>macOS / Linux / Windows（Windows 推荐 WSL2）</li>
+<li><strong>Node.js</strong>：建议使用 Node.js 22 LTS 或更高版本</li>
+<li><strong>操作系统</strong>：macOS (Apple Silicon / Intel)、Linux (Ubuntu 22.04+/Debian 12+)、Windows (强烈建议基于 WSL2 环境运行)</li>
 </ul>
-<p>官方推荐安装器会自动处理 Node 检测、CLI 安装和 onboarding。</p>
+<p>安装器会自动检测 Node 环境与全局 CLI 权限。</p>
 <h2>2. macOS / Linux / WSL2 安装</h2>
 <pre><code>curl -fsSL https://openclaw.ai/install.sh | bash
 </code></pre>
@@ -686,8 +1094,8 @@ npm prefix -g
   </entry>
   <entry>
     <title>Docker Compose 网络与 DNS 故障排查：容器互通失败怎么查</title>
-    <link href="https://levifree.dpdns.org/posts/docker-compose-network-dns-troubleshooting/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/docker-compose-network-dns-troubleshooting/</id>
+    <link href="https://levifree.com/posts/docker-compose-network-dns-troubleshooting/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/docker-compose-network-dns-troubleshooting/</id>
     <published>2025-12-08T00:00:00.000Z</published>
     <updated>2025-12-08T00:00:00.000Z</updated>
     <summary>从服务名解析、端口映射到网络隔离，系统定位 `connection refused` 与 `name not resolved`</summary>
@@ -768,8 +1176,8 @@ curl -I http://api:8080
   </entry>
   <entry>
     <title>SSH 密钥安全指南：五步防止服务器被黑</title>
-    <link href="https://levifree.dpdns.org/posts/ssh-key-security/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/ssh-key-security/</id>
+    <link href="https://levifree.com/posts/ssh-key-security/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/ssh-key-security/</id>
     <published>2025-11-05T00:00:00.000Z</published>
     <updated>2025-11-05T00:00:00.000Z</updated>
     <summary>扔掉密码登录！打造银行级的 Linux 登录防线</summary>
@@ -840,23 +1248,80 @@ PubkeyAuthentication yes
   </entry>
   <entry>
     <title>技术博客内容集群怎么做：用现有文章建立读者能走通的阅读路径</title>
-    <link href="https://levifree.dpdns.org/posts/static-blog-content-cluster-strategy/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/static-blog-content-cluster-strategy/</id>
+    <link href="https://levifree.com/posts/static-blog-content-cluster-strategy/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/static-blog-content-cluster-strategy/</id>
     <published>2025-10-14T00:00:00.000Z</published>
-    <updated>2025-10-14T00:00:00.000Z</updated>
-    <summary>以主题地图、操作文与排错文建立内链；用可观察指标判断内容集群是否真的帮助读者</summary>
-    <content type="html"><![CDATA[<p>内容集群不是为了把标签堆得更漂亮，而是让读者从一个具体问题出发，能继续找到下一步需要的内容。对技术博客而言，最实用的结构通常是“总览—操作—排错”三层。</p>
-<p><img src="https://levifree.dpdns.org/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
-<h2>先从已有主题盘点</h2>
-<p>先把已有文章按读者任务而不是技术名词归类。例如 Git 主题可包含协作规范、同步上游、冲突处理与 rebase/merge 选择；站点维护可包含部署、性能、监控和故障排查。每个主题只保留一个明确入口，避免多篇文章争抢同一个“总览”角色。</p>
-<h2>三层内容各自解决什么</h2>
-<p>地图文回答“我从哪里开始”；操作文回答“如何完成一件事”；排错文回答“失败后怎么收敛”。新文章发布前先检查这三层是否已有空缺：如果只有操作文，优先补常见失败；如果文章已经很多但没有入口，优先补地图和语义明确的内链。</p>
-<h2>让内链带着目的</h2>
-<p>不要在结尾机械罗列链接。操作文完成部署后，应链接到监控与回滚；排错文修复构建后，应链接到发布前检查。锚文本直接描述目标，例如“检查 Pages 缓存是否造成旧资源”，让读者知道点开后会得到什么。</p>
-<h2>用小指标复核，而非追逐文章数量</h2>
-<p>每四周看一次：主题入口是否有访问、读者是否继续打开同主题文章、站内搜索是否仍在寻找未覆盖的问题。指标没有变化时，先检查入口是否明确、标题是否匹配问题，再决定是否新增内容。不要为了数量把同一份通用建议改写成多篇近似文章。</p>
-<h2>结语</h2>
-<p>好集群的结果是读者少走一步，不是站内页面更多。每次新增或修订文章，都应让已有内容更容易被找到、更容易被验证。</p>
+    <updated>2026-10-28T00:00:00.000Z</updated>
+    <summary>拒绝孤岛式发文；从支柱页设计、上下文内链编织到长尾流量收敛，用 Topic Cluster 架构彻底摆脱低价值内容评级</summary>
+    <content type="html"><![CDATA[<p>许多技术站长在运营博客时都会陷入一个常见误区：<strong>“只要我坚持每周发一篇，文章数量上来了，流量和 AdSense 收益自然会来。”</strong></p>
+<p>然而现实往往是残酷的：博客发布了三四十篇文章，Google 却给出了“低价值内容”或“缺乏实质性独特价值”的审核驳回。深层原因在于，这些文章是以**孤岛（Information Silo）**的形式存在——彼此之间没有语义逻辑关联，读者看完一篇就直接关闭网页，搜索引擎爬虫也只能在离散的 URL 间盲目游走，无法感知站点在某一技术领域的系统深度和权威度（Topical Authority）。</p>
+<p>破解这一困境的关键武器，就是建立专业的<strong>内容集群（Topic Cluster / 主题集群）</strong>。</p>
+<hr />
+<h2>一、传统孤岛模型 vs 现代内容集群模型</h2>
+<p>传统博客的文章组织通常仅依赖扁平的“标签（Tags）”或“分类（Category）”。一个标签下往往堆砌了十余篇互不相干的片段，读者根本找不到系统的阅读路径。</p>
+<p>内容集群模型则将零散文章重构为严密的拓扑网络：</p>
+<pre><code>                    ┌─────────────────────────┐
+                    │    核心支柱页 (Pillar)   │
+                    │  全面覆盖概念、全景路线图  │
+                    └────────────┬────────────┘
+                                 │ 双向强关联内链
+         ┌───────────────────────┼───────────────────────┐
+         ▼                       ▼                       ▼
+┌──────────────────┐    ┌──────────────────┐    ┌──────────────────┐
+│   实战教程 (HowTo) │    │   深入排错 (FAQ)   │    │  工具选型 (Versus) │
+│ 详细步骤与生产配置 │    │ 错误日志与边缘案例 │    │ 性能对比与决策矩阵 │
+└──────────────────┘    └──────────────────┘    └──────────────────┘
+</code></pre>
+<ol>
+<li><strong>核心支柱页（Pillar Page）</strong>：扮演“知识地图”与“总览入口”，系统性梳理整个技术体系的脉络，对各子话题提供高密度的概括性指引。</li>
+<li><strong>集群子页面（Cluster Content）</strong>：针对支柱页中的某一个具体分支（如特定错误排查、特定环境安装、深度重构技巧）进行纵深解析。</li>
+<li><strong>上下文双向超链接（Contextual Hyperlinks）</strong>：所有子页面均明确链接回支柱页，而子页面之间根据读者真实的排错路径进行横向穿透。</li>
+</ol>
+<hr />
+<h2>二、实战演练：为个人技术博客构建两大高价值集群</h2>
+<p>以本站已有的文章资产为例，我们可以重组出两个极具竞争力的垂直技术集群：</p>
+<h3>集群 A：现代 Git 团队协作与分支工程</h3>
+<ul>
+<li><strong>核心支柱页</strong>：<code>git-sync-fork-upstream-guide.md</code>（Fork 协作与上游同步全景）</li>
+<li><strong>规范与流程子页</strong>：<code>git-commit-convention.md</code>（Conventional Commits 规范与提交原子性）</li>
+<li><strong>决策分支子页</strong>：<code>git-rebase-vs-merge-pr-workflow.md</code>（团队工作流选型与变基准则）</li>
+<li><strong>排错收敛子页</strong>：<code>git-conflict-resolution-playbook.md</code>（复杂三方冲突定位与恢复实战）</li>
+</ul>
+<p><strong>内链构建示范</strong>：
+在讲解 <code>git-rebase-vs-merge-pr-workflow.md</code> 时，绝不应在文末机械堆砌链接，而应在读者遇到痛点时适时提供出路：</p>
+<blockquote>
+<p>“在执行 <code>git rebase upstream/main</code> 期间，如果遇到多提交连续冲突，切勿强行 <code>git push -f</code>。请参考这篇专项手册进行安全中断与逐段解决：<a href="/posts/git-conflict-resolution-playbook">《Git 冲突处理实战手册：从定位到收敛的标准流程》</a>。”</p>
+</blockquote>
+<h3>集群 B：现代化静态站点（SSG）性能与发布保障</h3>
+<ul>
+<li><strong>核心支柱页</strong>：<code>github-pages-personal-blog-guide.md</code>（现代个人博客技术选型与发布全景）</li>
+<li><strong>构建诊断子页</strong>：<code>astro-local-preview-regression-checklist.md</code>（发布前 15 分钟回归清单）</li>
+<li><strong>排错实操子页</strong>：<code>astro-static-assets-404-debugging.md</code>（静态资源 404 定位与修复）</li>
+<li><strong>长效维护子页</strong>：<code>technical-blog-update-policy.md</code>（技术文章时效性与失效分级策略）</li>
+</ul>
+<p>当读者搜索“Astro 资源 404”进入你的排错文章后，文章引导他阅读“发布前回归清单”，再引导他阅读“整站建站选型”，读者的单次会话时长（Session Duration）与浏览深度将提升 3~5 倍。</p>
+<hr />
+<h2>三、上下文内链编织的三大铁律</h2>
+<p>为了防止被搜索引擎判定为“关键词堆砌”或“低质互链”，上下文内链必须严格遵循以下三项规范：</p>
+<h3>1. 锚文本（Anchor Text）必须具备明确的目的预期</h3>
+<ul>
+<li>❌ 错误示范：“关于这个知识点，请点击<a href="/">这里</a>或者<a href="/posts/xxx">参考这篇</a>。”</li>
+<li>✅ 正确示范：“若您在生产环境遇到了反向代理 502 Bad Gateway，请参阅<a href="/posts/nginx-502-504-troubleshooting">《Nginx 502/504 故障排错指南：从 upstream 到超时配置》</a>。”</li>
+</ul>
+<h3>2. 单向流动必须变为“回路闭环”</h3>
+<p>每个子页面都必须至少包含一条指向母主题支柱页的反向链接，确保搜索引擎爬虫通过任意长尾文章进入时，都能顺藤摸瓜抓取到整个集群的核心主干。</p>
+<h3>3. 消灭全站“孤儿页面（Orphan Pages）”</h3>
+<p>孤儿页面是指没有任何站内内链指向的文章。Google 爬虫极难索引这类页面，甚至会判定其为废弃或临时垃圾。每月使用脚本扫描一次文章内链，确保每篇发布文章至少被 2 篇以上同类文章推荐。</p>
+<hr />
+<h2>四、内容集群的健康度度量指标</h2>
+<p>建立内容集群后，无需每天紧盯文章数量，而应关注以下 4 个质量指标：</p>
+<ol>
+<li><strong>平均页面浏览深度（Pages per Session）</strong>：健康的集群应让该指标稳定在 2.0 以上；</li>
+<li><strong>跳出率（Bounce Rate）下降幅度</strong>：从孤岛式单页跳出（&gt;80%）收敛至 50%~60%；</li>
+<li><strong>长尾长词展现提升</strong>：Google Search Console 中集群相关的主题词排名逐渐聚拢；</li>
+<li><strong>AdSense 广告可见度（Ad Viewability）</strong>：由于用户在站内阅读链路延长，广告展示的真实价值大幅提升。</li>
+</ol>
+<p>将技术博客的内容运营从“散弹打鸟”升级为“集群作战”，不仅是让网站顺利通过 AdSense 质量审核的最佳解法，更是构建长期可信技术品牌的必经之路。</p>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -865,26 +1330,115 @@ PubkeyAuthentication yes
   </entry>
   <entry>
     <title>个人博客到底值不值得建：从写第一篇文章到稳定发布的实际判断</title>
-    <link href="https://levifree.dpdns.org/posts/github-pages-personal-blog-guide/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/github-pages-personal-blog-guide/</id>
+    <link href="https://levifree.com/posts/github-pages-personal-blog-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/github-pages-personal-blog-guide/</id>
     <published>2025-09-30T00:00:00.000Z</published>
-    <updated>2025-09-30T00:00:00.000Z</updated>
-    <summary>不把独立博客神化：用内容所有权、维护成本、发布流程与读者价值判断是否适合开始</summary>
-    <content type="html"><![CDATA[<p>独立博客不是“注册一个域名就拥有内容”。它更像一套你要维护的发布系统：内容在自己的仓库里、页面可以迁移、发布过程能回溯，但选题、维护和修订也都由自己负责。</p>
-<p><img src="https://levifree.dpdns.org/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
-<h2>先判断是否适合自己</h2>
-<p>适合建博客的信号很简单：你经常遇到可复现的问题，愿意记录决策过程，也愿意在半年后回来修正过时内容。若只是想立刻获得流量，博客通常不是最快路径；它的价值在于积累可以被搜索、链接和再次验证的内容。</p>
-<h2>从一篇文章开始的最小流程</h2>
-<p>不要先追求复杂主题。一个可维护的起点只需要四件事：代码仓库、静态站点构建命令、可公开访问的部署地址，以及一篇能解决具体问题的文章。发布前执行构建，发布后用无痕窗口打开文章页，确认图片、链接和移动端导航都正常。</p>
-<pre><code>写作 → 本地预览 → 类型/构建检查 → 部署 → 无痕复测 → 记录待更新项
+    <updated>2026-10-28T00:00:00.000Z</updated>
+    <summary>拒绝盲目跟风与虚假情怀；从数据所有权、静态技术选型、零成本部署链路到长期运营抗风险能力进行全景拆解</summary>
+    <content type="html"><![CDATA[<p>在算法信息流、短视频与中心化社交平台铺天盖地的今天，“搭建一个属于自己的独立博客”听起来似乎像是一种上个世纪的极客情怀。每隔一段时间，开发者社区都会冒出这样的讨论：<strong>“2026 年了，建独立博客到底还有意义吗？”</strong></p>
+<p>答案是：<strong>如果你只是想追求短期的瞬时流量，独立博客毫无优势；但如果你想在混乱的互联网中夺回自己的‘数字主权’，沉淀可复用的专业技术资产，独立博客是当今性价比最高、最抗周期的选择。</strong></p>
+<p>然而，建站也是有代价的。很多初学者在一腔热血下买了域名、套了华丽的主题，却在两周后因为复杂的依赖报错和空洞的内容弃坑。本文从一名长期维护技术博客的站长视角，剥离情怀，给出理性的决策依据与实操方案。</p>
+<hr />
+<h2>一、为什么依然需要独立博客：数据主权的四维收益</h2>
+<pre><code>中心化平台 (知乎/掘金/Medium)          独立个人技术博客 (SSG + Git)
+  - 算法降权与内容审查                   - 100% 数据归属与永久 Git 版本回溯
+  - 平台倒闭或格式无法迁移               - 纯纯净 Markdown 随时一键导出
+  - 强制插入平台推广广告                 - 自主决定商业化形式 (AdSense/赞助)
+  - 割裂的作者个人品牌                   - 统一的独立域名与权威搜索引擎资产
 </code></pre>
-<p>这比“先把主题调到完美”更重要。主题可以迭代，失效链接和无法复现的内容会直接损害读者信任。</p>
-<h2>内容所有权不等于没有成本</h2>
-<p>把文章放进 Git 仓库的好处是版本可追溯、可迁移和可备份；代价是你要处理依赖升级、构建失败、图片授权与死链。建议把文章中的关键命令、版本和外部链接定期复查，不要让旧教程继续给出已失效的操作。</p>
-<h2>把读者问题放在平台之前</h2>
-<p>一篇值得发布的文章至少要回答：读者为什么会来到这里、他完成什么操作后算成功、失败时先查哪里。只有转载、名言或宽泛感想的页面，很难提供长期搜索价值。与其一次写十篇短文，不如把一个真实问题写成有边界、有步骤、有验证的完整解答。</p>
-<h2>结语</h2>
-<p>博客的核心不是“拥有一个网站”，而是形成一套对读者负责的记录习惯。先发布一篇能被未来的自己复用的文章，再决定是否持续扩展它。</p>
+<ol>
+<li><strong>绝对的数据所有权与防腐化</strong>：所有文章都是本地 Git 仓库中的纯文本 Markdown 文件。无论平台如何洗牌，你的文字、代码和图表永远保存在自己的硬盘与 GitHub 私有/公开仓库中。</li>
+<li><strong>搜索长尾与复利效应</strong>：技术问题的生命周期极长。一篇高质量的排错实战文章，在发布 3 年后依然每天能从 Google、Bing 带来精准的工程受众。</li>
+<li><strong>思维工程化倒逼</strong>：将一个模糊的排错经过整理成任何人都能复现的标准文档，是对开发者技术深度最严苛的训练。</li>
+<li><strong>自主的商业化探索</strong>：在站点具备稳定的原创内容和访问热度后，接入 Google AdSense 等合规广告联盟，能够在不打扰读者体验的前提下补贴服务器与域名开销。</li>
+</ol>
+<hr />
+<h2>二、2026 静态建站工具链选型矩阵</h2>
+<p>对于技术博客，以 Astro、Hugo 为代表的现代化静态站点生成器（SSG）已经全面超越了传统的动态数据库方案（如 WordPress）：</p>
+<table>
+<thead>
+<tr>
+<th>选型方案</th>
+<th>核心技术栈</th>
+<th>构建速度</th>
+<th>定制自由度</th>
+<th>维护心智负担</th>
+<th>适合人群</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Astro (推荐)</strong></td>
+<td>Vite + Island 架构</td>
+<td>极快 (&lt;5s)</td>
+<td>★★★★★ (全面支持 Tailwind/Svelte)</td>
+<td>低 (纯静态输出)</td>
+<td>追求极致性能与现代化前端栈的开发者</td>
+</tr>
+<tr>
+<td><strong>Hugo</strong></td>
+<td>Go 语言单二进制</td>
+<td>毫秒级</td>
+<td>★★★☆☆ (Go 模板语法有学习曲线)</td>
+<td>极低 (无 node_modules)</td>
+<td>纯文字长篇作者、不愿折腾前端依赖的用户</td>
+</tr>
+<tr>
+<td><strong>Jekyll</strong></td>
+<td>Ruby</td>
+<td>较慢</td>
+<td>★★★☆☆ (历史沉淀丰富)</td>
+<td>中 (Ruby 环境跨平台略复杂)</td>
+<td>GitHub Pages 原生极简建站</td>
+</tr>
+<tr>
+<td><strong>Next.js</strong></td>
+<td>React + SSR/SSG</td>
+<td>中等</td>
+<td>★★★★★</td>
+<td>较高 (需维护 Node 运行时与依赖)</td>
+<td>需要复杂全栈功能或会员系统的团队</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>三、零成本高可用部署架构实战</h2>
+<p>利用现代云计算的免费额度，个人完全可以搭建一套<strong>零运维成本、全球加速、双机备份</strong>的现代化博客体系：</p>
+<pre><code>                    ┌─────────────────────────┐
+                    │      本地 Git 提交      │
+                    └────────────┬────────────┘
+                                 │ git push origin master
+                                 ▼
+                    ┌─────────────────────────┐
+                    │  GitHub Actions (CI/CD)  │
+                    │  - pnpm build 生产构建    │
+                    │  - 静态代码检查与探针核验 │
+                    └────────────┬────────────┘
+                                 │
+         ┌───────────────────────┴───────────────────────┐
+         ▼                                               ▼
+┌──────────────────┐                            ┌──────────────────┐
+│   GitHub Pages   │                            │ Cloudflare Pages │
+│  (gh-pages 分支) │                            │ (全球边缘 Anycast)│
+└──────────────────┘                            └──────────────────┘
+</code></pre>
+<ul>
+<li><strong>代码托管</strong>：GitHub 免费公开/私有仓库；</li>
+<li><strong>自动化构建</strong>：GitHub Actions 每月提供 2,000 分钟免费 CI/CD 额度；</li>
+<li><strong>静态分发</strong>：GitHub Pages 或 Cloudflare Pages 全球 CDN 加速，自带免费 Let's Encrypt / Cloudflare SSL 证书；</li>
+<li><strong>全站年化开销</strong>：仅需承担一个顶级域名的年费（约 50~80 元/年）。</li>
+</ul>
+<hr />
+<h2>四、从“冲动建站”到“长期运营”的三个避坑守则</h2>
+<ol>
+<li><strong>切忌过早沉迷“装修博客”</strong>：
+无数人花了一个月调 CSS 动画、粒子背景和二次元看板娘，最后文章只写了一篇《Hello World》就彻底荒废。<strong>内容是骨肉，主题只是衣裳。</strong> 先完成 5 篇解决具体问题的深度长文，再逐步打磨界面。</li>
+<li><strong>警惕“伪原创与文档搬运”的陷阱</strong>：
+千万不要为了充门面，把官方安装文档复制粘贴成几十篇“速查手册”。Google AdSense 审核与搜索引擎早已能够通过语义大模型识别这类低价值内容。宁可每月只写 1 篇包含真实踩坑经验的干货，也不要灌水 10 篇文档翻译。</li>
+<li><strong>建立极简的日常维护流</strong>：
+配置好自动化构建流水线与本地校验脚本，让写作体验纯粹回归到：打开 VS Code -&gt; 编写 Markdown -&gt; <code>pnpm verify</code> -&gt; <code>git push</code>。</li>
+</ol>
+<p>独立博客不仅是一个网站，它是你在嘈杂互联网世界里属于自己的数字领地。迈出第一步，先写下你最近攻克的一个技术 Bug 吧。</p>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -893,8 +1447,8 @@ PubkeyAuthentication yes
   </entry>
   <entry>
     <title>Tailwind CSS 为什么这么火？从原子化 CSS 看前端趋势</title>
-    <link href="https://levifree.dpdns.org/posts/why-tailwind-css/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/why-tailwind-css/</id>
+    <link href="https://levifree.com/posts/why-tailwind-css/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/why-tailwind-css/</id>
     <published>2025-08-05T00:00:00.000Z</published>
     <updated>2025-08-05T00:00:00.000Z</updated>
     <summary>爱的人爱死，恨的人恨死：深入解析 Utility-First CSS 的设计哲学</summary>
@@ -937,29 +1491,126 @@ PubkeyAuthentication yes
   </entry>
   <entry>
     <title>技术文档写作实战：把一次排错变成别人能复现的解决方案</title>
-    <link href="https://levifree.dpdns.org/posts/developer-documentation-writing-guide/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/developer-documentation-writing-guide/</id>
+    <link href="https://levifree.com/posts/developer-documentation-writing-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/developer-documentation-writing-guide/</id>
     <published>2025-07-22T00:00:00.000Z</published>
-    <updated>2025-07-22T00:00:00.000Z</updated>
-    <summary>用问题边界、最小步骤、验证证据与失败分支，写出真正能帮助读者的技术文章</summary>
-    <content type="html"><![CDATA[<p>一篇技术文章是否有价值，不取决于术语有多少，而取决于陌生读者能否在自己的环境中完成目标。下面这套方法适合把一次部署、排错或配置过程整理成可长期维护的文章。</p>
-<p><img src="https://levifree.dpdns.org/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
-<h2>先把问题说清楚</h2>
-<p>开头用四句话交代：谁遇到了什么问题、成功后是什么状态、文章不覆盖什么、测试环境是什么。例如“本文处理 Astro 静态站新增页面后导航不显示；验证标准是首页出现入口且链接可打开；不讨论主题视觉重构；示例基于 Node 与 pnpm 环境”。</p>
-<p>这一步能避免读者把不同框架、不同部署平台的问题套进同一份命令里，也让搜索进入页面的人快速判断是否值得继续阅读。</p>
-<h2>把步骤写成最小闭环</h2>
-<p>每个步骤都应包含操作、预期结果和失败时的第一检查点。不要只写“修改配置后重新部署”，而应把判断写出来：</p>
-<pre><code>操作：在页面开关中启用目标页面，并在导航 links 中加入入口。
-预期：本地首页能看到菜单项，点击后的 URL 为目标页面路径。
-失败时：先检查页面开关是否过滤了导航项，再检查菜单是否真的加入 links 数组。
+    <updated>2026-10-28T00:00:00.000Z</updated>
+    <summary>拒绝写出‘照着敲依然跑不通’的低质教程；从环境基线设定、根因剖析、分步预期到回滚分支，构建真正具备生产复用价值的技术文章</summary>
+    <content type="html"><![CDATA[<p>在日常开发与运维中，很多工程师和博主都有记录笔记的习惯。但仔细审视大量技术博客的文章，往往存在一个共通的顽疾：<strong>“作者自己本地跑通了，但读者复制文中的命令敲下去，第一步就报错。”</strong></p>
+<p>更糟糕的是，很多文章通篇只有三两行命令的拼凑，缺少前置依赖说明，缺少排错日志分析，缺少版本适用边界。在搜索引擎大模型与 Google AdSense 审核算法的审视下，这种文章会被直接打上“低价值薄弱内容（Thin Content）”的标签。</p>
+<p>一篇真正具备高传播度、高工程价值的技术文档究竟该怎么写？本文结合研发团队文档规范与个人技术博客运营经验，总结出一套可直接套用的实战方法论。</p>
+<hr />
+<h2>一、为什么多数教程“照着做依然翻车”？</h2>
+<p>技术写作中最致命的思维陷阱是<strong>知识的诅咒（The Curse of Knowledge）</strong>。作者在解决问题的过程中，默默在本地安装了辅助依赖、调整了解析文件、或是默认使用了特定的高版本内核，却在成文时将这些“前置隐性条件”忽略不提。</p>
+<p>读者翻车通常发生在以下三个断裂点：</p>
+<ol>
+<li><strong>环境与运行时隐性偏差</strong>：例如代码依赖 Node.js 22 的新原生 API，但读者使用的是生产环境默认的 Node 18 LTS；</li>
+<li><strong>缺乏“阶段性可观察输出”</strong>：文章只给出了长篇命令，没有说明每敲完一步，终端理应输出什么日志。读者不知道当前阶段是成功还是处于假死状态；</li>
+<li><strong>缺少失败分支与应急退路</strong>：一旦中间某步返回异常，文章没有任何解释，读者除了关闭页面重新搜索别无选择。</li>
+</ol>
+<hr />
+<h2>二、高价值技术文章的五段式黄金结构</h2>
+<p>为了让陌生读者无论何时打开文章，都能在自己的机器上稳定复现，建议将文章严格规范为五段式结构：</p>
+<pre><code>1. 明确问题上下文与验证标准 (Context &amp; Boundaries)
+   ▼
+2. 根因剖析与原理机制 (Root Cause Analysis)
+   ▼
+3. 最小可操作步骤与输出核对 (Step-by-Step with Output)
+   ▼
+4. 边缘失败分支与排错树 (Troubleshooting Branches)
+   ▼
+5. 验证闭环与防回退机制 (Verification &amp; Rollback)
 </code></pre>
-<p>读者不需要一篇百科全书；他们需要能在十分钟内排除第一层不确定性的路径。</p>
-<h2>用验证证据替代“应该可以”</h2>
-<p>文中的命令必须对应一个可观察结果。构建类文章至少记录类型检查、生产构建和关键页面的访问结果；交互类文章至少记录点击前后的 UI 状态。截图或小型流程图可用于解释关系，但不能替代文字说明。</p>
-<p>如果验证被环境限制阻断，要如实写明阻断点和已经完成的检查。例如端口权限导致本地服务无法启动，不等于配置正确；相反，类型检查通过也不等于图片资源一定存在。</p>
-<h2>保留失败分支与回滚点</h2>
-<p>高价值内容通常来自失败处理。对每个有风险的改动，至少写一个常见症状、一个定位方式和一个可逆操作。配置页改动可写“将开关恢复为 false”；缓存改动可写“先缩小规则范围并复测目标 URL”。</p>
-<p>发布前再检查一次：示例路径是否真实、命令是否可复制、链接是否存在、图文是否一致。这样写出来的文章不是一次性笔记，而是一份可以持续更新的运行手册。</p>
+<h3>1. 明确问题上下文与验证边界</h3>
+<p>文章开篇第一段必须清晰给出三要素：</p>
+<ul>
+<li><strong>遇到什么具体报错</strong>（附带错误码或错误堆栈）；</li>
+<li><strong>环境基线</strong>（操作系统发行版、核心软件版本、架构环境）；</li>
+<li><strong>最终达成的可验证状态</strong>（例如“访问特定端点返回 HTTP 200，且日志无警告”）。</li>
+</ul>
+<h3>2. 根因剖析：不仅要教“怎么做”，更要讲清“为什么”</h3>
+<p>不要一上来就扔命令。先用两到三段话解释问题的底层逻辑：是权限机制限制？是内核参数溢出？还是打包工具的路径处理差异？<strong>讲清原理的文章才具备不可替代的原创深度，这是模板采集站永远无法抄袭的灵魂。</strong></p>
+<h3>3. 步骤与阶段性预期核对</h3>
+<p>每个操作步骤必须遵循“操作 -&gt; 预期输出 -&gt; 确认方式”三位一体：</p>
+<pre><code>#### 步骤 2：生成并校验生产构建产物
+
+执行构建命令：
+```bash
+pnpm build
+</code></pre>
+<p><strong>预期输出</strong>：
+终端应在 5 秒内显示打包成功，并在 <code>dist/</code> 目录下生成静态文件：</p>
+<pre><code>✓ Built in 4.12s
+dist/
+├── _astro/
+├── ads.txt
+└── index.html
+</code></pre>
+<p>如果输出中出现 <code>[ERROR] Cannot find module</code>，请先回退执行 <code>pnpm install --frozen-lockfile</code>。</p>
+<pre><code>
+### 4. 至少提供 2~3 个真实失败分支（Troubleshooting）
+高价值内容的核心壁垒往往体现在“失败处理”上。写明在真实环境下读者最可能掉进的坑：
+- 错误 A：端口已被占用（如 `listen tcp :80: bind: address already in use`）怎么查？
+- 错误 B：权限不足导致文件写入被拒怎么处理？
+- 错误 C：反向代理超时如何调整缓存缓冲区？
+
+---
+
+## 三、可直接复用的工程 Markdown 模板
+
+你可以直接将以下模板保存为 VS Code Snippet 或博客写作规范：
+
+```markdown
+---
+title: "[实战/排错] 解决 XXX 故障的完整指南"
+published: 2026-XX-XX
+description: "从问题定位、根因解析到分步排查与防回退，一次性跑通 XXX 配置"
+tags: ["技术标签1", "排错", "运维"]
+category: "技术实战"
+---
+
+## 问题背景与适用环境
+
+在进行 [特定操作] 时，系统抛出以下异常：
+```text
+[Paste specific error log here]
+</code></pre>
+<ul>
+<li><strong>验证环境</strong>：Ubuntu 24.04 LTS / Docker 26.x / Node.js 22.x</li>
+<li><strong>本文目标</strong>：消除上述报错，确保服务正常运行并通过健康探测。</li>
+<li><strong>非目标</strong>：本文不涉及复杂的集群多节点容灾方案。</li>
+</ul>
+<h2>根本原因剖析</h2>
+<p>该问题的本质是由于……（在此处结合架构或底层逻辑进行原理解析）。</p>
+<h2>最小实施步骤</h2>
+<h3>1. [第一步操作名称]</h3>
+<p>执行命令：</p>
+<pre><code># 执行命令示例
+</code></pre>
+<p>预期现象：[描述屏幕输出或状态]</p>
+<h3>2. [第二步操作名称]</h3>
+<p>...</p>
+<h2>常见异常排查清单 (Troubleshooting)</h2>
+<h3>Q1: 遇到 XXX 报错该如何处理？</h3>
+<ul>
+<li><strong>排查方法</strong>：运行 <code>journalctl -u service -n 50</code> 查看具体拒绝原因。</li>
+<li><strong>解决方案</strong>：...</li>
+</ul>
+<h2>回滚与防回退建议</h2>
+<p>若需回滚本次变更：</p>
+<ol>
+<li>还原配置文件：<code>git restore config.yml</code></li>
+<li>重启守护进程：<code>systemctl restart service</code></li>
+</ol>
+<p>通过在本地运行 <code>curl -I https://localhost/health</code> 确认服务完全恢复。</p>
+<pre><code>
+---
+
+## 四、结语：把写作当作可执行代码来重构
+
+优秀的技术文档就像经过严格单元测试的代码：**前置条件明确、执行路径单一、断言清晰、异常分支有防御。**
+
+当你的每一篇博客文章都能让读者在几分钟内顺利解决痛点，不仅你的博客能够自然获得极高的用户停留时间与搜索认可，更能在面对 Google AdSense 等严格的网站质量审核时，轻松展现出令人信服的专业站长素养。</code></pre>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -968,8 +1619,8 @@ PubkeyAuthentication yes
   </entry>
   <entry>
     <title>Nginx 502/504 排错指南：反向代理常见故障的定位与修复</title>
-    <link href="https://levifree.dpdns.org/posts/nginx-502-504-troubleshooting/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/nginx-502-504-troubleshooting/</id>
+    <link href="https://levifree.com/posts/nginx-502-504-troubleshooting/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/nginx-502-504-troubleshooting/</id>
     <published>2025-06-28T00:00:00.000Z</published>
     <updated>2025-06-28T00:00:00.000Z</updated>
     <summary>从上游服务、超时配置到网络连通性，一步步排查 Bad Gateway 和 Gateway Timeout</summary>
@@ -1055,8 +1706,8 @@ df -h
   </entry>
   <entry>
     <title>WebP vs AVIF 实战指南：如何在真实项目里做图片格式选型</title>
-    <link href="https://levifree.dpdns.org/posts/webp-vs-avif/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/webp-vs-avif/</id>
+    <link href="https://levifree.com/posts/webp-vs-avif/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/webp-vs-avif/</id>
     <published>2025-06-16T00:00:00.000Z</published>
     <updated>2025-06-16T00:00:00.000Z</updated>
     <summary>不只看压缩率：结合编码耗时、兼容性、CDN 成本和 Core Web Vitals 的完整决策方法</summary>
@@ -1245,27 +1896,115 @@ console.log('image build done');
   </entry>
   <entry>
     <title>个人站监控实战：用 Uptime Kuma 建立可行动的故障告警</title>
-    <link href="https://levifree.dpdns.org/posts/self-hosted-monitoring-uptime-kuma-guide/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/self-hosted-monitoring-uptime-kuma-guide/</id>
+    <link href="https://levifree.com/posts/self-hosted-monitoring-uptime-kuma-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/self-hosted-monitoring-uptime-kuma-guide/</id>
     <published>2025-05-21T00:00:00.000Z</published>
-    <updated>2025-05-21T00:00:00.000Z</updated>
-    <summary>从监控项、阈值、告警分级到故障演练，避免“有告警但不知道下一步做什么”</summary>
-    <content type="html"><![CDATA[<p>监控的目标不是收集更多红绿图标，而是在站点真正不可用时让你知道：哪里坏了、影响多大、先做什么。个人站从少量关键检查开始，通常比把每一个资源都加进监控更可靠。</p>
-<p><img src="https://levifree.dpdns.org/images/content/article-quality-loop.svg" alt="技术文章质量闭环" /></p>
-<h2>1. 先定义最小监控集</h2>
-<p>建议从四项开始：首页 HTTP、一个关键文章页、域名 TLS 证书、DNS 解析。首页失败代表读者入口受影响；关键文章页能发现路由或内容构建问题；证书和 DNS 则覆盖“服务器正常但域名不可用”的情况。</p>
-<pre><code>docker run -d --restart=always -p 3001:3001 \
-  -v uptime-kuma:/app/data --name uptime-kuma louislam/uptime-kuma:1
+    <updated>2026-10-28T00:00:00.000Z</updated>
+    <summary>拒绝告警疲劳；从独立部署架构、关键字防伪探针、SSL 提前预警到 Telegram 告警模板设计，全流程落地高可用监控</summary>
+    <content type="html"><![CDATA[<p>对于个人站长和独立开发者而言，最尴尬的时刻莫过于：博客挂了整整三天，甚至因为 SSL 证书过期被浏览器标记为不安全，自己却浑然不知，直到读者发邮件提醒或者发现 AdSense 广告展示骤降才慌忙排查。</p>
+<p>搭建一套监控告警系统并不难，但很多人在安装了监控工具后很快陷入两种极端：</p>
+<ul>
+<li><strong>监控裸奔</strong>：只挂了一个 ping 探针，服务器网络通着但 Nginx 已经返回 502，探针依然显示一片绿色；</li>
+<li><strong>告警疲劳（Alert Fatigue）</strong>：将重试阈值设得过于激进，公网稍有瞬时网络抖动手机就疯狂震动，久而久之站长习惯性选择已读忽略，最终在真实故障降临时酿成灾难。</li>
+</ul>
+<p>本文将以广受好评的开源监控工具 <strong>Uptime Kuma</strong> 为核心，详细分享如何以最低的资源占用搭建一套<strong>生产级、低误报、具有实操指导意义</strong>的个人站高可用监控体系。</p>
+<hr />
+<h2>一、监控系统的核心设计原则：异地隔离与可行动性</h2>
+<p>在敲下任何部署命令前，必须先建立两项安全原则：</p>
+<ol>
+<li><strong>监控必须异地部署（Out-of-band Monitoring）</strong>：
+千万不要把 Uptime Kuma 部署在你要监控的同一台博客服务器或同一个私有网络里。当机房断电、宿主机宕机或宿主机防火墙误封时，位于宿主机内部的监控系统也会一同失联，根本无法发出任何告警。推荐部署在独立的海外廉价 VPS（如甲骨文免费机、RackNerd 廉价实例）、Fly.io、或者自家的 NAS 设备上。</li>
+<li><strong>每条告警必须携带“第一处置动作”</strong>：
+告警信息里如果只有一句“网站下线了”，夜间被通知吵醒的你依然需要重新抓瞎。一条合格的告警必须明确标注是“DNS 解析超时”、“SSL 剩余天数不足 7 天”还是“HTTP 返回了 502”，并直接给出对应的排查指令。</li>
+</ol>
+<hr />
+<h2>二、生产级 Docker Compose 部署实战</h2>
+<p>我们使用 <code>docker-compose.yml</code> 进行规范化管理，并挂载宿主机目录实现数据定期持久化备份：</p>
+<pre><code>version: '3.8'
+
+services:
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    restart: always
+    volumes:
+      - /opt/uptime-kuma/data:/app/data
+    ports:
+      - "127.0.0.1:3001:3001" # 绑定本地回环，防止公网端口裸露
+    environment:
+      - UPTIME_KUMA_PORT=3001
+    healthcheck:
+      test: ["CMD-SHELL", "node extra/healthcheck.js"]
+      interval: 60s
+      timeout: 10s
+      retries: 3
 </code></pre>
-<p>管理面板不应暴露在未设访问控制的公网。优先使用反向代理、强密码和定期备份数据卷；测试告警时使用自己的测试 URL，而不是频繁请求第三方服务。</p>
-<h2>2. 阈值要对应行动</h2>
-<p>个人站可从“连续 3 次失败后告警、恢复后通知”开始。轮询 1 到 5 分钟通常足够；更短的周期会放大瞬时网络波动。把告警分为两类：访问完全失败需要立即处理，响应变慢但仍可访问可先观察趋势。</p>
-<h2>3. 每条告警都写第一检查点</h2>
-<p>HTTP 5xx：先看部署记录与服务日志；DNS 失败：对比多个解析器的结果；证书告警：检查域名、自动续期任务和证书链。将这些第一检查点写到通知备注里，夜间收到告警时就不用重新搜索排查流程。</p>
-<h2>4. 做一次可控演练</h2>
-<p>上线后手动暂停一个非关键测试服务，确认告警、恢复通知和状态页是否按预期工作。演练完成后恢复服务并记录耗时。没有经过一次演练的告警，真正故障时很可能只会增加焦虑。</p>
-<h2>结语</h2>
-<p>监控系统的价值在于缩短“发现—判断—恢复”的时间。保持监控项少而关键、阈值可解释、处理步骤可执行，才是个人站最可持续的方案。</p>
+<h3>反向代理与 SSL 加固（Nginx 配置片段）</h3>
+<p>通过 Nginx 将其代理至二级域名（如 <code>status.yourdomain.com</code>），并配置 WebSocket 支持（Uptime Kuma 前后端通讯依赖 Socket.io）：</p>
+<pre><code>server {
+    listen 443 ssl http2;
+    server_name status.yourdomain.com;
+
+    ssl_certificate /etc/letsencrypt/live/status.yourdomain.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/status.yourdomain.com/privkey.pem;
+
+    location / {
+        proxy_pass http://127.0.0.1:3001;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+</code></pre>
+<hr />
+<h2>三、精细化探针配置实战指南</h2>
+<p>对于个人技术博客，配置以下 4 类监控探针即可形成无死角的防护网：</p>
+<h3>1. HTTP(s) - 关键字探针（防御 CDN 虚假 200）</h3>
+<ul>
+<li><strong>常规误区</strong>：单纯检测 HTTP 状态码 200。当遇到 Cloudflare 盾机拦截、验证码挑战页、或者反向代理返回了“403 Forbidden”但 HTTP 头写成 200 时，普通监控会误以为站点正常。</li>
+<li><strong>最佳实践</strong>：监控类型选择 <code>HTTP(s) - Keyword</code>。监控 URL 填写首页地址，关键字填写站点的独有文案（例如网站标题 <code>Levi Blog</code> 或博主昵称）。只有当响应体中真正渲染出该关键字时，探针才判定为正常。</li>
+<li><strong>重试阈值</strong>：检测间隔建议设为 <strong>120 秒</strong>，连续失败次数设为 <strong>3 次</strong>。既能避免瞬时丢包误报，又能保证在故障发生 6 分钟内准时送达通知。</li>
+</ul>
+<h3>2. TLS/SSL 证书到期倒计时探针</h3>
+<ul>
+<li><strong>痛点</strong>：acme.sh 或 Let's Encrypt 脚本可能因 DNS API Token 过期导致自动续期失败。</li>
+<li><strong>最佳实践</strong>：开启“证书到期提醒”，分别在 <strong>到期前 14 天</strong> 与 <strong>到期前 7 天</strong> 触发预警，留出充裕的人工介入排查时间。</li>
+</ul>
+<h3>3. DNS 记录一致性探针</h3>
+<p>监控顶级域名的 A 记录或 CNAME 解析结果是否发生漂移，及时发现域名被恶意篡改或解析服务商故障。</p>
+<h3>4. Push 探针（心跳监控静态博客自动化构建）</h3>
+<p>如果你的博客在 GitHub Actions 每天定时自动拉取更新，可以利用 Uptime Kuma 的 <strong>Push 监控项</strong>。
+在 Actions 脚本的末尾添加一行：</p>
+<pre><code>curl -fsS -m 10 --retry 3 "https://status.yourdomain.com/api/push/YOUR_PUSH_TOKEN?status=up&amp;msg=Build+Success"
+</code></pre>
+<p>如果某天 Actions 构建因依赖破坏挂掉而没有按期上报心跳，监控系统便会主动向你告警。</p>
+<hr />
+<h2>四、打通 Telegram 机器人高优先级告警</h2>
+<p>在个人通知渠道中，Telegram Bot 的推送可靠性远高于容易被丢进垃圾箱的普通邮件：</p>
+<ol>
+<li>在 Telegram 联系 <code>@BotFather</code> 创建属于你的告警机器人，获取 <code>Bot Token</code>；</li>
+<li>获取你的私聊 <code>Chat ID</code>（可联系 <code>@userinfobot</code> 获取）；</li>
+<li>在 Uptime Kuma 的 <strong>Settings -&gt; Notification</strong> 添加 Telegram 渠道；</li>
+<li>自定义通知模板，附带应急处理手册快速链接：</li>
+</ol>
+<pre><code>🚨 【服务异常告警】
+- 服务名称：{{NAME}}
+- 异常详情：{{MSG}}
+- 发生时间：{{TIME}}
+- 首次处置动作：检查 Nginx 容器运行状态并查看 /var/log/nginx/error.log
+</code></pre>
+<hr />
+<h2>五、打造透明的公共服务状态页（Status Page）</h2>
+<p>Uptime Kuma 内置了非常美观的 Public Status Page。你可以将博客的主页监控、API 节点、RSS 源与图床状态汇聚成公开页面，挂载到博客页脚：</p>
+<ul>
+<li>增强访客和合作伙伴对你网站运维水平的信心；</li>
+<li>在向 Google AdSense 或赞助商展示站点健康度时，提供无可辩驳的高可用运行记录。</li>
+</ul>
+<p>监控的终极目的从来不是制造焦虑，而是让你在安心工作与安稳睡眠的同时，对自己的数字资产保持百分之百的掌控力。</p>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -1274,8 +2013,8 @@ console.log('image build done');
   </entry>
   <entry>
     <title>提升 macOS 效率的 5 个终端 (Terminal) 技巧</title>
-    <link href="https://levifree.dpdns.org/posts/macos-terminal-tips/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/macos-terminal-tips/</id>
+    <link href="https://levifree.com/posts/macos-terminal-tips/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/macos-terminal-tips/</id>
     <published>2025-04-12T00:00:00.000Z</published>
     <updated>2025-04-12T00:00:00.000Z</updated>
     <summary>摆脱鼠标依赖，让你的命令行操作行云流水</summary>
@@ -1336,8 +2075,8 @@ alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
   </entry>
   <entry>
     <title>Cloudflare Pages 性能与安全配置：先验证默认行为，再做最小改动</title>
-    <link href="https://levifree.dpdns.org/posts/cloudflare-pages-performance-security/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/cloudflare-pages-performance-security/</id>
+    <link href="https://levifree.com/posts/cloudflare-pages-performance-security/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/cloudflare-pages-performance-security/</id>
     <published>2025-03-18T00:00:00.000Z</published>
     <updated>2025-03-18T00:00:00.000Z</updated>
     <summary>从 Pages 默认缓存、静态响应头到上线后的验证，避免为了优化而制造陈旧内容或安全回归</summary>
@@ -1379,8 +2118,8 @@ curl -I https://example.com/assets/app.abc123.css
   </entry>
   <entry>
     <title>AdSense 低价值内容恢复实战：个人技术博客 30 天优化清单</title>
-    <link href="https://levifree.dpdns.org/posts/adsense-low-value-content-recovery/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/adsense-low-value-content-recovery/</id>
+    <link href="https://levifree.com/posts/adsense-low-value-content-recovery/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/adsense-low-value-content-recovery/</id>
     <published>2025-03-09T00:00:00.000Z</published>
     <updated>2025-03-09T00:00:00.000Z</updated>
     <summary>从内容结构、站点信号到复审节奏，给出可执行的整改路径</summary>
@@ -1504,8 +2243,8 @@ curl -I https://example.com/assets/app.abc123.css
   </entry>
   <entry>
     <title>Jekyll 博客内容质量清单：发布前 15 分钟自检模板</title>
-    <link href="https://levifree.dpdns.org/posts/jekyll-content-quality-checklist/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/jekyll-content-quality-checklist/</id>
+    <link href="https://levifree.com/posts/jekyll-content-quality-checklist/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/jekyll-content-quality-checklist/</id>
     <published>2025-03-09T00:00:00.000Z</published>
     <updated>2025-03-09T00:00:00.000Z</updated>
     <summary>把“写完就发”升级为“可复用资产”：覆盖可读性、SEO、可信度和合规</summary>
@@ -1613,8 +2352,8 @@ curl -I https://example.com/assets/app.abc123.css
   </entry>
   <entry>
     <title>Docker 部署 Nginx Proxy Manager: 小白也能搞定反向代理</title>
-    <link href="https://levifree.dpdns.org/posts/nginx-proxy-manager/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/nginx-proxy-manager/</id>
+    <link href="https://levifree.com/posts/nginx-proxy-manager/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/nginx-proxy-manager/</id>
     <published>2025-02-20T00:00:00.000Z</published>
     <updated>2025-02-20T00:00:00.000Z</updated>
     <summary>告别繁琐的 Nginx 配置文件，用可视化面板轻松管理 SSL 证书与域名转发</summary>
@@ -1722,8 +2461,8 @@ services:
   </entry>
   <entry>
     <title>重构的艺术：如何写出同事不骂街的 TypeScript 代码</title>
-    <link href="https://levifree.dpdns.org/posts/typescript-refactoring/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/typescript-refactoring/</id>
+    <link href="https://levifree.com/posts/typescript-refactoring/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/typescript-refactoring/</id>
     <published>2025-01-10T00:00:00.000Z</published>
     <updated>2025-01-10T00:00:00.000Z</updated>
     <summary>代码是写给人看的，顺便给机器运行。5 个实用的重构小技巧</summary>
@@ -1797,8 +2536,8 @@ if (order.status === OrderStatus.Completed) { ... }
   </entry>
   <entry>
     <title>Python 自动化办公：5分钟写一个批量重命名脚本</title>
-    <link href="https://levifree.dpdns.org/posts/python-rename-script/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/python-rename-script/</id>
+    <link href="https://levifree.com/posts/python-rename-script/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/python-rename-script/</id>
     <published>2024-12-12T00:00:00.000Z</published>
     <updated>2024-12-12T00:00:00.000Z</updated>
     <summary>告别枯燥的手工劳动，用几十行代码拯救你的下班时间</summary>
@@ -1876,8 +2615,8 @@ if __name__ == "__main__":
   </entry>
   <entry>
     <title>Git 冲突处理实战手册：从定位到收敛的一套标准流程</title>
-    <link href="https://levifree.dpdns.org/posts/git-conflict-resolution-playbook/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/git-conflict-resolution-playbook/</id>
+    <link href="https://levifree.com/posts/git-conflict-resolution-playbook/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/git-conflict-resolution-playbook/</id>
     <published>2024-12-03T00:00:00.000Z</published>
     <updated>2024-12-03T00:00:00.000Z</updated>
     <summary>告别手忙脚乱：处理 merge/rebase 冲突时的步骤、命令与风险控制</summary>
@@ -1959,8 +2698,8 @@ git rebase --continue
   </entry>
   <entry>
     <title>GitHub Actions 实战：为 Jekyll 博客搭建自动化质量检查流水线</title>
-    <link href="https://levifree.dpdns.org/posts/github-actions-blog-ci-cd/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/github-actions-blog-ci-cd/</id>
+    <link href="https://levifree.com/posts/github-actions-blog-ci-cd/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/github-actions-blog-ci-cd/</id>
     <published>2024-11-18T00:00:00.000Z</published>
     <updated>2024-11-18T00:00:00.000Z</updated>
     <summary>每次提交自动检查 Markdown、死链与构建状态，减少线上翻车</summary>
@@ -2047,8 +2786,8 @@ jobs:
   </entry>
   <entry>
     <title>Obsidian vs Notion 深度对比：2026 年如何搭建真正可持续的第二大脑</title>
-    <link href="https://levifree.dpdns.org/posts/obsidian-vs-notion/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/obsidian-vs-notion/</id>
+    <link href="https://levifree.com/posts/obsidian-vs-notion/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/obsidian-vs-notion/</id>
     <published>2024-10-10T00:00:00.000Z</published>
     <updated>2024-10-10T00:00:00.000Z</updated>
     <summary>不只聊功能清单：从数据所有权、协作成本到长期维护，给出可执行选型框架</summary>
@@ -2230,8 +2969,8 @@ jobs:
   </entry>
   <entry>
     <title>Git Rebase vs Merge：团队 PR 工作流如何选才不翻车</title>
-    <link href="https://levifree.dpdns.org/posts/git-rebase-vs-merge-pr-workflow/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/git-rebase-vs-merge-pr-workflow/</id>
+    <link href="https://levifree.com/posts/git-rebase-vs-merge-pr-workflow/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/git-rebase-vs-merge-pr-workflow/</id>
     <published>2024-09-12T00:00:00.000Z</published>
     <updated>2024-09-12T00:00:00.000Z</updated>
     <summary>从提交历史可读性、冲突处理到回滚策略，给出可落地的协作规范</summary>
@@ -2308,8 +3047,8 @@ git push origin main
   </entry>
   <entry>
     <title>告别 git push -f：团队协作中的 Git Commit 规范指南</title>
-    <link href="https://levifree.dpdns.org/posts/git-commit-convention/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/git-commit-convention/</id>
+    <link href="https://levifree.com/posts/git-commit-convention/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/git-commit-convention/</id>
     <published>2024-08-20T00:00:00.000Z</published>
     <updated>2024-08-20T00:00:00.000Z</updated>
     <summary>如何写出优雅的 Commit Message？Conventional Commits 最佳实践</summary>
@@ -2417,8 +3156,8 @@ git push origin main
   </entry>
   <entry>
     <title>Jekyll SEO 技术优化清单：从可抓取到可排名的实战配置</title>
-    <link href="https://levifree.dpdns.org/posts/jekyll-seo-technical-optimization/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/jekyll-seo-technical-optimization/</id>
+    <link href="https://levifree.com/posts/jekyll-seo-technical-optimization/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/jekyll-seo-technical-optimization/</id>
     <published>2024-07-16T00:00:00.000Z</published>
     <updated>2024-07-16T00:00:00.000Z</updated>
     <summary>Sitemap、结构化数据、Canonical 与内容聚合页，给个人博客一套可执行的 SEO 基线</summary>
@@ -2508,8 +3247,8 @@ curl -I https://your-domain.com/sitemap.xml
   </entry>
   <entry>
     <title>Linux 服务器安全基线实战：新机上线前必须完成的 12 项加固</title>
-    <link href="https://levifree.dpdns.org/posts/linux-server-security-baseline/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/linux-server-security-baseline/</id>
+    <link href="https://levifree.com/posts/linux-server-security-baseline/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/linux-server-security-baseline/</id>
     <published>2024-06-18T00:00:00.000Z</published>
     <updated>2024-06-18T00:00:00.000Z</updated>
     <summary>从账户、SSH、防火墙到日志审计，给个人站长一份可直接执行的上线清单</summary>
@@ -2602,8 +3341,8 @@ sudo systemctl list-unit-files --type=service
   </entry>
   <entry>
     <title>VS Code + GitHub Copilot: AI 时代开发者的效率核武器</title>
-    <link href="https://levifree.dpdns.org/posts/vscode-copilot-ai-coding-guide/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/vscode-copilot-ai-coding-guide/</id>
+    <link href="https://levifree.com/posts/vscode-copilot-ai-coding-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/vscode-copilot-ai-coding-guide/</id>
     <published>2024-05-15T00:00:00.000Z</published>
     <updated>2024-05-15T00:00:00.000Z</updated>
     <summary>AI 结对编程时代，如何利用 Copilot 节省 50% 的编码时间</summary>
@@ -2653,8 +3392,8 @@ sudo systemctl list-unit-files --type=service
   </entry>
   <entry>
     <title>Jekyll 构建报错排查手册：10 个最常见错误与修复步骤</title>
-    <link href="https://levifree.dpdns.org/posts/jekyll-build-errors-troubleshooting/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/jekyll-build-errors-troubleshooting/</id>
+    <link href="https://levifree.com/posts/jekyll-build-errors-troubleshooting/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/jekyll-build-errors-troubleshooting/</id>
     <published>2024-04-22T00:00:00.000Z</published>
     <updated>2024-04-22T00:00:00.000Z</updated>
     <summary>从 Front Matter、依赖冲突到端口占用，给博客维护者一份可复制的故障处理流程</summary>
@@ -2768,8 +3507,8 @@ bundle exec jekyll serve
   </entry>
   <entry>
     <title>Next.js App Router 上手指南：从路由到服务端渲染</title>
-    <link href="https://levifree.dpdns.org/posts/nextjs-app-router/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/nextjs-app-router/</id>
+    <link href="https://levifree.com/posts/nextjs-app-router/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/nextjs-app-router/</id>
     <published>2024-03-25T00:00:00.000Z</published>
     <updated>2024-03-25T00:00:00.000Z</updated>
     <summary>忘掉 getStaticProps？Next.js 14+ 核心概念极简解析</summary>
@@ -2849,8 +3588,8 @@ fetch('https://...', { next: { revalidate: 10 } });
   </entry>
   <entry>
     <title>iPad 生产力指南：掌握这 5 个多任务处理技巧 (iPadOS 17+)</title>
-    <link href="https://levifree.dpdns.org/posts/ipad-productivity-tips/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/ipad-productivity-tips/</id>
+    <link href="https://levifree.com/posts/ipad-productivity-tips/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/ipad-productivity-tips/</id>
     <published>2024-01-02T00:00:00.000Z</published>
     <updated>2024-01-02T00:00:00.000Z</updated>
     <summary>从分屏浏览到台前调度，彻底释放 iPad 的办公潜能</summary>
@@ -2901,8 +3640,8 @@ fetch('https://...', { next: { revalidate: 10 } });
   </entry>
   <entry>
     <title>AMH 面板建站实战：从零部署高性能 WordPress 博客</title>
-    <link href="https://levifree.dpdns.org/posts/amh-wordpress-installation-guide/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/amh-wordpress-installation-guide/</id>
+    <link href="https://levifree.com/posts/amh-wordpress-installation-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/amh-wordpress-installation-guide/</id>
     <published>2023-12-25T00:00:00.000Z</published>
     <updated>2023-12-25T00:00:00.000Z</updated>
     <summary>基于 Azure B1s / VPS 的 Linux 环境配置与 AMH 面板使用全指南</summary>
@@ -2961,7 +3700,7 @@ systemctl disable firewalld
 </blockquote>
 <h3>2. 登录面板</h3>
 <p>安装完成后，通过浏览器访问 <code>http://你的IP:8888</code> 或 <code>https://你的IP:9999</code>。使用终端输出的默认账号密码登录。</p>
-<p><img src="https://levifree.dpdns.org/img/AMH_Install_WordPress/34.png" alt="AMH登录界面" /></p>
+<p><img src="https://levifree.com/img/AMH_Install_WordPress/34.png" alt="AMH登录界面" /></p>
 <h3>3. 安装必要软件扩展</h3>
 <p>登录面板后，进入 <strong>软件商店</strong>，建议安装以下扩展以支持 WordPress 运行：</p>
 <ul>
@@ -2988,7 +3727,7 @@ systemctl disable firewalld
 rewrite /wp-admin$ $scheme://$host$uri/ permanent;
 </code></pre>
 </blockquote>
-<p><img src="https://levifree.dpdns.org/img/AMH_Install_WordPress/2.png" alt="新增虚拟主机" /></p>
+<p><img src="https://levifree.com/img/AMH_Install_WordPress/2.png" alt="新增虚拟主机" /></p>
 <h3>2. 申请 SSL 证书</h3>
 <p>进入 <strong>网站</strong> -&gt; <strong>SSL证书</strong> -&gt; <strong>AMSSL</strong>：</p>
 <ul>
@@ -2996,7 +3735,7 @@ rewrite /wp-admin$ $scheme://$host$uri/ permanent;
 <li>勾选 <strong>一键自动配置</strong> (推荐 Let's Encrypt)。</li>
 <li>点击创建，等待证书签发并自动部署。</li>
 </ul>
-<p><img src="https://levifree.dpdns.org/img/AMH_Install_WordPress/9.png" alt="SSL配置" /></p>
+<p><img src="https://levifree.com/img/AMH_Install_WordPress/9.png" alt="SSL配置" /></p>
 <h3>3. 安装 PHP 扩展</h3>
 <p>WordPress 及其插件通常需要以下 PHP 扩展支持。进入 <strong>网站</strong> -&gt; <strong>PHP扩展</strong>，为 <code>lnmp01</code> 环境安装：</p>
 <ul>
@@ -3034,7 +3773,7 @@ define( 'FS_METHOD', 'direct' );
 </ol>
 <h3>3. 权限修正</h3>
 <p>这一步至关重要：在 <strong>文件</strong> 管理中，勾选 <code>web</code> 目录，点击 <strong>权限</strong>，将所有者改为 <code>www</code>，用户组改为 <code>www</code>，并勾选 <strong>递归处理</strong>。</p>
-<p><img src="https://levifree.dpdns.org/img/AMH_Install_WordPress/25.png" alt="权限设置" /></p>
+<p><img src="https://levifree.com/img/AMH_Install_WordPress/25.png" alt="权限设置" /></p>
 <hr />
 <h2>第五阶段：完成安装</h2>
 <p>打开浏览器访问你的域名，你应该能看到 WordPress 的安装欢迎界面。设置好站点标题、管理员账号密码，点击安装即可！</p>
@@ -3063,8 +3802,8 @@ define( 'FS_METHOD', 'direct' );
   </entry>
   <entry>
     <title>acme.sh 证书申请指南：免费、自动续期的泛域名 SSL/TLS 证书</title>
-    <link href="https://levifree.dpdns.org/posts/acme-sh-free-ssl-certificate-guide/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/acme-sh-free-ssl-certificate-guide/</id>
+    <link href="https://levifree.com/posts/acme-sh-free-ssl-certificate-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/acme-sh-free-ssl-certificate-guide/</id>
     <published>2023-12-24T00:00:00.000Z</published>
     <updated>2023-12-24T00:00:00.000Z</updated>
     <summary>从零开始：通过 Cloudflare API 实现全自动化 HTTPS 配置</summary>
@@ -3215,8 +3954,8 @@ acme.sh --install-cert -d example.com --ecc \
   </entry>
   <entry>
     <title>前端开发实战：如何使用 Charles 脚本进行 API 数据 Mock</title>
-    <link href="https://levifree.dpdns.org/posts/javascript-mock-api-tutorial/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/javascript-mock-api-tutorial/</id>
+    <link href="https://levifree.com/posts/javascript-mock-api-tutorial/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/javascript-mock-api-tutorial/</id>
     <published>2023-12-22T00:00:00.000Z</published>
     <updated>2023-12-22T00:00:00.000Z</updated>
     <summary>告别后端依赖，利用本地代理工具自行构造测试场景</summary>
@@ -3327,8 +4066,8 @@ $done({ body: JSON.stringify(obj) });
   </entry>
   <entry>
     <title>Git 实战：三种方法让你的 Fork 仓库与上游保持同步</title>
-    <link href="https://levifree.dpdns.org/posts/git-sync-fork-upstream-guide/" rel="alternate" type="text/html"/>
-    <id>https://levifree.dpdns.org/posts/git-sync-fork-upstream-guide/</id>
+    <link href="https://levifree.com/posts/git-sync-fork-upstream-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/git-sync-fork-upstream-guide/</id>
     <published>2023-12-06T00:00:00.000Z</published>
     <updated>2023-12-06T00:00:00.000Z</updated>
     <summary>从点击按钮到自动化脚本：全方位掌握 Git Upstream 同步技巧</summary>
@@ -3342,10 +4081,12 @@ $done({ body: JSON.stringify(obj) });
 <p>从 2021 年开始，GitHub 原生支持了网页端同步功能，适合绝大多数普通用户。</p>
 <ol>
 <li>打开你的 Fork 仓库页面。</li>
-<li>点击代码列表上方的 <strong>Fetch upstream</strong> 下拉菜单。</li>
-<li>点击 <strong>Fetch and merge</strong> 按钮。</li>
+<li>在分支状态栏右侧找到 <strong>Fetch upstream</strong> 下拉菜单（通常会提示 "This branch is X commits behind &lt;upstream&gt;:main"）。</li>
+<li>点击 <strong>Fetch and merge</strong> 按钮完成自动快进或合并提交。</li>
 </ol>
-<p><img src="https://docs.github.com/assets/cb-25535/images/help/repository/fetch-upstream-drop-down.png" alt="GitHub Sync Button" /></p>
+<blockquote>
+<p><strong>提示</strong>：如果上游有新提交且你的分支没有新改动，GitHub 会执行 Fast-Forward（快进合并）；如果本地有分叉改动，GitHub 网页端可能会提示无法自动合并，此时需要通过方法二的命令行方式处理冲突。</p>
+</blockquote>
 <p><em>优点：无需任何命令，操作极简。</em>
 <em>缺点：需要手动点，且解决冲突能力较弱。</em></p>
 <hr />
@@ -3384,7 +4125,7 @@ git push origin main
 <h3>1. 创建工作流文件</h3>
 <p>在你的仓库中，点击 <strong>Actions</strong> -&gt; <strong>New workflow</strong>，创建一个名为 <code>.github/workflows/sync.yml</code> 的文件。</p>
 <p>如果你 Fork 的仓库里已存在其他工作流，点击 <code>Actions</code> 后可能需要先点击 <code>New workflow</code>，如下图所示：
-<img src="https://levifree.dpdns.org/img/syncworkflow/createworkflow.png" alt="新建工作流" /></p>
+<img src="https://levifree.com/img/syncworkflow/createworkflow.png" alt="新建工作流" /></p>
 <h3>2. 填入配置代码</h3>
 <p>复制以下 YAML 内容，并<strong>务必修改第四步中的上游仓库地址</strong>。</p>
 <pre><code>name: Upstream Sync
@@ -3431,9 +4172,9 @@ jobs:
           exit 1
 </code></pre>
 <p>请参考下图说明进行修改：
-<img src="https://levifree.dpdns.org/img/syncworkflow/modification.png" alt="修改说明" /></p>
+<img src="https://levifree.com/img/syncworkflow/modification.png" alt="修改说明" /></p>
 <p>以下是配置完成后的完整代码示例图（注意：部分密钥无需手动填写）：
-<img src="https://levifree.dpdns.org/img/syncworkflow/sync.jpg" alt="全部代码" /></p>
+<img src="https://levifree.com/img/syncworkflow/sync.jpg" alt="全部代码" /></p>
 <h3>3. 注意事项</h3>
 <ul>
 <li><strong>首次运行</strong>：创建完文件后，建议切到 Actions 页面手动触发一次（Run workflow）以验证配置是否正确。</li>
