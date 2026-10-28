@@ -37,7 +37,10 @@ jobs:
       
       - name: Build site
         run: pnpm run build
-      
+
+      - name: Prevent Vercel from building gh-pages
+        run: echo '{"ignoreCommand":"exit 0"}' > dist/vercel.json
+
       - name: Deploy to pages branch
         uses: JamesIves/github-pages-deploy-action@v4
         with:

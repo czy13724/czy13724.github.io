@@ -3,6 +3,7 @@
 	"outputDirectory": "dist",
 	"installCommand": "pnpm install",
 	"framework": "astro",
+	"ignoreCommand": "if [ \"$VERCEL_GIT_COMMIT_REF\" = \"gh-pages\" ]; then exit 0; else exit 1; fi",
 	"headers": [
 		{
 			"source": "/(.*)",
@@ -26,7 +27,7 @@
 			]
 		},
 		{
-			"source": "/pio/:path*",
+			"source": "/pio/(.*)",
 			"headers": [
 				{
 					"key": "X-Frame-Options",
