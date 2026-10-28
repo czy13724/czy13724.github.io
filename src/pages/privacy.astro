@@ -8,7 +8,7 @@ import MainGridLayout from "../layouts/MainGridLayout.astro";
 const privacyPost = await getEntry("spec", "privacy-zh");
 
 if (!privacyPost) {
-	throw new Error(`Privacy policy page content not found for slug: privacy-zh`);
+	throw new Error("Privacy policy page content not found for slug: privacy-zh");
 }
 
 const { Content } = await render(privacyPost);

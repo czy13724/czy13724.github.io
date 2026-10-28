@@ -348,7 +348,7 @@ class MusicPlayerStore {
 	}
 
 	private loadSong(song: Song, autoPlay = true): void {
-		if (!song || !song.url) {
+		if (!song?.url) {
 			return;
 		}
 		if (song.url !== this.state.currentSong.url) {

@@ -67,7 +67,7 @@ status: "active" # active | deprecated | archived
 
 ```markdown
 > [!WARNING]
-> **版本弃用提醒**：本文介绍的方案仅适用于 Jekyll 3.x 及以下版本。自 2026 年起本站已全面迁移至 Astro 7。如果您正在搭建全新的静态博客，强烈建议阅读最新教程：[《Astro 静态博客搭建与性能优化实战》](/posts/astro-static-blog-guide)。
+> **版本弃用提醒**：本文介绍的方案仅适用于 Jekyll 3.x 及以下版本。自 2026 年起本站已全面迁移至 Astro 7。如果您正在搭建全新的静态博客，强烈建议阅读最新教程：[《Astro 静态站图片 404 排查实战》](/posts/astro-static-assets-404-debugging/)。
 ```
 
 ---

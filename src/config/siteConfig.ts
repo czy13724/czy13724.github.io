@@ -190,8 +190,8 @@ export const siteConfig: SiteConfig = {
 	favicon: [
 		// 留空以使用默认 favicon
 		{
-		  src: '/img/header_ic.jpg',    // 图标文件路径
-		}
+			src: "/img/header_ic.jpg", // 图标文件路径
+		},
 	],
 
 	// 字体现在通过 astro.config.mjs 的 fonts 选项配置（Astro Font API）

@@ -65,7 +65,9 @@ const visibleAnimeList = animeList.slice(0, INITIAL_DISPLAY_COUNT);
 const hiddenAnimeList = animeList.slice(INITIAL_DISPLAY_COUNT);
 const showExtendedFilters = ANIME_MODE === "bangumi";
 const emptyMessage = i18n(I18nKey.animeEmpty);
-const animeMetadataApiPath = import.meta.env.DEV ? "/api/tencent-anime/" : "/api/tencent-anime";
+const animeMetadataApiPath = import.meta.env.DEV
+	? "/api/tencent-anime/"
+	: "/api/tencent-anime";
 ---
 
 <MainGridLayout

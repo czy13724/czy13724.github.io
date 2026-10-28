@@ -23,7 +23,8 @@ const localAnimeList: AnimeItem[] = [
 		title: "仙逆",
 		status: "watching",
 		rating: 9.0,
-		cover: "https://vcover-vt-pic.puui.qpic.cn/vcover_vt_pic/0/mzc00200aaogpgh1766914172519/260?imageView2/2/w/344/h/480",
+		cover:
+			"https://vcover-vt-pic.puui.qpic.cn/vcover_vt_pic/0/mzc00200aaogpgh1766914172519/260?imageView2/2/w/344/h/480",
 		description: "王林在逆境中求道、求真，走出自己的修行之路。",
 		episodes: "连载中",
 		year: "2023",
@@ -40,7 +41,8 @@ const localAnimeList: AnimeItem[] = [
 		title: "斗罗大陆",
 		status: "completed",
 		rating: 8.8,
-		cover: "https://vcover-vt-pic.puui.qpic.cn/vcover_vt_pic/0/mzc00200xf3rir61781944893526/260?imageView2/2/w/344/h/480",
+		cover:
+			"https://vcover-vt-pic.puui.qpic.cn/vcover_vt_pic/0/mzc00200xf3rir61781944893526/260?imageView2/2/w/344/h/480",
 		description: "唐三从魂师学院出发，与伙伴共同成长的热血冒险。",
 		episodes: "全 263 集",
 		year: "2018",
@@ -57,7 +59,8 @@ const localAnimeList: AnimeItem[] = [
 		title: "斗破苍穹",
 		status: "watching",
 		rating: 8.7,
-		cover: "https://vcover-vt-pic.puui.qpic.cn/vcover_vt_pic/0/mzc0020027yzd9e1754535470956/260?imageView2/2/w/344/h/480",
+		cover:
+			"https://vcover-vt-pic.puui.qpic.cn/vcover_vt_pic/0/mzc0020027yzd9e1754535470956/260?imageView2/2/w/344/h/480",
 		description: "少年萧炎重拾斗气，在历练与战斗中寻找属于自己的答案。",
 		episodes: "连载中",
 		year: "2017",

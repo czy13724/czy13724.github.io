@@ -140,7 +140,10 @@ export const navBarConfig: NavBarConfig = {
 		LinkPreset.Friends,
 		LinkPreset.About,
 		{
-			name: siteConfig.lang === "zh_CN" || siteConfig.lang === "zh_TW" ? "隐私政策" : "Privacy Policy",
+			name:
+				siteConfig.lang === "zh_CN" || siteConfig.lang === "zh_TW"
+					? "隐私政策"
+					: "Privacy Policy",
 			url: "/privacy/",
 			icon: "material-symbols:privacy-tip",
 		},
