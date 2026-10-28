@@ -46,7 +46,7 @@ export const devicesData: DeviceCategory = {
 	],
 	OPPO: [
 		{
-			name: "OPPO A5 Pro",
+			name: "OPPO A5 Pro 5G",
 			image: "/images/device/oppoa5pro.webp",
 			specs: "天玑 7300 / 5G",
 			description: "目前手里在用的备用机。",

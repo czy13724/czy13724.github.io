@@ -6,16 +6,12 @@ tags: ["AI", "OpenClaw", "飞书", "插件"]
 category: "AI"
 ---
 
-飞书在 OpenClaw 的文档里经历过“插件模式”到“内置可用”的演进。
-所以你需要先判断当前版本形态，再决定是否安装插件。
+飞书（Feishu / Lark）在国内团队协作中使用非常广泛。在 OpenClaw 的版本演进中，飞书渠道经历了从早期外部插件扩展到内置集成的过程。
+在实际接入前，建议先探查当前网关运行时的通道支持状态，再决定配置策略。
 
-![OpenClaw Feishu Channel Doc](/img/openclaw/openclaw-feishu-og.png)
-*图：OpenClaw 官方 Feishu 渠道文档页面头图。*
+## 1. 探查当前网关通道支持状态
 
-## 1. 先判断你的环境是否需要插件
-
-按官方渠道页，若出现 `plugin not available` 提示，再进入插件安装路径。
-先执行：
+通过 CLI 探测通道状态：
 
 ```bash
 openclaw channels status --probe

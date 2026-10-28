@@ -34,7 +34,7 @@ tags:
 
 *   **Jekyll/Hugo/Hexo**：你会接触到静态网站生成器 (SSG) 的概念，理解 HTML 是如何被“编译”出来的。
 *   **CI/CD**：你会像大厂工程师一样，通过 GitHub Actions 配置自动化部署流程（比如我最近实现的[自动化图标仓库]({{site.baseurl}}/2026/01/24/GitHub-Actions-实战-打造全自动化的图标仓库/)）。
-*   **Custom Domain**：当你把一串复杂的 IP 地址变成 `levifree.qzz.io` 这样优雅的域名时，那种成就感是无与伦比的。
+*   **Custom Domain**：当你把一串复杂的 IP 地址变成 `levifree.com` 这样优雅的域名时，那种成就感是无与伦比的。
 
 ## 3. 对抗信息碎片化
 

@@ -131,20 +131,13 @@ export const navBarConfig: NavBarConfig = {
 	links: [
 		LinkPreset.Home,
 		LinkPreset.Archive,
-		LinkPreset.Friends,
+		LinkPreset.Diary,
 		{
-			name: "Others",
-			url: "#",
-			icon: "material-symbols:more-horiz",
-			children: [
-				{
-					name: "Devices",
-					url: "/devices/",
-					icon: "material-symbols:devices",
-				},
-				LinkPreset.Anime,
-			],
+			name: "设备",
+			url: "/devices/",
+			icon: "material-symbols:devices",
 		},
+		LinkPreset.Friends,
 		LinkPreset.About,
 		{
 			name: siteConfig.lang === "zh_CN" || siteConfig.lang === "zh_TW" ? "隐私政策" : "Privacy Policy",

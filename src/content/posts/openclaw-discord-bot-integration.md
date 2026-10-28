@@ -6,13 +6,10 @@ tags: ["AI", "OpenClaw", "Discord", "机器人"]
 category: "AI"
 ---
 
-Discord 接入步骤比 Telegram 多一些，关键在 Developer Portal 权限配置。
-这篇文章按官方文档把“最容易漏掉的点”写全。
+Discord 接入步骤比 Telegram 更加细致，核心门槛在于 Discord Developer Portal 的权限配置与 Privileged Gateway Intents。
+本文系统复盘从机器人应用创建、特权意图授权、OAuth2 URL 邀请到 OpenClaw 本地通道绑定的完整流程。
 
-![OpenClaw Discord Channel Doc](/img/openclaw/openclaw-discord-og.png)
-*图：OpenClaw 官方 Discord 渠道文档页面头图。*
-
-## 1. 在 Discord Developer Portal 创建应用
+## 1. 在 Discord Developer Portal 创建应用与 Bot
 
 1. New Application
 2. 添加 Bot

@@ -7,19 +7,16 @@ category: "AI"
 ---
 
 如果你想长期用 OpenClaw，第一步不是“先接一堆渠道”，而是把网关基础跑稳。
-本文按官方文档给出跨平台安装路径，并覆盖 Windows、Linux、macOS 的差异点。
+本文结合在多端环境下的实机部署与运维经验，系统梳理 Windows、Linux、macOS 的跨平台安装要点、网关自愈守护与常见故障排错。
 
-![OpenClaw Install Overview](/img/openclaw/openclaw-install-og.png)
-*图：OpenClaw 官方安装文档页面头图（Install overview）。*
+## 1. 安装前准备与系统基线
 
-## 1. 安装前准备
+在安装网关之前，请先确认底层运行时与系统依赖：
 
-根据官方安装页，基础要求是：
+- **Node.js**：建议使用 Node.js 22 LTS 或更高版本
+- **操作系统**：macOS (Apple Silicon / Intel)、Linux (Ubuntu 22.04+/Debian 12+)、Windows (强烈建议基于 WSL2 环境运行)
 
-- Node.js 22+
-- macOS / Linux / Windows（Windows 推荐 WSL2）
-
-官方推荐安装器会自动处理 Node 检测、CLI 安装和 onboarding。
+安装器会自动检测 Node 环境与全局 CLI 权限。
 
 ## 2. macOS / Linux / WSL2 安装
 

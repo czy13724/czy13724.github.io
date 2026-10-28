@@ -16,11 +16,11 @@ category: "Git"
 
 从 2021 年开始，GitHub 原生支持了网页端同步功能，适合绝大多数普通用户。
 
-1.  打开你的 Fork 仓库页面。
-2.  点击代码列表上方的 **Fetch upstream** 下拉菜单。
-3.  点击 **Fetch and merge** 按钮。
+1. 打开你的 Fork 仓库页面。
+2. 在分支状态栏右侧找到 **Fetch upstream** 下拉菜单（通常会提示 "This branch is X commits behind <upstream>:main"）。
+3. 点击 **Fetch and merge** 按钮完成自动快进或合并提交。
 
-![GitHub Sync Button](https://docs.github.com/assets/cb-25535/images/help/repository/fetch-upstream-drop-down.png)
+> **提示**：如果上游有新提交且你的分支没有新改动，GitHub 会执行 Fast-Forward（快进合并）；如果本地有分叉改动，GitHub 网页端可能会提示无法自动合并，此时需要通过方法二的命令行方式处理冲突。
 
 *优点：无需任何命令，操作极简。*
 *缺点：需要手动点，且解决冲突能力较弱。*

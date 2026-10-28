@@ -23,7 +23,7 @@ export const profileConfig: ProfileConfig = {
 		{
 			name: "Email",
 			icon: "mdi:email",
-			url: "mailto:contact@levifree.qzz.io",
+			url: "mailto:contact@levifree.com",
 		},
 	],
 };

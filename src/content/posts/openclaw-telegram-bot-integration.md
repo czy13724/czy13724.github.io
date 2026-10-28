@@ -1,18 +1,15 @@
 ---
 title: "OpenClaw 对接 Telegram 机器人：从 BotFather 到可用会话"
 published: 2026-02-25
-description: "基于官方 Telegram 渠道文档，完成配置、连通性验证与常见故障排查"
+description: "从 BotFather 秘钥创建、网关通道绑定、群组隐私权限到配对白名单审批，全流程打通 Telegram 机器人"
 tags: ["AI", "OpenClaw", "Telegram", "机器人"]
 category: "AI"
 ---
 
-Telegram 通常是 OpenClaw 最容易跑通的渠道之一。
-这篇文章专注于“可用链路”，从 token 到会话验证一步一步来。
+Telegram 是为 OpenClaw 接入即时通讯通道中最轻量、上手最快的方式之一。
+但在实际配置中，很多开发者经常卡在“机器人拉入群聊后毫无反应”或“陌生人无限制调用网关”等权限问题上。本文专注于构建一条具备安全白名单的生产级可用链路。
 
-![OpenClaw Telegram Channel Doc](/img/openclaw/openclaw-telegram-og.png)
-*图：OpenClaw 官方 Telegram 渠道文档页面头图。*
-
-## 1. 先准备 Telegram Bot
+## 1. 准备 Telegram Bot 与获取 Token
 
 1. 在 Telegram 中找到 `@BotFather`
 2. 创建 bot 并拿到 Bot Token

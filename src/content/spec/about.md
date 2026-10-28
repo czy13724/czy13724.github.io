@@ -25,7 +25,7 @@
 
 感谢你访问 Levi Blog。如果你想反馈文章问题、交流技术内容、讨论开源项目或进行其他合理沟通，可以通过下面的方式联系我。
 
-- **Email:** [contact@levifree.qzz.io](mailto:contact@levifree.qzz.io)
+- **Email:** [contact@levifree.com](mailto:contact@levifree.com)
 - **GitHub:** [czy13724](https://github.com/czy13724)
 - **Telegram:** [Levi bot](https://t.me/i_Levibot)
 - **Telegram Channel:** [L Community](https://t.me/LCommunityP)
