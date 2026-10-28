@@ -50,11 +50,11 @@ Levi Blog 是一个个人技术博客，网址为 [https://levifree.com](https:/
 
 我们使用 Cookies 和类似的跟踪技术来跟踪我们服务上的活动并存储某些信息。使用的跟踪技术包括信标、标签和脚本，用于收集和跟踪信息以及改进和分析我们的服务。
 
-    #### Google AdSense 与 DoubleClick Cookie
+#### Google AdSense 与 DoubleClick Cookie
 
-    Google 作为第三方供应商，使用 cookie 在我们的服务上投放广告。
-    * Google 使用 DoubleClick cookie，使其及其合作伙伴能够根据用户访问我们的服务或互联网上其他网站的情况向我们的用户投放广告。
-    * 您可以通过访问 [Google 广告设置](http://www.google.com/ads/preferences/) 网页选择退出使用 DoubleClick Cookie 进行基于兴趣的广告投放。
+Google 作为第三方供应商，使用 cookie 在我们的服务上投放广告：
+* Google 使用 DoubleClick cookie，使其及其合作伙伴能够根据用户访问我们的服务或互联网上其他网站的情况向我们的用户投放广告。
+* 您可以通过访问 [Google 广告设置](https://www.google.com/ads/preferences/) 网页选择退出使用 DoubleClick Cookie 进行基于兴趣的广告投放。
 
 您可以指示您的浏览器拒绝所有 Cookies，或在发送 Cookie 时进行指示。但是，如果您不接受 Cookies，您可能无法使用我们服务的某些部分。
 

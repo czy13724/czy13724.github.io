@@ -44,10 +44,11 @@ Usage Data is collected automatically when using the Service. Usage Data may inc
 
 We use Cookies and similar tracking technologies to track the activity on Our Service and store certain information.
 
-**Google AdSense & DoubleClick Cookie**
-Google, as a third-party vendor, uses cookies to serve ads on our Service.
+#### Google AdSense & DoubleClick Cookie
+
+Google, as a third-party vendor, uses cookies to serve ads on our Service:
 * Google's use of the DoubleClick cookie enables it and its partners to serve ads to our users based on their visit to our Service or other websites on the Internet.
-* You may opt out of the use of the DoubleClick Cookie for interest-based advertising by visiting the [Google Ads Settings](http://www.google.com/ads/preferences/) web page.
+* You may opt out of the use of the DoubleClick Cookie for interest-based advertising by visiting the [Google Ads Settings](https://www.google.com/ads/preferences/) web page.
 
 ### Use of Your Personal Data
 
