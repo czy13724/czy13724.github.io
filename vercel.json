@@ -26,6 +26,15 @@
 			]
 		},
 		{
+			"source": "/pio/:path*",
+			"headers": [
+				{
+					"key": "X-Frame-Options",
+					"value": "SAMEORIGIN"
+				}
+			]
+		},
+		{
 			"source": "/_astro/(.*)",
 			"headers": [
 				{
