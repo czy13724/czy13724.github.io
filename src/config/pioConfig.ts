@@ -14,9 +14,9 @@ export const pioConfig: PioConfig = {
 		welcome: "Welcome to Mizuki Website!", // 欢迎词
 		touch: [
 			"What are you doing?",
-			"Stop touching me!",
-			"HENTAI!",
+			"Hey, that tickles!",
 			"Don't bully me like that!",
+			"Nice to see you here!",
 		], // 触摸提示
 		home: "Click here to go back to homepage!", // 首页提示
 		skin: ["Want to see my new outfit?", "The new outfit looks great~"], // 换装提示

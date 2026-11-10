@@ -66,7 +66,7 @@ export const devicesData: DeviceCategory = {
 			image: "/images/device/vivoy71.webp",
 			specs: "自主学习中",
 			description: "曾用于尝试解锁BL并刷入模块和降级包。",
-			link: "",
+			link: "https://www.vivo.com.cn/",
 		},
 	],
 	HONOR: [
@@ -75,7 +75,7 @@ export const devicesData: DeviceCategory = {
 			image: "/images/device/honor9lite.webp",
 			specs: "已刷入类原生系统",
 			description: "已刷入类原生系统，用起来比EMUI较流畅。",
-			link: "",
+			link: "https://www.hihonor.com/cn/",
 		},
 	],
 };
