@@ -1,5 +1,11 @@
 User-agent: *
 Allow: /
 Disallow: /api/
+Disallow: /anime/
+Disallow: /projects/
+Disallow: /skills/
+Disallow: /timeline/
+Disallow: /albums/
+Disallow: /ai-tools/
 
 Sitemap: https://levifree.com/sitemap-index.xml

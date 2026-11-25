@@ -5,8 +5,635 @@
   <link href="https://levifree.com/" rel="alternate" type="text/html"/>
   <link href="https://levifree.com/atom.xml" rel="self" type="application/atom+xml"/>
   <id>https://levifree.com/</id>
-  <updated>2026-11-10T09:02:56.183Z</updated>
+  <updated>2026-11-25T10:39:39.103Z</updated>
   <language>zh_CN</language>
+  <entry>
+    <title>静态站技术 SEO 与可抓取性核验手册：从状态码、规范链接到结构化数据</title>
+    <link href="https://levifree.com/posts/static-site-technical-seo-crawlability-checklist/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/static-site-technical-seo-crawlability-checklist/</id>
+    <published>2026-11-25T00:00:00.000Z</published>
+    <updated>2026-11-25T00:00:00.000Z</updated>
+    <summary>一份可直接执行的静态网站技术 SEO 与 AdSense 审核自检 SOP：覆盖重定向链、robots/sitemap 一致性、canonical、Feed 合法性与死链扫描。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>写博客最容易被忽视的一件事是：你以为文章写完推上去就结束了，但对搜索引擎和 AdSense 审核爬虫来说，它们看到的首先是一张由 <strong>HTTP 状态码、重定向链、robots.txt、sitemap、canonical 与 HTML 语义标签</strong> 构成的技术信号网。</p>
+<p>只要其中任何一个环节打架——比如提交审核的是 A 域名，结果线上 301/308 连跳到 B 域名；或者 <code>sitemap</code> 里收录了被重定向到 <code>404</code> 的功能页；再或者文章里的内链还是迁移前的旧路径——爬虫就会毫不留情地给出“链接到不存在的内容”或“重定向至误导性网页”的判定。</p>
+<p>这份核验手册把每次重大改版或提交审核前必查的技术细节收敛为 5 个可执行的检查步骤。</p>
+<h2>前置条件与输入参数</h2>
+<ul>
+<li><strong>检查工具</strong>：<code>curl</code>、Python 3.10+。</li>
+<li><strong>目标站点</strong>：已部署在线上或本地预览的静态站点（示例域名 <code>https://blog.example.com</code>）。</li>
+</ul>
+<h2>操作步骤（SOP）</h2>
+<h3>1. 核验入口域名重定向链（严禁超过 1 跳且不能跨域漂移）</h3>
+<pre><code>curl -sSI -L --max-redirs 5 https://blog.example.com/ | grep -iE "^(HTTP/|location:)"
+curl -sSI http://blog.example.com/ | grep -iE "^(HTTP/|location:)"
+</code></pre>
+<p>标准健康状态：</p>
+<ul>
+<li><code>https://blog.example.com/</code> 直接返回 <code>HTTP/2 200</code>（0 跳转）；</li>
+<li><code>http://blog.example.com/</code> 单跳 <code>301</code>/<code>308</code> 到 <code>https://blog.example.com/</code>；</li>
+<li>如果同时存在 <code>www</code> 与根域名，只能保留<strong>单跳</strong>向规范主域的跳转，切忌出现“平台 A 跳根域 $\rightarrow$ 平台 B 跳 <code>www</code>”的多跳链路。</li>
+</ul>
+<h3>2. 对齐 <code>robots.txt</code>、<code>sitemap</code> 与 <code>404.html</code> 索引边界</h3>
+<p>抓下来对比三者是否自相矛盾：</p>
+<pre><code>curl -sS https://blog.example.com/robots.txt
+curl -sS https://blog.example.com/sitemap-index.xml
+curl -sS https://blog.example.com/non-existent-probe-url/ | grep -i "robots"
+</code></pre>
+<p>核验规则：</p>
+<ol>
+<li><code>robots.txt</code> 不应屏蔽正文目录（如 <code>/posts/</code>、<code>/assets/</code>、<code>_astro/</code>），但要精确 <code>Disallow</code> 已关闭或纯接口路由（如 <code>/api/</code> 及已下线功能页）；</li>
+<li><code>sitemap</code> 中<strong>绝对不能出现</strong> <code>/404</code>、已关闭页面或带 <code>noindex</code> 的 URL；</li>
+<li><code>404.html</code> 必须包含 <code>&lt;meta name="robots" content="noindex, nofollow" /&gt;</code>，且不要把“返回首页”做成软重定向或隐藏外链。</li>
+</ol>
+<h3>3. 检验 <code>&lt;link rel="canonical"&gt;</code>、OG 标签与 XML Feed 合法性</h3>
+<pre><code># 检查首页和任意文章页的 canonical 与 OG 标签
+curl -sS https://blog.example.com/ | grep -iE '&lt;link rel="canonical"|&lt;meta property="og:|application/ld\+json'
+
+# 用 Python 标准库直接解析 rss.xml 与 atom.xml，确保无未转义字符报错
+python3 - &lt;&lt;'EOF'
+import urllib.request
+import xml.etree.ElementTree as ET
+
+for path in ["/rss.xml", "/atom.xml"]:
+    data = urllib.request.urlopen("https://blog.example.com" + path, timeout=10).read()
+    ET.fromstring(data)
+    print(f"OK: {path} valid XML ({len(data)} bytes)")
+EOF
+</code></pre>
+<p>如果网站同时需要兼容反代域名，<code>&lt;link rel="canonical"&gt;</code> 使用根相对路径（如 <code>/posts/example/</code>）能避免在反代站上指向源站域名。</p>
+<h3>4. 审计 HTML 语义地标与站内导航链接有效性</h3>
+<p>检查核心模板是否正确使用 <code>&lt;header&gt;</code>、<code>&lt;nav&gt;</code>、<code>&lt;main&gt;</code>、<code>&lt;aside&gt;</code>、<code>&lt;footer&gt;</code> 语义标签，并消灭以下 4 类高危导航模式：</p>
+<ul>
+<li><code>href="#"</code> 或 <code>href="javascript:void(0)"</code> 的伪链接（未绑事件或无法回退时直接变成死交互）；</li>
+<li>本应作为静态展示卡片却外包空 <code>&lt;a href=""&gt;</code> 标签；</li>
+<li>通过无刷新路由（如 Swup）跳转后，未在纯功能页/协议页卸载广告脚本；</li>
+<li>迁移后残留的旧格式内链。</li>
+</ul>
+<h3>5. AdSense 导航与文件可达性专项核验</h3>
+<pre><code># 1. ads.txt 必须直接返回 200 且内容格式正确
+curl -sS -w "\nHTTP=%{http_code}\n" https://blog.example.com/ads.txt
+
+# 2. 检查非内容页（404 / 隐私政策 / 归档 / 友链）是否已隔离广告脚本
+for p in "/404.html" "/privacy/" "/archive/" "/friends/"; do
+  count=$(curl -sS "https://blog.example.com${p}" | grep -c "adsbygoogle.js" || true)
+  echo "$p -&gt; adsbygoogle count: $count"
+done
+</code></pre>
+<p>预期结果：所有非内容页与纯导航页 <code>adsbygoogle.js</code> 出现次数均为 <code>0</code>，而首页与正文页正常加载。</p>
+<h2>真实踩坑复盘与排查记录</h2>
+<ol>
+<li>
+<p><strong>现象：<code>sitemap.xml</code> 过滤器漏掉或误杀文章</strong></p>
+<ul>
+<li><strong>定位</strong>：使用了宽松的 <code>page.includes("/projects")</code> 字符串包含匹配，一旦某篇技术文章的 slug 里恰巧包含该词就会被误删；而 <code>/404</code> 却因为不在排除列表里被收录进了索引。</li>
+<li><strong>解决</strong>：先用 <code>new URL(page).pathname</code> 提取规范路径，再按精确前缀 <code>pathname === route || pathname.startsWith(route)</code> 匹配，并显式排除 <code>/404</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：RSS 阅读器订阅 <code>atom.xml</code> 报语法错误</strong></p>
+<ul>
+<li><strong>定位</strong>：手工模板拼接 XML 字符串时，某篇文章标题里出现了 <code>&amp;</code> 符号（如 <code>A &amp; B</code>），未做 <code>&amp;amp;</code> 转义。</li>
+<li><strong>解决</strong>：对 <code>&lt;title&gt;</code>、<code>&lt;subtitle&gt;</code>、<code>&lt;summary&gt;</code>、<code>&lt;name&gt;</code> 及属性字段全部经过 XML 实体转义，并在 CI 构建后强制跑一遍 <code>xml.etree.ElementTree</code> 解析校验。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：旧功能页关闭后仍然被搜索引擎抓取并报“重定向错误”</strong></p>
+<ul>
+<li><strong>定位</strong>：静态框架下给关闭的页面写了 <code>return Astro.redirect("/404/")</code>，静态构建后实际上在 <code>dist/</code> 生成了一个返回 HTTP 200 的 <code>&lt;meta http-equiv="refresh" content="0;url=/404/"&gt;</code> 软跳转页面。</li>
+<li><strong>解决</strong>：动态子路由在 <code>getStaticPaths()</code> 中直接返回空数组不产出文件，同时在 <code>robots.txt</code> 与 <code>sitemap</code> 中彻底剔除对应路由。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<ul>
+<li>[ ] 主域名单跳可达（HTTP $\rightarrow$ HTTPS 一跳，HTTPS 直出 <code>200</code>），无跨域名 301/308 跳转链；</li>
+<li>[ ] <code>ads.txt</code> 与 <code>robots.txt</code> 直接返回 <code>200</code>，规则与线上启用的页面完全一致；</li>
+<li>[ ] <code>rss.xml</code>、<code>atom.xml</code> 与 <code>sitemap-index.xml</code> 全部通过 XML 解析且不含 <code>/404</code>；</li>
+<li>[ ] 站内文章与页面无 <code>404</code> 内链、<code>javascript:void(0)</code> 死交互或伪装导航广告位。</li>
+</ul>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="/posts/adsense-low-value-content-recovery/">AdSense 低价值内容恢复实战：个人技术博客 30 天优化清单</a></li>
+<li><a href="/posts/static-blog-content-cluster-strategy/">技术博客内容集群怎么做：用现有文章建立读者能走通的阅读路径</a></li>
+<li><a href="/posts/static-site-reverse-proxy-domain-rewrite-guide/">静态博客反向代理与域名替换实战：Nginx 与 Cloudflare Workers 零重定向回环方案</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>Levi</name>
+    </author>
+    <category term="内容运营"></category>
+  </entry>
+  <entry>
+    <title>Docker Compose 生产级反向代理与 HTTPS 自动签发部署手册</title>
+    <link href="https://levifree.com/posts/docker-compose-reverse-proxy-https-deployment/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/docker-compose-reverse-proxy-https-deployment/</id>
+    <published>2026-11-24T00:00:00.000Z</published>
+    <updated>2026-11-24T00:00:00.000Z</updated>
+    <summary>单台 VPS 生产环境零痛点上线 SOP：用 Caddy + Docker Compose 实现内部网络隔离、ACME 自动 HTTPS、日志轮转与配置热重载。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>很多个人项目或小团队服务上云时，最常见也最危险的习惯是：在 <code>compose.yml</code> 里给每个后端容器都写上 <code>ports: - "3000:3000"</code>，然后再在宿主机装个 Nginx 去反代 <code>127.0.0.1:3000</code>。</p>
+<p>这套做法在生产环境藏着两个大坑：第一，Docker 默认修改 <code>iptables</code> 的 <code>DOCKER</code> 链，<strong><code>ports: "3000:3000"</code> 会直接绕过 Ubuntu 的 UFW 防火墙</strong>，把原本只该内网访问的端口直接暴露到公网；第二，每次手动续签证书、重载反代都要小心翼翼。改用 <strong>Caddy + Docker Compose 内部网络隔离</strong>后，TLS 证书全自动签发续期，后端端口完全不暴露到宿主机，配置热重载也是零中断。</p>
+<h2>前置条件与输入参数</h2>
+<ul>
+<li><strong>服务器环境</strong>：Ubuntu 22.04 / 24.04 或 Debian 12，已安装 Docker Engine 与 <code>docker compose</code> v2 插件。</li>
+<li><strong>域名解析</strong>：<code>app.example.com</code> 的 DNS <code>A</code> / <code>AAAA</code> 记录已指向当前 VPS 公网 IP，且云安全组及本机防火墙已放行 <code>80/tcp</code>、<code>443/tcp</code>（可选 <code>443/udp</code> 支持 HTTP/3）。</li>
+<li><strong>目录约定</strong>：统一部署目录 <code>/opt/stacks/web-prod</code>。</li>
+</ul>
+<h2>操作步骤（SOP）</h2>
+<h3>1. 初始化目录结构</h3>
+<pre><code>sudo mkdir -p /opt/stacks/web-prod/caddy
+cd /opt/stacks/web-prod
+</code></pre>
+<h3>2. 编写 <code>Caddyfile</code>（自动 HTTPS + 安全响应头 + 健康检查路由）</h3>
+<p>创建 <code>/opt/stacks/web-prod/caddy/Caddyfile</code>：</p>
+<pre><code>{
+	email ops@example.com
+}
+
+app.example.com {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	reverse_proxy app:3000 {
+		health_uri /healthz
+		health_interval 15s
+		health_timeout 3s
+	}
+}
+</code></pre>
+<h3>3. 编写生产级 <code>compose.yml</code>（网络隔离 + 日志轮转 + 仅暴露 80/443）</h3>
+<p>创建 <code>/opt/stacks/web-prod/compose.yml</code>：</p>
+<pre><code>services:
+  caddy:
+    image: caddy:2.9-alpine
+    container_name: prod-caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      app:
+        condition: service_healthy
+    networks:
+      - proxy_net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  app:
+    image: ghcr.io/example/web-app:1.0.0
+    container_name: prod-app
+    restart: unless-stopped
+    # 关键：仅使用 expose 对 proxy_net 内网开放，绝不绑定到宿主机 ports
+    expose:
+      - "3000"
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:3000/healthz"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - proxy_net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+volumes:
+  caddy_data:
+  caddy_config:
+
+networks:
+  proxy_net:
+    driver: bridge
+</code></pre>
+<h3>4. 校验配置并启动服务</h3>
+<p>先在正式启动前验证 <code>Caddyfile</code> 与 Compose 配置语法：</p>
+<pre><code>docker compose config --quiet
+docker run --rm -v "$PWD/caddy/Caddyfile:/etc/caddy/Caddyfile:ro" caddy:2.9-alpine caddy validate --config /etc/caddy/Caddyfile
+</code></pre>
+<p>验证无误后启动：</p>
+<pre><code>docker compose up -d
+docker compose logs -f caddy
+</code></pre>
+<p>看到 <code>certificate obtained successfully</code> 后即表示 HTTPS 证书已签发并持久化在 <code>caddy_data</code> 卷中。后续修改 <code>Caddyfile</code> 时<strong>无需重启容器</strong>，直接热重载：</p>
+<pre><code>docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile
+</code></pre>
+<h3>5. 备份 <code>caddy_data</code>（保护 ACME 账户与证书卷）</h3>
+<pre><code>docker run --rm -v web-prod_caddy_data:/data -v "$PWD:/backup" alpine \
+  tar czf /backup/caddy_data_backup.tar.gz -C /data .
+</code></pre>
+<h2>真实踩坑复盘与排查记录</h2>
+<ol>
+<li>
+<p><strong>现象：明明开了 UFW 防火墙只放行 80/443，公网却能直接访问 <code>http://IP:3000</code> 绕过反代</strong></p>
+<ul>
+<li><strong>定位</strong>：<code>compose.yml</code> 中写了 <code>ports: - "3000:3000"</code>，Docker 直接向 <code>iptables</code> 插入了 <code>DNAT</code> 规则，优先级高于 UFW 的 <code>INPUT</code> 拦截。</li>
+<li><strong>解决</strong>：删掉后端服务的 <code>ports</code> 映射，统一改用 <code>expose: ["3000"]</code>；若真需要调试端口，也只能绑定环回地址 <code>127.0.0.1:3000:3000</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：新容器重启瞬间，公网访问出现几秒 <code>502 Bad Gateway</code></strong></p>
+<ul>
+<li><strong>定位</strong>：<code>depends_on</code> 默认只等容器进程启动，不等内部 HTTP 服务监听就绪。</li>
+<li><strong>解决</strong>：在后端服务定义 <code>healthcheck</code>，并让 <code>caddy</code> 通过 <code>condition: service_healthy</code> 等待健康检查通过后再接入流量。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：跑了半年后 VPS 磁盘突然爆满 100%</strong></p>
+<ul>
+<li><strong>定位</strong>：Docker 默认 <code>json-file</code> 日志驱动<strong>没有大小上限</strong>，一个高频访问的容器日志能膨胀到几十 GB。</li>
+<li><strong>解决</strong>：在所有服务中强制写死 <code>max-size</code> 和 <code>max-file</code> 轮转上限。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：折腾配置时反复重建删除 <code>caddy_data</code> 卷，触发 Let's Encrypt 限流 429</strong></p>
+<ul>
+<li><strong>定位</strong>：每次删除匿名卷重新签发都消耗每周 5 次的同域名证书配额。</li>
+<li><strong>解决</strong>：务必使用命名卷 <code>caddy_data</code> 持久化证书；调试阶段在全局配置块加上 <code>acme_ca https://acme-staging-v02.api.letsencrypt.org/directory</code> 测试通畅后再切回正式 CA。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<pre><code># 1. 所有容器均处于 Up (healthy) / running 状态
+docker compose ps
+
+# 2. 验证宿主机仅监听 80 / 443，不存在 3000 公网暴露
+sudo ss -tulpn | grep -E ":(80|443|3000)\b"
+
+# 3. 验证 HTTP -&gt; HTTPS 自动跳转及安全头生效
+curl -sSI http://app.example.com/ | head -n 5
+curl -sSI https://app.example.com/ | grep -iE "^(HTTP/|strict-transport-security|x-content-type-options|x-frame-options)"
+
+# 4. 校验证书签发主体与有效期
+echo | openssl s_client -servername app.example.com -connect app.example.com:443 2&gt;/dev/null | openssl x509 -noout -issuer -dates
+</code></pre>
+<p>预期结果：<code>ss</code> 输出中 <code>3000</code> 端口未出现在宿主机监听列表；<code>http://</code> 返回 <code>308</code> 跳转至 <code>https://</code>；HTTPS 返回 <code>200</code> 且包含全部安全响应头，证书签发方与有效日期正常。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="/posts/docker-compose-network-dns-troubleshooting/">Docker Compose 网络与 DNS 故障排查：容器互通失败怎么查</a></li>
+<li><a href="/posts/nginx-proxy-manager/">Docker 部署 Nginx Proxy Manager: 小白也能搞定反向代理</a></li>
+<li><a href="/posts/self-hosted-monitoring-uptime-kuma-guide/">个人站监控实战：用 Uptime Kuma 建立可行动的故障告警</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>Levi</name>
+    </author>
+    <category term="Docker"></category>
+  </entry>
+  <entry>
+    <title>Astro 静态站上线前自动化验收与 CI 流水线：拦截死链、构建回归与合规漏洞</title>
+    <link href="https://levifree.com/posts/astro-ci-prelaunch-verification-pipeline/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/astro-ci-prelaunch-verification-pipeline/</id>
+    <published>2026-11-23T00:00:00.000Z</published>
+    <updated>2026-11-23T00:00:00.000Z</updated>
+    <summary>构建完整的 Astro 静态站上线前质量门禁：整合 TypeScript、Biome、Pagefind 以及针对 dist/ 产物的死链、XML、无刷新隔离断言脚本。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>写完文章、本地 <code>pnpm dev</code> 能打开页面，远远不等于站点可以放心上线。我们在一次全站合规审计中发现好几个“开发模式看不出、上线后立刻暴雷”的问题：</p>
+<ul>
+<li>从旧博客迁过来的 14 篇文章里藏着 43 个旧日期格式的站内死链，Astro 静态构建并不会对 Markdown 正文里的绝对路径报错；</li>
+<li>某个已经关闭的示例功能页（如相册子路由）依然会在 <code>dist/</code> 下产出带 <code>&lt;meta refresh&gt;</code> 的空壳 HTML；</li>
+<li>启用了 Swup 无刷新过渡后，用户从首页点进 <code>/privacy/</code> 或 <code>/404</code> 时，<code>&lt;head&gt;</code> 里已经加载的第三方广告脚本并不会自动销毁；</li>
+<li>Atom Feed 自己拼字符串时忘了转义 <code>&amp;</code>，导致某些标题直接让 XML 解析失败。</li>
+</ul>
+<p>把这些教训全部固化成一条<strong>单命令本地验证 + CI 自动化质量门禁</strong>，在合并发布前直接把缺陷拦截在 <code>dist/</code> 阶段。</p>
+<h2>前置条件与输入参数</h2>
+<ul>
+<li><strong>工程环境</strong>：Node.js 20+、<code>pnpm</code> 9+、Python 3.10+（用于构建产物断言脚本）。</li>
+<li><strong>项目工具链</strong>：<code>tsc</code>（类型检查）、<code>@biomejs/biome</code>（Lint/格式检查）、<code>astro build</code>、<code>pagefind</code>。</li>
+</ul>
+<h2>操作步骤（SOP）</h2>
+<h3>1. 跑通静态类型、规范检查与单元测试</h3>
+<p>在进入构建前，先把代码层的低级错误清理干净：</p>
+<pre><code>pnpm run type-check &amp;&amp; pnpm exec biome check ./src &amp;&amp; node --test tests/*.mjs
+</code></pre>
+<h3>2. 执行全量静态构建与 Pagefind 索引</h3>
+<pre><code>pnpm run build
+</code></pre>
+<p>确认输出包含完整的静态路由构建与 <code>pagefind</code> 索引统计（总索引页面数与词条数，避免误把纯跳转占位页灌入搜索索引）。</p>
+<h3>3. 编写 <code>dist/</code> 产物回归断言脚本（<code>scripts/verify-dist.py</code>）</h3>
+<p>构建成功只代表编译没挂，还需要对 <code>dist/</code> 产物做结构和合规断言：</p>
+<pre><code>#!/usr/bin/env python3
+import os
+import re
+import sys
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+DIST = Path("dist")
+DISALLOWED_AD_PAGES = [
+    "404.html",
+    "privacy/index.html",
+    "devices/index.html",
+    "archive/index.html",
+    "friends/index.html",
+    "rss/index.html",
+    "atom/index.html",
+]
+
+def main() -&gt; int:
+    # 1. 校验 404 页面存在且带有 noindex
+    page_404 = (DIST / "404.html").read_text(encoding="utf-8")
+    assert "noindex, nofollow" in page_404, "404.html 缺少 noindex, nofollow"
+
+    # 2. 校验非文章/纯导航页不加载广告脚本
+    for rel in DISALLOWED_AD_PAGES:
+        target = DIST / rel
+        assert target.exists(), f"缺少关键页面: {rel}"
+        html = target.read_text(encoding="utf-8")
+        assert "adsbygoogle.js" not in html, f"广告脚本泄漏到了禁用页面: {rel}"
+
+    # 3. 校验首页具备规范链接（根相对）及语义化地标
+    index_html = (DIST / "index.html").read_text(encoding="utf-8")
+    for required in ['&lt;link rel="canonical" href="/"&gt;', '&lt;header id="navbar"', '&lt;nav id="navbar-links-container"', "&lt;footer", "&lt;aside"]:
+        assert required in index_html, f"首页缺少必要结构: {required}"
+
+    # 4. 扫描所有文章页是否存在旧版 /YYYY/MM/DD/ 死链与未闭合代码块残留
+    for html_file in (DIST / "posts").rglob("*.html"):
+        text = html_file.read_text(encoding="utf-8", errors="ignore")
+        assert not re.search(r'href="/202[0-9]/\d{2}/\d{2}/', text), f"发现旧日期格式死链: {html_file}"
+
+    # 5. 校验 XML Feed 语法合法性
+    for feed in ["rss.xml", "atom.xml"]:
+        ET.parse(DIST / feed)
+
+    # 6. 校验 sitemap 不包含 404
+    for sm in DIST.glob("sitemap*.xml"):
+        sm_text = sm.read_text(encoding="utf-8")
+        assert "/404" not in sm_text, f"Sitemap 误收录了 404: {sm}"
+
+    print("ALL DIST VERIFICATION CHECKS PASSED.")
+    return 0
+
+if __name__ == "__main__":
+    sys.exit(main())
+</code></pre>
+<h3>4. 在 <code>package.json</code> 与 GitHub Actions 中串联执行</h3>
+<p>在 <code>package.json</code> 中增加统一验收命令：</p>
+<pre><code>{
+  "scripts": {
+    "verify": "pnpm run type-check &amp;&amp; pnpm exec biome check ./src &amp;&amp; node --test tests/*.mjs &amp;&amp; pnpm run build &amp;&amp; python3 scripts/verify-dist.py"
+  }
+}
+</code></pre>
+<p>并在 CI 工作流中直接运行 <code>pnpm run verify</code>，任何一项断言失败立即阻断合并和部署。</p>
+<h2>真实踩坑复盘与排查记录</h2>
+<ol>
+<li>
+<p><strong>现象：Swup 切换进入隐私页时，<code>&lt;head&gt;</code> 里注入的第三方广告脚本还在工作</strong></p>
+<ul>
+<li><strong>定位</strong>：Swup 的默认行为只替换 <code>&lt;main&gt;</code> 容器，不会卸载第一次加载文章页时已经执行过的 <code>&lt;head&gt;</code> 脚本。</li>
+<li><strong>解决</strong>：抽离统一的禁用路径判断函数 <code>isAdDisallowedPath()</code>，并在导航菜单、移动端抽屉、分类条和页脚中指向禁用页的 <code>&lt;a&gt;</code> 标签上自动追加 <code>data-no-swup</code> 属性，强制浏览器发起完整页面切换以清空上下文。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：页脚的 RSS/Atom 链接在特定页面点击毫无反应</strong></p>
+<ul>
+<li><strong>定位</strong>：模板中写了 <code>onclick="event.preventDefault(); navigateToPage(...)"</code>，但 <code>navigateToPage</code> 是模块化函数，并没有挂载到全局 <code>window</code> 上，点击即报错。</li>
+<li><strong>解决</strong>：删除内联 <code>onclick</code>，直接使用标准 <code>href</code> 配合 <code>data-no-swup</code>，并在 <code>verify-dist.py</code> 中禁止构建产物出现 <code>navigateToPage(</code> 内联调用。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：本地用 Markdown 写的跨文章链接在 <code>astro build</code> 时全部悄悄通过</strong></p>
+<ul>
+<li><strong>定位</strong>：Astro 不会把 Markdown 正文中的 <code>/2024/08/20/xxx/</code> 字符串当成模块导入，即使目标路由 404 也不会触发构建失败。</li>
+<li><strong>解决</strong>：在验收脚本中增加站内链接存在性正则扫描，要求所有 <code>/posts/&lt;slug&gt;/</code> 必须能在 <code>dist/posts/&lt;slug&gt;/index.html</code> 中找到实体文件。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<pre><code>pnpm run verify
+</code></pre>
+<p>预期结果：命令以退出码 <code>0</code> 结束，终端打印 <code>ALL DIST VERIFICATION CHECKS PASSED.</code>；故意在一个测试文章中写入失效 <code>/posts/non-existent/</code> 链接或把广告脚本放入 <code>/privacy/</code> 时，脚本能够立刻报错并定位到具体文件。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="/posts/astro-local-preview-regression-checklist/">Astro 本地预览验收清单：发布前用 15 分钟发现导航、资源与交互问题</a></li>
+<li><a href="/posts/astro-static-assets-404-debugging/">Astro 静态站图片 404 排查：从引用路径到浏览器回归的完整流程</a></li>
+<li><a href="/posts/github-actions-blog-ci-cd/">GitHub Actions 静态博客 CI/CD 实战：从提交校验到自动发布</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>Levi</name>
+    </author>
+    <category term="Astro"></category>
+  </entry>
+  <entry>
+    <title>静态博客反向代理与域名替换实战：Nginx 与 Cloudflare Workers 零重定向回环方案</title>
+    <link href="https://levifree.com/posts/static-site-reverse-proxy-domain-rewrite-guide/" rel="alternate" type="text/html"/>
+    <id>https://levifree.com/posts/static-site-reverse-proxy-domain-rewrite-guide/</id>
+    <published>2026-11-22T00:00:00.000Z</published>
+    <updated>2026-11-22T00:00:00.000Z</updated>
+    <summary>解决静态博客反代换域名的常见痛点：前端根相对路径解耦、Nginx/Workers 回源配置与响应改写，以及彻底消除 301/308 跨域重定向回环。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>把静态博客部署在 GitHub Pages 或 Vercel 后，经常会遇到需要通过反向代理替换访问域名的场景：比如源站默认域名在部分地区访问受限，或者希望在另一套主域名下统一接入 CDN 与安全策略。</p>
+<p>直接套一层 <code>proxy_pass</code> 上去往往会立刻撞墙——<strong>访问 <code>proxy.example.com</code>，结果被源站一脚 <code>301</code>/<code>308</code> 踢回 <code>origin.example.com</code></strong>；或者页面好不容易打开了，F12 一看 <code>&lt;link rel="canonical"&gt;</code>、RSS 订阅链接、分享海报二维码和评论系统全是指向旧域名。更麻烦的是，如果同时对接了广告审核（如 AdSense）或搜索引擎，跨域多跳重定向会被直接判定为“将用户重定向至不相关或误导性的网页”。</p>
+<p>这篇复盘把前端解耦与反代层的两种成熟落地方案（Nginx 与 Cloudflare Workers）整理成可直接复现的 SOP。</p>
+<h2>前置条件与输入参数</h2>
+<ul>
+<li><strong>架构拓扑</strong>：
+<ul>
+<li>访客入口域名（反代层）：<code>https://proxy.example.com</code></li>
+<li>上游静态源站：<code>https://origin.example.com</code></li>
+</ul>
+</li>
+<li><strong>前端工程条件</strong>：能修改静态站源码（本文以 Astro 为例，其他框架思路相同），确保核心导航与协议文件不硬编码绝对域名。</li>
+<li><strong>反代节点</strong>：一台已配置好 TLS 证书的 Nginx 1.24+ 服务器，或一个可绑定自定义路由的 Cloudflare Workers 账号。</li>
+</ul>
+<h2>操作步骤（SOP）</h2>
+<h3>1. 前端源站先行解耦域名硬编码</h3>
+<p>在动反代配置前，先把前端项目里“写死域名”的地方改掉，能靠相对路径和运行时 <code>window.location</code> 解决的，绝对不要在构建期写死：</p>
+<ol>
+<li><strong>Canonical 与 RSS 发现标签改为根相对路径</strong>：
+<ul>
+<li><code>&lt;link rel="canonical" href={Astro.url.pathname} /&gt;</code></li>
+<li><code>&lt;link rel="alternate" type="application/rss+xml" href="/rss.xml" /&gt;</code></li>
+</ul>
+</li>
+<li><strong>版权声明、订阅复制框与二维码使用运行时源站</strong>：
+<ul>
+<li>页面展示链接文本、RSS 复制框和分享二维码在客户端用 <code>window.location.origin</code> 与 <code>window.location.href</code> 动态生成，避免反代站点复制出源站链接。</li>
+</ul>
+</li>
+<li><strong>开放构建期 <code>SITE_URL</code> 环境变量覆盖</strong>：
+<ul>
+<li>对协议规定必须输出绝对 URL 的文件（<code>sitemap-*.xml</code>、<code>rss.xml</code>、<code>atom.xml</code>、<code>robots.txt</code>、<code>og:url</code>），在站点配置中支持读取环境变量：</li>
+</ul>
+</li>
+</ol>
+<pre><code>const rawSiteUrl =
+	(typeof process !== "undefined" ? process.env?.SITE_URL : undefined) ||
+	"https://origin.example.com/";
+export const SITE_URL = rawSiteUrl.endsWith("/") ? rawSiteUrl : `${rawSiteUrl}/`;
+</code></pre>
+<ol>
+<li><strong>评论系统（如 Giscus）放行反代域名白名单</strong>：
+<ul>
+<li>将 <code>https://proxy.example.com</code> 加入 <code>giscus.json</code> 的 <code>origins</code> 数组（不要偷懒写通配符 <code>.*</code>）。</li>
+</ul>
+</li>
+</ol>
+<h3>2. 方案 A：使用 Nginx 反向代理（含 SNI 与文本替换）</h3>
+<p>如果源站是托管在 Vercel / Cloudflare / GitHub Pages 上的 HTTPS 服务，Nginx 回源时<strong>必须打开 SNI</strong>，且在做 <code>sub_filter</code> 替换协议文件（如 <code>sitemap</code> / <code>rss.xml</code>）中的旧域名时，需向源站声明不压缩响应体：</p>
+<pre><code>server {
+    listen 443 ssl http2;
+    server_name proxy.example.com;
+
+    ssl_certificate     /etc/ssl/proxy.example.com/fullchain.pem;
+    ssl_certificate_key /etc/ssl/proxy.example.com/privkey.pem;
+
+    location / {
+        proxy_pass https://origin.example.com;
+
+        # 关键：传递上游所需的 SNI 与 Host
+        proxy_ssl_server_name on;
+        proxy_set_header Host origin.example.com;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # 重写上游返回的 Location 跳转头，防止把访客踢回源站域名
+        proxy_redirect https://origin.example.com/ https://proxy.example.com/;
+        proxy_redirect http://origin.example.com/ https://proxy.example.com/;
+
+        # 若未用 SITE_URL 重新构建，可开启 sub_filter 替换 XML/HTML 中的残留绝对 URL
+        proxy_set_header Accept-Encoding "";
+        sub_filter_types text/html application/xml text/xml application/rss+xml application/atom+xml text/plain;
+        sub_filter_once off;
+        sub_filter 'https://origin.example.com' 'https://proxy.example.com';
+    }
+}
+</code></pre>
+<p>校验并重载 Nginx：</p>
+<pre><code>sudo nginx -t &amp;&amp; sudo systemctl reload nginx
+</code></pre>
+<h3>3. 方案 B：使用 Cloudflare Workers 无服务器反代</h3>
+<p>如果没有独立 VPS，可以在 Cloudflare Workers 绑定 <code>proxy.example.com/*</code> 路由，重写请求 Host、响应 <code>Location</code> 重定向头以及 XML/HTML 文本里的绝对域名：</p>
+<pre><code>const ORIGIN_HOST = "origin.example.com";
+
+export default {
+  async fetch(request) {
+    const incomingUrl = new URL(request.url);
+    const upstreamUrl = new URL(request.url);
+    upstreamUrl.hostname = ORIGIN_HOST;
+    upstreamUrl.protocol = "https:";
+
+    const headers = new Headers(request.headers);
+    headers.set("Host", ORIGIN_HOST);
+    headers.set("X-Forwarded-Host", incomingUrl.hostname);
+
+    const upstreamRes = await fetch(upstreamUrl.toString(), {
+      method: request.method,
+      headers,
+      redirect: "manual",
+    });
+
+    const outHeaders = new Headers(upstreamRes.headers);
+    const location = outHeaders.get("Location");
+    if (location) {
+      outHeaders.set(
+        "Location",
+        location.replaceAll(`https://${ORIGIN_HOST}`, `https://${incomingUrl.hostname}`)
+                .replaceAll(`http://${ORIGIN_HOST}`, `https://${incomingUrl.hostname}`),
+      );
+    }
+
+    const contentType = outHeaders.get("Content-Type") || "";
+    const shouldRewrite =
+      contentType.includes("text/html") ||
+      contentType.includes("xml") ||
+      contentType.includes("text/plain");
+
+    if (!shouldRewrite) {
+      return new Response(upstreamRes.body, {
+        status: upstreamRes.status,
+        headers: outHeaders,
+      });
+    }
+
+    const bodyText = await upstreamRes.text();
+    const rewritten = bodyText.replaceAll(
+      `https://${ORIGIN_HOST}`,
+      `https://${incomingUrl.hostname}`,
+    );
+    outHeaders.delete("Content-Length");
+
+    return new Response(rewritten, {
+      status: upstreamRes.status,
+      headers: outHeaders,
+    });
+  },
+};
+</code></pre>
+<h2>真实踩坑复盘与排查记录</h2>
+<ol>
+<li>
+<p><strong>现象：直接访问 <code>proxy.example.com</code> 被连跳三次重定向到 <code>www.origin.example.com</code></strong></p>
+<ul>
+<li><strong>定位</strong>：GitHub Pages 启用了 <code>CNAME</code> 强制跳到根域，Vercel 又把根域 <code>308</code> 跳到了 <code>www</code> 子域，而反代层默认把上游 <code>301/308</code> 原封不动透传给了客户端，形成 <code>301 -&gt; 308 -&gt; 308</code> 链条。</li>
+<li><strong>解决</strong>：源站保留一个直达无跳转的规范接入点（如 Vercel 的主绑定域与 <code>siteURL</code> 一致，或解除多余 <code>CNAME</code> 跳转），并在反代层开启 <code>redirect: "manual"</code> / <code>proxy_redirect</code> 拦截改写 <code>Location</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：配了 Nginx <code>sub_filter</code>，但 <code>sitemap-0.xml</code> 里的链接依然没有被替换</strong></p>
+<ul>
+<li><strong>定位</strong>：一是因为上游默认返回了 <code>gzip</code>/<code>br</code> 压缩流，Nginx 不会解压后再跑 <code>sub_filter</code>；二是 <code>sub_filter_types</code> 默认只处理 <code>text/html</code>，漏掉了 <code>application/xml</code> 与 <code>text/plain</code>。</li>
+<li><strong>解决</strong>：显式加上 <code>proxy_set_header Accept-Encoding "";</code> 并在 <code>sub_filter_types</code> 中补全 XML/RSS/Atom/TXT MIME 类型。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：Nginx 回源 HTTPS 源站直接返回 <code>502 Bad Gateway</code> 或 <code>403</code></strong></p>
+<ul>
+<li><strong>定位</strong>：主流 Serverless/CDN 边缘节点依赖 TLS SNI 匹配站点证书，Nginx 默认不发送 SNI 扩展。</li>
+<li><strong>解决</strong>：加上 <code>proxy_ssl_server_name on;</code>。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<p>通过 <code>curl</code> 逐一核对反代入口的状态码、跳转次数与关键标签输出：</p>
+<pre><code># 1. 核心页面与静态协议文件必须单跳直出 HTTP 200（不能出现 301/302/308 跨域跳转）
+for path in "/" "/ads.txt" "/robots.txt" "/sitemap-index.xml" "/rss.xml" "/atom.xml"; do
+  echo -n "$path =&gt; "
+  curl -sSI --max-time 6 "https://proxy.example.com${path}" | awk 'NR==1{code=$2} /^location:/{loc=$2} END{print code, loc}'
+done
+
+# 2. 检查 HTML 中 canonical 与 rss link 不泄露源站域名
+curl -sS https://proxy.example.com/ | grep -E '&lt;link rel="(canonical|alternate)"'
+
+# 3. 检查 sitemap / robots 中已替换为反代域名
+curl -sS https://proxy.example.com/robots.txt
+</code></pre>
+<p>预期结果：所有核心路由均直接返回 <code>200</code> 且无 <code>Location</code> 跨域跳转；HTML <code>&lt;link rel="canonical"&gt;</code> 保持根相对路径 <code>/</code>，<code>robots.txt</code> 与 <code>sitemap</code> 中的域名全部为 <code>https://proxy.example.com</code>。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="/posts/nginx-502-504-troubleshooting/">Nginx 502/504 排错指南：反向代理常见故障的定位与修复</a></li>
+<li><a href="/posts/cloudflare-pages-performance-security/">Cloudflare Pages 性能与安全配置：先验证默认行为，再做最小改动</a></li>
+<li><a href="/posts/static-site-technical-seo-crawlability-checklist/">静态站技术 SEO 与可抓取性核验手册：从状态码、规范链接到结构化数据</a></li>
+</ul>
+]]></content>
+    <author>
+      <name>Levi</name>
+    </author>
+    <category term="Nginx"></category>
+  </entry>
   <entry>
     <title>站长日记：在喧嚣的信息时代，给自己的数字领地做一次深度断舍离</title>
     <link href="https://levifree.com/posts/site-migration-and-digital-minimalism-diary/" rel="alternate" type="text/html"/>
@@ -730,11 +1357,11 @@ openclaw onboard --install-daemon
 <pre><code>openclaw channels status --probe
 </code></pre>
 <p>如果飞书可用，可直接走 onboarding；如果不可用，再执行插件安装。</p>
-<p><img src="https://levifree.com/img/openclaw/feishu-step2-create-app.png" alt="Create Feishu App" />
+<p><img src="https://levifree.com/images/posts/openclaw-feishu-bot-integration/01-create-app.png" alt="创建飞书应用" />
 <em>图：飞书应用创建页面（官方文档截图）。</em></p>
-<p><img src="https://levifree.com/img/openclaw/feishu-step3-credentials.png" alt="Get Feishu Credentials" />
+<p><img src="https://levifree.com/images/posts/openclaw-feishu-bot-integration/02-get-credentials.png" alt="获取飞书应用凭据" />
 <em>图：飞书应用凭据获取位置（官方文档截图）。</em></p>
-<p><img src="https://levifree.com/img/openclaw/feishu-step4-permissions.png" alt="Configure Feishu Permissions" />
+<p><img src="https://levifree.com/images/posts/openclaw-feishu-bot-integration/03-configure-permissions.png" alt="配置飞书应用权限" />
 <em>图：飞书权限配置页面（官方文档截图）。</em></p>
 <h2>2. 旧版本/精简构建的插件安装路径</h2>
 <p>官方插件命令：</p>
@@ -789,9 +1416,9 @@ openclaw logs --follow
 </ul>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2026/02/24/openclaw-install-windows-linux-macos/">OpenClaw 跨平台安装实战</a></li>
-<li><a href="/2026/02/25/openclaw-telegram-bot-integration/">OpenClaw 对接 Telegram 机器人</a></li>
-<li><a href="/2026/02/26/openclaw-discord-bot-integration/">OpenClaw 对接 Discord 机器人</a></li>
+<li><a href="/posts/openclaw-install-windows-linux-macos/">OpenClaw 跨平台安装实战</a></li>
+<li><a href="/posts/openclaw-telegram-bot-integration/">OpenClaw 对接 Telegram 机器人</a></li>
+<li><a href="/posts/openclaw-discord-bot-integration/">OpenClaw 对接 Discord 机器人</a></li>
 </ul>
 ]]></content>
     <author>
@@ -878,9 +1505,9 @@ openclaw logs --follow
 </ul>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2026/02/24/openclaw-install-windows-linux-macos/">OpenClaw 跨平台安装实战</a></li>
-<li><a href="/2026/02/25/openclaw-telegram-bot-integration/">OpenClaw 对接 Telegram 机器人</a></li>
-<li><a href="/2026/02/27/openclaw-feishu-bot-integration/">OpenClaw 对接飞书机器人</a></li>
+<li><a href="/posts/openclaw-install-windows-linux-macos/">OpenClaw 跨平台安装实战</a></li>
+<li><a href="/posts/openclaw-telegram-bot-integration/">OpenClaw 对接 Telegram 机器人</a></li>
+<li><a href="/posts/openclaw-feishu-bot-integration/">OpenClaw 对接飞书机器人</a></li>
 </ul>
 ]]></content>
     <author>
@@ -956,9 +1583,9 @@ openclaw pairings approve &lt;pairing-id&gt;
 </ul>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2026/02/24/openclaw-install-windows-linux-macos/">OpenClaw 跨平台安装实战</a></li>
-<li><a href="/2026/02/26/openclaw-discord-bot-integration/">OpenClaw 对接 Discord 机器人</a></li>
-<li><a href="/2026/02/27/openclaw-feishu-bot-integration/">OpenClaw 对接飞书机器人</a></li>
+<li><a href="/posts/openclaw-install-windows-linux-macos/">OpenClaw 跨平台安装实战</a></li>
+<li><a href="/posts/openclaw-discord-bot-integration/">OpenClaw 对接 Discord 机器人</a></li>
+<li><a href="/posts/openclaw-feishu-bot-integration/">OpenClaw 对接飞书机器人</a></li>
 </ul>
 ]]></content>
     <author>
@@ -1081,10 +1708,10 @@ npm prefix -g
 </ul>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2026/02/28/openclaw-deploy-platforms-comparison/">OpenClaw 部署平台选择指南</a></li>
-<li><a href="/2026/02/25/openclaw-telegram-bot-integration/">OpenClaw 对接 Telegram 机器人</a></li>
-<li><a href="/2026/02/26/openclaw-discord-bot-integration/">OpenClaw 对接 Discord 机器人</a></li>
-<li><a href="/2026/02/27/openclaw-feishu-bot-integration/">OpenClaw 对接飞书机器人</a></li>
+<li><a href="/posts/openclaw-deploy-platforms-comparison/">OpenClaw 部署平台选择指南</a></li>
+<li><a href="/posts/openclaw-telegram-bot-integration/">OpenClaw 对接 Telegram 机器人</a></li>
+<li><a href="/posts/openclaw-discord-bot-integration/">OpenClaw 对接 Discord 机器人</a></li>
+<li><a href="/posts/openclaw-feishu-bot-integration/">OpenClaw 对接飞书机器人</a></li>
 </ul>
 ]]></content>
     <author>
@@ -1164,9 +1791,9 @@ curl -I http://api:8080
 只要你把“容器内 localhost 只指向自己”这件事吃透，80% 的互访问题都能一次定位。</p>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2025/06/28/nginx-502-504-troubleshooting/">Nginx 502/504 排错指南</a></li>
-<li><a href="/2025/03/18/cloudflare-pages-performance-security/">Cloudflare Pages 性能与安全优化</a></li>
-<li><a href="/2024/06/18/linux-server-security-baseline/">Linux 服务器安全基线实战</a></li>
+<li><a href="/posts/nginx-502-504-troubleshooting/">Nginx 502/504 排错指南</a></li>
+<li><a href="/posts/cloudflare-pages-performance-security/">Cloudflare Pages 性能与安全优化</a></li>
+<li><a href="/posts/linux-server-security-baseline/">Linux 服务器安全基线实战</a></li>
 </ul>
 ]]></content>
     <author>
@@ -1175,71 +1802,153 @@ curl -I http://api:8080
     <category term="Docker"></category>
   </entry>
   <entry>
-    <title>SSH 密钥安全指南：五步防止服务器被黑</title>
+    <title>SSH 密钥认证与登录加固实战：从生成 Ed25519 到防锁死验收</title>
     <link href="https://levifree.com/posts/ssh-key-security/" rel="alternate" type="text/html"/>
     <id>https://levifree.com/posts/ssh-key-security/</id>
     <published>2025-11-05T00:00:00.000Z</published>
-    <updated>2025-11-05T00:00:00.000Z</updated>
-    <summary>扔掉密码登录！打造银行级的 Linux 登录防线</summary>
-    <content type="html"><![CDATA[<p>任何一台暴露在公网的 Linux 服务器，每天都会遭受成千上万次的暴力破解攻击。如果你还在使用 <code>root</code> 密码登录，那你就像是把家门钥匙放在了门口地垫下。</p>
-<p>本文将教你通过配置 SSH 密钥对，彻底关闭密码登录入口，让黑客无门可入。</p>
-<h2>1. 原理：为什么密钥比密码安全？</h2>
+    <updated>2026-11-25T00:00:00.000Z</updated>
+    <summary>通过 drop-in 配置、双终端热加载验证与 Fail2Ban 加固 Linux SSH，彻底关闭密码暴力破解入口并规避 cloud-init 覆盖与锁死风险。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>把公网 VPS 跑起来后的第一天，<code>/var/log/auth.log</code> 里几乎每分钟都会出现来自世界各地的 <code>Failed password for root</code> 爆破日志。以前图省事直接照着网上教程改 <code>/etc/ssh/sshd_config</code>，结果踩过两次坑：一次是 Ubuntu 云主机重装后忘了 <code>/etc/ssh/sshd_config.d/50-cloud-init.conf</code> 会覆盖主配置里的 <code>PasswordAuthentication no</code>，以为关掉了密码登录，其实门还敞开着；另一次是在 Ubuntu 24.04 上直接改了 <code>Port</code> 并重启 <code>ssh.service</code>，却没留意 <code>ssh.socket</code> 还在监听 22 端口。</p>
+<p>把这篇旧笔记重构成一套完整的上线加固 SOP，目标只有一个：<strong>一次配对、零锁死风险、可命令验证</strong>。</p>
+<h2>前置条件与输入参数</h2>
 <ul>
-<li><strong>密码</strong>：也就是 "Something you know"。可能被猜解、被字典甚至被中间人拦截。</li>
-<li><strong>私钥</strong>：也就是 "Something you have"。使用非对称加密算法（如 Ed25519 或 RSA）。只有拥有私钥文件的人才能解开服务器发来的挑战码。</li>
-</ul>
-<h2>2. 生成高强度密钥对 (Ed25519)</h2>
-<p>虽然 RSA 是老牌标准，但在 2026 年，推荐使用更短、更快且更安全的 <strong>Ed25519</strong> 算法。</p>
-<p>在你的本机（Mac/Windows）终端运行：</p>
-<pre><code>ssh-keygen -t ed25519 -C "your_email@example.com"
-</code></pre>
+<li><strong>本地终端</strong>：macOS / Linux（OpenSSH 8.0+）或 Windows 11（内置 OpenSSH Client）。</li>
+<li><strong>目标主机</strong>：Ubuntu 22.04 / 24.04 或 Debian 12，具备一个已创建且拥有 <code>sudo</code> 权限的非 root 运维账号（示例使用 <code>ops</code>）。</li>
+<li><strong>示例参数</strong>：
 <ul>
-<li>这会生成 <code>id_ed25519</code> (私钥，严禁泄露) 和 <code>id_ed25519.pub</code> (公钥)。</li>
-<li><strong>强烈建议</strong> 设置 passphrase（密钥密码），这样即使私钥文件被偷，没有密码也无法使用。</li>
+<li>服务端公网地址：<code>203.0.113.10</code> 或 <code>bastion.example.com</code></li>
+<li>自定义 SSH 端口：<code>22222</code></li>
+<li>本地密钥文件：<code>~/.ssh/id_ed25519_prod</code></li>
 </ul>
-<h2>3. 将公钥部署到服务器</h2>
-<p>使用 <code>ssh-copy-id</code> 命令是最简单的方法：</p>
-<pre><code>ssh-copy-id -i ~/.ssh/id_ed25519.pub user@server_ip
+</li>
+</ul>
+<h2>操作步骤（SOP）</h2>
+<h3>1. 在本地生成 Ed25519 密钥对并配置 Host 别名</h3>
+<pre><code>ssh-keygen -t ed25519 -a 64 -C "ops@example.com" -f ~/.ssh/id_ed25519_prod
+chmod 600 ~/.ssh/id_ed25519_prod
+chmod 644 ~/.ssh/id_ed25519_prod.pub
 </code></pre>
-<p>如果手动配置，就是将公钥内容追加到服务器的 <code>~/.ssh/authorized_keys</code> 文件中。</p>
-<h2>4. 关键：禁用密码登录</h2>
-<p>上传完公钥并确认能成功登录后，必须<strong>禁止密码登录</strong>，否则以上工作白做。</p>
-<p>编辑服务器的 <code>/etc/ssh/sshd_config</code>：</p>
-<pre><code># 禁用 root 用户登录 (可选，建议)
+<p>生成时务必设置高强度 passphrase，避免私钥文件意外泄露后被直接使用。接着在 <code>~/.ssh/config</code> 中添加别名，减少后续命令拼写失误：</p>
+<pre><code>Host prod-web
+    HostName bastion.example.com
+    User ops
+    Port 22
+    IdentityFile ~/.ssh/id_ed25519_prod
+    IdentitiesOnly yes
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+</code></pre>
+<h3>2. 上传公钥并锁定 <code>authorized_keys</code> 权限</h3>
+<pre><code>ssh-copy-id -i ~/.ssh/id_ed25519_prod.pub -p 22 ops@bastion.example.com
+</code></pre>
+<p>如果目标环境未提供 <code>ssh-copy-id</code>（例如部分救援控制台），手动登录服务器后执行：</p>
+<pre><code>mkdir -p ~/.ssh &amp;&amp; chmod 700 ~/.ssh
+cat &gt;&gt; ~/.ssh/authorized_keys &lt;&lt;'EOF'
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIExamplePublicKeyMaterialHere ops@example.com
+EOF
+chmod 600 ~/.ssh/authorized_keys
+</code></pre>
+<p>在禁用密码前，先用新参数显式测试密钥登录：</p>
+<pre><code>ssh -o PubkeyAuthentication=yes -o PasswordAuthentication=no -i ~/.ssh/id_ed25519_prod ops@bastion.example.com
+</code></pre>
+<h3>3. 通过 drop-in 文件写入加固配置（防止被 cloud-init 覆盖）</h3>
+<p>现代 Debian / Ubuntu 在 <code>/etc/ssh/sshd_config</code> 顶部通过 <code>Include /etc/ssh/sshd_config.d/*.conf</code> 加载子配置，OpenSSH 遵循**先匹配生效（first-match-wins）**原则。因此要把加固文件放在数字更小、优先加载的位置，或直接检查并覆盖 <code>50-cloud-init.conf</code>。</p>
+<p>先排查现有覆盖项：</p>
+<pre><code>sudo ls -la /etc/ssh/sshd_config.d/
+sudo grep -rnE "PasswordAuthentication|PermitRootLogin|PubkeyAuthentication" /etc/ssh/sshd_config /etc/ssh/sshd_config.d/
+</code></pre>
+<p>创建高优先级配置 <code>/etc/ssh/sshd_config.d/01-hardening.conf</code>：</p>
+<pre><code>sudo tee /etc/ssh/sshd_config.d/01-hardening.conf &gt; /dev/null &lt;&lt;'EOF'
+Port 22222
 PermitRootLogin no
-
-# 禁用密码认证 (必须)
 PasswordAuthentication no
-
-# 禁用空密码
+KbdInteractiveAuthentication no
 PermitEmptyPasswords no
-
-# 启用公钥认证
 PubkeyAuthentication yes
+AuthenticationMethods publickey
+MaxAuthTries 3
+LoginGraceTime 30
+AllowUsers ops
+X11Forwarding no
+AllowAgentForwarding no
+EOF
 </code></pre>
-<p>重启 SSH 服务：</p>
-<pre><code>sudo service ssh restart
+<p>检查语法是否合法：</p>
+<pre><code>sudo sshd -t
 </code></pre>
-<p>sudo service ssh restart</p>
-<pre><code>
-### ⚠️ 关键安全警告 (保命技巧)
+<p>若提示端口或权限语法错误，先修正后再继续，命令无输出即代表语法通过。</p>
+<h3>4. 防火墙放行新端口并双终端安全重载</h3>
+<p>在切端口前先放行防火墙，并<strong>保持当前已连接的终端窗口不关闭</strong>：</p>
+<pre><code>sudo ufw allow 22222/tcp comment "SSH custom port"
+sudo ufw status numbered
+</code></pre>
+<p>若是 Ubuntu 24.04 使用 <code>ssh.socket</code>（systemd socket activation），需同步覆盖监听端口或切回 <code>ssh.service</code>：</p>
+<pre><code>sudo systemctl status ssh.socket
+sudo systemctl disable --now ssh.socket
+sudo systemctl enable --now ssh.service
+sudo systemctl reload ssh
+</code></pre>
+<p>此时<strong>不要断开原终端</strong>，另开一个本地终端，把 <code>~/.ssh/config</code> 中的 <code>Port</code> 改为 <code>22222</code>，然后执行：</p>
+<pre><code>ssh prod-web
+</code></pre>
+<p>确认新会话成功进入服务器后，再删掉旧的 22 端口防火墙规则并启用 Fail2Ban：</p>
+<pre><code>sudo ufw delete allow 22/tcp
+sudo apt-get update &amp;&amp; sudo apt-get install -y fail2ban
+sudo tee /etc/fail2ban/jail.d/sshd.local &gt; /dev/null &lt;&lt;'EOF'
+[sshd]
+enabled = true
+port = 22222
+maxretry = 4
+findtime = 10m
+bantime = 1h
+EOF
+sudo systemctl enable --now fail2ban
+</code></pre>
+<h2>真实踩坑复盘与排查记录</h2>
+<ol>
+<li>
+<p><strong>现象：<code>sshd_config</code> 改了 <code>PasswordAuthentication no</code>，密码仍然能登录</strong></p>
+<ul>
+<li><strong>定位</strong>：执行 <code>sudo sshd -T | grep passwordauthentication</code> 发现输出仍是 <code>yes</code>。顺着 <code>/etc/ssh/sshd_config.d/</code> 排查，发现云厂商镜像自带 <code>50-cloud-init.conf</code> 且在主配置顶部被优先 <code>Include</code>。</li>
+<li><strong>解决</strong>：将加固配置命名为 <code>01-hardening.conf</code> 抢占 first-match，并用 <code>sshd -T</code> 核验最终运行时生效值。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：Ubuntu 24.04 修改端口后重启 <code>ssh</code>，22222 端口死活连不上</strong></p>
+<ul>
+<li><strong>定位</strong>：用 <code>sudo ss -tulpn | grep ssh</code> 发现监听仍在 <code>*:22</code>（由 systemd <code>ssh.socket</code> 托管）。</li>
+<li><strong>解决</strong>：停用 <code>ssh.socket</code> 改用传统 <code>ssh.service</code>，或通过 <code>systemctl edit ssh.socket</code> 覆写 <code>ListenStream=22222</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：公钥已经复制上去，客户端仍回退到密码提示</strong></p>
+<ul>
+<li><strong>定位</strong>：服务端 <code>ssh -vvv</code> 日志出现 <code>Authentication refused: bad ownership or modes for directory /home/ops/.ssh</code>，或目标机器开启了 SELinux 导致上下文标签错乱。</li>
+<li><strong>解决</strong>：严格执行 <code>chmod 700 ~/.ssh</code> 与 <code>chmod 600 ~/.ssh/authorized_keys</code>；RHEL/AlmaLinux 系列额外执行 <code>restorecon -Rv ~/.ssh</code>。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<p>执行以下命令逐项核验，全部满足才算加固完成：</p>
+<pre><code># 1. 验证 sshd 最终生效配置（非仅仅看文件表面）
+sudo sshd -T | grep -E "port |permitrootlogin|passwordauthentication|pubkeyauthentication|kbdinteractiveauthentication"
 
-在执行 `restart` 重启 SSH 服务之前，**千万不要关闭当前的终端窗口！**
-请新开一个终端窗口尝试连接服务器。
-*   **如果成功**：恭喜，配置完成。
-*   **如果失败**：你还有救！在原来的窗口中把 `sshd_config` 改回去并再次重启服务。
+# 2. 验证实际监听端口
+sudo ss -tulpn | grep 22222
 
-如果全关了且连不上，你只能去云服务商的网页控制台（VNC/Console）救急了。
+# 3. 从本地确认禁止密码回退（应直接报 Permission denied (publickey)）
+ssh -o PubkeyAuthentication=no -o PasswordAuthentication=yes -p 22222 ops@bastion.example.com
 
-## 5. 进阶防护
-
-为了固若金汤，你还可以：
-1.  **修改默认端口**：将 SSH 端口从 22 改为不常用的（如 22222），能过滤掉 99% 的脚本扫描。
-2.  **Fail2Ban**：安装 Fail2Ban 软件，当检测到有人连续 N 次尝试登录失败时，自动在防火墙层面拉黑其 IP。
-
-## 总结
-
-安全没有绝对，只有成本。通过配置 SSH 密钥+禁用密码，我们将攻击者的破解成本从“跑字典”提升到了“攻破加密算法”的天文数字级别。这是每个服务器管理员的基本素养。</code></pre>
+# 4. 确认 Fail2Ban jail 正常运转
+sudo fail2ban-client status sshd
+</code></pre>
+<p>预期结果：<code>sshd -T</code> 输出 <code>permitrootlogin no</code>、<code>passwordauthentication no</code>、<code>pubkeyauthentication yes</code>；新端口 22222 处于 <code>LISTEN</code>；禁用公钥测试被服务端直接拒绝；<code>fail2ban-client status sshd</code> 返回激活状态。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="/posts/linux-server-security-baseline/">Linux 服务器安全基线实战：新机上线前必须完成的 12 项加固</a></li>
+<li><a href="/posts/self-hosted-monitoring-uptime-kuma-guide/">个人站监控实战：用 Uptime Kuma 建立可行动的故障告警</a></li>
+</ul>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -1446,43 +2155,121 @@ PubkeyAuthentication yes
     <category term="个人成长"></category>
   </entry>
   <entry>
-    <title>Tailwind CSS 为什么这么火？从原子化 CSS 看前端趋势</title>
+    <title>Tailwind CSS v4 工程化实战：从 CSS-First 配置到设计令牌落地</title>
     <link href="https://levifree.com/posts/why-tailwind-css/" rel="alternate" type="text/html"/>
     <id>https://levifree.com/posts/why-tailwind-css/</id>
     <published>2025-08-05T00:00:00.000Z</published>
-    <updated>2025-08-05T00:00:00.000Z</updated>
-    <summary>爱的人爱死，恨的人恨死：深入解析 Utility-First CSS 的设计哲学</summary>
-    <content type="html"><![CDATA[<blockquote>
-<p>"Best practices are actually just common practices."</p>
-</blockquote>
-<p>如果你是在 2026 年做前端开发，很难避开 Tailwind CSS。从 Next.js 到 GitHub 官网，越来越多的顶级项目开始全面拥抱它。</p>
-<p>但争议依然存在：“这不就是把行内样式 (Inline Styles) 写在 class 里吗？”
-今天我们就来聊聊 Tailwind 到底解决了什么问题，以及为什么它值得你学习。</p>
-<h2>1. 传统 CSS 的困境</h2>
-<p>在写 BEM (Block Element Modifier) 或者 Bootstrap 时，我们要么受限于框架预设的组件（改起来很痛苦），要么就要绞尽脑汁给每一个 <code>div</code> 起名字：<code>user-profile-wrapper-inner-container</code>... 听着就累。</p>
-<p>而且，随着项目变大，CSS 只增不减。因为你不敢随便删除一个 CSS 类，怕影响到不知名角落的某个按钮。</p>
-<h2>2. Utility-First (原子化) 的优势</h2>
-<p>Tailwind 提倡直接在 HTML 中使用预定义的工具类，如 <code>flex</code>, <code>pt-4</code>, <code>text-center</code>, <code>rotate-90</code>。</p>
-<h3>2.1 减少上下文切换</h3>
-<p>你不需要在 HTML 和 CSS 文件之间来回切换。想加个 padding？直接写 <code>p-4</code>，思路不打断，开发效率极高。</p>
-<h3>2.2 此时此地 (Locality of Behavior)</h3>
-<p>所有的样式都以此处为准。改了这里的 class，只会影响这个元素，绝对不会有“牵一发而动全身”的副作用。这让维护遗留代码变得异常轻松。</p>
-<h3>2.3 极小的打包体积</h3>
-<p>Tailwind 会在构建时自动扫描你的代码，只打包你用到的 class。一个庞大的项目，最终的 CSS 文件可能只有 10KB。</p>
-<h2>3. 常见误解：HTML 会变得很丑？</h2>
-<p>是的，你的 HTML 可能会看起来像这样：</p>
-<pre><code>&lt;button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"&gt;
-  Button
-&lt;/button&gt;
+    <updated>2026-11-25T00:00:00.000Z</updated>
+    <summary>复盘 Tailwind CSS v4 的 CSS-First 架构改造：@tailwindcss/vite 接入、@theme 设计令牌、暗黑模式变体及组件作用域 @reference 避坑。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>旧版文章还停留在“原子化 CSS 为什么火”的泛泛科普，甚至留着不严谨的版本假设。过去一年把博客主题和多个前端工具站从 Tailwind v3 迁移到正式的 <strong>Tailwind CSS v4</strong> 后，整个工具链其实发生了根本变化：不再需要维护笨重的 <code>tailwind.config.js</code> 和 <code>postcss.config.js</code>，构建引擎转向 Rust/Oxide，配置模式也从 JS 对象变成了原生的 <strong>CSS-First</strong>。</p>
+<p>但 v4 迁移过程中如果不理解它的级联层（Cascade Layers）和组件样式隔离规则，很容易被 <code>@apply</code> 报错或类名被 Tree-shake 坑到。这篇重写把核心迁移与工程落地的 SOP 固定下来。</p>
+<h2>前置条件与输入参数</h2>
+<ul>
+<li><strong>Node.js</strong>：20 LTS 或更高版本，包管理器使用 <code>pnpm</code> 9+。</li>
+<li><strong>构建器</strong>：Vite 6+（或 Astro 5+ / Next.js 15+）。</li>
+<li><strong>核心依赖</strong>：<code>tailwindcss</code>（<code>^4.x</code>）与 <code>@tailwindcss/vite</code>（<code>^4.x</code>）。</li>
+</ul>
+<h2>操作步骤（SOP）</h2>
+<h3>1. 安装并接入 Vite 插件</h3>
+<p>卸载 v3 时代的 <code>autoprefixer</code> 和旧 PostCSS 配置，直接安装 v4：</p>
+<pre><code>pnpm add tailwindcss @tailwindcss/vite
 </code></pre>
-<p>确实很长。但现在的组件化开发（React/Vue）完美解决了这个问题。你只需要把这一长串 class 写在一个 <code>&lt;Button&gt;</code> 组件里，然后在其他地方引用组件即可：</p>
-<pre><code>&lt;Button&gt;Click me&lt;/Button&gt;
+<p>在 <code>vite.config.ts</code>（或 <code>astro.config.mjs</code> 的 <code>vite.plugins</code>）中注册插件：</p>
+<pre><code>import tailwindcss from "@tailwindcss/vite";
+import { defineConfig } from "vite";
+
+export default defineConfig({
+	plugins: [tailwindcss()],
+});
 </code></pre>
-<p>原本的缺点，在组件化时代反而成了优点：样式与结构的高度内聚。</p>
-<h2>4. 2026 年的新趋势</h2>
-<p>随着 Tailwind v4 引擎的发布（假设），编译速度更是提升了 10 倍。配合 AI 辅助编程，你只需要告诉 Copilot "创建一个带阴影的卡片"，它会直接吐出完美的 Tailwind 代码。</p>
-<h2>总结</h2>
-<p>Tailwind CSS 可能不是银弹，但它是目前构建现代、响应式 Web 界面最高效的工具。一旦你习惯了这种“所想即所得”的开发流，就很难再回得去了。</p>
+<h3>2. 用 CSS-First 方式定义主题与设计令牌</h3>
+<p>创建 <code>src/styles/main.css</code>，用 <code>@import "tailwindcss";</code> 替代过去的 <code>@tailwind base/components/utilities;</code> 三条指令，并用 <code>@theme</code> 和 <code>@custom-variant</code> 声明设计令牌与暗黑模式选择器：</p>
+<pre><code>@import "tailwindcss";
+@custom-variant dark (&amp;:where(.dark, .dark *));
+
+@theme {
+	--font-sans: "Inter", "PingFang SC", system-ui, sans-serif;
+	--font-mono: "JetBrains Mono", ui-monospace, monospace;
+	--radius-card: 0.75rem;
+}
+
+:root {
+	--hue: 240;
+	--primary: oklch(0.65 0.16 var(--hue));
+	--card-bg: oklch(1 0 0);
+	--page-bg: oklch(0.96 0.01 var(--hue));
+}
+
+:root.dark {
+	--primary: oklch(0.75 0.14 var(--hue));
+	--card-bg: oklch(0.22 0.01 var(--hue));
+	--page-bg: oklch(0.16 0.01 var(--hue));
+}
+</code></pre>
+<p>这里把色相抽成 <code>--hue</code>，让主色与卡片底色通过 OKLCH 运行时动态计算，比在 JS 配置里枚举色阶简洁得多。</p>
+<h3>3. 在组件作用域样式中正确引用令牌与 <code>@apply</code></h3>
+<p>在 Astro、Svelte 或 Vue 的 <code>&lt;style&gt;</code> 块中直接使用 <code>@apply</code> 或 <code>@variant</code> 时，v4 会默认把它当成独立 CSS 文件处理，导致找不到主题变量。必须在作用域样式顶部显式加入 <code>@reference</code>：</p>
+<pre><code>&lt;style&gt;
+	@reference "../styles/main.css";
+	@custom-variant dark (&amp;:where(.dark, .dark *));
+
+	.nav-pill {
+		@apply px-3 py-1.5 rounded-lg text-sm font-medium transition-colors;
+		background-color: var(--card-bg);
+	}
+&lt;/style&gt;
+</code></pre>
+<h3>4. 用静态映射替代动态字符串拼接类名</h3>
+<p>Tailwind 扫描源码采用静态词法提取，禁止拼写诸如 <code>text-${color}-500</code> 的字符串。统一收敛到完整类名字典：</p>
+<pre><code>const BADGE_CLASS_MAP = {
+	info: "bg-sky-500/10 text-sky-600 dark:text-sky-400",
+	warn: "bg-amber-500/10 text-amber-600 dark:text-amber-400",
+	error: "bg-rose-500/10 text-rose-600 dark:text-rose-400",
+} as const;
+
+export function getBadgeClass(level: keyof typeof BADGE_CLASS_MAP): string {
+	return BADGE_CLASS_MAP[level];
+}
+</code></pre>
+<h2>真实踩坑复盘与排查记录</h2>
+<ol>
+<li>
+<p><strong>现象：迁移后 Svelte/Astro 组件报错 <code>Cannot apply unknown utility class</code></strong></p>
+<ul>
+<li><strong>定位</strong>：组件 <code>&lt;style&gt;</code> 是单独编译的，未引入全局样式上下文，导致 <code>@apply</code> 解析不到 <code>main.css</code> 里的主题定义。</li>
+<li><strong>解决</strong>：在用到 <code>@apply</code> 的局部样式顶部添加 <code>@reference "../styles/main.css";</code>（只引入类型与主题引用，不会重复打包一次全量 CSS）。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：本地 <code>dev</code> 样式正常，生产 <code>build</code> 后部分按钮颜色丢失</strong></p>
+<ul>
+<li><strong>定位</strong>：代码里写了 <code>bg-(--status-color)</code> 之外的动态拼接类名，开发期热缓存恰好保留过旧类，全量静态扫描时未命中。</li>
+<li><strong>解决</strong>：改用完整静态字面量映射表，或者用内联 CSS 变量 <code>style={</code>--badge-color: ${hex}<code>}</code> 配合 <code>bg-(--badge-color)</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：自定义全局 Reset 覆盖了 <code>p-4</code>、<code>m-2</code> 等工具类</strong></p>
+<ul>
+<li><strong>定位</strong>：v4 把工具类放在 <code>@layer utilities</code> 中，如果在入口 CSS 顶层直接写无层级的 <code>* { margin: 0; padding: 0; }</code>，按 CSS Cascade Layers 规范，<strong>未分层的样式优先级高于任何 <code>@layer</code></strong>。</li>
+<li><strong>解决</strong>：所有基础重置规则必须包裹进 <code>@layer base { ... }</code>。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<pre><code># 1. 执行生产构建并检查 CSS 产物体积与是否存在未解析指令
+pnpm run build
+ls -lh dist/_astro/*.css
+
+# 2. 确认产物中不包含未编译的 @apply 或 @reference 残留
+grep -rnE "@apply|@reference|@theme" dist/_astro/*.css || echo "OK: no raw tailwind directives in bundle"
+</code></pre>
+<p>预期结果：构建 0 报错，最终 CSS 产物体积稳定在几十 KB 内，且 <code>dist/_astro/*.css</code> 中不存在未编译的 <code>@apply</code>、<code>@reference</code> 或 <code>@theme</code> 原始指令；切换 <code>.dark</code> 类名后页面色彩与边框即时响应。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="/posts/nextjs-app-router/">Next.js App Router 实战指南：服务端组件、缓存语义与数据边界设计</a></li>
+<li><a href="/posts/webp-vs-avif/">WebP vs AVIF 实战指南：如何在真实项目里做图片格式选型</a></li>
+</ul>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -1694,9 +2481,9 @@ df -h
 流程固定后，故障恢复时间会显著缩短。</p>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2025/02/20/nginx-proxy-manager/">Docker 部署 Nginx Proxy Manager</a></li>
-<li><a href="/2024/06/18/linux-server-security-baseline/">Linux 服务器安全基线实战</a></li>
-<li><a href="/2025/12/08/docker-compose-network-dns-troubleshooting/">Docker Compose 网络与 DNS 故障排查</a></li>
+<li><a href="/posts/nginx-proxy-manager/">Docker 部署 Nginx Proxy Manager</a></li>
+<li><a href="/posts/linux-server-security-baseline/">Linux 服务器安全基线实战</a></li>
+<li><a href="/posts/docker-compose-network-dns-troubleshooting/">Docker Compose 网络与 DNS 故障排查</a></li>
 </ul>
 ]]></content>
     <author>
@@ -2012,61 +2799,120 @@ services:
     <category term="运维"></category>
   </entry>
   <entry>
-    <title>提升 macOS 效率的 5 个终端 (Terminal) 技巧</title>
+    <title>macOS 终端效率工程化配置：Zsh、fzf、ripgrep 与排错常用命令组合</title>
     <link href="https://levifree.com/posts/macos-terminal-tips/" rel="alternate" type="text/html"/>
     <id>https://levifree.com/posts/macos-terminal-tips/</id>
     <published>2025-04-12T00:00:00.000Z</published>
-    <updated>2025-04-12T00:00:00.000Z</updated>
-    <summary>摆脱鼠标依赖，让你的命令行操作行云流水</summary>
-    <content type="html"><![CDATA[<p>作为一名 macOS 用户，终端 (Terminal) 是我们最强大的工具之一。无论你是开发者还是普通的高级用户，掌握一些 Shell 技巧都能让你的工作效率倍增。</p>
-<p>本文将分享 5 个我每天都在用的 Zsh/Bash 小技巧，不需要安装复杂的插件，开箱即用。</p>
-<h2>1. 快速回到上一个目录 (<code>cd -</code>)</h2>
-<p>这可能是最简单但最实用的命令。
-当你在深层目录 <code>/Users/levi/project/src/components/</code> 和系统目录 <code>/etc/nginx/</code> 之间频繁切换时，不需要每次都打完整路径。</p>
-<p>只需输入：</p>
-<pre><code>cd -
-</code></pre>
-<p>系统就会自动把你带回“上一次所在的目录”。</p>
-<h2>2. 这里的命令太长了？用 <code>Ctrl + A</code> 和 <code>Ctrl + E</code></h2>
-<p>当你在终端敲了一行巨长的命令，结果发现最开头的 <code>sudo</code> 忘了加，或者拼写错了一个词：</p>
+    <updated>2026-11-25T00:00:00.000Z</updated>
+    <summary>摆脱卡顿的 Oh My Zsh 插件堆砌：用 Homebrew 轻量工具链（fzf/ripgrep/zoxide）与实战排错命令组合，打造 100ms 启动的 macOS 终端。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>以前写的终端技巧停留在 <code>cd -</code>、<code>Ctrl + A</code> 这种入门按键，在实际排查问题和日常开发里远远不够用。同时我自己也踩过一个很经典的“折腾反转”坑：前两年给 Oh My Zsh 装了一堆主题和自动补全插件，每次打开新终端标签页要卡顿 1.2 秒以上；最后干脆全清掉，只保留原生 Zsh 配合几个 Rust/Go 写的命令行利器（<code>fzf</code>、<code>ripgrep</code>、<code>fd</code>、<code>zoxide</code>、<code>jq</code>），启动速度压到 100ms 以内，检索代码和排查线上网络问题的效率反而翻倍。</p>
+<h2>前置条件与输入参数</h2>
 <ul>
-<li><strong>不要</strong> 狂按左箭头键。</li>
-<li>按下 <strong><code>Ctrl + A</code></strong>：光标瞬间跳到行首。</li>
-<li>按下 <strong><code>Ctrl + E</code></strong>：光标瞬间跳到行尾。</li>
+<li><strong>系统环境</strong>：macOS（Apple Silicon 或 Intel），已安装 Xcode Command Line Tools 与 Homebrew。</li>
+<li><strong>目标配置文件</strong>：<code>~/.zshrc</code>（备份原配置后再修改：<code>cp ~/.zshrc ~/.zshrc.bak</code>）。</li>
 </ul>
-<p>这两个快捷键是 Readline 的标准配置，在大多数 Shell 环境中通用。</p>
-<h2>3. 搜索历史命令 (<code>Ctrl + R</code>)</h2>
-<p>这是一个能让你显得很“极客”的操作。
-如果你想执行几天前运行过的一条复杂的 <code>docker run</code> 命令，但记不清具体参数了？</p>
-<ol>
-<li>按下 <strong><code>Ctrl + R</code></strong>。</li>
-<li>输入关键字（比如 <code>docker</code>）。</li>
-<li>终端会自动显示最近匹配的一条历史记录。</li>
-<li>如果你想找更早之前的，继续按 <code>Ctrl + R</code> 即可。</li>
-</ol>
-<h2>4. 别名 (Alias) 解放双手</h2>
-<p>如果你发现自己经常输入很长的命令，比如 <code>git commit -m "update"</code>，一定要设置别名。</p>
-<p>编辑你的 <code>~/.zshrc</code> 文件：</p>
-<pre><code># 快速提交
-alias gcm="git commit -m"
-# 快速查看状态
-alias gs="git status"
-# 显示隐藏文件并易读大小
+<h2>操作步骤（SOP）</h2>
+<h3>1. 安装核心轻量工具集</h3>
+<pre><code>brew install fzf ripgrep fd jq zoxide
+</code></pre>
+<p>这 5 个工具几乎覆盖了 90% 的日常检索与跳转：</p>
+<ul>
+<li><code>rg</code>（ripgrep）：默认尊重 <code>.gitignore</code>，速度比 <code>grep -rn</code> 快一个数量级；</li>
+<li><code>fd</code>：更简洁的 <code>find</code> 替代品；</li>
+<li><code>fzf</code>：交互式模糊过滤（特别是配合 <code>Ctrl + R</code> 搜索历史命令）；</li>
+<li><code>zoxide</code>：按访问频率跳转目录（<code>z blog</code> 直接进工程目录）；</li>
+<li><code>jq</code>：结构化格式化与提取 JSON 接口响应。</li>
+</ul>
+<h3>2. 写入精简、高速的 <code>~/.zshrc</code> 核心配置</h3>
+<pre><code># Apple Silicon Homebrew PATH（确保优先于系统旧版本二进制）
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+
+# 持久化大历史记录（多窗口共享且自动去重）
+HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=50000
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_SPACE
+
+# 按每日一次检查补全缓存，避免每次启动全量 compinit 卡顿
+autoload -Uz compinit
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit
+else
+  compinit -C
+fi
+
+# 绑定 fzf 快捷键（Ctrl+R 模糊搜历史、Ctrl+T 搜文件）与 zoxide
+source &lt;(fzf --zsh)
+eval "$(zoxide init zsh)"
+
+# 常用高效别名
 alias ll="ls -lah"
-# 快速刷新DNS缓存
-alias flushdns="sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder"
+alias rg="rg --smart-case"
+alias flushdns="sudo dscacheutil -flushcache &amp;&amp; sudo killall -HUP mDNSResponder"
 </code></pre>
-<p>保存后运行 <code>source ~/.zshrc</code>，以后只需要打 <code>gcm "message"</code> 就行了。</p>
-<h2>5. <code>open .</code> 图形化打开当前文件夹</h2>
-<p>有时候在终端里操作文件很累，想用 Finder（访达）来拖拽文件？
-直接输入：</p>
-<pre><code>open .
+<p>应用配置：</p>
+<pre><code>source ~/.zshrc
 </code></pre>
-<p>macOS 会立即弹出一个 Finder 窗口，显示的正是你当前终端所在的目录。这个技巧在管理博客图片资源时特别好用。</p>
-<hr />
-<h2>总结</h2>
-<p>工具的意义在于服务人。这些终端技巧虽然微小，但每天节省下来的几秒钟积累起来，就是巨大的效率提升。</p>
-<p>如果你有其他独家秘籍，欢迎在评论区分享！</p>
+<h3>3. 高频工程排错命令组合</h3>
+<p><strong>（1）查端口被谁占用（比 <code>ps | grep</code> 更准）</strong></p>
+<pre><code>lsof -nP -iTCP:3000 -sTCP:LISTEN
+</code></pre>
+<p><strong>（2）测 HTTP 跳转链路与各阶段耗时（排错反代/重定向必备）</strong></p>
+<pre><code>curl -sSI -w "status=%{http_code} dns=%{time_namelookup}s tls=%{time_appconnect}s ttfb=%{time_starttransfer}s total=%{time_total}s redirect=%{redirect_url}\n" -o /dev/null https://blog.example.com/
+</code></pre>
+<p><strong>（3）代码搜索 + 剪贴板管道联动</strong></p>
+<pre><code># 搜索特定符号并直接打开前几个匹配行
+rg -n "isAdDisallowedPath" src/
+
+# 把 JSON 格式化结果直接写入 macOS 剪贴板
+curl -sS https://api.example.com/health | jq . | pbcopy
+</code></pre>
+<p><strong>（4）精准清理项目缓存前先核对体积</strong></p>
+<pre><code>du -sh .astro dist node_modules 2&gt;/dev/null
+</code></pre>
+<h2>真实踩坑复盘与排查记录</h2>
+<ol>
+<li>
+<p><strong>现象：新开一个 Terminal 标签页要等一秒多才出提示符</strong></p>
+<ul>
+<li><strong>定位</strong>：用 <code>zprof</code> 分析发现 <code>nvm.sh</code> 初始化与每次无缓存的 <code>compinit</code> 占掉了 85% 启动耗时。</li>
+<li><strong>解决</strong>：移除冗重框架，改用 <code>compinit -C</code> 每日刷新一次缓存，重型版本管理器改为按需加载（或使用轻量替代工具）。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：在 Apple Silicon Mac 上 <code>brew install</code> 了新版工具，终端里执行的却是老版本</strong></p>
+<ul>
+<li><strong>定位</strong>：<code>echo $PATH</code> 显示 <code>/usr/bin</code> 排在 <code>/opt/homebrew/bin</code> 前面（或系统工具链抢占），<code>which python3</code> / <code>which git</code> 指向了 Xcode 附带的旧版。</li>
+<li><strong>解决</strong>：在 <code>~/.zshrc</code> 显式把 <code>/opt/homebrew/bin</code> 放到 <code>$PATH</code> 最前方，并用 <code>which -a &lt;cmd&gt;</code> 验证优先级。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：使用传统 <code>grep -rn</code> 搜关键词时终端直接卡死刷屏</strong></p>
+<ul>
+<li><strong>定位</strong>：一头扎进了 <code>node_modules/</code> 和压缩后的 <code>dist/</code> JS 文件里。</li>
+<li><strong>解决</strong>：日常全量改用 <code>rg</code>，它会自动读取 <code>.gitignore</code> 跳过依赖与构建产物目录。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<pre><code># 1. 测试交互式 Zsh 连续 5 次冷启动平均耗时（目标 &lt; 0.15s）
+for i in {1..5}; do /usr/bin/time -p zsh -i -c exit 2&gt;&amp;1 | grep real; done
+
+# 2. 确认工具路径优先指向 Homebrew
+which fzf rg fd jq zoxide
+
+# 3. 验证 HIST_IGNORE_SPACE：以空格开头的临时测试命令不应写入历史
+ history | tail -n 5
+</code></pre>
+<p>预期结果：单次 Zsh 启动耗时在 <code>0.05s - 0.15s</code> 之间；5 个常用 CLI 均可从 <code>/opt/homebrew/bin/</code>（Intel Mac 为 <code>/usr/local/bin/</code>）正常解析；按下 <code>Ctrl + R</code> 立即弹出 <code>fzf</code> 历史检索浮层。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="/posts/python-rename-script/">Python 批量文件重命名工程化实践：支持 Dry-Run、冲突保护与回滚日志</a></li>
+<li><a href="/posts/ssh-key-security/">SSH 密钥认证与登录加固实战：从生成 Ed25519 到防锁死验收</a></li>
+</ul>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -2231,9 +3077,9 @@ curl -I https://example.com/assets/app.abc123.css
 <p>当你持续做这件事，广告通过只是副产品。</p>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2025/03/09/jekyll-content-quality-checklist/">Jekyll 发布前内容质量自检模板</a></li>
-<li><a href="/2025/10/14/static-blog-content-cluster-strategy/">静态博客内容集群策略</a></li>
-<li><a href="/2024/07/16/jekyll-seo-technical-optimization/">Jekyll SEO 技术优化清单</a></li>
+<li><a href="/posts/jekyll-content-quality-checklist/">Jekyll 发布前内容质量自检模板</a></li>
+<li><a href="/posts/static-blog-content-cluster-strategy/">静态博客内容集群策略</a></li>
+<li><a href="/posts/jekyll-seo-technical-optimization/">Jekyll SEO 技术优化清单</a></li>
 </ul>
 ]]></content>
     <author>
@@ -2340,9 +3186,9 @@ curl -I https://example.com/assets/app.abc123.css
 <p>你只要把发布前自检流程固定下来，哪怕每周只发 1 篇，长期效果也会好过“高频低质”的更新方式。</p>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2025/07/22/developer-documentation-writing-guide/">技术文档写作实战</a></li>
-<li><a href="/2025/03/09/adsense-low-value-content-recovery/">AdSense 低价值内容恢复实战</a></li>
-<li><a href="/2024/07/16/jekyll-seo-technical-optimization/">Jekyll SEO 技术优化清单</a></li>
+<li><a href="/posts/developer-documentation-writing-guide/">技术文档写作实战</a></li>
+<li><a href="/posts/adsense-low-value-content-recovery/">AdSense 低价值内容恢复实战</a></li>
+<li><a href="/posts/jekyll-seo-technical-optimization/">Jekyll SEO 技术优化清单</a></li>
 </ul>
 ]]></content>
     <author>
@@ -2460,74 +3306,144 @@ services:
     <category term="Docker"></category>
   </entry>
   <entry>
-    <title>重构的艺术：如何写出同事不骂街的 TypeScript 代码</title>
+    <title>TypeScript 存量代码重构实战：用类型收窄与边界校验消除隐性 Bug</title>
     <link href="https://levifree.com/posts/typescript-refactoring/" rel="alternate" type="text/html"/>
     <id>https://levifree.com/posts/typescript-refactoring/</id>
     <published>2025-01-10T00:00:00.000Z</published>
-    <updated>2025-01-10T00:00:00.000Z</updated>
-    <summary>代码是写给人看的，顺便给机器运行。5 个实用的重构小技巧</summary>
-    <content type="html"><![CDATA[<blockquote>
-<p>"Any fool can write code that a computer can understand. Good programmers write code that humans can understand."</p>
-</blockquote>
-<p>接手屎山代码（Spaghetti Code）是每个程序员的噩梦。为了不让你的代码成为别人的噩梦，我们来聊聊 TypeScript 项目中的重构艺术。</p>
-<h2>1. 拒绝 <code>any</code>，拥抱类型</h2>
-<p><code>any</code> 是 TypeScript 的逃生舱，但用多了就变成了 <code>AnyScript</code>。</p>
+    <updated>2026-11-25T00:00:00.000Z</updated>
+    <summary>一套可直接落地的 TypeScript 存量代码重构 SOP：从开启严格编译基线、信任边界 unknown 收窄、可辨识联合替代标志位，到增量测试验证。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>旧文只列了“不要用 <code>any</code>、多用卫语句”几条入门口号，但在真实项目中接手一个几千行的 TypeScript 仓库时，直接一上来改写业务逻辑大概率会把线上的边缘情况改挂。最近重构博客的构建工具脚本和前端组件状态时，最大的教训是：<strong>用 <code>as SomeType</code> 硬强转比写 <code>any</code> 更危险——它让编译器彻底闭嘴，却把 <code>undefined</code> 运行时崩溃留给了用户。</strong></p>
+<p>这篇重写整理了一套可按步执行的存量重构 SOP：先建类型与测试基线，再在信任边界做校验收窄，最后用可辨识联合消除无效状态。</p>
+<h2>前置条件与输入参数</h2>
 <ul>
-<li><strong>坏味道</strong>：<code>function process(data: any) { ... }</code></li>
-<li><strong>重构</strong>：即使不知道确切类型，也请使用 <code>unknown</code>，迫使你在使用前进行类型收窄（Type Narrowing）。或者定义一个 <code>interface</code>，哪怕只有部分字段。</li>
+<li><strong>TypeScript</strong>：5.x 以上版本。</li>
+<li><strong>静态检查与测试</strong>：项目中已配置 <code>tsc --noEmit</code>、Linter（Biome / ESLint）以及基础单元测试（如 <code>node --test</code> 或 Vitest）。</li>
+<li><strong>核心原则</strong>：行为重构与格式调整分开提交，每个重构切片必须保持测试通过。</li>
 </ul>
-<h2>2. 卫语句 (Guard Clause) 代替嵌套 <code>if</code></h2>
-<p>不要写“箭头型”代码（嵌套太深）。</p>
-<p><strong>Bad:</strong></p>
-<pre><code>function processUser(user: User) {
-  if (user != null) {
-    if (user.isActive) {
-      if (user.hasCredit) {
-         // 核心逻辑...
-      }
-    }
+<h2>操作步骤（SOP）</h2>
+<h3>1. 锁定严格编译选项并建立基线</h3>
+<p>先检查 <code>tsconfig.json</code>，确保至少开启 <code>strict</code> 与 <code>noUncheckedIndexedAccess</code>（数组索引访问返回 <code>T | undefined</code>，避免隐式越界）：</p>
+<pre><code>{
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noEmit": true
   }
 }
 </code></pre>
-<p><strong>Good:</strong></p>
-<pre><code>function processUser(user: User) {
-  if (!user || !user.isActive || !user.hasCredit) return;
-  
-  // 核心逻辑在主层级，清清爽爽
-}
+<p>把存量报错数量记录下来，作为每次重构收敛的基线：</p>
+<pre><code>pnpm exec tsc --noEmit | wc -l
 </code></pre>
-<h2>3. 魔法数字 (Magic Numbers) 必须死</h2>
-<p>不要在代码里直接写 <code>if (status === 2)</code>。鬼知道 2 是什么意思？是“成功”？还是“失败”？还是“处理中”？</p>
-<p><strong>重构</strong>：使用 <code>enum</code> 或 <code>const</code> 常量。</p>
-<pre><code>enum OrderStatus {
-  Pending = 0,
-  Processing = 1,
-  Completed = 2
+<h3>2. 在信任边界用 <code>unknown</code> + 类型守卫替换 <code>any</code> 与 <code>as</code></h3>
+<p>外部 API 返回、JSON 解析、<code>localStorage</code> 读取都属于<strong>不可信输入边界</strong>。不要直接写成 <code>JSON.parse(raw) as Config</code>，而是写一个轻量类型守卫，在边界完成校验：</p>
+<pre><code>export interface FeedConfig {
+	title: string;
+	limit: number;
 }
 
-if (order.status === OrderStatus.Completed) { ... }
-</code></pre>
-<h2>4. 函数单一职责</h2>
-<p>一个函数应该只做一件事。
-如果你发现你的函数名是 <code>fetchDataAndProcessAndSave()</code>，那它绝对太长了。</p>
-<ul>
-<li>把“获取数据”拆出去。</li>
-<li>把“处理逻辑”拆出去。</li>
-<li>把“保存”拆出去。
-主函数只负责像指挥官一样调用它们。</li>
-</ul>
-<h2>5. 使用可选链 (Optional Chaining)</h2>
-<p><strong>Bad:</strong></p>
-<pre><code>if (user &amp;&amp; user.address &amp;&amp; user.address.street) {
-  console.log(user.address.street);
+export function isFeedConfig(value: unknown): value is FeedConfig {
+	if (typeof value !== "object" || value === null) {
+		return false;
+	}
+	const record = value as Record&lt;string, unknown&gt;;
+	return (
+		typeof record.title === "string" &amp;&amp;
+		record.title.trim().length &gt; 0 &amp;&amp;
+		typeof record.limit === "number" &amp;&amp;
+		Number.isInteger(record.limit) &amp;&amp;
+		record.limit &gt; 0
+	);
+}
+
+export function parseFeedConfig(raw: string): FeedConfig | null {
+	try {
+		const parsed: unknown = JSON.parse(raw);
+		return isFeedConfig(parsed) ? parsed : null;
+	} catch {
+		return null;
+	}
 }
 </code></pre>
-<p><strong>Good:</strong></p>
-<pre><code>console.log(user?.address?.street);
+<h3>3. 用可辨识联合（Discriminated Union）替换布尔标志位和魔术数字</h3>
+<p>常见“坏味道”是把加载中、成功、失败全塞进一个大对象：<code>{ isLoading: boolean; data?: T; error?: string }</code>，结果经常出现 <code>isLoading === true</code> 且 <code>error !== undefined</code> 的非法状态。用 <code>status</code> 判别字段拆开，并加上 <code>never</code> 穷尽检查：</p>
+<pre><code>type RequestState&lt;T&gt; =
+	| { status: "idle" }
+	| { status: "loading" }
+	| { status: "success"; data: T }
+	| { status: "error"; message: string };
+
+function assertNever(value: never): never {
+	throw new Error(`Unhandled state: ${JSON.stringify(value)}`);
+}
+
+export function renderStatusLabel&lt;T&gt;(state: RequestState&lt;T&gt;): string {
+	switch (state.status) {
+		case "idle":
+			return "等待加载";
+		case "loading":
+			return "加载中";
+		case "success":
+			return "已完成";
+		case "error":
+			return `失败：${state.message}`;
+		default:
+			return assertNever(state);
+	}
+}
 </code></pre>
-<p>不仅代码短了，而且可读性极佳。</p>
-<h2>总结</h2>
-<p>好的代码就像一篇好文章，读起来行云流水。重构不是为了炫技，而是为了让未来的自己（和同事）少掉几根头发。</p>
+<p>以后只要新增一个状态分支，所有未更新的 <code>switch</code> 都会在编译期立刻标红报错。</p>
+<h3>4. 从混杂 I/O 的函数里抽离纯计算核心</h3>
+<p>不要把“读配置 + 路径拼接 + 字符串解析 + 写文件”全写在一个 150 行的异步函数里。把纯逻辑（例如 URL 规范化、数据过滤、XML 转义）抽成不依赖 DOM 或文件系统的纯函数，测试直接测纯函数即可覆盖 90% 的分支漏洞。</p>
+<h3>5. 小步验证并清除非空断言（<code>!</code>）</h3>
+<p>在清理回调或事件解绑代码时，优先用局部常量收窄替代 <code>handler!</code>，既消除 linter 警告，也杜绝隐式空指针：</p>
+<pre><code>const handler = this.boundClickHandler;
+if (handler) {
+	this.items.forEach((item) =&gt; item.removeEventListener("click", handler));
+	this.boundClickHandler = null;
+}
+</code></pre>
+<h2>真实踩坑复盘与排查记录</h2>
+<ol>
+<li>
+<p><strong>现象：重构后编辑器全绿，上线读 <code>localStorage</code> 偶发 <code>Cannot read properties of undefined</code></strong></p>
+<ul>
+<li><strong>定位</strong>：旧代码用了 <code>JSON.parse(str) as UserSettings</code>，某次配置新增了嵌套字段，老用户浏览器里残留的旧 JSON 缺字段，TypeScript 完全没法察觉。</li>
+<li><strong>解决</strong>：统一改为 <code>unknown</code> 入口 + 字段级守卫，缺省字段给予安全默认值，不信任任何持久化缓存。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：把几组状态写成 <code>enum</code> 后打包体积莫名变大且跨文件耦合</strong></p>
+<ul>
+<li><strong>定位</strong>：TypeScript <code>enum</code> 会编译出双向映射的运行时对象代码，而静态站与纯类型分发其实只需要字面量联合。</li>
+<li><strong>解决</strong>：改用 <code>const</code> 映射对象配合 <code>as const</code> 与 <code>keyof typeof MAP</code>，实现零运行时开销且支持摇树优化（Tree-shaking）。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：一次重构顺带格式化了 40 个文件，Code Review 根本看不出改了哪行逻辑</strong></p>
+<ul>
+<li><strong>定位</strong>：业务重构与格式化混在同一个 commit 里，掩盖了边界条件的小修改。</li>
+<li><strong>解决</strong>：先单独提交一次纯格式化，再在干净基线上分步提交逻辑重构与对应测试。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<pre><code># 1. 类型检查零报错
+pnpm exec tsc --noEmit
+
+# 2. 静态检查无 any / 非空断言新增告警
+pnpm exec biome check ./src
+
+# 3. 边界解析与纯函数单测全部通过
+node --test tests/*.mjs
+</code></pre>
+<p>预期结果：<code>tsc --noEmit</code> 退出码 <code>0</code>；Linter 0 警告；每个边界守卫函数至少覆盖“正常输入、缺失字段、非法类型、格式损坏 JSON”四类测试样本。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="/posts/developer-documentation-writing-guide/">技术文档写作实战：把一次排错变成别人能复现的解决方案</a></li>
+<li><a href="/posts/git-commit-convention/">告别 git push -f：团队协作中的 Git Commit 规范指南</a></li>
+</ul>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -2535,78 +3451,215 @@ if (order.status === OrderStatus.Completed) { ... }
     <category term="TypeScript"></category>
   </entry>
   <entry>
-    <title>Python 自动化办公：5分钟写一个批量重命名脚本</title>
+    <title>Python 批量文件重命名工程化实践：支持 Dry-Run、冲突保护与回滚日志</title>
     <link href="https://levifree.com/posts/python-rename-script/" rel="alternate" type="text/html"/>
     <id>https://levifree.com/posts/python-rename-script/</id>
     <published>2024-12-12T00:00:00.000Z</published>
-    <updated>2024-12-12T00:00:00.000Z</updated>
-    <summary>告别枯燥的手工劳动，用几十行代码拯救你的下班时间</summary>
-    <content type="html"><![CDATA[<p>你是否遇到过这种情况：
-老板发给你 500 张活动照片，文件名全是 <code>IMG_20260131_123456.jpg</code> 这种乱码，要求你全部改成 <code>活动现场_001.jpg</code>, <code>活动现场_002.jpg</code>...？</p>
-<p>手动改？那你要改到明年。用 Python，只需要喝口水的功夫。</p>
-<h2>1. 准备工作</h2>
-<p>确保电脑已安装 Python。我们只需要用到内置的 <code>os</code> 库，无需安装任何第三方包。</p>
-<h2>2. 核心代码</h2>
-<p>新建一个文件 <code>rename.py</code>：</p>
-<pre><code>import os
+    <updated>2026-11-25T00:00:00.000Z</updated>
+    <summary>淘汰会静默覆盖文件的 os.rename 短脚本，用 Python 标准库 pathlib + 两阶段暂存重命名 + JSON 回滚清单打造零数据丢失的 CLI 工具。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>以前写过一个 30 行 <code>os.rename</code> 批量重命名小脚本，看似 5 分钟搞定，真拿去整理几百张博客配图和扫描件时却差点把数据搞丢：</p>
+<ol>
+<li>目标目录里已经存在 <code>photo_001.jpg</code> 时，<code>os.rename</code> 在 POSIX/macOS 上会<strong>直接覆盖且没有任何提示</strong>；</li>
+<li>碰到 <code>a.jpg -&gt; b.jpg</code> 和 <code>b.jpg -&gt; a.jpg</code> 这种环状重命名，单步改名会直接撞车；</li>
+<li>改完发现排序错了想还原，因为没有映射日志，只能对着文件名一条条手动猜。</li>
+</ol>
+<p>这次重写不引入任何第三方包，只用 Python 3.11+ 标准库（<code>pathlib</code>、<code>argparse</code>、<code>json</code>、<code>uuid</code>），把脚本改造成带 <code>--dry-run</code> 预览、两阶段安全改名和 <code>--rollback</code> 一键回滚的工程级 CLI 工具。</p>
+<h2>前置条件与输入参数</h2>
+<ul>
+<li><strong>运行环境</strong>：Python 3.11+（macOS / Linux / Windows 通用，无需 <code>pip install</code>）。</li>
+<li><strong>核心参数</strong>：
+<ul>
+<li><code>directory</code>：目标文件夹路径（只处理当前层级普通文件，不递归子目录、不碰隐藏文件）。</li>
+<li><code>--prefix</code>：新文件名前缀（默认 <code>asset</code>）。</li>
+<li><code>--ext</code>：扩展名白名单过滤（如 <code>.jpg,.png,.webp</code>）。</li>
+<li><code>--apply</code>：显式确认执行落盘；<strong>未传 <code>--apply</code> 时默认进入 dry-run 预览模式</strong>。</li>
+<li><code>--rollback &lt;manifest.json&gt;</code>：根据历史映射清单逆序恢复原文件名。</li>
+</ul>
+</li>
+</ul>
+<h2>操作步骤（SOP）</h2>
+<h3>1. 编写带两阶段重命名与回滚机制的 <code>safe_rename.py</code></h3>
+<pre><code>#!/usr/bin/env python3
+from __future__ import annotations
 
-def batch_rename(path, prefix):
-    # 1. 确保路径存在
-    if not os.path.exists(path):
-        print(f"路径 {path} 不存在！")
-        return
+import argparse
+import json
+import re
+import sys
+import uuid
+from datetime import datetime, timezone
+from pathlib import Path
 
-    # 2. 获取该目录下所有文件
-    files = os.listdir(path)
-    # 按原始文件名排序，防止乱序
-    files.sort()
 
-    count = 0
-    for filename in files:
-        # 跳过隐藏文件（如 .DS_Store）和脚本自己
-        if filename.startswith('.') or filename == 'rename.py':
+def natural_sort_key(path: Path) -&gt; list[int | str]:
+    """按数字自然序排序，避免 img_10 排在 img_2 前面。"""
+    parts = re.split(r"(\d+)", path.name.lower())
+    return [int(p) if p.isdigit() else p for p in parts]
+
+
+def collect_files(target_dir: Path, extensions: set[str] | None) -&gt; list[Path]:
+    files = []
+    for entry in target_dir.iterdir():
+        if not entry.is_file() or entry.name.startswith("."):
             continue
-            
-        # 3. 构造新文件名
-        # 获取文件扩展名 (如 .jpg)
-        ext = os.path.splitext(filename)[1]
-        
-        # 格式化数字，例如 001, 002
-        new_name = f"{prefix}_{count+1:03d}{ext}"
-        
-        old_file = os.path.join(path, filename)
-        new_file = os.path.join(path, new_name)
-        
-        # 4. 执行重命名
-        try:
-            os.rename(old_file, new_file)
-            print(f"✅ {filename} -&gt; {new_name}")
-            count += 1
-        except Exception as e:
-            print(f"❌ 重命名 {filename} 失败: {e}")
+        if entry.name.startswith("rename-manifest-") and entry.suffix == ".json":
+            continue
+        if extensions and entry.suffix.lower() not in extensions:
+            continue
+        files.append(entry)
+    return sorted(files, key=natural_sort_key)
 
-    print(f"\n🎉 完成！共处理 {count} 个文件。")
+
+def build_plan(files: list[Path], prefix: str, start: int, width: int) -&gt; list[tuple[Path, Path]]:
+    plan: list[tuple[Path, Path]] = []
+    for index, src in enumerate(files, start=start):
+        dst = src.with_name(f"{prefix}_{index:0{width}d}{src.suffix.lower()}")
+        if src != dst:
+            plan.append((src, dst))
+    return plan
+
+
+def validate_no_external_collision(plan: list[tuple[Path, Path]]) -&gt; None:
+    sources = {src for src, _ in plan}
+    targets = [dst for _, dst in plan]
+    if len(targets) != len(set(targets)):
+        raise ValueError("重命名计划存在重复目标文件名，已中止。")
+    # macOS 默认 APFS 大小写不敏感，统一按小写路径检查外部冲突
+    sources_lower = {str(p).lower() for p in sources}
+    for _, dst in plan:
+        if dst.exists() and str(dst).lower() not in sources_lower:
+            raise FileExistsError(f"目标文件已存在且不在本批次源列表中: {dst.name}")
+
+
+def execute_two_phase(plan: list[tuple[Path, Path]], target_dir: Path) -&gt; Path:
+    batch_id = uuid.uuid4().hex[:8]
+    staging: list[tuple[Path, Path, Path]] = []
+    for idx, (src, dst) in enumerate(plan):
+        tmp = src.with_name(f".tmp_rename_{batch_id}_{idx}{src.suffix}")
+        src.rename(tmp)
+        staging.append((src, tmp, dst))
+
+    records: list[dict[str, str]] = []
+    for src, tmp, dst in staging:
+        tmp.rename(dst)
+        records.append({"from": str(src), "to": str(dst)})
+
+    manifest_path = target_dir / f"rename-manifest-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.json"
+    manifest_path.write_text(json.dumps(records, ensure_ascii=False, indent=2), encoding="utf-8")
+    return manifest_path
+
+
+def rollback(manifest_path: Path) -&gt; int:
+    records = json.loads(manifest_path.read_text(encoding="utf-8"))
+    # 两阶段恢复，避免回滚自身发生环状碰撞
+    batch_id = uuid.uuid4().hex[:8]
+    staged: list[tuple[Path, Path]] = []
+    for idx, item in enumerate(records):
+        current = Path(item["to"])
+        original = Path(item["from"])
+        if not current.exists():
+            raise FileNotFoundError(f"回滚失败，找不到当前文件: {current}")
+        tmp = current.with_name(f".tmp_rollback_{batch_id}_{idx}{current.suffix}")
+        current.rename(tmp)
+        staged.append((tmp, original))
+    for tmp, original in staged:
+        tmp.rename(original)
+    return len(staged)
+
+
+def main() -&gt; int:
+    parser = argparse.ArgumentParser(description="安全批量重命名工具（默认 dry-run）")
+    parser.add_argument("directory", nargs="?", type=Path, help="目标目录")
+    parser.add_argument("--prefix", default="asset", help="输出文件名前缀")
+    parser.add_argument("--start", type=int, default=1, help="起始序号")
+    parser.add_argument("--width", type=int, default=3, help="序号零填充位数")
+    parser.add_argument("--ext", default="", help="允许的扩展名，逗号分隔，例如 .jpg,.webp")
+    parser.add_argument("--apply", action="store_true", help="确认落盘执行（不加则仅预览）")
+    parser.add_argument("--rollback", type=Path, help="指定回滚清单 JSON 路径")
+    args = parser.parse_args()
+
+    if args.rollback:
+        restored = rollback(args.rollback)
+        print(f"已回滚 {restored} 个文件。")
+        return 0
+
+    if not args.directory or not args.directory.is_dir():
+        print("错误：请提供有效的目标目录。", file=sys.stderr)
+        return 2
+
+    exts = {e.strip().lower() for e in args.ext.split(",") if e.strip()} or None
+    files = collect_files(args.directory, exts)
+    plan = build_plan(files, args.prefix, args.start, args.width)
+    if not plan:
+        print("没有需要重命名的文件。")
+        return 0
+
+    validate_no_external_collision(plan)
+    for src, dst in plan:
+        print(f"{'[APPLY]' if args.apply else '[DRY-RUN]'} {src.name} -&gt; {dst.name}")
+
+    if not args.apply:
+        print(f"\n预览完成（共 {len(plan)} 个文件）。确认无误请追加 --apply 执行。")
+        return 0
+
+    manifest = execute_two_phase(plan, args.directory)
+    print(f"\n执行完成，共重命名 {len(plan)} 个文件。回滚清单：{manifest}")
+    return 0
+
 
 if __name__ == "__main__":
-    # 在这里修改你的文件夹路径和想要的前缀
-    target_path = "./photos"
-    new_prefix = "活动现场"
-    
-    batch_rename(target_path, new_prefix)
+    raise SystemExit(main())
 </code></pre>
-<h2>3. 代码解析</h2>
+<h3>2. 先预览，确认映射无误再落盘</h3>
+<pre><code># 默认 dry-run，不会改动磁盘文件
+python3 safe_rename.py ./tmp_photos --prefix trip --ext .jpg,.webp
+
+# 确认输出后加上 --apply 执行并生成 manifest
+python3 safe_rename.py ./tmp_photos --prefix trip --ext .jpg,.webp --apply
+</code></pre>
+<h3>3. 需要撤销时执行一键回滚</h3>
+<pre><code>python3 safe_rename.py --rollback ./tmp_photos/rename-manifest-20261125T100000Z.json
+</code></pre>
+<h2>真实踩坑复盘与排查记录</h2>
 <ol>
-<li><code>os.listdir(path)</code>: 列出文件夹里所有的东西。</li>
-<li><code>path.join()</code>: 智能拼接路径，不用担心 Windows/Mac 斜杠方向不一样的问题。</li>
-<li><code>f"{prefix}_{count+1:03d}{ext}"</code>: 这是 Python 的 f-string 格式化大法。<code>:03d</code> 的意思是“不足3位自动补零”，于是你就得到了 <code>001</code>, <code>009</code>, <code>010</code> 这样整齐的序号。</li>
-</ol>
-<h2>4. 扩展思路</h2>
-<p>一旦掌握了这个逻辑，你能做更多事：</p>
+<li>
+<p><strong>现象：在 macOS 上把 <code>IMG_1.JPG</code> 批量小写或移位时，直接丢失了一半文件</strong></p>
 <ul>
-<li><strong>按日期归档</strong>：读取文件的创建时间，自动把文件移动到 <code>2026-01</code> 文件夹里。</li>
-<li><strong>筛选文件</strong>：只处理 <code>.pdf</code> 文件，把 <code>.txt</code> 删掉。</li>
+<li><strong>定位</strong>：macOS 默认的 APFS 是大小写不敏感文件系统（Case-Insensitive）。<code>photo_1.jpg</code> 和 <code>PHOTO_1.JPG</code> 在操作系统眼里指向同一 inode，或者 <code>photo_1</code> 覆盖了原本排在后面的 <code>photo_2</code>。</li>
+<li><strong>解决</strong>：加入 <code>validate_no_external_collision</code> 按小写路径检测冲突，并统一采用“先重命名到带 UUID 的 <code>.tmp_rename_*</code> 临时名、再落位目标名”的两阶段方案。</li>
 </ul>
-<p>学会编程思维，哪怕只是这种小脚本，也能极大提升你的职场幸福感。</p>
+</li>
+<li>
+<p><strong>现象：<code>img_10.jpg</code> 排在了 <code>img_2.jpg</code> 前面</strong></p>
+<ul>
+<li><strong>定位</strong>：原生 <code>sorted()</code> 按 ASCII 字典序排列，字符串 <code>'10' &lt; '2'</code>。</li>
+<li><strong>解决</strong>：使用 <code>natural_sort_key</code> 按连续数字切分排序，让人类视觉顺序与序号完全一致。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：目录下的 <code>.DS_Store</code> 和 <code>rename-manifest-*.json</code> 也被一起改名了</strong></p>
+<ul>
+<li><strong>定位</strong>：<code>iterdir()</code> 默认会扫描隐藏文件与历史输出日志。</li>
+<li><strong>解决</strong>：在 <code>collect_files</code> 中显式跳过点开头隐藏文件与回滚清单自身。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<p>用临时测试夹具即可 10 秒完成端到端自检：</p>
+<pre><code>mkdir -p /tmp/rename_test &amp;&amp; touch /tmp/rename_test/a_{1,2,10}.jpg /tmp/rename_test/.DS_Store
+python3 safe_rename.py /tmp/rename_test --prefix demo --ext .jpg
+python3 safe_rename.py /tmp/rename_test --prefix demo --ext .jpg --apply
+ls -1 /tmp/rename_test
+python3 safe_rename.py --rollback /tmp/rename_test/rename-manifest-*.json
+ls -1 /tmp/rename_test &amp;&amp; rm -rf /tmp/rename_test
+</code></pre>
+<p>预期结果：首次预览不修改文件；<code>--apply</code> 后生成 <code>demo_001.jpg</code>、<code>demo_002.jpg</code>、<code>demo_003.jpg</code> 且 <code>.DS_Store</code> 保持原样；执行 <code>--rollback</code> 后准确还原为 <code>a_1.jpg</code>、<code>a_2.jpg</code>、<code>a_10.jpg</code>。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="/posts/macos-terminal-tips/">macOS 终端效率工程化配置：Zsh、fzf、ripgrep 与排错常用命令组合</a></li>
+<li><a href="/posts/developer-documentation-writing-guide/">技术文档写作实战：把一次排错变成别人能复现的解决方案</a></li>
+</ul>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -2686,9 +3739,9 @@ git rebase --continue
 有流程、有边界、有回归检查，冲突就不会成为团队效率黑洞。</p>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2024/09/12/git-rebase-vs-merge-pr-workflow/">Git Rebase vs Merge 工作流</a></li>
-<li><a href="/2024/08/20/git-commit-convention/">Git Commit 规范指南</a></li>
-<li><a href="/2023/12/06/git-sync-fork-upstream-guide/">Git Fork 同步上游实战</a></li>
+<li><a href="/posts/git-rebase-vs-merge-pr-workflow/">Git Rebase vs Merge 工作流</a></li>
+<li><a href="/posts/git-commit-convention/">Git Commit 规范指南</a></li>
+<li><a href="/posts/git-sync-fork-upstream-guide/">Git Fork 同步上游实战</a></li>
 </ul>
 ]]></content>
     <author>
@@ -2697,86 +3750,164 @@ git rebase --continue
     <category term="Git"></category>
   </entry>
   <entry>
-    <title>GitHub Actions 实战：为 Jekyll 博客搭建自动化质量检查流水线</title>
+    <title>GitHub Actions 静态博客 CI/CD 实战：从提交校验到自动发布</title>
     <link href="https://levifree.com/posts/github-actions-blog-ci-cd/" rel="alternate" type="text/html"/>
     <id>https://levifree.com/posts/github-actions-blog-ci-cd/</id>
     <published>2024-11-18T00:00:00.000Z</published>
-    <updated>2024-11-18T00:00:00.000Z</updated>
-    <summary>每次提交自动检查 Markdown、死链与构建状态，减少线上翻车</summary>
-    <content type="html"><![CDATA[<p>很多个人博客只有“能发布”，但缺少“发布前自动验收”。
-当文章多起来后，死链、Front Matter 错误、构建失败会频繁出现。</p>
-<p>这篇教程给你一个轻量 CI：每次 Push/PR 自动做三件事。</p>
-<h2>目标</h2>
-<ol>
-<li>校验 Markdown 基本规范</li>
-<li>检查站内链接可用性</li>
-<li>执行 Jekyll 构建，确保可发布</li>
-</ol>
-<h2>1. 新建工作流</h2>
-<p>创建 <code>.github/workflows/blog-quality.yml</code>：</p>
-<pre><code>name: Blog Quality
+    <updated>2026-11-25T00:00:00.000Z</updated>
+    <summary>将博客自动化流水线升级到 Astro + pnpm 工程实践：分离 PR 质量门禁与生产部署，配置并发取消、最小权限与 GitHub Pages 兼容项。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>以前用 Jekyll 时，工作流只写了简单的 <code>bundle exec jekyll build</code>，经常在把博客迁到 Astro + TypeScript 之后才发现问题：<strong>本地能跑不代表 CI 能过，CI 能编出 <code>dist/</code> 也不代表线上能正常访问</strong>。</p>
+<p>我们在后续迭代里先后踩过三个典型的部署坑：一是每次推送都在构建过程中触发并发抢跑，旧构建覆盖新构建；二是部署到 <code>gh-pages</code> 分支时漏掉了空文件 <code>.nojekyll</code>，导致 <code>_astro/</code> 下的所有 JS/CSS 资源被 GitHub Pages Jekyll 引擎吞掉，全站样式崩溃 404；三是把 <code>gh-pages</code> 分支顺带触发了 Vercel 的 Preview 构建，白白浪费配额还产生失败邮件。</p>
+<p>这份 SOP 把 <strong>PR 质量校验（<code>lint.yml</code>）</strong> 与 <strong>主分支构建发布（<code>deploy.yml</code>）</strong> 拆开，做到快速反馈与安全发布。</p>
+<h2>前置条件与输入参数</h2>
+<ul>
+<li><strong>代码托管</strong>：GitHub 仓库，默认发布源分支为 <code>main</code> 或 <code>master</code>，部署产物分支为 <code>gh-pages</code>。</li>
+<li><strong>本地工具链</strong>：Node.js LTS（20/22+）、<code>pnpm</code>（<code>packageManager</code> 已声明在 <code>package.json</code>）。</li>
+<li><strong>仓库设置</strong>：Settings → Actions → General 中允许 <code>GITHUB_TOKEN</code> 读写；若推送到 <code>gh-pages</code>，Settings → Pages 指向 <code>gh-pages</code> 分支根目录。</li>
+</ul>
+<h2>操作步骤（SOP）</h2>
+<h3>1. 配置 PR 质量门禁工作流（<code>.github/workflows/lint.yml</code>）</h3>
+<p>PR 阶段<strong>只读校验，不拿写权限</strong>，把类型检查、代码规范、单元测试和产物构建全部跑一遍：</p>
+<pre><code>name: Quality Check
+
+on:
+  pull_request:
+    branches: [master, main]
+  push:
+    branches: [master, main]
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+          cache: "pnpm"
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check &amp; Lint
+        run: pnpm run type-check &amp;&amp; pnpm exec biome check ./src
+
+      - name: Run unit tests
+        run: node --test tests/*.mjs
+
+      - name: Build &amp; verify static output
+        run: pnpm run build
+</code></pre>
+<h3>2. 配置主分支自动发布工作流（<code>.github/workflows/deploy.yml</code>）</h3>
+<p>仅当 <code>master</code>（或 <code>main</code>）有推送或手动触发时执行发布，并开启 <code>clean: true</code> 自动清除已删除页面残留在 <code>gh-pages</code> 的旧文件：</p>
+<pre><code>name: Deploy Static Site
 
 on:
   push:
-    branches: ["master", "main"]
-  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
 
 jobs:
-  check:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
         with:
-          bundler-cache: true
+          submodules: true
 
-      - name: Install Node
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: "lts/*"
+          cache: "pnpm"
 
-      - name: Install markdownlint
-        run: npm i -g markdownlint-cli
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
 
-      - name: Lint markdown
-        run: markdownlint "**/*.md" --ignore node_modules
+      - name: Build site
+        run: pnpm run build
 
-      - name: Build Jekyll
-        run: bundle exec jekyll build
-</code></pre>
-<h2>2. 死链检查（可选但推荐）</h2>
-<p>可加 lychee：</p>
-<pre><code>      - name: Link check
-        uses: lycheeverse/lychee-action@v2
+      - name: Ensure .nojekyll and ignore Vercel on gh-pages
+        run: |
+          touch dist/.nojekyll
+          echo '{"ignoreCommand":"exit 0"}' &gt; dist/vercel.json
+
+      - name: Deploy to gh-pages branch
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          args: --verbose --no-progress "./**/*.md" "./_site/**/*.html"
+          branch: gh-pages
+          folder: dist
+          clean: true
 </code></pre>
-<p>如果外链较多，建议白名单忽略偶发超时域名，避免误报。</p>
-<h2>3. 分支保护</h2>
-<p>在仓库设置中启用 Branch Protection：</p>
-<ul>
-<li>要求 PR 必须通过 <code>Blog Quality</code></li>
-<li>禁止直接 push 到主分支</li>
-</ul>
-<p>这一步能显著降低“手滑上线坏内容”的概率。</p>
-<h2>常见报错与排查</h2>
+<h3>3. 开启分支保护规则</h3>
+<p>在 GitHub 仓库 <code>Settings → Branches → Branch protection rules</code> 中勾选：</p>
 <ol>
-<li><code>bundler: command not found: jekyll</code>：Gem 依赖没装全，先 <code>bundle install</code>。</li>
-<li><code>Front Matter</code> 语法错误：检查 <code>---</code> 是否成对、缩进是否一致。</li>
-<li>死链误报：先本地 <code>curl -I</code> 验证，再加入忽略列表。</li>
+<li><code>Require a pull request before merging</code></li>
+<li><code>Require status checks to pass before merging</code>，把 <code>verify</code> 加入必过检查。</li>
 </ol>
-<h2>总结</h2>
-<p>高质量博客的关键不是写得快，而是“每次发布都稳定”。
-把 CI 建起来后，你可以把精力放在内容上，而不是线上排错。</p>
+<p>（如果仓库同时保留旧 Jekyll 内容，只需把 <code>Type check &amp; Lint</code> 替换为 <code>bundle exec jekyll build</code> 与 <code>lychee</code> 死链扫描即可，流程完全同构。）</p>
+<h2>真实踩坑复盘与排查记录</h2>
+<ol>
+<li>
+<p><strong>现象：部署完成后首页纯 HTML 裸奔，F12 显示 <code>_astro/*.css</code> 全部 404</strong></p>
+<ul>
+<li><strong>定位</strong>：GitHub Pages 默认会把任何不含 <code>.nojekyll</code> 的目录交给 Jekyll 处理，而 Jekyll 会忽略以下划线 <code>_</code> 开头的文件夹（恰好撞上 Astro 的 <code>_astro/</code> 构建目录）。</li>
+<li><strong>解决</strong>：在 <code>public/.nojekyll</code> 放入零字节空文件，并在 CI 构建后强制 <code>touch dist/.nojekyll</code> 兜底（注意千万别在 <code>.nojekyll</code> 里写注释文本，部分同步脚本会误判文件类型）。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：<code>gh-pages</code> 每次推送都会收到 Vercel 构建失败通知</strong></p>
+<ul>
+<li><strong>定位</strong>：Vercel 连接整个仓库后，会自动监听所有新推送的分支（包括产物分支 <code>gh-pages</code>），把静态 HTML 再当成 Astro 源码构建一次，必然报错。</li>
+<li><strong>解决</strong>：构建后写入 <code>dist/vercel.json</code>（<code>{"ignoreCommand":"exit 0"}</code>），或在仓库根目录 <code>vercel.json</code> 中用 <code>ignoreCommand</code> 跳过 <code>VERCEL_GIT_COMMIT_REF == "gh-pages"</code>。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：本地更新了依赖，CI 跑 <code>pnpm install --frozen-lockfile</code> 失败</strong></p>
+<ul>
+<li><strong>定位</strong>：本地只改了 <code>package.json</code> 却没把最新 <code>pnpm-lock.yaml</code> 一并提交，或本地 pnpm 主版本号与 CI 不一致。</li>
+<li><strong>解决</strong>：在 <code>package.json</code> 固定 <code>"packageManager": "pnpm@10.x"</code>，并养成改依赖必提交 lockfile 的习惯。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<pre><code># 1. 本地模拟 CI 全流程（无需等推送）
+pnpm install --frozen-lockfile &amp;&amp; pnpm run type-check &amp;&amp; pnpm exec biome check ./src &amp;&amp; node --test tests/*.mjs &amp;&amp; pnpm run build
+
+# 2. 确认产物关键边界文件存在
+test -f dist/.nojekyll &amp;&amp; test -f dist/robots.txt &amp;&amp; test -f dist/sitemap-index.xml &amp;&amp; echo "OK: deploy artifacts ready"
+</code></pre>
+<p>预期结果：本地与 GitHub Actions <code>verify</code> 任务均返回退出码 <code>0</code>；<code>gh-pages</code> 分支更新后，线上请求 <code>https://blog.example.com/_astro/</code> 下的样式和脚本返回 HTTP 200。</p>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2024/04/22/jekyll-build-errors-troubleshooting/">Jekyll 构建报错排查手册</a></li>
-<li><a href="/2025/07/22/developer-documentation-writing-guide/">技术文档写作实战</a></li>
-<li><a href="/2024/07/16/jekyll-seo-technical-optimization/">Jekyll SEO 技术优化清单</a></li>
+<li><a href="/posts/astro-ci-prelaunch-verification-pipeline/">Astro 静态站上线前自动化验收与 CI 流水线：拦截死链、构建回归与合规漏洞</a></li>
+<li><a href="/posts/astro-static-assets-404-debugging/">Astro 静态站图片 404 排查：从引用路径到浏览器回归的完整流程</a></li>
+<li><a href="/posts/git-rebase-vs-merge-pr-workflow/">Git Rebase vs Merge：团队 PR 工作流如何选才不翻车</a></li>
 </ul>
 ]]></content>
     <author>
@@ -3035,9 +4166,9 @@ git push origin main
 把规则写进团队文档并执行一致，比任何“偏好争论”都更重要。</p>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2024/08/20/git-commit-convention/">Git Commit 规范指南</a></li>
-<li><a href="/2024/12/03/git-conflict-resolution-playbook/">Git 冲突处理实战手册</a></li>
-<li><a href="/2023/12/06/git-sync-fork-upstream-guide/">Git Fork 同步上游实战</a></li>
+<li><a href="/posts/git-commit-convention/">Git Commit 规范指南</a></li>
+<li><a href="/posts/git-conflict-resolution-playbook/">Git 冲突处理实战手册</a></li>
+<li><a href="/posts/git-sync-fork-upstream-guide/">Git Fork 同步上游实战</a></li>
 </ul>
 ]]></content>
     <author>
@@ -3235,9 +4366,9 @@ curl -I https://your-domain.com/sitemap.xml
 当抓取、结构和体验都达标时，优质内容的价值才会被更稳定地放大。</p>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2025/10/14/static-blog-content-cluster-strategy/">静态博客内容集群策略</a></li>
-<li><a href="/2024/04/22/jekyll-build-errors-troubleshooting/">Jekyll 构建报错排查手册</a></li>
-<li><a href="/2025/03/09/adsense-low-value-content-recovery/">AdSense 低价值内容恢复实战</a></li>
+<li><a href="/posts/static-blog-content-cluster-strategy/">静态博客内容集群策略</a></li>
+<li><a href="/posts/jekyll-build-errors-troubleshooting/">Jekyll 构建报错排查手册</a></li>
+<li><a href="/posts/adsense-low-value-content-recovery/">AdSense 低价值内容恢复实战</a></li>
 </ul>
 ]]></content>
     <author>
@@ -3329,9 +4460,9 @@ sudo systemctl list-unit-files --type=service
 对于个人站点，这 12 项已经能覆盖绝大多数常见攻击面。</p>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2025/11/05/ssh-key-security/">SSH 密钥安全指南</a></li>
-<li><a href="/2025/06/28/nginx-502-504-troubleshooting/">Nginx 502/504 排错指南</a></li>
-<li><a href="/2025/05/21/self-hosted-monitoring-uptime-kuma-guide/">Uptime Kuma 监控实战</a></li>
+<li><a href="/posts/ssh-key-security/">SSH 密钥安全指南</a></li>
+<li><a href="/posts/nginx-502-504-troubleshooting/">Nginx 502/504 排错指南</a></li>
+<li><a href="/posts/self-hosted-monitoring-uptime-kuma-guide/">Uptime Kuma 监控实战</a></li>
 </ul>
 ]]></content>
     <author>
@@ -3340,50 +4471,114 @@ sudo systemctl list-unit-files --type=service
     <category term="Linux"></category>
   </entry>
   <entry>
-    <title>VS Code + GitHub Copilot: AI 时代开发者的效率核武器</title>
+    <title>VS Code + GitHub Copilot 工程化工作流：自定义指令、上下文管理与代码审查</title>
     <link href="https://levifree.com/posts/vscode-copilot-ai-coding-guide/" rel="alternate" type="text/html"/>
     <id>https://levifree.com/posts/vscode-copilot-ai-coding-guide/</id>
     <published>2024-05-15T00:00:00.000Z</published>
-    <updated>2024-05-15T00:00:00.000Z</updated>
-    <summary>AI 结对编程时代，如何利用 Copilot 节省 50% 的编码时间</summary>
-    <content type="html"><![CDATA[<blockquote>
-<p>"Automation is cost cutting by tightening the corners and not cutting them."</p>
-</blockquote>
-<p>在 2026 年的今天，AI 辅助编程已经不再是新鲜事，而是每一位开发者的标配。作为市面上最强大的 AI 编程助手组合，Visual Studio Code (VS Code) 配合 GitHub Copilot，已经彻底改变了我们写代码的方式。</p>
-<p>本文将分享如何高效利用这一组合，不仅是作为“自动补全”，更是作为你的“全天候结对编程伙伴”。</p>
-<h2>1. 超越自动补全：Copilot 的核心能力</h2>
-<p>很多新手只把 Copilot 当作更智能的 IntelliSense，这其实大材小用了。</p>
-<h3>1.1 上下文感知</h3>
-<p>Copilot 能够读取你当前打开的所有标签页 (Tabs)。</p>
+    <updated>2026-11-25T00:00:00.000Z</updated>
+    <summary>告别把 Copilot 当聊天玩具：配置仓库级 copilot-instructions.md、上下文引用边界与提交前类型/Diff 门禁的实操手册。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>旧文只写了“按 Tab 补全、右键 Explain This”，在实际工程项目里这样用 Copilot 很快就会碰壁：打开了太多无关标签页导致生成代码风格飘忽不定，或者 AI 顺手写出过时的 API（比如按老版本路由写法生成新框架代码），Review 时反而更花时间。</p>
+<p>把过去一年在 TypeScript、Astro 和脚本项目里磨合出来的 <strong>VS Code + Copilot 工程化配置</strong>整理成 SOP，核心思路是：<strong>用仓库级规则文件约束 AI 的输出口径，用精准上下文切片控制作用域，用本地静态检查接管最终验收</strong>。</p>
+<h2>前置条件与输入参数</h2>
 <ul>
-<li><strong>技巧</strong>：在写新功能时，把你引用的接口定义 (<code>types.ts</code>)、相关的后端逻辑文件 (<code>controller.py</code>) 都打开。Copilot 会基于这些上下文，精准生成符合你业务逻辑的代码。</li>
+<li><strong>编辑器</strong>：VS Code 最新稳定版，已安装并登录 <code>GitHub Copilot</code> 与 <code>GitHub Copilot Chat</code> 扩展。</li>
+<li><strong>工程仓</strong>：包含明确技术栈声明（如 <code>package.json</code>、<code>tsconfig.json</code>）和测试脚本的 Git 仓库。</li>
 </ul>
-<h3>1.2 编写测试用例</h3>
-<p>这是 Copilot 最擅长的领域之一。</p>
+<h2>操作步骤（SOP）</h2>
+<h3>1. 在仓库中写入 <code>.github/copilot-instructions.md</code></h3>
+<p>Copilot Chat 和代码生成会自动读取仓库根目录下的 <code>.github/copilot-instructions.md</code>，把高频团队规范写死在这里，就不用每次提示词里重复啰嗦：</p>
+<pre><code># Repository Instructions
+
+- Language &amp; Stack: TypeScript (strict), Astro static build, Svelte 5 runes, Tailwind CSS v4.
+- Package Manager: Always use `pnpm` (never suggest `npm` or `yarn`).
+- Validation: Every code change must pass `pnpm run type-check`, `pnpm exec biome check ./src`, and `pnpm run build`.
+- Safety &amp; Quality:
+  - Validate external inputs as `unknown` at trust boundaries; avoid `any` and non-null assertions (`!`).
+  - Reuse existing helpers in `src/utils/` before adding new utilities.
+  - Never hardcode production domains or secrets in source files.
+</code></pre>
+<h3>2. 配置 <code>.vscode/settings.json</code> 控制补全与文件忽略范围</h3>
+<p>屏蔽构建产物与敏感配置文件，避免无效上下文干扰建议质量，同时保留本地格式化一致性：</p>
+<pre><code>{
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "dotenv": false
+  },
+  "github.copilot.chat.codeGeneration.useInstructionFiles": true,
+  "editor.formatOnSave": false,
+  "files.exclude": {
+    "**/dist": true,
+    "**/.astro": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/pnpm-lock.yaml": true
+  }
+}
+</code></pre>
+<p>关闭 <code>.env</code>（<code>dotenv: false</code>）的补全建议是基本安全习惯，防止意外把本地测试 Key 顺手拼进提示上下文。</p>
+<h3>3. 使用精准上下文变量而非“打开一堆 Tab”</h3>
+<p>在 Copilot Chat 或 Inline Chat（<code>Cmd + I</code> / <code>Ctrl + I</code>）里，显式指定引用范围比依赖开放标签页靠谱得多：</p>
 <ul>
-<li><strong>操作</strong>：写完一个函数后，在下方输入 <code>// test case for above function</code>，Copilot 往往能生成覆盖率极高的单元测试，甚至考虑到边界情况。</li>
+<li><strong>定位类型问题</strong>：<code>#file:src/utils/url-utils.ts</code> + <code>#file:src/layouts/Layout.astro</code>，明确要求“只修改调用边界，保持其余导出签名不变”。</li>
+<li><strong>先写失败测试再补实现</strong>：选中目标函数接口定义 <code>#selection</code>，提示词模板：</li>
 </ul>
-<h2>2. VS Code Chat：不仅仅是问答</h2>
-<p>新版的 VS Code 深度集成了 Copilot Chat。</p>
+<pre><code>基于 #file:src/utils/url-utils.ts 的 isAdDisallowedPath 函数签名，
+在 #file:tests/url-utils.test.mjs 中补充边界测试用例（根路径、子路径、前缀相似但非同路径、含404路径），
+使用 Node 内置 node:test 与 node:assert/strict，不要引入第三方测试库。
+</code></pre>
 <ul>
-<li><strong>右键解释</strong>：遇到看不懂的遗留代码（Legacy Code），选中并右键 <code>Copilot &gt; Explain This</code>。它会用通俗的语言解释代码逻辑。</li>
-<li><strong>一键重构</strong>：选中一段乱糟糟的代码，在 Chat 中输入 <code>/fix</code> 或 <code>/optimize</code>，它会帮你重构变量名、提取函数，甚至优化算法复杂度。</li>
+<li><strong>终端报错秒级定位</strong>：命令报错后直接选中终端错误堆栈，在 Chat 中使用 <code>#terminalSelection</code> 结合具体文件提问，避免手动复制贴漏上下文。</li>
 </ul>
-<h2>3. 实用快捷键与配置</h2>
-<p>为了让体验更丝滑，建议掌握以下快捷键：</p>
+<h3>4. 建立“Diff 审查 + 自动化门禁”提交前卡点</h3>
+<p>把 AI 当成能快速出初稿的初级搭档，合入前必须过三关：</p>
+<pre><code># 1. 先看 AI 到底改了哪些文件与行（重点看是否夹带了未要求的重构）
+git diff --stat &amp;&amp; git diff
+
+# 2. 跑通类型、Lint、单测与生产构建
+pnpm run type-check &amp;&amp; pnpm exec biome check ./src &amp;&amp; node --test tests/*.mjs &amp;&amp; pnpm run build
+</code></pre>
+<h2>真实踩坑复盘与排查记录</h2>
+<ol>
+<li>
+<p><strong>现象：AI 顺手生成了看起来很完整的代码，但一运行报错 <code>X is not a function</code></strong></p>
 <ul>
-<li><strong><code>Tab</code></strong>: 接受建议。</li>
-<li><strong><code>Ctrl + Enter</code> (Mac: <code>Cmd + Enter</code>)</strong>: 打开 GitHub Copilot 建议面板，一次性查看 10 种可能的实现方案。</li>
-<li><strong>行内 Chat</strong>: <code>Ctrl + I</code> (Mac: <code>Cmd + I</code>)，直接在代码行内唤起对话框进行修改，不用切换侧边栏。</li>
+<li><strong>定位</strong>：项目使用的是较新大版本依赖（如 Tailwind v4 / Svelte 5 Runes / Astro 7），模型默认记忆停留在旧版 API（如 Svelte 4 <code>export let</code> 或 Next.js 14 默认缓存行为）。</li>
+<li><strong>解决</strong>：在 <code>.github/copilot-instructions.md</code> 第一行就锁死精确的主版本号与禁止使用的旧语法，并用 <code>#file:package.json</code> 锚定当前依赖版本。</li>
 </ul>
-<h2>4. 避免“AI 幻觉”陷阱</h2>
-<p>虽然 Copilot 很强，但它也会一本正经地胡说八道。</p>
+</li>
+<li>
+<p><strong>现象：让 Copilot 修一个小 Bug，它把整个文件 200 行顺手重写并删掉了原有注释</strong></p>
 <ul>
-<li><strong>永远不要盲目 Accept</strong>：对于生成的正则、复杂的 SQL 或算法，一定要人工 Review 一遍。</li>
-<li><strong>安全隐患</strong>：注意不要让 AI 生成包含硬编码密码或密钥的代码。</li>
+<li><strong>定位</strong>：提示词没有约束变更范围，且在全文件 Chat 模式下接受了整文件覆盖。</li>
+<li><strong>解决</strong>：小改动优先用行内 <code>Cmd + I</code>（仅作用于选区），提交前必跑 <code>git diff</code> 核对是否误删无关注释或错误处理逻辑。</li>
 </ul>
-<h2>5. 结语</h2>
-<p>工具无法替代思考，但可以释放思考。将重复的样板代码交给 Copilot，把你的精力集中在系统架构和业务价值上，这才是 AI 时代开发者的生存之道。</p>
+</li>
+<li>
+<p><strong>现象：为了省事让 Copilot 生成校验函数，结果它在 <code>catch</code> 块里悄悄写了 <code>return true</code> 或静默吞异常</strong></p>
+<ul>
+<li><strong>定位</strong>：AI 倾向于给出“不报错能跑通”的乐观实现，容易削弱边界防御。</li>
+<li><strong>解决</strong>：Review 时重点盯 <code>catch</code>、<code>if (!...)</code> 和正则放行条件，凡涉及安全边界与权限判断的分支必须手写或核对反向失败测试。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<pre><code># 1. 确认指令文件与 VS Code 配置已受版本控制且无敏感变量
+test -f .github/copilot-instructions.md &amp;&amp; test -f .vscode/settings.json &amp;&amp; echo "OK: workspace AI config present"
+
+# 2. 确认暂存区 diff 中无硬编码密钥、无多余依赖、且门禁全绿
+git diff --cached --stat
+pnpm run type-check &amp;&amp; pnpm exec biome check ./src
+</code></pre>
+<p>预期结果：VS Code Copilot Chat 回复时能主动遵循 <code>pnpm</code> 与项目约定；<code>git diff</code> 范围收敛在目标文件内；所有静态检查与测试退出码均为 <code>0</code>。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="/posts/typescript-refactoring/">TypeScript 存量代码重构实战：用类型收窄与边界校验消除隐性 Bug</a></li>
+<li><a href="/posts/git-commit-convention/">告别 git push -f：团队协作中的 Git Commit 规范指南</a></li>
+</ul>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -3495,9 +4690,9 @@ bundle exec jekyll serve
 把这 10 条高频问题掌握后，90% 的构建故障都能快速定位。</p>
 <h2>延伸阅读</h2>
 <ul>
-<li><a href="/2024/07/16/jekyll-seo-technical-optimization/">Jekyll SEO 技术优化清单</a></li>
-<li><a href="/2024/11/18/github-actions-blog-ci-cd/">GitHub Actions 博客质量流水线</a></li>
-<li><a href="/2025/03/09/jekyll-content-quality-checklist/">Jekyll 发布前内容质量自检模板</a></li>
+<li><a href="/posts/jekyll-seo-technical-optimization/">Jekyll SEO 技术优化清单</a></li>
+<li><a href="/posts/github-actions-blog-ci-cd/">GitHub Actions 博客质量流水线</a></li>
+<li><a href="/posts/jekyll-content-quality-checklist/">Jekyll 发布前内容质量自检模板</a></li>
 </ul>
 ]]></content>
     <author>
@@ -3506,80 +4701,156 @@ bundle exec jekyll serve
     <category term="Jekyll"></category>
   </entry>
   <entry>
-    <title>Next.js App Router 上手指南：从路由到服务端渲染</title>
+    <title>Next.js App Router 实战指南：服务端组件、缓存语义与数据边界设计</title>
     <link href="https://levifree.com/posts/nextjs-app-router/" rel="alternate" type="text/html"/>
     <id>https://levifree.com/posts/nextjs-app-router/</id>
     <published>2024-03-25T00:00:00.000Z</published>
-    <updated>2024-03-25T00:00:00.000Z</updated>
-    <summary>忘掉 getStaticProps？Next.js 14+ 核心概念极简解析</summary>
-    <content type="html"><![CDATA[<p>Next.js 最近几年的变化可谓天翻地覆。自从引入 <strong>App Router</strong> (<code>app</code> 目录) 以来，它几乎重塑了 React 应用的构建方式。
-如果你还在用这 <code>pages</code> 目录写 <code>getServerSideProps</code>，那你是时候升级一下知识库了。</p>
-<h2>1. 目录即路由</h2>
-<p>在 App Router 中，文件系统就是路由。</p>
+    <updated>2026-11-25T00:00:00.000Z</updated>
+    <summary>修正过时的 Next.js 14 默认缓存认知：详解 Next.js 15+ App Router 的默认动态策略、RSC/Client 边界隔离与 Server Actions 失效刷新。</summary>
+    <content type="html"><![CDATA[<h2>复盘背景</h2>
+<p>旧版文章只写了 <code>fetch</code> 默认缓存（那是 Next.js 14 的旧行为）。从 <strong>Next.js 15</strong> 开始，官方已经扭转了这个最容易让开发者踩坑的默认值——<strong><code>fetch</code>、Route Handlers (<code>GET</code>) 与客户端路由缓存默认均不再激进缓存</strong>，需要缓存时必须显式声明。</p>
+<p>如果在 2025–2026 年还按旧文章认知去写项目，很容易出现两个极端：要么误以为 <code>fetch</code> 自动缓存导致数据库压力飙升，要么因为把 <code>"use client"</code> 加得太靠上层，把服务端密钥或庞大依赖意外打进浏览器 Bundle。这篇重写按照当前最新的 App Router 语义重做了一遍工程实践 SOP。</p>
+<h2>前置条件与输入参数</h2>
 <ul>
-<li><code>app/page.tsx</code> -&gt; <code>/</code></li>
-<li><code>app/about/page.tsx</code> -&gt; <code>/about</code></li>
-<li><code>app/blog/[id]/page.tsx</code> -&gt; <code>/blog/123</code></li>
+<li><strong>运行时</strong>：Node.js 20 LTS+，<code>pnpm</code> 9+，Next.js 15+（App Router 模式）。</li>
+<li><strong>辅助保护包</strong>：<code>server-only</code>（用于在构建期拦截服务端模块被客户端误导入）。</li>
 </ul>
-<p>这种结构非常直观。每个文件夹还可以包含 <code>layout.tsx</code> (布局), <code>loading.tsx</code> (加载中), <code>error.tsx</code> (错误处理)，实现了<strong>嵌套路由</strong>和<strong>UI 状态</strong>的完美解耦。</p>
-<h3>文件结构可视化</h3>
-<pre><code>app/
-├── layout.tsx      (Root Layout: &lt;html&gt;...&lt;/html&gt;)
-├── page.tsx        (Home Page: /)
-├── about/
-│   └── page.tsx    (About Page: /about)
-└── blog/
-    ├── layout.tsx  (Blog Layout: sidebar, etc.)
-    └── [id]/
-        └── page.tsx (Post Page: /blog/123)
+<h2>操作步骤（SOP）</h2>
+<h3>1. 初始化目录边界与安装 <code>server-only</code></h3>
+<pre><code>pnpm add server-only
 </code></pre>
-<h2>2. Server Components (服务端组件)</h2>
-<p>这是最大的思想转变。<strong>在 App 目录下的组件，默认都是 Server Components。</strong>
-这意味着：</p>
-<ul>
-<li>它们直接在服务器上运行。</li>
-<li>可以直接连接数据库，读取文件系统。</li>
-<li><strong>不会</strong>被打包到客户端的 JavaScript bundle 中（极大减小了体积）。</li>
-</ul>
-<pre><code>// app/page.tsx
-// 这是一个服务端组件，可以直接写 async/await
-import db from './db';
+<p>按职责拆分目录，把所有数据读取与数据库访问收敛到 <code>src/lib/data/</code>，禁止组件层直接散落写查询：</p>
+<pre><code>src/
+├── app/
+│   ├── layout.tsx          # 根布局（保持 Server Component）
+│   ├── page.tsx            # 首页
+│   ├── posts/
+│   │   ├── loading.tsx     # 流式加载骨架屏
+│   │   ├── error.tsx       # 路由级错误边界（必须是 "use client"）
+│   │   └── [slug]/page.tsx
+└── lib/
+    └── data/
+        └── posts.ts        # 显式标记 import "server-only"
+</code></pre>
+<h3>2. 明确 Next.js 15+ 的 <code>fetch</code> 与路由缓存语义</h3>
+<pre><code>// 1) 默认行为（Next.js 15+）：每次请求实时拉取（等价于 no-store）
+const liveRes = await fetch("https://api.example.com/stats");
 
-export default async function Page() {
-  const users = await db.query('SELECT * FROM users'); // 直接查库！
-  
-  return (
-    &lt;ul&gt;
-      {users.map(user =&gt; &lt;li key={user.id}&gt;{user.name}&lt;/li&gt;)}
-    &lt;/ul&gt;
-  );
+// 2) 静态/定时增量再生成（显式开启缓存与按 Tag 失效）
+const cachedRes = await fetch("https://api.example.com/posts", {
+	cache: "force-cache",
+	next: { revalidate: 3600, tags: ["posts"] },
+});
+</code></pre>
+<p>如果是直接读数据库或文件系统而不是 <code>fetch</code>，可以搭配路由段配置或 <code>unstable_cache</code> / <code>revalidateTag</code> 显式控制缓存周期。</p>
+<h3>3. 严守 Server Component 与 Client Component 边界</h3>
+<p>把交互状态（按钮点击、表单输入、弹窗开关）下沉到最小的叶子组件，同时利用 <code>server-only</code> 守住服务端数据模块：</p>
+<pre><code>// src/lib/data/posts.ts
+import "server-only";
+
+export interface PostSummary {
+	slug: string;
+	title: string;
+	publishedAt: string;
+}
+
+export async function getPublishedPosts(): Promise&lt;PostSummary[]&gt; {
+	const res = await fetch("https://api.example.com/posts", {
+		next: { revalidate: 300, tags: ["posts"] },
+	});
+	if (!res.ok) {
+		throw new Error(`Failed to fetch posts: ${res.status}`);
+	}
+	return (await res.json()) as PostSummary[];
 }
 </code></pre>
-<h2>3. Client Components (客户端组件)</h2>
-<p>如果你需要 <code>useState</code>, <code>useEffect</code> 或者 DOM 事件（onClick），你需要显式地在文件顶部声明 <code>"use client"</code>。</p>
-<pre><code>'use client';
+<p>客户端叶子组件只接收<strong>可序列化的纯数据 Props</strong>（字符串、数字、普通对象），不要传递函数或未经序列化的 <code>Date</code> 实例：</p>
+<pre><code>// src/components/LikeButton.tsx
+"use client";
 
-import { useState } from 'react';
+import { useState, useTransition } from "react";
 
-export default function Counter() {
-  const [count, setCount] = useState(0);
-  return &lt;button onClick={() =&gt; setCount(c =&gt; c+1)}&gt;{count}&lt;/button&gt;;
+export function LikeButton({
+	slug,
+	initialCount,
+	onLike,
+}: {
+	slug: string;
+	initialCount: number;
+	onLike: (slug: string) =&gt; Promise&lt;number&gt;;
+}) {
+	const [count, setCount] = useState(initialCount);
+	const [pending, startTransition] = useTransition();
+
+	return (
+		&lt;button
+			type="button"
+			disabled={pending}
+			onClick={() =&gt; {
+				startTransition(async () =&gt; {
+					const nextCount = await onLike(slug);
+					setCount(nextCount);
+				});
+			}}
+		&gt;
+			{pending ? "提交中..." : `赞 (${count})`}
+		&lt;/button&gt;
+	);
 }
 </code></pre>
-<p><strong>最佳实践</strong>：尽可能让叶子节点（Button, Input）做成 Client Component，而把大框架保留为 Server Component。</p>
-<h2>4. 获取数据 (Data Fetching)</h2>
-<p>再也没有 <code>getStaticProps</code> 了。现在获取数据就是标准的 <code>fetch</code> API。</p>
-<pre><code>// 类似 getStaticProps (默认缓存)
-fetch('https://...', { cache: 'force-cache' });
+<h3>4. 在 Server Actions 中做输入校验与按需 Revalidate</h3>
+<pre><code>// src/app/actions/posts.ts
+"use server";
 
-// 类似 getServerSideProps (每次刷新)
-fetch('https://...', { cache: 'no-store' });
+import { revalidateTag } from "next/cache";
 
-// ISR (每10秒更新一次)
-fetch('https://...', { next: { revalidate: 10 } });
+export async function likePostAction(slug: string): Promise&lt;number&gt; {
+	if (!slug || typeof slug !== "string" || !/^[a-z0-9-]+$/i.test(slug)) {
+		throw new Error("Invalid post slug");
+	}
+	// 写入后端存储...
+	const updatedCount = 42;
+	revalidateTag("posts");
+	return updatedCount;
+}
 </code></pre>
-<h2>5. 总结</h2>
-<p>App Router 虽然学习曲线稍陡，但它带来了更小的包体积、更快的首屏加载速度和更清晰的数据流。对于 2026 年的新项目，这是唯一的选择。</p>
+<h2>真实踩坑复盘与排查记录</h2>
+<ol>
+<li>
+<p><strong>现象：为了图省事在 <code>app/layout.tsx</code> 加了 <code>"use client"</code>，结果首屏 JS 暴涨且全站 SSR 失效</strong></p>
+<ul>
+<li><strong>定位</strong>：App Router 中一旦父级文件声明 <code>"use client"</code>，其内部所有静态导入的子组件都会自动被拉入客户端打包边界。</li>
+<li><strong>解决</strong>：始终把 <code>layout.tsx</code> 和页面入口 <code>page.tsx</code> 保持为 Server Component，只把真正需要浏览器交互的局部组件拆出为叶子节点，或通过 <code>children</code> 插槽穿透服务端渲染结果。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：原本想做静态缓存的页面，构建表里却变成了 <code>ƒ (Dynamic)</code></strong></p>
+<ul>
+<li><strong>定位</strong>：某个深层服务端组件里调用了 <code>cookies()</code> 或 <code>headers()</code> 读取请求头，自动触发了整条路由的动态渲染降级。</li>
+<li><strong>解决</strong>：将依赖请求上下文的个性化 UI 抽到独立组件，外层包裹 <code>&lt;Suspense&gt;</code>，或确认确实需要动态渲染。</li>
+</ul>
+</li>
+<li>
+<p><strong>现象：提交表单更新成功，但页面刷新前数据还是旧的</strong></p>
+<ul>
+<li><strong>定位</strong>：Server Action 修改数据后忘记调用 <code>revalidatePath</code> 或 <code>revalidateTag</code>，导致页面仍展示命中缓存的旧快照。</li>
+<li><strong>解决</strong>：所有写操作 Action 末尾统一加上对应的 <code>revalidateTag</code> / <code>revalidatePath</code> 失效通知。</li>
+</ul>
+</li>
+</ol>
+<h2>验收清单</h2>
+<pre><code># 1. 构建并检查路由编译表中的 Static (○) / Dynamic (ƒ) 分布是否符合预期
+pnpm build
+
+# 2. 类型与静态规范检查
+pnpm exec tsc --noEmit
+</code></pre>
+<p>预期结果：构建输出中的静态内容页标记为 <code>○ (Static)</code> 或 <code>● (SSG)</code>；试图在 <code>"use client"</code> 组件中导入带 <code>"server-only"</code> 的文件时，构建会立刻报错拦截，杜绝服务端代码泄漏到浏览器。</p>
+<h2>延伸阅读</h2>
+<ul>
+<li><a href="/posts/why-tailwind-css/">Tailwind CSS v4 工程化实战：从 CSS-First 配置到设计令牌落地</a></li>
+<li><a href="/posts/typescript-refactoring/">TypeScript 存量代码重构实战：用类型收窄与边界校验消除隐性 Bug</a></li>
+</ul>
 ]]></content>
     <author>
       <name>Levi</name>
@@ -3700,7 +4971,7 @@ systemctl disable firewalld
 </blockquote>
 <h3>2. 登录面板</h3>
 <p>安装完成后，通过浏览器访问 <code>http://你的IP:8888</code> 或 <code>https://你的IP:9999</code>。使用终端输出的默认账号密码登录。</p>
-<p><img src="https://levifree.com/img/AMH_Install_WordPress/34.png" alt="AMH登录界面" /></p>
+<p><img src="https://levifree.com/images/posts/amh-wordpress-installation-guide/01-amh-login.png" alt="AMH 登录界面" /></p>
 <h3>3. 安装必要软件扩展</h3>
 <p>登录面板后，进入 <strong>软件商店</strong>，建议安装以下扩展以支持 WordPress 运行：</p>
 <ul>
@@ -3727,7 +4998,7 @@ systemctl disable firewalld
 rewrite /wp-admin$ $scheme://$host$uri/ permanent;
 </code></pre>
 </blockquote>
-<p><img src="https://levifree.com/img/AMH_Install_WordPress/2.png" alt="新增虚拟主机" /></p>
+<p><img src="https://levifree.com/images/posts/amh-wordpress-installation-guide/02-create-vhost.png" alt="新增虚拟主机" /></p>
 <h3>2. 申请 SSL 证书</h3>
 <p>进入 <strong>网站</strong> -&gt; <strong>SSL证书</strong> -&gt; <strong>AMSSL</strong>：</p>
 <ul>
@@ -3735,7 +5006,7 @@ rewrite /wp-admin$ $scheme://$host$uri/ permanent;
 <li>勾选 <strong>一键自动配置</strong> (推荐 Let's Encrypt)。</li>
 <li>点击创建，等待证书签发并自动部署。</li>
 </ul>
-<p><img src="https://levifree.com/img/AMH_Install_WordPress/9.png" alt="SSL配置" /></p>
+<p><img src="https://levifree.com/images/posts/amh-wordpress-installation-guide/03-ssl-config.png" alt="SSL 证书配置" /></p>
 <h3>3. 安装 PHP 扩展</h3>
 <p>WordPress 及其插件通常需要以下 PHP 扩展支持。进入 <strong>网站</strong> -&gt; <strong>PHP扩展</strong>，为 <code>lnmp01</code> 环境安装：</p>
 <ul>
@@ -3773,7 +5044,7 @@ define( 'FS_METHOD', 'direct' );
 </ol>
 <h3>3. 权限修正</h3>
 <p>这一步至关重要：在 <strong>文件</strong> 管理中，勾选 <code>web</code> 目录，点击 <strong>权限</strong>，将所有者改为 <code>www</code>，用户组改为 <code>www</code>，并勾选 <strong>递归处理</strong>。</p>
-<p><img src="https://levifree.com/img/AMH_Install_WordPress/25.png" alt="权限设置" /></p>
+<p><img src="https://levifree.com/images/posts/amh-wordpress-installation-guide/04-web-permissions.png" alt="目录权限设置" /></p>
 <hr />
 <h2>第五阶段：完成安装</h2>
 <p>打开浏览器访问你的域名，你应该能看到 WordPress 的安装欢迎界面。设置好站点标题、管理员账号密码，点击安装即可！</p>
@@ -4125,7 +5396,7 @@ git push origin main
 <h3>1. 创建工作流文件</h3>
 <p>在你的仓库中，点击 <strong>Actions</strong> -&gt; <strong>New workflow</strong>，创建一个名为 <code>.github/workflows/sync.yml</code> 的文件。</p>
 <p>如果你 Fork 的仓库里已存在其他工作流，点击 <code>Actions</code> 后可能需要先点击 <code>New workflow</code>，如下图所示：
-<img src="https://levifree.com/img/syncworkflow/createworkflow.png" alt="新建工作流" /></p>
+<img src="https://levifree.com/images/posts/git-sync-fork-upstream-guide/01-create-workflow.png" alt="新建工作流" /></p>
 <h3>2. 填入配置代码</h3>
 <p>复制以下 YAML 内容，并<strong>务必修改第四步中的上游仓库地址</strong>。</p>
 <pre><code>name: Upstream Sync
@@ -4172,9 +5443,9 @@ jobs:
           exit 1
 </code></pre>
 <p>请参考下图说明进行修改：
-<img src="https://levifree.com/img/syncworkflow/modification.png" alt="修改说明" /></p>
+<img src="https://levifree.com/images/posts/git-sync-fork-upstream-guide/02-edit-config.png" alt="修改工作流配置" /></p>
 <p>以下是配置完成后的完整代码示例图（注意：部分密钥无需手动填写）：
-<img src="https://levifree.com/img/syncworkflow/sync.jpg" alt="全部代码" /></p>
+<img src="https://levifree.com/images/posts/git-sync-fork-upstream-guide/03-full-workflow.jpg" alt="完整工作流示例" /></p>
 <h3>3. 注意事项</h3>
 <ul>
 <li><strong>首次运行</strong>：创建完文件后，建议切到 Actions 页面手动触发一次（Run workflow）以验证配置是否正确。</li>
