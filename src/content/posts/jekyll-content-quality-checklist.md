@@ -126,6 +126,6 @@ bundle exec jekyll serve
 
 ## 延伸阅读
 
-- [技术文档写作实战](/2025/07/22/developer-documentation-writing-guide/)
-- [AdSense 低价值内容恢复实战](/2025/03/09/adsense-low-value-content-recovery/)
-- [Jekyll SEO 技术优化清单](/2024/07/16/jekyll-seo-technical-optimization/)
+- [技术文档写作实战](/posts/developer-documentation-writing-guide/)
+- [AdSense 低价值内容恢复实战](/posts/adsense-low-value-content-recovery/)
+- [Jekyll SEO 技术优化清单](/posts/jekyll-seo-technical-optimization/)

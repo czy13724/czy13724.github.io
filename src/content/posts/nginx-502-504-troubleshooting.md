@@ -96,6 +96,6 @@ df -h
 
 ## 延伸阅读
 
-- [Docker 部署 Nginx Proxy Manager](/2025/02/20/nginx-proxy-manager/)
-- [Linux 服务器安全基线实战](/2024/06/18/linux-server-security-baseline/)
-- [Docker Compose 网络与 DNS 故障排查](/2025/12/08/docker-compose-network-dns-troubleshooting/)
+- [Docker 部署 Nginx Proxy Manager](/posts/nginx-proxy-manager/)
+- [Linux 服务器安全基线实战](/posts/linux-server-security-baseline/)
+- [Docker Compose 网络与 DNS 故障排查](/posts/docker-compose-network-dns-troubleshooting/)

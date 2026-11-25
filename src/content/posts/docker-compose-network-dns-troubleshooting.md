@@ -92,6 +92,6 @@ Compose 网络故障的本质是“认知模型错误”。
 
 ## 延伸阅读
 
-- [Nginx 502/504 排错指南](/2025/06/28/nginx-502-504-troubleshooting/)
-- [Cloudflare Pages 性能与安全优化](/2025/03/18/cloudflare-pages-performance-security/)
-- [Linux 服务器安全基线实战](/2024/06/18/linux-server-security-baseline/)
+- [Nginx 502/504 排错指南](/posts/nginx-502-504-troubleshooting/)
+- [Cloudflare Pages 性能与安全优化](/posts/cloudflare-pages-performance-security/)
+- [Linux 服务器安全基线实战](/posts/linux-server-security-baseline/)

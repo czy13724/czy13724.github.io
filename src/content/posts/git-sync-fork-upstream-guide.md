@@ -74,7 +74,7 @@ git push origin main
 在你的仓库中，点击 **Actions** -> **New workflow**，创建一个名为 `.github/workflows/sync.yml` 的文件。
 
 如果你 Fork 的仓库里已存在其他工作流，点击 `Actions` 后可能需要先点击 `New workflow`，如下图所示：
-![新建工作流](/img/syncworkflow/createworkflow.png)
+![新建工作流](/images/posts/git-sync-fork-upstream-guide/01-create-workflow.png)
 
 ### 2. 填入配置代码
 复制以下 YAML 内容，并**务必修改第四步中的上游仓库地址**。
@@ -125,10 +125,10 @@ jobs:
 ```
 
 请参考下图说明进行修改：
-![修改说明](/img/syncworkflow/modification.png)
+![修改工作流配置](/images/posts/git-sync-fork-upstream-guide/02-edit-config.png)
 
 以下是配置完成后的完整代码示例图（注意：部分密钥无需手动填写）：
-![全部代码](/img/syncworkflow/sync.jpg)
+![完整工作流示例](/images/posts/git-sync-fork-upstream-guide/03-full-workflow.jpg)
 
 ### 3. 注意事项
 *   **首次运行**：创建完文件后，建议切到 Actions 页面手动触发一次（Run workflow）以验证配置是否正确。

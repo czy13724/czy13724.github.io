@@ -19,13 +19,13 @@ openclaw channels status --probe
 
 如果飞书可用，可直接走 onboarding；如果不可用，再执行插件安装。
 
-![Create Feishu App](/img/openclaw/feishu-step2-create-app.png)
+![创建飞书应用](/images/posts/openclaw-feishu-bot-integration/01-create-app.png)
 *图：飞书应用创建页面（官方文档截图）。*
 
-![Get Feishu Credentials](/img/openclaw/feishu-step3-credentials.png)
+![获取飞书应用凭据](/images/posts/openclaw-feishu-bot-integration/02-get-credentials.png)
 *图：飞书应用凭据获取位置（官方文档截图）。*
 
-![Configure Feishu Permissions](/img/openclaw/feishu-step4-permissions.png)
+![配置飞书应用权限](/images/posts/openclaw-feishu-bot-integration/03-configure-permissions.png)
 *图：飞书权限配置页面（官方文档截图）。*
 
 ## 2. 旧版本/精简构建的插件安装路径
@@ -98,6 +98,6 @@ OpenClaw 插件安装在安全上也有官方说明（例如依赖安装策略�
 
 ## 延伸阅读
 
-- [OpenClaw 跨平台安装实战](/2026/02/24/openclaw-install-windows-linux-macos/)
-- [OpenClaw 对接 Telegram 机器人](/2026/02/25/openclaw-telegram-bot-integration/)
-- [OpenClaw 对接 Discord 机器人](/2026/02/26/openclaw-discord-bot-integration/)
+- [OpenClaw 跨平台安装实战](/posts/openclaw-install-windows-linux-macos/)
+- [OpenClaw 对接 Telegram 机器人](/posts/openclaw-telegram-bot-integration/)
+- [OpenClaw 对接 Discord 机器人](/posts/openclaw-discord-bot-integration/)

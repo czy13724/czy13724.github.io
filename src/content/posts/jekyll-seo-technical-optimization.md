@@ -102,6 +102,6 @@ Jekyll 很容易因为分页、分类页或参数链接出现重复 URL。
 
 ## 延伸阅读
 
-- [静态博客内容集群策略](/2025/10/14/static-blog-content-cluster-strategy/)
-- [Jekyll 构建报错排查手册](/2024/04/22/jekyll-build-errors-troubleshooting/)
-- [AdSense 低价值内容恢复实战](/2025/03/09/adsense-low-value-content-recovery/)
+- [静态博客内容集群策略](/posts/static-blog-content-cluster-strategy/)
+- [Jekyll 构建报错排查手册](/posts/jekyll-build-errors-troubleshooting/)
+- [AdSense 低价值内容恢复实战](/posts/adsense-low-value-content-recovery/)

@@ -81,7 +81,7 @@ wget http://dl.amh.sh/amh.sh && bash amh.sh nginx-1.20,mysql-5.6,php-8.0
 
 安装完成后，通过浏览器访问 `http://你的IP:8888` 或 `https://你的IP:9999`。使用终端输出的默认账号密码登录。
 
-![AMH登录界面](/img/AMH_Install_WordPress/34.png)
+![AMH 登录界面](/images/posts/amh-wordpress-installation-guide/01-amh-login.png)
 
 ### 3. 安装必要软件扩展
 
@@ -111,7 +111,7 @@ wget http://dl.amh.sh/amh.sh && bash amh.sh nginx-1.20,mysql-5.6,php-8.0
 > rewrite /wp-admin$ $scheme://$host$uri/ permanent;
 > ```
 
-![新增虚拟主机](/img/AMH_Install_WordPress/2.png)
+![新增虚拟主机](/images/posts/amh-wordpress-installation-guide/02-create-vhost.png)
 
 ### 2. 申请 SSL 证书
 
@@ -120,7 +120,7 @@ wget http://dl.amh.sh/amh.sh && bash amh.sh nginx-1.20,mysql-5.6,php-8.0
 *   勾选 **一键自动配置** (推荐 Let's Encrypt)。
 *   点击创建，等待证书签发并自动部署。
 
-![SSL配置](/img/AMH_Install_WordPress/9.png)
+![SSL 证书配置](/images/posts/amh-wordpress-installation-guide/03-ssl-config.png)
 
 ### 3. 安装 PHP 扩展
 
@@ -169,7 +169,7 @@ define( 'FS_METHOD', 'direct' );
 
 这一步至关重要：在 **文件** 管理中，勾选 `web` 目录，点击 **权限**，将所有者改为 `www`，用户组改为 `www`，并勾选 **递归处理**。
 
-![权限设置](/img/AMH_Install_WordPress/25.png)
+![目录权限设置](/images/posts/amh-wordpress-installation-guide/04-web-permissions.png)
 
 ---
 

@@ -93,6 +93,6 @@ Discord 接入的核心不是“步骤多”，而是“权限要对齐”。
 
 ## 延伸阅读
 
-- [OpenClaw 跨平台安装实战](/2026/02/24/openclaw-install-windows-linux-macos/)
-- [OpenClaw 对接 Telegram 机器人](/2026/02/25/openclaw-telegram-bot-integration/)
-- [OpenClaw 对接飞书机器人](/2026/02/27/openclaw-feishu-bot-integration/)
+- [OpenClaw 跨平台安装实战](/posts/openclaw-install-windows-linux-macos/)
+- [OpenClaw 对接 Telegram 机器人](/posts/openclaw-telegram-bot-integration/)
+- [OpenClaw 对接飞书机器人](/posts/openclaw-feishu-bot-integration/)

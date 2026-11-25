@@ -142,7 +142,7 @@ OpenClaw 的安装不复杂，难点在于“系统差异 + 运行方式 + 安�
 
 ## 延伸阅读
 
-- [OpenClaw 部署平台选择指南](/2026/02/28/openclaw-deploy-platforms-comparison/)
-- [OpenClaw 对接 Telegram 机器人](/2026/02/25/openclaw-telegram-bot-integration/)
-- [OpenClaw 对接 Discord 机器人](/2026/02/26/openclaw-discord-bot-integration/)
-- [OpenClaw 对接飞书机器人](/2026/02/27/openclaw-feishu-bot-integration/)
+- [OpenClaw 部署平台选择指南](/posts/openclaw-deploy-platforms-comparison/)
+- [OpenClaw 对接 Telegram 机器人](/posts/openclaw-telegram-bot-integration/)
+- [OpenClaw 对接 Discord 机器人](/posts/openclaw-discord-bot-integration/)
+- [OpenClaw 对接飞书机器人](/posts/openclaw-feishu-bot-integration/)

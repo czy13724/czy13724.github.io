@@ -81,6 +81,6 @@ rebase 和 merge 没有绝对优劣，只有是否契合团队协作模型。
 
 ## 延伸阅读
 
-- [Git Commit 规范指南](/2024/08/20/git-commit-convention/)
-- [Git 冲突处理实战手册](/2024/12/03/git-conflict-resolution-playbook/)
-- [Git Fork 同步上游实战](/2023/12/06/git-sync-fork-upstream-guide/)
+- [Git Commit 规范指南](/posts/git-commit-convention/)
+- [Git 冲突处理实战手册](/posts/git-conflict-resolution-playbook/)
+- [Git Fork 同步上游实战](/posts/git-sync-fork-upstream-guide/)

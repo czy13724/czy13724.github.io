@@ -91,6 +91,6 @@ git rebase --abort
 
 ## 延伸阅读
 
-- [Git Rebase vs Merge 工作流](/2024/09/12/git-rebase-vs-merge-pr-workflow/)
-- [Git Commit 规范指南](/2024/08/20/git-commit-convention/)
-- [Git Fork 同步上游实战](/2023/12/06/git-sync-fork-upstream-guide/)
+- [Git Rebase vs Merge 工作流](/posts/git-rebase-vs-merge-pr-workflow/)
+- [Git Commit 规范指南](/posts/git-commit-convention/)
+- [Git Fork 同步上游实战](/posts/git-sync-fork-upstream-guide/)

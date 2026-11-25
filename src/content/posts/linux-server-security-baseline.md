@@ -113,6 +113,6 @@ sudo systemctl list-unit-files --type=service
 
 ## 延伸阅读
 
-- [SSH 密钥安全指南](/2025/11/05/ssh-key-security/)
-- [Nginx 502/504 排错指南](/2025/06/28/nginx-502-504-troubleshooting/)
-- [Uptime Kuma 监控实战](/2025/05/21/self-hosted-monitoring-uptime-kuma-guide/)
+- [SSH 密钥安全指南](/posts/ssh-key-security/)
+- [Nginx 502/504 排错指南](/posts/nginx-502-504-troubleshooting/)
+- [Uptime Kuma 监控实战](/posts/self-hosted-monitoring-uptime-kuma-guide/)

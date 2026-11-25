@@ -140,6 +140,6 @@ Jekyll 排错的关键是流程化，而不是临时猜测。
 
 ## 延伸阅读
 
-- [Jekyll SEO 技术优化清单](/2024/07/16/jekyll-seo-technical-optimization/)
-- [GitHub Actions 博客质量流水线](/2024/11/18/github-actions-blog-ci-cd/)
-- [Jekyll 发布前内容质量自检模板](/2025/03/09/jekyll-content-quality-checklist/)
+- [Jekyll SEO 技术优化清单](/posts/jekyll-seo-technical-optimization/)
+- [GitHub Actions 博客质量流水线](/posts/github-actions-blog-ci-cd/)
+- [Jekyll 发布前内容质量自检模板](/posts/jekyll-content-quality-checklist/)

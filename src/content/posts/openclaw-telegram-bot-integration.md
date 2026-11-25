@@ -92,6 +92,6 @@ Telegram 渠道的核心是：
 
 ## 延伸阅读
 
-- [OpenClaw 跨平台安装实战](/2026/02/24/openclaw-install-windows-linux-macos/)
-- [OpenClaw 对接 Discord 机器人](/2026/02/26/openclaw-discord-bot-integration/)
-- [OpenClaw 对接飞书机器人](/2026/02/27/openclaw-feishu-bot-integration/)
+- [OpenClaw 跨平台安装实战](/posts/openclaw-install-windows-linux-macos/)
+- [OpenClaw 对接 Discord 机器人](/posts/openclaw-discord-bot-integration/)
+- [OpenClaw 对接飞书机器人](/posts/openclaw-feishu-bot-integration/)

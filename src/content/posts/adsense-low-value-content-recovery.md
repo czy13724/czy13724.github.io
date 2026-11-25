@@ -133,6 +133,6 @@ AdSense 的“低价值内容”本质上是一个信号：
 
 ## 延伸阅读
 
-- [Jekyll 发布前内容质量自检模板](/2025/03/09/jekyll-content-quality-checklist/)
-- [静态博客内容集群策略](/2025/10/14/static-blog-content-cluster-strategy/)
-- [Jekyll SEO 技术优化清单](/2024/07/16/jekyll-seo-technical-optimization/)
+- [Jekyll 发布前内容质量自检模板](/posts/jekyll-content-quality-checklist/)
+- [静态博客内容集群策略](/posts/static-blog-content-cluster-strategy/)
+- [Jekyll SEO 技术优化清单](/posts/jekyll-seo-technical-optimization/)
