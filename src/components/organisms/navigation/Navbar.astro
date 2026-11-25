@@ -30,6 +30,7 @@ const featurePageUrlMap: Record<string, string> = {
 	"/timeline/": "timeline",
 	"/albums/": "albums",
 	"/devices/": "devices",
+	"/ai-tools/": "aiTools",
 };
 
 function isFeaturePageDisabled(url: string): boolean {
@@ -97,7 +98,7 @@ const iconWebpSrc = hasIconPngFallback
 	? iconSrc.replace(/\.png$/i, ".webp")
 	: iconSrc;
 ---
-<div id="navbar" class="z-50 onload-animation group" data-transparent-mode={navbarTransparentMode} data-is-home={isHomePage}>
+<header id="navbar" class="z-50 onload-animation group" data-transparent-mode={navbarTransparentMode} data-is-home={isHomePage}>
     <div class="absolute h-8 left-0 right-0 -top-8 bg-[var(--card-bg)] transition"></div> <!-- used for onload animation -->
     <div class:list={[className, "!overflow-visible max-w-[var(--page-width)] h-[4.5rem] mx-auto flex items-center justify-between px-4"]}>
         <a href={url('/')} class="btn-plain scale-animation rounded-lg h-[2.5rem] md:h-[3.25rem] md:[.enable-banner_&]:h-[2.5rem] md:[.enable-banner_&]:group-[.scrolled]:h-[3.25rem] px-5 font-bold active:scale-95 shrink-0 transition-all duration-300">
@@ -134,11 +135,11 @@ const iconWebpSrc = hasIconPngFallback
                 )}
             </div>
         </a>
-        <div id="navbar-links-container" class="hidden md:flex items-center space-x-1 transition-opacity duration-300">
+        <nav id="navbar-links-container" aria-label="Primary Navigation" class="hidden md:flex items-center space-x-1 transition-opacity duration-300">
             {links.map((l) => {
                 return <DropdownMenu link={l} />;
             })}
-        </div>
+        </nav>
         <div class="flex items-center gap-1">
             <div id="search-container">
                 <Search client:only="svelte"></Search>
@@ -156,34 +157,32 @@ const iconWebpSrc = hasIconPngFallback
         <NavMenuPanel links={links}></NavMenuPanel>
         <SettingsPanel client:only="svelte"></SettingsPanel>
     </div>
-</div>
+</header>
 
 <script>
 	const searchContainer = document.getElementById("search-container");
 	const navbarLinksContainer = document.getElementById("navbar-links-container");
 
 	if (searchContainer && navbarLinksContainer) {
-		// 鼠标移入/触摸开始时隐藏导航链接
+		// 鼠标移入时隐藏导航链接并禁用指针事件
 		const hideLinks = () => {
 			if (window.matchMedia("(min-width: 1280px)").matches && window.matchMedia("(hover: hover)").matches) {
 				navbarLinksContainer.style.opacity = "0";
+				navbarLinksContainer.style.pointerEvents = "none";
 			}
 		};
 
-		// 鼠标移出/触摸结束时显示导航链接
+		// 鼠标移出时恢复导航链接显示与指针事件
 		const showLinks = () => {
 			const navbar = document.getElementById("navbar");
 			if (navbar && !navbar.classList.contains("is-searching")) {
 				navbarLinksContainer.style.opacity = "1";
+				navbarLinksContainer.style.pointerEvents = "";
 			}
 		};
 
 		searchContainer.addEventListener("mouseenter", hideLinks);
 		searchContainer.addEventListener("mouseleave", showLinks);
-
-		// 移动端/触摸屏支持
-		searchContainer.addEventListener("touchstart", hideLinks, { passive: true });
-		searchContainer.addEventListener("touchend", showLinks);
 
 		// 监听 navbar 的 class 变化，当搜索框折叠时确保链接显示
 		const navbar = document.getElementById("navbar");

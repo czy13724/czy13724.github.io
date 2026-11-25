@@ -4,7 +4,7 @@
 
 Levi Blog is a personal technology blog available at [https://levifree.com](https://levifree.com). Most content can be read without creating an account or submitting personal information.
 
-This website may use cookies, analytics tools, comment systems, and advertising services to maintain the website, understand traffic, improve content, prevent abuse, and display advertisements after approval. Third-party services used on this website may include Google Analytics, Google AdSense, Giscus, Baidu Tongji, and Busuanzi.
+This website may use cookies, analytics tools, comment systems, and advertising services to maintain the website, understand traffic, improve content, prevent abuse, and display advertisements after approval. Third-party services used on this website may include Google Analytics, Google Tag Manager, Google AdSense, and Giscus.
 
 I do not sell your personal information. If you contact me by email, GitHub, Telegram, or comments, the information you choose to provide will only be used to reply to your message, handle feedback, or improve related content.
 

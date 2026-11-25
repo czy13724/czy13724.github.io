@@ -4,6 +4,7 @@ import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts } from "@utils/content-utils";
 import { getPostPublicDescription } from "@utils/post-card-content";
+import { url } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
 import { formatDateToYYYYMMDD } from "@/utils/date-utils";
 
@@ -71,6 +72,8 @@ const t = (key: string) => i18n(key as I18nKey);
 				</div>
 				<div class="flex flex-col sm:flex-row gap-3">
 					<code
+						id={`feed-url-${prefix}`}
+						data-feed-path={url(feedUrl)}
 						class="bg-(--card-bg) px-3 py-2 rounded-lg text-sm font-mono text-75 border border-(--line-divider) break-all"
 					>
 						{Astro.site}{feedUrl}
@@ -79,6 +82,7 @@ const t = (key: string) => i18n(key as I18nKey);
 						id={`copy-${prefix}-btn`}
 						class="px-4 py-2 bg-(--primary) text-white rounded-lg hover:opacity-80 transition-all duration-200 font-medium text-sm whitespace-nowrap"
 						data-url={`${Astro.site}${feedUrl}`}
+						data-feed-path={url(feedUrl)}
 					>
 						{t(`${prefix}CopyLink`)}
 					</button>
@@ -160,19 +164,39 @@ const t = (key: string) => i18n(key as I18nKey);
 
 	<script>
 		const init = () => {
+			const codeEl =
+				document.getElementById("feed-url-rss") ||
+				document.getElementById("feed-url-atom");
 			const btn =
 				document.getElementById("copy-rss-btn") ||
 				document.getElementById("copy-atom-btn");
+			const feedPath =
+				btn?.getAttribute("data-feed-path") ||
+				codeEl?.getAttribute("data-feed-path");
+			const liveUrl = feedPath
+				? new URL(feedPath, window.location.origin).href
+				: btn?.getAttribute("data-url") || "";
+
+			if (codeEl && liveUrl) {
+				codeEl.textContent = liveUrl;
+			}
 			if (btn) {
+				if (liveUrl) {
+					btn.setAttribute("data-url", liveUrl);
+				}
+				if (btn.dataset.bound) {
+					return;
+				}
+				btn.dataset.bound = "true";
 				btn.addEventListener("click", async function () {
-					const url = this.getAttribute("data-url");
-					if (!url) {
+					const targetUrl = this.getAttribute("data-url");
+					if (!targetUrl) {
 						return;
 					}
 					try {
-						await navigator.clipboard.writeText(url);
+						await navigator.clipboard.writeText(targetUrl);
 						const originalText = this.textContent || "Copy Link";
-						this.textContent = url.includes("rss")
+						this.textContent = targetUrl.includes("rss")
 							? "RSS link copied to clipboard!"
 							: "Atom link copied to clipboard!";
 						this.style.backgroundColor =
@@ -196,5 +220,7 @@ const t = (key: string) => i18n(key as I18nKey);
 		};
 		init();
 		document.addEventListener("astro:after-swap", init);
+		document.addEventListener("swup:contentReplaced", init);
+		document.addEventListener("swup:page:view", init);
 	</script>
 </MainGridLayout>

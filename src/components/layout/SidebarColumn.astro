@@ -98,7 +98,7 @@ function renderComponent(
 }
 ---
 
-<div id={containerId} class:list={[rootClass, "sidebar-column-root"]}>
+<aside id={containerId} class:list={[rootClass, "sidebar-column-root"]}>
 	<div class:list={["flex flex-col w-full gap-4 mb-4", topClass]}>
 		{
 			showMobile && mobileTopComponents.length > 0 && (
@@ -204,4 +204,4 @@ function renderComponent(
 			)
 		}
 	</div>
-</div>
+</aside>

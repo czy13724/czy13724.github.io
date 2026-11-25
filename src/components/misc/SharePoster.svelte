@@ -96,6 +96,10 @@ onMount(() => {
 	return () => observer.disconnect();
 });
 
+function getShareUrl(): string {
+	return typeof window !== "undefined" ? window.location.href : url;
+}
+
 async function generatePoster() {
 	showModal = true;
 	if (posterImage) {
@@ -107,7 +111,7 @@ async function generatePoster() {
 
 	try {
 		const QRCode = await import("qrcode");
-		const qrCodeUrl = await QRCode.toDataURL(url, {
+		const qrCodeUrl = await QRCode.toDataURL(getShareUrl(), {
 			margin: 1,
 			width: 100 * SCALE,
 			color: { dark: colors.qrDark, light: colors.qrLight },
@@ -356,7 +360,7 @@ async function copyLink() {
 			throw new Error("Clipboard API is not available");
 		}
 
-		await navigator.clipboard.writeText(url);
+		await navigator.clipboard.writeText(getShareUrl());
 		copied = true;
 		setTimeout(() => {
 			copied = false;

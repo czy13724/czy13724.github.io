@@ -41,7 +41,7 @@ export const devicesData: DeviceCategory = {
 			image: "/images/device/ipad2021.webp",
 			specs: "第9代 iPad",
 			description: "日常使用的平板设备。",
-			link: "https://www.apple.com/shop/product/MK2L3LL/A/ipad",
+			link: "https://www.apple.com/ipad/",
 		},
 	],
 	OPPO: [
@@ -59,7 +59,7 @@ export const devicesData: DeviceCategory = {
 			image: "/images/device/iqoo7.webp",
 			specs: "骁龙888 / 120W闪充",
 			description: "曾经的主力手机。",
-			link: "https://www.iqoo.com/cn/products/param/iqoo7.html",
+			link: "https://www.iqoo.com/",
 		},
 		{
 			name: "vivo Y71",

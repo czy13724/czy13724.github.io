@@ -193,15 +193,28 @@ export default defineConfig({
 		}),
 		sitemap({
 			filter: (page) => {
-				const excludedRoutes = [
-					"/anime",
-					"/ai-tools",
-					"/albums",
-					"/projects",
-					"/skills",
-					"/timeline",
-				];
-				return !excludedRoutes.some((route) => page.includes(route));
+				const pathname = new URL(page).pathname;
+				if (pathname === "/404/" || pathname === "/404") {
+					return false;
+				}
+				const featureRouteMap = {
+					anime: "/anime/",
+					diary: "/diary/",
+					friends: "/friends/",
+					projects: "/projects/",
+					skills: "/skills/",
+					timeline: "/timeline/",
+					albums: "/albums/",
+					devices: "/devices/",
+					aiTools: "/ai-tools/",
+				};
+				return !Object.entries(featureRouteMap).some(
+					([key, route]) =>
+						!siteConfig.featurePages[key] &&
+						(pathname === route ||
+							pathname === route.slice(0, -1) ||
+							pathname.startsWith(route)),
+				);
 			},
 		}),
 		mdx(),

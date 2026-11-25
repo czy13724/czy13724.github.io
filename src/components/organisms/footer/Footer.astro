@@ -42,30 +42,31 @@ if (footerConfig.enable) {
 >
 </div>
 <!--<div class="transition bg-[oklch(92%_0.01_var(--hue))] dark:bg-black rounded-2xl py-8 mt-4 mb-8 flex flex-col items-center justify-center px-6">-->
-<div
+<footer
 	class="transition border-dashed border-[oklch(85%_0.01_var(--hue))] dark:border-white/15 rounded-2xl mb-12 flex flex-col items-center justify-center px-6"
 >
 	<div class="transition text-50 text-sm text-center">
 		{customFooterHtml && <div class="mb-2" set:html={customFooterHtml} />}
 
 		<div class="mb-2">
-			&copy; <span id="copyright-year">{currentYear}</span>
+			&copy; <span class="copyright-year">{currentYear}</span>
 			{profileConfig.name}. All Rights Reserved. /
 			<a
 				class="transition link text-[var(--primary)] font-medium"
 				href={url("rss/")}
-				onclick={`event.preventDefault(); navigateToPage('${url("rss/")}')`}
+				data-no-swup
 				>RSS</a
 			> /
 			<a
 				class="transition link text-[var(--primary)] font-medium"
 				href={url("atom/")}
-				onclick={`event.preventDefault(); navigateToPage('${url("atom/")}')`}
+				data-no-swup
 				>Atom</a
 			> /
 			<a
 				class="transition link text-[var(--primary)] font-medium"
 				target="_blank"
+				rel="noopener noreferrer"
 				href={url("sitemap-index.xml")}>Sitemap</a
 			>
 		</div>
@@ -75,17 +76,20 @@ if (footerConfig.enable) {
 			<a
 				class="transition link text-[var(--primary)] font-medium"
 				target="_blank"
+				rel="noopener noreferrer"
 				href="https://astro.build">Astro</a
 			> &
 			<a
 				class="transition link text-[var(--primary)] font-medium"
 				target="_blank"
+				rel="noopener noreferrer"
 				href="https://github.com/LyraVoid/Mizuki">Mizuki</a
 			>&nbsp; Version <a
 				class="transition link text-[var(--primary)] font-medium"
 				target="_blank"
+				rel="noopener noreferrer"
 				href="https://github.com/LyraVoid/Mizuki">9.0</a
 			>
 		</div>
 	</div>
-</div>
+</footer>

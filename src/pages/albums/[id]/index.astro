@@ -16,6 +16,9 @@ if (!siteConfig.featurePages.albums) {
 }
 
 export const getStaticPaths = async () => {
+	if (!siteConfig.featurePages.albums) {
+		return [];
+	}
 	const albumsData = await scanAlbums();
 	return albumsData.map((album) => ({
 		params: { id: album.id },

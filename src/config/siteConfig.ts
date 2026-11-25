@@ -3,10 +3,15 @@ import type { SiteConfig } from "../types/config";
 // 定义站点语言
 const SITE_LANG = "zh_CN"; // 语言代码，例如：'en', 'zh_CN', 'ja' 等。
 
+const rawSiteUrl =
+	(typeof process !== "undefined" ? process.env?.SITE_URL : undefined) ||
+	"https://levifree.com/";
+const SITE_URL = rawSiteUrl.endsWith("/") ? rawSiteUrl : `${rawSiteUrl}/`;
+
 export const siteConfig: SiteConfig = {
 	title: "Levi Blog",
 	subtitle: "你若盛开，清风自来",
-	siteURL: "https://levifree.com/", // 站点自定义域名地址，以斜杠结尾
+	siteURL: SITE_URL, // 默认域名，支持构建时通过 SITE_URL 环境变量覆盖
 	siteStartDate: "2023-05-01", // 站点开始运行日期，用于站点统计组件计算运行天数
 
 	lang: SITE_LANG,

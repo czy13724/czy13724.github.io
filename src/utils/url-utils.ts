@@ -99,3 +99,28 @@ export function getFileDirFromPath(filePath: string): string {
 export function url(path: string) {
 	return joinUrl("", import.meta.env.BASE_URL, path);
 }
+
+const AD_DISALLOWED_PREFIXES = [
+	"/privacy",
+	"/anime",
+	"/devices",
+	"/archive",
+	"/friends",
+	"/rss",
+	"/atom",
+	"/projects",
+	"/skills",
+	"/timeline",
+	"/albums",
+	"/ai-tools",
+];
+
+export function isAdDisallowedPath(pathname: string): boolean {
+	const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
+	return (
+		normalized.includes("404") ||
+		AD_DISALLOWED_PREFIXES.some(
+			(prefix) => normalized === prefix || normalized.startsWith(`${prefix}/`),
+		)
+	);
+}

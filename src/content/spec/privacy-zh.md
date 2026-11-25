@@ -4,7 +4,7 @@
 
 Levi Blog 是一个个人技术博客，网址为 [https://levifree.com](https://levifree.com)。多数内容无需注册账号或提交个人信息即可阅读。
 
-本网站可能使用 Cookies、分析工具、评论系统和广告服务来维护网站、了解流量、改进内容、防止滥用，以及在获得批准后展示广告。本网站使用的第三方服务可能包括 Google Analytics、Google AdSense、Giscus、百度统计和不蒜子。
+本网站可能使用 Cookies、分析工具、评论系统和广告服务来维护网站、了解流量、改进内容、防止滥用，以及在获得批准后展示广告。本网站使用的第三方服务可能包括 Google Analytics、Google Tag Manager、Google AdSense 和 Giscus。
 
 我不会出售您的个人信息。如果您通过电子邮件、GitHub、Telegram 或评论与我联系，您选择提供的信息仅用于回复您的消息、处理反馈或改进相关内容。
 

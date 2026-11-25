@@ -71,4 +71,18 @@
 	}
 
 	document.addEventListener("astro:page-load", onInit);
+	document.addEventListener("swup:contentReplaced", onInit);
+	document.addEventListener("swup:page:view", onInit);
+
+	function setupSwupHook() {
+		if (window.swup && window.swup.hooks) {
+			window.swup.hooks.on("page:view", onInit);
+		}
+	}
+
+	if (window.swup) {
+		setupSwupHook();
+	} else {
+		document.addEventListener("swup:enable", setupSwupHook, { once: true });
+	}
 })();

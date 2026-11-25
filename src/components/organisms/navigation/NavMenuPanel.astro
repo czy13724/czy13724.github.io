@@ -5,7 +5,7 @@ import { LinkPresets } from "../../../constants/link-presets";
 import I18nKey from "../../../i18n/i18nKey";
 import { i18n } from "../../../i18n/translation";
 import type { LinkPreset, NavBarLink } from "../../../types/config";
-import { url } from "../../../utils/url-utils";
+import { isAdDisallowedPath, url } from "../../../utils/url-utils";
 import type { NavMenuPanelProps, ProcessedNavBarLink } from "./types";
 
 const navTitleMap: Record<string, string> = {
@@ -87,6 +87,7 @@ const processedLinks: ProcessedNavBarLink[] = (
 											? child.url
 											: url(child.url)
 									}
+									data-no-swup={!child.external && isAdDisallowedPath(child.url) ? "" : null}
 									class="group flex justify-between items-center py-2 pl-6 pr-1 rounded-lg gap-4
                                    hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition"
 									target={child.external ? "_blank" : null}
@@ -113,6 +114,7 @@ const processedLinks: ProcessedNavBarLink[] = (
 				) : (
 					<a
 						href={link.external ? link.url : url(link.url)}
+						data-no-swup={!link.external && isAdDisallowedPath(link.url) ? "" : null}
 						class="group flex justify-between items-center py-2 pl-3 pr-1 rounded-lg gap-4
                     hover:bg-[var(--btn-plain-bg-hover)] active:bg-[var(--btn-plain-bg-active)] transition
                 "

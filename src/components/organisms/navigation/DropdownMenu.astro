@@ -4,7 +4,7 @@ import { Icon } from "astro-icon/components";
 import { LinkPresets } from "../../../constants/link-presets";
 import I18nKey from "../../../i18n/i18nKey";
 import { i18n } from "../../../i18n/translation";
-import { url } from "../../../utils/url-utils";
+import { isAdDisallowedPath, url } from "../../../utils/url-utils";
 import type { DropdownMenuProps } from "./types";
 
 const { link, class: className } = Astro.props as DropdownMenuProps;
@@ -68,6 +68,7 @@ const hasChildren = children.length > 0;
 								href={
 									child.external ? child.url : url(child.url)
 								}
+								data-no-swup={!child.external && isAdDisallowedPath(child.url) ? "" : null}
 								target={child.external ? "_blank" : null}
 								rel={
 									child.external
@@ -101,6 +102,7 @@ const hasChildren = children.length > 0;
 			<a
 				aria-label={link.name}
 				href={link.external ? link.url : url(link.url)}
+				data-no-swup={!link.external && isAdDisallowedPath(link.url) ? "" : null}
 				target={link.external ? "_blank" : null}
 				rel={link.external ? "noopener noreferrer" : null}
 				class="btn-plain scale-animation rounded-lg h-11 font-bold w-11 lg:w-auto lg:px-5 active:scale-95 flex items-center justify-center lg:justify-start whitespace-nowrap"

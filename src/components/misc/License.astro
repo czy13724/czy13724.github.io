@@ -23,6 +23,8 @@ const className = Astro.props.class;
 const profileConf = profileConfig;
 const licenseConf = licenseConfig;
 const postUrl = sourceLink || decodeURIComponent(Astro.url.toString());
+const postHref = sourceLink || decodeURIComponent(Astro.url.pathname);
+const useCurrentOrigin = !sourceLink;
 ---
 
 <div
@@ -31,7 +33,11 @@ const postUrl = sourceLink || decodeURIComponent(Astro.url.toString());
 	<div class="transition font-bold text-black/75 dark:text-white/75">
 		{title}
 	</div>
-	<a href={postUrl} class="link text-[var(--primary)]">
+	<a
+		href={postHref}
+		data-license-current-url={useCurrentOrigin ? "" : undefined}
+		class="link text-[var(--primary)]"
+	>
 		{postUrl}
 	</a>
 	<div class="flex gap-6 mt-2">
@@ -72,3 +78,19 @@ const postUrl = sourceLink || decodeURIComponent(Astro.url.toString());
 		class="transition text-[15rem] absolute pointer-events-none right-6 top-1/2 -translate-y-1/2 text-black/5 dark:text-white/5"
 	/>
 </div>
+
+<script>
+	function syncLicenseUrl() {
+		const currentUrl = decodeURIComponent(window.location.href);
+		document
+			.querySelectorAll<HTMLAnchorElement>("[data-license-current-url]")
+			.forEach((el) => {
+				el.textContent = currentUrl;
+			});
+	}
+
+	syncLicenseUrl();
+	document.addEventListener("astro:page-load", syncLicenseUrl);
+	document.addEventListener("swup:contentReplaced", syncLicenseUrl);
+	document.addEventListener("swup:page:view", syncLicenseUrl);
+</script>

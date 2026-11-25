@@ -11,6 +11,7 @@ const BANNER_HEIGHT_EXTEND = 30;
 const BANNER_HEIGHT_HOME = BANNER_HEIGHT + BANNER_HEIGHT_EXTEND;
 
 import { PAGE_WIDTH } from "../constants/constants";
+import { isAdDisallowedPath, url } from "../utils/url-utils";
 import "../styles/main.css";
 import "../styles/mobile-navbar.css";
 import "../styles/wallpaper-navbar-transparent.css";
@@ -42,13 +43,8 @@ let {
 	coverImage,
 } = Astro.props;
 
-// 遵守 AdSense 政策：严禁在 404 错误页、纯协议页面或低内容功能页展示广告
-const currentPath = Astro.url.pathname;
-const isAdDisallowedPage =
-	currentPath.includes("404") ||
-	currentPath.startsWith("/privacy") ||
-	currentPath.startsWith("/anime") ||
-	currentPath.startsWith("/devices");
+// 遵守 AdSense 政策：严禁在 404 错误页、纯协议页面或低内容/纯导航功能页展示广告
+const isAdDisallowedPage = isAdDisallowedPath(Astro.url.pathname);
 
 // defines global css variables
 // why doing this in Layout instead of GlobalStyles: https://github.com/withastro/astro/issues/6728#issuecomment-1502203757
@@ -218,7 +214,7 @@ const bannerOffset =
 			rel="alternate"
 			type="application/rss+xml"
 			title={profileConfig.name}
-			href={`${Astro.site}rss.xml`}
+			href={url("/rss.xml")}
 		/>
 	</head>
 	<body

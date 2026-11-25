@@ -30,6 +30,7 @@ const archiveUrl = url("/archive/");
 		</a>
 		<a
 			href={archiveUrl}
+			data-no-swup
 			class="category-pill text-sm px-3 py-1 rounded-lg whitespace-nowrap shrink-0
 				   transition-colors duration-200 flex items-center justify-center"
 			data-category-name="__archive__"
@@ -45,6 +46,7 @@ const archiveUrl = url("/archive/");
 					categories.map((cat) => (
 						<a
 							href={getCategoryUrl(cat.name)}
+							data-no-swup
 							class="category-pill text-sm px-3 py-1 rounded-lg whitespace-nowrap
 								   transition-colors duration-200 flex items-center justify-center"
 							data-category-name={cat.name}

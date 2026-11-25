@@ -13,7 +13,7 @@ function respond(response, status, body) {
 
 export default async function handler(request, response) {
 	const id = new URL(request.url, "http://localhost").searchParams.get("id");
-	const fallback = titles[id];
+	const fallback = id && Object.hasOwn(titles, id) ? titles[id] : undefined;
 	if (!fallback) return respond(response, 400, { error: "Unsupported anime source" });
 	let { rating, description, episodes, progress, totalEpisodes, status } = fallback;
 	try {
