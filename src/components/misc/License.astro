@@ -78,19 +78,3 @@ const useCurrentOrigin = !sourceLink;
 		class="transition text-[15rem] absolute pointer-events-none right-6 top-1/2 -translate-y-1/2 text-black/5 dark:text-white/5"
 	/>
 </div>
-
-<script>
-	function syncLicenseUrl() {
-		const currentUrl = decodeURIComponent(window.location.href);
-		document
-			.querySelectorAll<HTMLAnchorElement>("[data-license-current-url]")
-			.forEach((el) => {
-				el.textContent = currentUrl;
-			});
-	}
-
-	syncLicenseUrl();
-	document.addEventListener("astro:page-load", syncLicenseUrl);
-	document.addEventListener("swup:contentReplaced", syncLicenseUrl);
-	document.addEventListener("swup:page:view", syncLicenseUrl);
-</script>

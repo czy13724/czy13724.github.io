@@ -6,7 +6,7 @@
 import { widgetConfigs } from "../config";
 import { initLinkPreloading } from "../utils/navigation-utils";
 import { SWUP_SELECTORS } from "./core/swup-config";
-import { SwupHooksManager } from "./core/swup-hooks";
+import { SwupHooksManager, syncRuntimeOriginLinks } from "./core/swup-hooks";
 import { setupSakuraOnDOMReady } from "./effects/sakura-effect";
 import {
 	destroyTransitionEffect,
@@ -78,6 +78,13 @@ export class SwupManager {
 
 		// 初始化链接预加载
 		this.initPreloading();
+
+		// 首次加载时同步动态站点域名和许可链接
+		if (document.readyState === "loading") {
+			document.addEventListener("DOMContentLoaded", syncRuntimeOriginLinks);
+		} else {
+			syncRuntimeOriginLinks();
+		}
 
 		this.initialized = true;
 		console.log("SwupManager: 初始化完成");

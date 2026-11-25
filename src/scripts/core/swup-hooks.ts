@@ -230,6 +230,9 @@ export class SwupHooksManager {
 			// 同步主题状态
 			this.syncThemeState();
 
+			// 同步动态站点域名和当前页面许可链接
+			syncRuntimeOriginLinks();
+
 			// 触发页面加载完成事件
 			this.dispatchPageLoadedEvent();
 		});
@@ -707,4 +710,27 @@ export class SwupHooksManager {
 	updateHandlers(handlers: Partial<SwupHookHandlers>): void {
 		this.handlers = { ...this.handlers, ...handlers };
 	}
+}
+
+/**
+ * 将页面中的动态站点域名和许可链接同步为当前运行时域名
+ */
+export function syncRuntimeOriginLinks(): void {
+	const origin = window.location.origin;
+
+	document.querySelectorAll<HTMLElement>("[data-site-origin]").forEach((el) => {
+		const path = el.dataset.sitePath || "";
+		const value = `${origin}${path}`;
+		el.textContent = value;
+		if (el instanceof HTMLAnchorElement) {
+			el.href = `${origin}${path || "/"}`;
+		}
+	});
+
+	const currentUrl = decodeURIComponent(window.location.href);
+	document
+		.querySelectorAll<HTMLElement>("[data-license-current-url]")
+		.forEach((el) => {
+			el.textContent = currentUrl;
+		});
 }

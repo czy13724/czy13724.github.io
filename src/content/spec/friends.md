@@ -13,9 +13,9 @@
 #### 本站信息
 
 - **网站名称**：Levi Blog
-- **网站地址**：https://levifree.com/
+- **网站地址**：<a href="/" data-site-origin>本站点</a>
 - **网站简介**：专注于 Web 开发、前端工具链、自动化工作流与技术实践笔记
-- **站长头像**：https://levifree.com/img/header_ic.jpg
+- **站长头像**：<span data-site-origin data-site-path="/img/header_ic.jpg">/img/header_ic.jpg</span>
 
 #### 申请方式
 

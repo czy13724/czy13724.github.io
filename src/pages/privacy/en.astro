@@ -16,7 +16,7 @@ const { Content } = await render(privacyPost);
 const title = "Privacy Policy";
 ---
 
-<MainGridLayout title={title}>
+<MainGridLayout title={title} lang="en">
 	<!-- 引入右侧边栏布局管理器 -->
 	<script>
 		import("../../scripts/right-sidebar-layout.js");
@@ -28,7 +28,11 @@ const title = "Privacy Policy";
 			<PageHeader title={title} />
 
 			<div class="flex justify-end mt-2 mb-4">
-				<a href="/privacy/" class="text-sm text-[var(--primary)] hover:underline flex items-center gap-1 transition-colors">
+				<a
+					href="/privacy/"
+					data-no-swup
+					class="text-sm text-[var(--primary)] hover:underline flex items-center gap-1 transition-colors"
+				>
 					<Icon name="material-symbols:translate" class="text-base" />
 					阅读中文版
 				</a>
